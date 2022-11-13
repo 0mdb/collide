@@ -1,0 +1,6 @@
+,firstName,lastName,serviceAddress
+0,Monique,Simard,"{'line1': '872 Avenue Querbes', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 3X3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Jean B.,Péladeau,"{'line1': '495 Avenue Viger Ouest', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2Z 1B1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,SERGE,THIBAUDEAU,"{'line1': '643 AVENUE CHAMPAGNEUR', 'line2': 'APP. 1', 'city': 'OUTREMONT', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 3P7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Maurice,Prud'homme,"{'line1': '15 Boulevard La Fayette', 'city': 'Longueuil', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J4K 0B2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Peggy,Tabet,"{'line1': '2626 rue des Outardes', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4R 3N8', 'countryCode': 'CA', 'countryName': 'Canada'}"

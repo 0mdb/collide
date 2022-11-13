@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Doug,French,"{'line1': '510 West Georgia Street, 23rd Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Jason,Macdonnell,"{'line1': '510 West Georgia Street, 23rd Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Zainul,Mawji,"{'line1': '10020 100 Street NW', 'line2': '11th Floor', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T5J 0N5', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,14 @@
+,firstName,lastName,serviceAddress,middleName
+0,Edward,Seraphim,"{'line1': '3725 Glenview Crescent', 'city': 'North Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V7R 3G1', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,JAMES (JIM),CARTER,"{'line1': '24 - 51222 R.R. 260', 'line2': 'Winter Ridge Estates', 'city': 'Spruce Grove', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Y 1B1', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,Vicki,Avril,"{'line1': '5701 Harbour Preserve Circle', 'city': 'Cape Coral', 'subdivisionCode': 'FL', 'subdivisionName': 'Florida', 'postalCode': '33914', 'countryCode': 'US', 'countryName': 'United States'}",
+3,Manjit,Sharma,"{'line1': '83 The Westway', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M9P 2B4', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,Nancy,Tower,"{'line1': '1550 Dresden Row', 'line2': 'Unit 1605', 'city': 'Halifax', 'subdivisionCode': 'NS', 'subdivisionName': 'Nova Scotia', 'postalCode': 'B3J 4A2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+5,Andres,Kuhlmann,"{'line1': 'Av. Carolina Rabat 850', 'line2': 'D201C', 'city': 'Santiago', 'postalCode': '000000', 'countryCode': 'CL', 'countryName': 'Chile'}",
+6,Nicholas,Hartery,"{'line1': 'Catherass Stud', 'line2': 'Croom', 'city': 'County Limerick', 'countryCode': 'IE', 'countryName': 'Ireland'}",
+7,Jacynthe,Côté,"{'line1': '3 Duchatel', 'city': 'Candiac', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J5R 6J5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+8,L. Scott,Thomson,"{'line1': '19100 94 Ave', 'city': 'Surrey', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V4N 5C3', 'countryCode': 'CA', 'countryName': 'Canada'}",
+9,Mary,Kelley,"{'line1': '1014 N. Hill Street', 'city': 'South Bend', 'subdivisionCode': 'IN', 'subdivisionName': 'Indiana', 'postalCode': '46617', 'countryCode': 'US', 'countryName': 'United States'}",Lou
+10,Chris,Patterson,"{'line1': '2100 Burntleaf Place', 'city': 'Greensboro', 'subdivisionCode': 'NC', 'subdivisionName': 'North Carolina', 'postalCode': '27410', 'countryCode': 'US', 'countryName': 'United States'}",
+11,Stuart,Levenick,"{'line1': '1925 6th Street South', 'city': 'Naples', 'subdivisionCode': 'FL', 'subdivisionName': 'Florida', 'postalCode': '34102', 'countryCode': 'US', 'countryName': 'United States'}",L.
+12,Harold,Kvisle,"{'line1': '31120 Woodland Way', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T3R 1G8', 'countryCode': 'CA', 'countryName': 'Canada'}",N.

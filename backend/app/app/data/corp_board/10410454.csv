@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,Muhammad,Asad Zia,Behrawar,"{'line1': '1807 Hammond Crescent Northwest', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T6M 0H9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Chaudhry,Amanat,Ali,"{'line1': '121 64 Street Southwest', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T6X 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Naeem,,Iqbal,"{'line1': '108 - 93 McLeod Avenue', 'city': 'Spruce Grove', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7X 2Z9', 'countryCode': 'CA', 'countryName': 'Canada'}"

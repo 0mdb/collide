@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Bryan,DeNeve,"{'line1': '1200-10423 101 St NW', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T5H 0E9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Sandra,Haskins,"{'line1': '1200-10423 101 ST NW', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T5H 0E9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Scott,Manson,"{'line1': '1200-10423 101 ST NW', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T5H 0E9', 'countryCode': 'CA', 'countryName': 'Canada'}"

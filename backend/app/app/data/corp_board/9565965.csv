@@ -1,0 +1,11 @@
+,firstName,lastName,serviceAddress,middleName
+0,Anne,Giardini,"{'line1': 'via Adige 39', 'city': 'Rome', 'postalCode': '00198', 'countryCode': 'IT', 'countryName': 'Italy'}",
+1,Sara,O’Brien,"{'line1': '492 Lansdowne Ave.', 'city': 'Westmount', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3Y 2V2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,Simon,Pelletier,"{'line1': '1180 Canton Street', 'line2': 'Apartment 319', 'city': 'Roswell', 'subdivisionCode': 'GA', 'subdivisionName': 'Georgia', 'postalCode': '30075', 'countryCode': 'US', 'countryName': 'United States'}",
+3,Robert,Coallier,"{'line1': '2000 Rue des Bassins', 'line2': 'Apt 937', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,Douglas,Muzyka,"{'line1': '210 W Washington Square', 'line2': 'Apt 12NE', 'city': 'Philadelphia', 'subdivisionCode': 'PA', 'subdivisionName': 'Pennsylvania', 'postalCode': '19106', 'countryCode': 'US', 'countryName': 'United States'}",
+5,Eric,Vachon,"{'line1': '86 Avenue King', 'city': 'Pointe-Claire', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H9R 4H2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+6,Rhodri,Harries,"{'line1': '558 Avenue Roslyn', 'city': 'Westmount', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3Y 2T8', 'countryCode': 'CA', 'countryName': 'Canada'}",J.
+7,Katherine,Lehman,"{'line1': '200 East 57th Street', 'line2': 'Apt. 14KL', 'city': 'New York', 'subdivisionCode': 'NY', 'subdivisionName': 'New York', 'postalCode': '10022', 'countryCode': 'US', 'countryName': 'United States'}",A.
+8,James,Manzi Jr.,"{'line1': '4201 SE Frazier CT', 'city': 'Stuart', 'subdivisionCode': 'FL', 'subdivisionName': 'Florida', 'postalCode': '34997', 'countryCode': 'US', 'countryName': 'United States'}",A.
+9,Karen,Laflamme,"{'line1': '1216 rue des Abymes', 'city': 'Boucherville', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J4B 8C6', 'countryCode': 'CA', 'countryName': 'Canada'}",

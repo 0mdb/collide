@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Jean-René,Lemire,"{'line1': '307, chemin du Domaine', 'city': 'Saint-Augustin-de-Desmaures', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'G3W 1W8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Josée,Vigneault,"{'line1': '307, chemin du Domaine', 'city': 'Saint-Augustin-de-Desmaures', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'G3A 1W8', 'countryCode': 'CA', 'countryName': 'Canada'}"

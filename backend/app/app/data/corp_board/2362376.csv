@@ -1,0 +1,10 @@
+,firstName,lastName,serviceAddress
+0,KEN,MOORE,"{'line1': '70 UNIVERSITY AVENUE, #1400', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2M4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Masheed,Saidi,"{'line1': '33401 Sea Bright Drive', 'city': 'Dana Point', 'subdivisionCode': 'CA', 'subdivisionName': 'California', 'postalCode': '92629', 'countryCode': 'US', 'countryName': 'United States'}"
+2,Dilek,Samil,"{'line1': '8737 Double Eagle Road', 'city': 'Las Vegas', 'subdivisionCode': 'NV', 'subdivisionName': 'Nevada', 'postalCode': '89117', 'countryCode': 'US', 'countryName': 'United States'}"
+3,Arun,Banskota,"{'line1': '354 Davis Road', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 2X2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Christopher,Huskilson,"{'line1': '230 Church Street', 'city': 'Wellington', 'subdivisionCode': 'NS', 'subdivisionName': 'Nova Scotia', 'postalCode': 'B2T 1A2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Daniel,Goldberg,"{'line1': '202 Soper Place', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1M 2J2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Amee,Chande,"{'line1': '1090 Augusta Avenue', 'city': 'Burnaby', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V5A 2V4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Melissa,Stapleton-Barnes,"{'line1': '13843 Coldwater Drive', 'city': 'Carmel', 'subdivisionCode': 'IN', 'subdivisionName': 'Indiana', 'postalCode': '46032', 'countryCode': 'US', 'countryName': 'United States'}"
+8,Randy,Laney,"{'line1': '14063 Williams Road', 'city': 'Farmington', 'subdivisionCode': 'AR', 'subdivisionName': 'Arkansas', 'postalCode': '72730', 'countryCode': 'US', 'countryName': 'United States'}"

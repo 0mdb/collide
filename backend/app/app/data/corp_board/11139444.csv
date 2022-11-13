@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Michael,Keroullé,"{'line1': '1101 rue Parent', 'city': 'Saint-Bruno', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J3V 6E6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Julie,Turgeon,"{'line1': '1101 Parent', 'city': 'St-Bruno', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J3V 6E6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Marc,Bernier,"{'line1': '1101 Parent Street', 'city': 'Saint-Bruno', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J3V 6E6', 'countryCode': 'CA', 'countryName': 'Canada'}"

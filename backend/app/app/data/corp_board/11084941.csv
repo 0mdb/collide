@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Carole,Guérin,"{'line1': '1250 René-Lévesque Boulevard West', 'line2': 'Suite 1400', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 5E9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Laurence,Bastien,"{'line1': '1250 René-Lévesque Boulevard West', 'line2': 'Suite 1400', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 5E9', 'countryCode': 'CA', 'countryName': 'Canada'}"

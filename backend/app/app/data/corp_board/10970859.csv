@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,Jill,A.,Johnson,"{'line1': '31-37-4 W3, PCL B', 'city': 'Saskatoon', 'subdivisionCode': 'SK', 'subdivisionName': 'Saskatchewan', 'postalCode': 'S7K 3J7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,David,Fehr,Doerksen,"{'line1': '77 Grandview Trail', 'city': 'Corman Park', 'subdivisionCode': 'SK', 'subdivisionName': 'Saskatchewan', 'postalCode': 'S7T 0W5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Jenny,,Hoffman,"{'line1': '715 - 10th Street East', 'city': 'Saskatoon', 'subdivisionCode': 'SK', 'subdivisionName': 'Saskatchewan', 'postalCode': 'S7H 0H2', 'countryCode': 'CA', 'countryName': 'Canada'}"

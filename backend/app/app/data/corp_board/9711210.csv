@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress,middleName
+0,James,Landon,"{'line1': '4TH FLOOR, WEST BUILDING', 'line2': '5302 FORAND ST. SW', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T3E 8B4', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Frank,Ipakohak,"{'line1': '#1 Oligona Drive, Box 297', 'city': 'Kugluktuk', 'subdivisionCode': 'NU', 'subdivisionName': 'Nunavut', 'postalCode': 'X0B 0E0', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,Jimmy,Miyok,"{'line1': '7 Saddleback Street, Box 43', 'city': 'Kugluktuk', 'subdivisionCode': 'NU', 'subdivisionName': 'Nunavut', 'postalCode': 'X0B 0E0', 'countryCode': 'CA', 'countryName': 'Canada'}",Ross

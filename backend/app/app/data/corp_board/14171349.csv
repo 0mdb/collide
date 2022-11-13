@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,DEAN,C.,PATRY,"{'line1': '425 - 1ST STREET S.W., SUITE 200', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3L8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,SUSAN,P.,LARSON,"{'line1': '425 1ST STREET S.W. SUITE 200', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3L8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,PATRICK,R.,MURRAY,"{'line1': '425 - 1ST STREET S.W., SUITE 200', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3L8', 'countryCode': 'CA', 'countryName': 'Canada'}"

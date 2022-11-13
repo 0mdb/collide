@@ -1,0 +1,11 @@
+,firstName,middleName,lastName,serviceAddress
+0,GALEN,G.,WESTON,"{'line1': '22 ST. CLAIR AVENUE EAST', 'line2': 'SUITE 2001', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Cornell,,Wright,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,CLAUDIA,,KOTCHKA,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Christie,J.B.,Clark,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,William,,Downe,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Scott,,Bonham,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Daniel,Andrew,Debow,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,SARAH,,RAISS,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,MARIANNE,,HARRIS,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,Janice,,Fukakusa,"{'line1': '22 St. Clair Avenue East', 'line2': 'Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"

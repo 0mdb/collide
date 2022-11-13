@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,CLEMENT,BOMBARDIER,"{'line1': '370 PRINCIPALE', 'city': 'RACINE', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0E 1Y0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,LUCIE,BOISVERT,"{'line1': '370 PRINCIPALE', 'city': 'RACINE', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0E 1Y0', 'countryCode': 'CA', 'countryName': 'Canada'}"

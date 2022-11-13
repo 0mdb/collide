@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Chris,Harrs,"{'line1': '225 King Street West', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5V 3M2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Mark,Segal,"{'line1': '225 King Street West', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5V 3M2', 'countryCode': 'CA', 'countryName': 'Canada'}"

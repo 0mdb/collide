@@ -1,0 +1,6 @@
+,firstName,lastName,serviceAddress
+0,PRISCILLE,LEBLANC,"{'line1': '46 BOULEVARD FAIRVIEW', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4K 1L9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,LOUISE-HELENE,SENECAL,"{'line1': '360 SQUARE SIR GEORGES-ETIENNE CARTIER', 'city': 'MONTREAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4C 3A2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,AMOS,KAZZAZ,"{'line1': ""2755 RUE DE L'ECU"", 'city': 'VILLE SAINT-LAURENT', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4R 3G9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Arielle,Meloul,"{'line1': '7373 Boulevard de la Côte-Vertu', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4S 1Z3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Panagiota,Zafiris,"{'line1': 'PH1-155 Saint Clair Avenue West', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4V 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"

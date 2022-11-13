@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,James,E.,Sanders,"{'line1': '500 Consumers Road', 'city': 'North York', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M2J 1P8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Patrick,R.,Murray,"{'line1': '200-425 1 Street SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3L8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Tanya,M.,Ferguson,"{'line1': '500 Consumers Road', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M2J 1P8', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,Sage-Fidèle,Ngangu,Gayala,"{'line1': '332 Bakewell Crescent', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2G 7G1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Bahati,Bahati,Mujinya,"{'line1': '14 Eastwood Place', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1L 6X1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Maximus,Kibondo,Kilongozi,"{'line1': '331 Cooper Street', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2P 0G5', 'countryCode': 'CA', 'countryName': 'Canada'}"

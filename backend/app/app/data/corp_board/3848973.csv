@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress,middleName
+0,MARIO,PLOURDE,"{'line1': '1 DU BOISÉ', 'city': 'KINGSEY FALLS', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0A 1B0', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,ALAIN,LEMAIRE,"{'line1': '396 MARIE VICTORIN', 'city': 'KINGSEY FALLS', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0A 1B0', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,ROBERT,HALL,"{'line1': '33 Chemin Hatley Centre', 'city': 'Canton-de-Hatley', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0B 2C0', 'countryCode': 'CA', 'countryName': 'Canada'}",F.

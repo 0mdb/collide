@@ -1,0 +1,6 @@
+,firstName,lastName,serviceAddress
+0,Rebecca,Stiller,"{'line1': '108 Fairway Drive', 'city': 'Stony Plain', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Z 1M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Amanda,Hope,"{'line1': '172 Galloway Wynd', 'city': 'Fort Saskatchewan', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T8L 0B9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Stephanie,Nixon,"{'line1': '218 Serenity Lane', 'city': 'Sherwood Park', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T8H 0X9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Karen,Winfield,"{'line1': '52416 Range Road 14', 'city': 'Parkland County', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Y 2E3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Taylor,Winfield,"{'line1': '52416 Range Road 14', 'city': 'Parkland County', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Y 2E3', 'countryCode': 'CA', 'countryName': 'Canada'}"

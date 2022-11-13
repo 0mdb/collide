@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress,middleName
+0,Eric,Jacobs,"{'line1': '9500 Glenlyon Parkway', 'city': 'Burnaby', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V5J 0C6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Darren,Watt,"{'line1': '9500 Glenlyon Parkway', 'city': 'Burnaby', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V5J 0C6', 'countryCode': 'CA', 'countryName': 'Canada'}",Jeffrey

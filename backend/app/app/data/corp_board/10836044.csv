@@ -1,0 +1,12 @@
+,firstName,middleName,lastName,serviceAddress
+0,David,Allison,Fraser,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Ann,Marie,Powell,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 6R2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Robert,,Hau,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 6R2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Gail,,Hamilton,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 6R2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Michael,,Slaunwhite,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Thomas,P,Jenkins,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Deborah,,Weinstein,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Katharine,,Stevenson,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,Mark,,Barrenechea,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,Randy,,Fowlie,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+10,Stephen,,Sadler,"{'line1': '275 Frank Tompa Drive', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2L 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"

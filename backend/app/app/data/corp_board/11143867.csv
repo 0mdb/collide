@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Nick,Tsirbas,"{'line1': '114 William Cowles Drive', 'city': 'Bowmanville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L1C 0E3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Craig,Rodgers,"{'line1': '594 Dunrobin Court', 'city': 'Oshawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L1J 7P1', 'countryCode': 'CA', 'countryName': 'Canada'}"

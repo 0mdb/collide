@@ -1,0 +1,8 @@
+,firstName,middleName,lastName,serviceAddress
+0,John,F.,Tuer,"{'line1': '41 Rosedale Road', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4W 2P5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Sandra,L.,Rosch,"{'line1': '130 Heath Street East', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 1S7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Patricia,M.,Volker,"{'line1': '14-2220 Lakeshore Road', 'city': 'Burlington', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L7R 4G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,William,H.,McNeil,"{'line1': '37 Saint Cuthberts Road', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4G 1V2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Mark,J.,Fuller,"{'line1': '58 Beechwood Avenue', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M2L 1J3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Douglas,F.,McCutcheon,"{'line1': '1 Donino Court', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4N 2H6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Dorothea,E.,Mell,"{'line1': '50 Glengrove Avenue West', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4R 1N7', 'countryCode': 'CA', 'countryName': 'Canada'}"

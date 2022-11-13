@@ -1,0 +1,11 @@
+,firstName,middleName,lastName,serviceAddress
+0,DANIEL ,L.,LAFRANCE ,"{'line1': '4026 NOTRE-DAME STREET EAST ', 'city': 'MONTREAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H1W 2K3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,RICHARD,,GAGNON,"{'line1': '2195, AVENUE DE LA PÉRADE', 'city': 'LAVAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H7E 1K7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,NATHALIE,,FRANCISCI,"{'line1': '1564, AVE SUMMERHILL', 'city': 'MONTRÉAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3H 1B9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Ouma,,Sananikone,"{'line1': '19 Beach Street, Penthouse', 'city': 'New York', 'subdivisionCode': 'NY', 'subdivisionName': 'New York', 'postalCode': '10013', 'countryCode': 'US', 'countryName': 'United States'}"
+4,Ross,James,Beaty,"{'line1': '1550 - 625 Howe Street', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6C 2T6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,DALTON,,McGUINTY,"{'line1': '1858 FERNCROFT CRESCENT', 'city': 'OTTAWA', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1H 7B5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Louis,,Veci,"{'line1': '4910 Place Dalbis', 'city': 'Laval', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H7T 2Z9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Pierre,G.,Brodeur,"{'line1': '345, avenue Portland', 'city': 'Ville Mont-Royal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3R 1V4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,MONIQUE,,MERCIER,"{'line1': '270 Avenue Outremont', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 3M1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,MICHEL,,LETELLIER,"{'line1': '1225 SAINT-CHARLES STREET WEST', 'line2': '10th FLOOR', 'city': 'LONGUEUIL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J4K 0B9', 'countryCode': 'CA', 'countryName': 'Canada'}"

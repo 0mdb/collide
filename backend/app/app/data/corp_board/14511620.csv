@@ -1,0 +1,5 @@
+,firstName,middleName,lastName,serviceAddress
+0,Frederick,S.,Saunders,"{'line1': '4th Floor, West Building', 'line2': '5302 Forand St. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T3E 8B4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,P.,Derek,Cook,"{'line1': '4th Floor, West Building', 'line2': '5302 Forand St. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T3E 8B4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Colin,R.,Jackson,"{'line1': '4th Floor, West Building', 'line2': '5302 Forand St. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T3E 8B4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Brian,P.,Shkrobot,"{'line1': '4th Floor, West Building', 'line2': '5302 Forand St. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T3E 8B4', 'countryCode': 'CA', 'countryName': 'Canada'}"

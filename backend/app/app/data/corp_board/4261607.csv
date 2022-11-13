@@ -1,0 +1,8 @@
+,firstName,lastName,serviceAddress,middleName
+0,Jeremy,Levine,"{'line1': ""c/o 151 O'Connor Street"", 'line2': 'Ground Floor', 'city': 'OTTAWA', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2P 2L8', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Fidji,Simo,"{'line1': ""c/o 151 O'Connor Street"", 'line2': 'Ground Floor', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2P 2L8', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,Tobias,Lütke,"{'line1': ""C/O 151 O'Connor Street"", 'line2': 'Ground Floor', 'city': 'OTTAWA', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2P 2L8', 'countryCode': 'CA', 'countryName': 'Canada'}",Albin
+3,Robert,Ashe,"{'line1': ""c/o 151 O'Connor Street"", 'line2': 'Ground Floor', 'city': 'OTTAWA', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2P 2L8', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,Colleen,Johnston,"{'line1': ""C/O 151 O'Connor Street"", 'line2': 'Ground Floor', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2P 2L8', 'countryCode': 'CA', 'countryName': 'Canada'}",
+5,Gail,Goodman,"{'line1': ""c/o 151 O'Connor Street"", 'line2': 'Ground Floor', 'city': 'OTTAWA', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2P 2L8', 'countryCode': 'CA', 'countryName': 'Canada'}",
+6,John,Phillips,"{'line1': ""c/o 151 O'Connor Street"", 'line2': 'Ground Floor', 'city': 'OTTAWA', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K2P 2L8', 'countryCode': 'CA', 'countryName': 'Canada'}",

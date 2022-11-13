@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Yves,Comeau,"{'line1': '2900-800 boul René-Lévesque West', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 1Y8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,François,Ouellette,"{'line1': '400 Boulevard de la Côte-Vertu', 'city': 'Dorval', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4S 1Y9', 'countryCode': 'CA', 'countryName': 'Canada'}"

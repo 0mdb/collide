@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,John,R.,Baird,"{'line1': '103 Bedford Road', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5R 2K4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Stanley,Edwin,Bracken-Horrocks,"{'line1': '538 McKay Avenue', 'city': 'Kelowna', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V1Y 5A8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Donald,B,Kayne,"{'line1': '100-1700 West 75th  Avenue', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6P 6G2', 'countryCode': 'CA', 'countryName': 'Canada'}"

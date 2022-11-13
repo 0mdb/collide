@@ -1,0 +1,6 @@
+,firstName,lastName,serviceAddress,middleName
+0,Sylvia,Moretti,"{'line1': '1 York Street', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,S.PATRICIA,CALLON,"{'line1': '1 York Street', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,ROWENA,CHAN,"{'line1': '1 York Street', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+3,ERIC,MONTEIRO,"{'line1': '1 York Street', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,MICHAEL,SCHOFIELD,"{'line1': '227 King Street South', 'city': 'Waterloo', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2J 4C5', 'countryCode': 'CA', 'countryName': 'Canada'}",B.

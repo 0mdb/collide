@@ -1,0 +1,8 @@
+,firstName,middleName,lastName,serviceAddress
+0,Galen,G.,Weston,"{'line1': ""1 President's Choice Circle"", 'city': 'Brampton', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6Y 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Gordon,M.,Nixon,"{'line1': '22 St.Clair Avenue East, Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Sarabjit,S.,Marwah,"{'line1': '22 St. Clair Avenue East, Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Nancy,,Lockhart,"{'line1': '22 St. Clair Avenue East, Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Marianne,,Harris,"{'line1': '22 St. Clair Avenue East, Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Cornell,,Wright,"{'line1': '22 St. Clair Avenues East, Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Barbara,,Stymiest,"{'line1': '22 St. Clair Avenue East, Suite 700', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2S5', 'countryCode': 'CA', 'countryName': 'Canada'}"

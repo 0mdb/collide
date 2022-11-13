@@ -1,0 +1,12 @@
+,firstName,middleName,lastName,serviceAddress
+0,ALAN,J.,FOHRER,"{'line1': '110 - 12th Ave SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Sarah,,Slusser,"{'line1': '110 12 AVENUE SW', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,James,,Reid,"{'line1': '110 12 AVENUE SW', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Thomas,,O'Flynn,"{'line1': '110 12 AVENUE SW', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Laura,,Folse,"{'line1': '110 12 AVENUE SW', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,JOHN,,DIELWART,"{'line1': '110 - 12th Ave SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,SANDRA,,SHARMAN,"{'line1': '110 - 12 Ave SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,JOHN,,KOUSINIORIS,"{'line1': '110 - 12 Avenue SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,RONA,,AMBROSE,"{'line1': '110 - 12 Ave SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,Bryan,D.,Pinney,"{'line1': '110 - 12 Ave SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+10,HARRY,A.,GOLDGUT,"{'line1': '110 12 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 2M1', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Yohann,Bouchard,"{'line1': '1130 Berkshire Court', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6M 2L6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Sofia,Tsakos,"{'line1': '200 Bay Street, Suite 2200', 'line2': 'Royal Bank Plaza, North Tower', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2J3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Jason,LeBlanc,"{'line1': '200 Bay Street, Suite 2200', 'line2': 'Royal Bank Plaza, North Tower', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2J3', 'countryCode': 'CA', 'countryName': 'Canada'}"

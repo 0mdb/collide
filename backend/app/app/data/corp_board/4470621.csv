@@ -1,0 +1,12 @@
+,firstName,lastName,serviceAddress,middleName
+0,JOEY,SAPUTO,"{'line1': '1400 REDPATH CRESCENT', 'city': 'MONTRÉAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3G 1A2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,ANDRÉ,BÉRARD,"{'line1': '200 AVENUE DES SOMMETS', 'line2': 'PH # 2-6', 'city': 'ÎLE-DES-SOEURS', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3E 2B4', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,RICHARD,GUAY,"{'line1': '355 BOUL. BRUNSWICK', 'line2': '111', 'city': 'POINTE-CLAIRE', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H9R 0E5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+3,JOHN,PRATT,"{'line1': '535 Warwick Road', 'city': 'Kenilworth', 'subdivisionCode': 'IL', 'subdivisionName': 'Illinois', 'postalCode': '60043', 'countryCode': 'US', 'countryName': 'United States'}",MARSHALL
+4,NEIL,MANNING,"{'line1': '3160 RIPON ROAD', 'city': 'VICTORIA', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V8R 6G5', 'countryCode': 'CA', 'countryName': 'Canada'}",DONALD
+5,LESLIE,ABI-KARAM,"{'line1': '15 TRANQUILLA DRIVE', 'city': 'PALM BEACH GARDEN', 'subdivisionCode': 'FL', 'subdivisionName': 'Florida', 'postalCode': '33418', 'countryCode': 'US', 'countryName': 'United States'}",
+6,DIANE,GIARD,"{'line1': '80 chemin Laprairie', 'city': 'Bromont', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J2L 2N6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+7,ALAIN,BÉDARD,"{'line1': '8801 route Transcanadienne', 'line2': 'suite 500', 'city': 'St-Laurent', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4S 1Z6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+8,ROSEMARY,TURNER,"{'line1': '4300 VERAZ ST.', 'city': 'LAS VEGAS', 'subdivisionCode': 'NV', 'subdivisionName': 'Nevada', 'postalCode': '89135', 'countryCode': 'US', 'countryName': 'United States'}",LETITIA
+9,WILLIAM,ENGLAND,"{'line1': '5 RIDGE FARM ROAD', 'city': 'BURR RIDGE', 'subdivisionCode': 'IL', 'subdivisionName': 'Illinois', 'postalCode': '60527', 'countryCode': 'US', 'countryName': 'United States'}",THOMAS
+10,DEBRA,KELLY-ENNIS,"{'line1': '6231 PGA BOULEVARD', 'line2': 'SUITE 104', 'city': 'PALM BEACH', 'subdivisionCode': 'FL', 'subdivisionName': 'Florida', 'postalCode': '33418', 'countryCode': 'US', 'countryName': 'United States'}",

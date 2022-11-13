@@ -1,0 +1,3 @@
+,firstName,middleName,lastName,serviceAddress
+0,Bradley,B.,Grant,"{'line1': '1700, 355 - 4th Avenue SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 0J1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,James,,Harbilas,"{'line1': '1700, 355 - 4th Avenue SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 0J1', 'countryCode': 'CA', 'countryName': 'Canada'}"

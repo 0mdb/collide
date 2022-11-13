@@ -1,0 +1,8 @@
+,firstName,lastName,serviceAddress
+0,Zachary,Hobbs,"{'line1': '3060A Nicol Building', 'line2': '1125 Colonel By Drive', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1S 5B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Rachel,Koops,"{'line1': '3060A Nicol Building', 'line2': '1125 Colonel By Drive', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1S 5B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Mercy,Akinola,"{'line1': '3060A Nicol Building', 'line2': '1125 Colonel By Drive', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1S 5B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Safaa,Abouelhouda,"{'line1': '3060A Nicol Building', 'line2': '1125 Colonel By Drive', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1S 5B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Eashan,Uppal,"{'line1': '3060A Nicol Building', 'line2': '1125 Colonel By Drive', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1S 5B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,William,Anderson,"{'line1': '3060A Nicol Building', 'line2': '1125 Colonel By Drive', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1S 5B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Jenna,Smith,"{'line1': '3060A Nicol Building', 'line2': '1125 Colonel By Drive', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1S 5B6', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Simon,Rivet,"{'line1': '406-385 Rue Joliette', 'city': 'Longueuil', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J4K 0C1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,François,Thibault,"{'line1': '58 White Pine Drive', 'city': 'Beaconsfield', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H9W 5E3', 'countryCode': 'CA', 'countryName': 'Canada'}"

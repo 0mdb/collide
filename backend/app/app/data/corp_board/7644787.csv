@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress,middleName
+0,Dale,Clark,"{'line1': '2772 Division St. N.', 'city': 'Cobourg', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K9A 4J7', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Larry,Korchinski,"{'line1': '110 Braemar Cr.', 'city': 'Saskatoon', 'subdivisionCode': 'SK', 'subdivisionName': 'Saskatchewan', 'postalCode': 'S7V 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}",Michael
+2,Heidi,Shockey,"{'line1': '2121 11th Street West', 'city': 'Saskatoon', 'subdivisionCode': 'SK', 'subdivisionName': 'Saskatchewan', 'postalCode': 'S7M 1J3', 'countryCode': 'CA', 'countryName': 'Canada'}",

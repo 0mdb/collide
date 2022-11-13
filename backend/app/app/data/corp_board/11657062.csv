@@ -1,0 +1,6 @@
+,firstName,lastName,serviceAddress,middleName
+0,Jordan,Slatt,"{'line1': '9 Millbank Avenue', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5P 1S2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,François,Ouimet,"{'line1': '3112 Main Campus Drive', 'city': 'Lexington', 'subdivisionCode': 'MA', 'subdivisionName': 'Massachusetts', 'postalCode': '02421', 'countryCode': 'US', 'countryName': 'United States'}",H.
+2,Douglas,Harrison,"{'line1': '2118 Highview Drive', 'city': 'Burlington', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L7P 0P3', 'countryCode': 'CA', 'countryName': 'Canada'}",
+3,Julien,Dirand,"{'line1': '3452 Richard-Angus Place', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H1X 3J2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,Hanif (Chiko),Nanji,"{'line1': '1002 Sherbrooke Street West, Suite 2000', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3A 3L6', 'countryCode': 'CA', 'countryName': 'Canada'}",

@@ -1,0 +1,19 @@
+,firstName,lastName,serviceAddress,middleName
+0,Robin,Bienfait,"{'line1': 'c/o 100 Osborne Street North', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Michael,Amend,"{'line1': '1 American Road', 'city': 'Dearborn', 'subdivisionCode': 'MI', 'subdivisionName': 'Michigan', 'postalCode': '48126', 'countryCode': 'US', 'countryName': 'United States'}",R.
+2,Gary,Doer,"{'line1': 'C/O 100 OSBORNE STREET NORTH', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",Albert
+3,David,Fuller,"{'line1': 'C/O 100 OSBORNE STREET NORTH', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",G.
+4,Deborah,Barrett,"{'line1': 'C/O 100 OSBORNE STREET NORTH', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",J.
+5,T.,"Ryan, Jr.","{'line1': 'C/O 100 OSBORNE STREET NORTH', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",Timothy
+6,Siim,Vanaselja,"{'line1': 'C/O 100 OSBORNE STREET NORTH', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",A.
+7,Paula,Madoff,"{'line1': 'C/O 100 OSBORNE STREET NORTH', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",B.
+8,Claude,Généreux,"{'line1': '751 VICTORIA SQUARE', 'city': 'MONTREAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2Y 2J3', 'countryCode': 'CA', 'countryName': 'Canada'}",
+9,Paul,Mahon,"{'line1': '100 OSBORNE STREET NORTH', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",A.
+10,Gregory,Tretiak,"{'line1': '751 VICTORIA SQUARE', 'city': 'MONTREAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2Y 2J3', 'countryCode': 'CA', 'countryName': 'Canada'}",D.
+11,A.,DESMARAIS,"{'line1': '751 VICTORIA SQUARE', 'city': 'MONTREAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2Y 2J3', 'countryCode': 'CA', 'countryName': 'Canada'}",
+12,Susan,McArthur,"{'line1': '2345 YONGE STREET, SUITE 804', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4P 2E5', 'countryCode': 'CA', 'countryName': 'Canada'}",J.
+13,ROBERT,ORR,"{'line1': '751 VICTORIA SQUARE', 'city': 'MONTREAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2Y 2J3', 'countryCode': 'CA', 'countryName': 'Canada'}",JEFFREY
+14,P.,DESMARAIS,"{'line1': '751 VICTORIA SQUARE', 'city': 'MONTREAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2Y 2J3', 'countryCode': 'CA', 'countryName': 'Canada'}",JR.
+15,BRIAN,WALSH,"{'line1': '750 WASHINGTON BLVD., 10TH FLOOR', 'city': 'STAMFORD', 'subdivisionCode': 'CT', 'subdivisionName': 'Connecticut', 'postalCode': '06901', 'countryCode': 'US', 'countryName': 'United States'}",
+16,MARCEL,COUTU,"{'line1': '225 6 AVENUE SOUTH WEST', 'line2': 'SUITE 1210', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}",R.
+17,Heather,Conway,"{'line1': 'c/o 100 Osborne Street North', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3C 1V3', 'countryCode': 'CA', 'countryName': 'Canada'}",E.

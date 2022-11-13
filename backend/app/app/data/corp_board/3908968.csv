@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Shelley,Powell,"{'line1': '150 6 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3Y7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,PETER,DUTHIE,"{'line1': '150 6 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3E3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,SHAWN,POIRIER,"{'line1': '150 - 6 Avenue S.W.', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3E3', 'countryCode': 'CA', 'countryName': 'Canada'}"
