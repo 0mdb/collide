@@ -8,11 +8,10 @@ import glob
 # https://ised-isde.canada.ca/site/corporations-canada/en/data-services#1
 
 # Preamble, folder locations
-project_name = "lobby-force"
+project_name = "app"  # collide\backend\app\app
 data_dir = "data"
 save_dir_corp_no = "corp_no"
 save_dir_board = "corp_board"
-tsx_list_dir = "corp_tsx"
 
 # Folder creation, directories
 curr_dir_name = os.path.dirname(__file__)
@@ -26,8 +25,6 @@ for i in pathlib.Path(curr_dir_name).parents:
 if not os.path.exists(os.path.join(absolute_project_path, data_dir)):
     os.mkdir(os.path.join(absolute_project_path, data_dir))
 
-if not os.path.exists(os.path.join(absolute_project_path, data_dir, save_dir_corp_no)):
-    os.mkdir(os.path.join(absolute_project_path, data_dir, save_dir_corp_no))
 save_dir_corp_no = os.path.join(absolute_project_path, data_dir, save_dir_corp_no)
 
 if not os.path.exists(os.path.join(absolute_project_path, data_dir, save_dir_board)):
