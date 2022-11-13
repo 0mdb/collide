@@ -2,10 +2,10 @@
 name = "app"
 version = "0.1.0"
 description = ""
-authors = ["Admin <admin@example.com>"]
+authors = ["bwelwood <benwelwood@gmail.com><luke><kelly><james>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.10"
 uvicorn = "^0.11.3"
 fastapi = "^0.54.1"
 python-multipart = "^0.0.5"
@@ -34,6 +34,13 @@ flake8 = "^3.7.9"
 pytest = "^5.4.1"
 sqlalchemy-stubs = "^0.3"
 pytest-cov = "^2.8.1"
+
+[tool.poetry.group.dev.dependencies]
+mypy-extensions = "^0.4.3"
+ipython = "^8.6.0"
+typing-extensions = "^4.4.0"
+epc = "^0.0.5"
+importmagic = "^0.1.7"
 
 [tool.isort]
 multi_line_output = 3
