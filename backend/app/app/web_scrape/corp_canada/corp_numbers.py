@@ -9,10 +9,9 @@ import time
 import re
 
 # Preamble, folder locations
-project_name = "lobby-force"
+project_name = "app"  # collide\backend\app\app
 data_dir = "data"
 save_dir_corp_no = "corp_no"
-save_dir_board = "corp_board"
 tsx_list_dir = "corp_tsx"
 
 # Folder creation, directories
@@ -30,10 +29,6 @@ if not os.path.exists(os.path.join(absolute_project_path, data_dir)):
 if not os.path.exists(os.path.join(absolute_project_path, data_dir, save_dir_corp_no)):
     os.mkdir(os.path.join(absolute_project_path, data_dir, save_dir_corp_no))
 save_dir_corp_no = os.path.join(absolute_project_path, data_dir, save_dir_corp_no)
-
-if not os.path.exists(os.path.join(absolute_project_path, data_dir, save_dir_board)):
-    os.mkdir(os.path.join(absolute_project_path, data_dir, save_dir_board))
-save_dir_board = os.path.join(absolute_project_path, data_dir, save_dir_board)
 
 tsx_dir = os.path.join(absolute_project_path, data_dir, tsx_list_dir)
 
