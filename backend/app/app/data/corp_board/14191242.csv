@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Yvan,Nguyen,"{'line1': '726 Rue Saint-Joseph', 'city': 'Valcourt', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0E 2L0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Josée,Perreault,"{'line1': '726 Rue Saint-Joseph', 'city': 'Valcourt', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0E 2L0', 'countryCode': 'CA', 'countryName': 'Canada'}"

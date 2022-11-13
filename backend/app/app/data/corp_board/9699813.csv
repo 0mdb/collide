@@ -1,0 +1,9 @@
+,firstName,lastName,serviceAddress
+0,Ken,Manget,"{'line1': '11 Kingsway Crescent', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M8X 2P9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Stephen,Smith,"{'line1': '7 Agar Crescent', 'city': 'Etobicoke', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M9B 5A4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Geoffrey,Machum,"{'line1': '885 Marlborough Woods', 'city': 'Halifax', 'subdivisionCode': 'NS', 'subdivisionName': 'Nova Scotia', 'postalCode': 'B3H 1H9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Sherry,Porter,"{'line1': '1585 South Park Street, Suite 405', 'city': 'Halifax', 'subdivisionCode': 'NS', 'subdivisionName': 'Nova Scotia', 'postalCode': 'B3J 0H8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Marni,Wieshofer,"{'line1': '125 Pacific Street', 'line2': 'Unit 6', 'city': 'Santa Monica', 'subdivisionCode': 'CA', 'subdivisionName': 'California', 'postalCode': '90405', 'countryCode': 'US', 'countryName': 'United States'}"
+5,Jeyan,Heper,"{'line1': '18 Merano Residence', 'line2': '30 Albert Embankment', 'city': 'London', 'postalCode': 'SE1 7G2', 'countryCode': 'GB', 'countryName': 'United Kingdom'}"
+6,Peter,Amirault,"{'line1': '1436 Goldthorpe Road', 'city': 'Mississauga', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L5G 3R3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Dexter,John,"{'line1': '27 Hanover Court', 'city': 'Whitby', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L1N 7J1', 'countryCode': 'CA', 'countryName': 'Canada'}"

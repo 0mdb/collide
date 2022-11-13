@@ -1,0 +1,8 @@
+,firstName,lastName,serviceAddress
+0,Zabeen,Hirji,"{'line1': '7920 Airport Road', 'city': 'Brampton', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6T 4L7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Christine,Magee,"{'line1': '140 Wendell Avenue', 'line2': 'Unit 1', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M9N 3R2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,David,Friesema,"{'line1': '140 Wendell Avenue', 'line2': 'Unit 1', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M9N 3R2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Andrew,Moor,"{'line1': '305 Inglewood Drive', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 1J4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,John,Cassaday,"{'line1': '26 Arjay Crescent', 'city': 'North York', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M2L 1C7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,David,Shaw,"{'line1': '101 – 1888 Bayview Avenue', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4G 0A7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,J. Douglas,Bradley,"{'line1': '17 Harper Avenue', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 2L1', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,Ken,Kuanghua,Yang,"{'line1': '1 York Street', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Gavin,S.,Sinclair,"{'line1': '1 YORK STREET', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Remi,,Benoit,"{'line1': '1 YORK STREET', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}"

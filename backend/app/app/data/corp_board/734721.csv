@@ -1,0 +1,16 @@
+,firstName,lastName,serviceAddress,middleName
+0,Jeffrey,Orr,"{'line1': '1699 Saint-Patrick', 'line2': 'Suite 501', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3K 3G9', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Claude,Genereux,"{'line1': '39 Aberdeen Avenue', 'city': 'Westmount', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3Y 3A5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,John,McCallum,"{'line1': '26 Lake Lindero Drive', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3T 4P3', 'countryCode': 'CA', 'countryName': 'Canada'}",S.
+3,Andre,Desmarais,"{'line1': '55 Belvedere Road', 'city': 'Westmount', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3Y 1G6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,Marcel,Coutu,"{'line1': '243181 Range Road 31A', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T3Z 3L5', 'countryCode': 'CA', 'countryName': 'Canada'}",R.
+5,Marc,Bibeau,"{'line1': '20612 Lakeshore Road', 'city': ""Baie d'Urfe"", 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H9X 1R4', 'countryCode': 'CA', 'countryName': 'Canada'}",A.
+6,Gary,Doer,"{'line1': '4D - 229 Wellington Crescent', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3M 0E6', 'countryCode': 'CA', 'countryName': 'Canada'}",A.
+7,Gregory,Tretiak,"{'line1': '382 Roslyn Avenue', 'city': 'Westmount', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3Z 2L6', 'countryCode': 'CA', 'countryName': 'Canada'}",D
+8,Paul,"Desmarais, Jr.","{'line1': '3120 Daulac Road', 'city': 'Westmount', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3Y 2A2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+9,Sharon,Hodgson,"{'line1': '50 Shaftesbury Avenue', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4T 1A2', 'countryCode': 'CA', 'countryName': 'Canada'}",L.
+10,James,O'Sullivan,"{'line1': '186 Golfdale Road', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4N 2B9', 'countryCode': 'CA', 'countryName': 'Canada'}",
+11,Susan,McArthur,"{'line1': '71 Astley Avenue', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4W 3B5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+12,Sharon,MacLeod,"{'line1': '8th Line, 9309', 'city': 'Georgetown', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L7G 4S5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+13,Susan,Doniz,"{'line1': '15 Glen Edyth Drive', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4V 2V8', 'countryCode': 'CA', 'countryName': 'Canada'}",
+14,Elizabeth,Wilson,"{'line1': '417 Lakeshore Road', 'city': 'Port Hope', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L1A 0B3', 'countryCode': 'CA', 'countryName': 'Canada'}",D.

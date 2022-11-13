@@ -1,0 +1,10 @@
+,firstName,middleName,lastName,serviceAddress
+0,DONALD,K.,CHARTER,"{'line1': '36 STRATH AVE', 'city': 'ETOBICOKE', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M8X 1R3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,DALE,C.,PENIUK,"{'line1': '1360 JEFFERSON AVE', 'city': 'WEST VANCOUVER', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V7T 2B2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Adam,Ian,Lundin,"{'line1': '150 King Street West', 'line2': 'Suite 2200', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5H 1J9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Natasha,,Vaz,"{'line1': '150 King Street West', 'line2': 'Suite 2200', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5H 1J9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Catherine,,Stefan,"{'line1': '55 Yorkleigh Avenue', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M9P 1Y3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Charles,Ashley,Heppenstall,"{'line1': '7 Worfield Street', 'line2': 'Park House', 'city': 'London', 'postalCode': 'SW11 4RB', 'countryCode': 'GB', 'countryName': 'United Kingdom'}"
+6,Jack,Oliver,Lundin,"{'line1': '667 Howe Street', 'line2': 'Unit 4301', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6C 2E5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Peter,Thomas,Rockandel,"{'line1': '52 Blyth Hill Road', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4N 3L7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,Juliana,L.,Lam,"{'line1': '184 Lee Avenue', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4E 2P3', 'countryCode': 'CA', 'countryName': 'Canada'}"

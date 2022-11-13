@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Michael,Dingle,"{'line1': '826 Yates Street', 'city': 'Victoria', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V8W 2H9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Doug,French,"{'line1': '28th Fl, 25 York Street', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2V5', 'countryCode': 'CA', 'countryName': 'Canada'}"

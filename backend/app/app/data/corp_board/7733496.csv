@@ -1,0 +1,12 @@
+,firstName,lastName,serviceAddress
+0,MARIE-CLAUDE,DUMAS,"{'line1': '1771 Avenue Lajoie', 'city': 'Outremont', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 1S1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,ZIN,SMATI,"{'line1': '4 Brompton Court', 'city': 'Houston', 'subdivisionCode': 'TX', 'subdivisionName': 'Texas', 'postalCode': '77024', 'countryCode': 'US', 'countryName': 'United States'}"
+2,LISE,CROTEAU,"{'line1': '580, chemin de la Réserve', 'city': 'Mont-Tremblant', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8E 3L8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,ALAIN,RHEAUME,"{'line1': '5-200 Chemin des Mas', 'city': 'Boischatel', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'G0A 1H0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,INES,KOLMSEE,"{'line1': 'Traubinger Strasse 18', 'city': 'Tutzing', 'postalCode': '82327', 'countryCode': 'DE', 'countryName': 'Germany'}"
+5,PATRICK,DECOSTRE,"{'line1': '900 Boulevard de Maisonneuve Ouest', 'line2': '24e étage', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3A 0A8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,MARIE,GIGUÈRE,"{'line1': '4955 Avenue Ponsard', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3W 2A6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,GHYSLAIN,DESCHAMPS,"{'line1': '193 Rue Yvon', 'city': 'Repentigny', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J6A 2Y5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,DANY,ST-PIERRE,"{'line1': '25E. SUPERIOR STREET', 'line2': '# 1003', 'city': 'CHICAGO', 'subdivisionCode': 'IL', 'subdivisionName': 'Illinois', 'postalCode': '60611', 'countryCode': 'US', 'countryName': 'United States'}"
+9,PATRICK,LEMAIRE,"{'line1': '93 CHEMIN CORRIVEAU', 'line2': 'R.R.1 C P 1532', 'city': 'KINGSEY FALLS', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0A 1B0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+10,ANDRÉ,COURVILLE,"{'line1': '200 Avenue des Sommets, #1206', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3E 2B4', 'countryCode': 'CA', 'countryName': 'Canada'}"

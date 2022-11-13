@@ -1,0 +1,12 @@
+,firstName,middleName,lastName,serviceAddress
+0,JENNEFER,J,NEPINAK,"{'line1': '1214 Kildonan Drive', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R2G 1J6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,FRANK,J,COLEMAN,"{'line1': '11 MARCELLE AVENUE', 'city': 'CORNER BROOK', 'subdivisionCode': 'NF', 'subdivisionName': 'Newfoundland and Labrador', 'postalCode': 'A2H 2V8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,VIOLET,,KONKLE,"{'line1': '760 CHURCH STREET', 'city': 'FENWICK', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L0S 1C0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,W,BROCK,BULBUCK,"{'line1': '132 GIRTON BOULEVARD', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3P 0A5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,STEWART,,GLENDINNING,"{'line1': '88 ISLAND DRIVE S', 'city': 'OCEAN RIDGE', 'subdivisionCode': 'FL', 'subdivisionName': 'Florida', 'postalCode': '33435-3338', 'countryCode': 'US', 'countryName': 'United States'}"
+5,Rachel,L,Huckle,"{'line1': '179 Weybourne Road', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6K 2T7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,VICTOR,,TOOTOO,"{'line1': '5184 QAJISARVIK ROAD', 'city': 'IQALUIT', 'subdivisionCode': 'NU', 'subdivisionName': 'Nunavut', 'postalCode': 'X0A 0H0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,ANNALISA,,KING,"{'line1': '368 W 11th Avenue', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V5Y 1T2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,DANIEL,G,MCCONNELL,"{'line1': '232 Handsart Boulevard', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3P 0C7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,STEVEN,,KROFT,"{'line1': '230 Waverley Street', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3M 3L2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+10,DEEPAK,,CHOPRA,"{'line1': '65 Truman Road', 'city': 'North York', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M2L 2L7', 'countryCode': 'CA', 'countryName': 'Canada'}"

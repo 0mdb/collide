@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Olaf,Sheikh,"{'line1': '100 King Street West, 21st Floor', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5X 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Caroline,Dufaux,"{'line1': '100 King Street West, 21st Floor', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5X 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Bernadette,Murphy,"{'line1': '100 King Street West, 21st Floor', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5X 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}"

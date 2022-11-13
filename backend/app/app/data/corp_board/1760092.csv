@@ -1,0 +1,7 @@
+,firstName,lastName,serviceAddress
+0,Véronique,Lamy,"{'line1': '77 Rue Blainville Est', 'city': 'Sainte-Thérèse', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J7E 1L9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Stéphane,Gauthier,"{'line1': '1480 Boulevard Radieux', 'city': 'Sainte-Adèle', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8B 1R2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Lyne,Villemaire,"{'line1': '257', 'line2': 'Chemin du Rocher', 'city': 'Piedmont', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0R 1K0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Alexandre,Aubin,"{'line1': '110', 'line2': 'de la Plénitude', 'city': 'Saint-Colomban', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J5K 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Dominique,Deschênes-Lambert,"{'line1': '2431 Boulevard des Pins', 'city': 'Sainte-Marthe-sur-le-Lac', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0N 1P0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Luc,Jalbert,"{'line1': '3517 Rue Balzac', 'city': 'Boisbriand', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J7H 1P4', 'countryCode': 'CA', 'countryName': 'Canada'}"

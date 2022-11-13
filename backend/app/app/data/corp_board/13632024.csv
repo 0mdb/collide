@@ -1,0 +1,13 @@
+,firstName,middleName,lastName,serviceAddress
+0,Jane,E.,Kinney,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Richard,J.,Marcogliese,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Claude,,Mongeau,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Frank,J.,Sixt,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Eva,L.,Kwok,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Keith,A.,MacPhail,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Harold,N.,Kvisle,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Alex,J.,Pourbaix,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,Canning,K.N.,Fok,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,Rhonda,I.,Zygocki,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+10,Wayne,E.,Shaw,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+11,Keith,M.,Casey,"{'line1': '4100, 225 – 6th Ave. SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2G 1N2', 'countryCode': 'CA', 'countryName': 'Canada'}"

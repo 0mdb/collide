@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Colin,Sam,"{'line1': '161 Bay Street, Suite 4900', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2S1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,David,Copeland,"{'line1': '161 Bay Street', 'line2': 'Suite 4900', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2S1', 'countryCode': 'CA', 'countryName': 'Canada'}"

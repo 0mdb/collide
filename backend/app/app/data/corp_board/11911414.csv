@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Pierre,De Fanti,"{'line1': '400 Côte-Vertu Road West', 'city': 'Dorval', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4S 1Y9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Manon,Blouin,"{'line1': '400 Côte-Vertu Road West', 'city': 'Dorval', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4S 1Y9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Alain,Doré,"{'line1': '400, chemin de la Côte-Vertu', 'city': 'Dorval', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4S 1Y9', 'countryCode': 'CA', 'countryName': 'Canada'}"

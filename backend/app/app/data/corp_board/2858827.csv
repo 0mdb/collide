@@ -1,0 +1,9 @@
+,firstName,middleName,lastName,serviceAddress
+0,ILKKA,TAPIO,SUOMINEN,"{'line1': 'LEHTISAARENTIE 6L', 'city': 'HELSINKI', 'postalCode': '00340', 'countryCode': 'FI', 'countryName': 'Finland'}"
+1,ANTTI,ILMARI,AARNIO-WIHURI,"{'line1': 'VUOLAHDENTIE 62', 'line2': 'FI-21620', 'city': 'KUUSISTO', 'countryCode': 'FI', 'countryName': 'Finland'}"
+2,MARTTI,HJALMAR,AARNIO-WIHURI,"{'line1': 'VUOLAHDENTIE 62', 'line2': 'FI-21620', 'city': 'KUUSISTO', 'countryCode': 'FI', 'countryName': 'Finland'}"
+3,Dayna,,Spiring,"{'line1': '825 Wellington Crescent', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3M 0A7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Kenneth,Peter,Kuchma,"{'line1': '409-703 Riverwood Avenue', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3T 1V6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Rakel,Johanna,Aarnio-Wihuri,"{'line1': 'Vuolahdentie 62', 'city': 'Kuusisto', 'postalCode': 'FI-21620', 'countryCode': 'FI', 'countryName': 'Finland'}"
+6,Bruce,James,Berry,"{'line1': '31 Haliburton Bay', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3K 1E1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,OLIVIER,YVES,MUGGLI,"{'line1': '79 PORTSIDE DRIVE', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R2N 0C8', 'countryCode': 'CA', 'countryName': 'Canada'}"

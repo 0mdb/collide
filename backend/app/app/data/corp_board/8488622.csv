@@ -1,0 +1,11 @@
+,firstName,lastName,serviceAddress
+0,Nini,Baird,"{'line1': '#905, 110 - 19 Street', 'city': 'West Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V7V 3W8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Nadine,Cole,"{'line1': '1085 Homer Street, Suite 400', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 1J4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,CARISSA,MCCART,"{'line1': '826 Yates Street, Floor 2', 'city': 'Victoria', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V8W 2H9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,NELSON,KWAN,"{'line1': '6088 Dunsmuir Crescent', 'city': 'Richmond', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V7C 5T7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,MICHAEL,EVANS,"{'line1': '108 ALBANY AVE.', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5R 3C4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,MICHEL,BELEC,"{'line1': '7TH FLOOR, 510 W. GEORGIA ST.', 'city': 'VANCOUVER', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Thomas,Ungar,"{'line1': '309 Glenayr Road', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5P 3C6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Andra,Sheffer,"{'line1': '24 Hambly Ave', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4E 2R6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,Jack,Shute,"{'line1': '888 Shakespeare Avenue', 'city': 'North Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V7K 1E6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,Benoit,Simard,"{'line1': '14th Fl, 4200 Boul St-Laurent', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2W 2R2', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,5 @@
+,firstName,lastName,serviceAddress,middleName
+0,Hugues,Simard,"{'line1': '65 Rue Saint-Paul Ouest', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2Y 3S5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Martin,Tremblay,"{'line1': '9237 Rue des Lièvres', 'city': 'Charlesbourg', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'G1G 0J3', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,Pierre,Péladeau,"{'line1': '134 Avenue Duchastel', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 3G1', 'countryCode': 'CA', 'countryName': 'Canada'}",Karl
+3,Jonathan,Hickey,"{'line1': '8128 Avenue de Gaspé', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2P 2J8', 'countryCode': 'CA', 'countryName': 'Canada'}",Lee

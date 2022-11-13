@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,Hissein,Idylle,Tchouane,"{'line1': '389 Stout Lane', 'city': 'leduc', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T9E 1K4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Cyriacque,,Kouakep,"{'line1': '2556 138A Avenue Northwest', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T5Y 1T3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Jean,Georges,Togue,"{'line1': '8552 88 Street Northwest', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T6C 3J5', 'countryCode': 'CA', 'countryName': 'Canada'}"

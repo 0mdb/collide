@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Jim,Grosdanis,"{'line1': '200 Bay Street, Suite 2600', 'line2': 'Royal Bank Plaza, South Tower', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2J1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Narinder,Nagra,"{'line1': '200 Bay Street, Suite 2600', 'line2': 'Royal Bank Plaza, South Tower', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2J1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Peter,Grosskopf,"{'line1': '200 Bay Street, Suite 2600', 'line2': 'Royal Bank Plaza, South Tower', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2J1', 'countryCode': 'CA', 'countryName': 'Canada'}"

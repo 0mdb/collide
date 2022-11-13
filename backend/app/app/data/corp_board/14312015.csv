@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Trevor,Coates,"{'line1': '44 Woodlawn Avenue', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R2M 2P2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Paul,Beauregard,"{'line1': '201 Portage Avenue, Suite 2500', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3B 3K6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Jordy,Chilcott,"{'line1': '187 Tawny Crescent', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6L 6T4', 'countryCode': 'CA', 'countryName': 'Canada'}"

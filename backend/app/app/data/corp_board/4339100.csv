@@ -1,0 +1,10 @@
+,firstName,lastName,serviceAddress,middleName
+0,ISABELLE,COURVILLE,"{'line1': 'Suite 2070, 1981 MCGILL COLLEGE AVENUE', 'city': 'MONTREAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3A 3K3', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Keith,Creel,"{'line1': '7550 Ogden Dale Road SE', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2C 4X9', 'countryCode': 'CA', 'countryName': 'Canada'}",E.
+2,GORDON,TRAFTON,"{'line1': '7550 Ogden Dale Road S.E.', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2C 4X9', 'countryCode': 'CA', 'countryName': 'Canada'}",T.
+3,ANDREA,ROBERTSON,"{'line1': '7550 Ogden Dale Road SE', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2C 4X9', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,EDWARD,HAMBERGER,"{'line1': '7550 Ogden Dale Road SE', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2C 4X9', 'countryCode': 'CA', 'countryName': 'Canada'}",
+5,MATTHEW,PAULL,"{'line1': '7550 Ogden Dale Road SE', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2C 4X9', 'countryCode': 'CA', 'countryName': 'Canada'}",H.
+6,GILLIAN (JILL),DENHAM,"{'line1': '7550 OGDEN DALE ROAD S.E.', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2C 4X9', 'countryCode': 'CA', 'countryName': 'Canada'}",H.
+7,THE HON. JOHN,BAIRD,"{'line1': 'SUITE 3400', 'line2': '1 First Canadian Place, Box 130', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5X 1A4', 'countryCode': 'CA', 'countryName': 'Canada'}",
+8,JANE,PEVERETT,"{'line1': '7550 Ogden Dale Road S.E.', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2C 4X9', 'countryCode': 'CA', 'countryName': 'Canada'}",L.

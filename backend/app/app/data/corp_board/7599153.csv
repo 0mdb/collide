@@ -1,0 +1,5 @@
+,firstName,lastName,serviceAddress
+0,Jill,Barnett,"{'line1': '365 Bay Street', 'line2': 'Suite 800', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5H 2V1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Scott,Huckins,"{'line1': '365 Bay Street', 'line2': 'Suite 800', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5H 2V1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Jennifer,Yoshihara,"{'line1': '365 Bay Street', 'line2': 'Suite 800', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5H 2V1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Joseph,Ennen,"{'line1': '365 Bay Street', 'line2': 'Suite 800', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5H 2V1', 'countryCode': 'CA', 'countryName': 'Canada'}"

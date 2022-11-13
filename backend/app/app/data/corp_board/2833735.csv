@@ -1,0 +1,11 @@
+,firstName,middleName,lastName,serviceAddress
+0,ANTHONY,M.,FATA,"{'line1': '475 AVE LAZARD', 'city': 'MONT-ROYAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3R 1P4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Anna Lisa,,King,"{'line1': '368 West 11th Avenue', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V5Y 1T2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Henry,,Demone,"{'line1': '70 Tupper St.', 'line2': 'PO Box 148', 'city': 'Lunenburg', 'subdivisionCode': 'NS', 'subdivisionName': 'Nova Scotia', 'postalCode': 'B0J 2C0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Annette,,Verschuren,"{'line1': '228 Queens Quay W.', 'line2': 'Suite 2208', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2X1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,OLU,,FAJEMIROKUN-BECK,"{'line1': '114 Morris Tpke', 'city': 'Randolph', 'subdivisionCode': 'NJ', 'subdivisionName': 'New Jersey', 'postalCode': '07869', 'countryCode': 'US', 'countryName': 'United States'}"
+5,LINO,ANTHONY,SAPUTO,"{'line1': '5910 chemin de la Côte-de-Liesse', 'city': 'Mont-Royal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4T 1C9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Karen,,Kinsley,"{'line1': '71 Genova St.', 'city': 'Ottawa', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K1Y 3N6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Diane,,Nyisztor,"{'line1': '282 rue Logan', 'city': 'St-Lambert', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J4P 1H6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,Franziska,,Ruf,"{'line1': '81 avenue McNider', 'city': 'Outremont', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 3X5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,Louis-Philippe,,Carrière,"{'line1': '1810 Chemin des Franciscains', 'city': 'Mont-Tremblant', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8E 3M6', 'countryCode': 'CA', 'countryName': 'Canada'}"

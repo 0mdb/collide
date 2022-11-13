@@ -1,0 +1,6 @@
+,firstName,lastName,serviceAddress
+0,ATAR (AJ),KAILA,"{'line1': '176 Headwind Blvd.', 'city': 'Woodbridge', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L4H 4C8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Dylan,Kaila,"{'line1': '176 Headwind Blvd', 'city': 'Vaughan', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L4H 4C8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Jaskaran,Sidhu,"{'line1': '3107 Swallow Place', 'city': 'Abbotsford', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V2T 5K9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Jasmeen,Sidhu,"{'line1': '3107 Swallow Place', 'city': 'Abbotsford', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V2T 5K9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Karina,Kaila,"{'line1': '176 Headwind Blvd', 'city': 'Vaughan', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L4H 4C8', 'countryCode': 'CA', 'countryName': 'Canada'}"

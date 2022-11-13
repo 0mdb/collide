@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,SANDIP,RANA,"{'line1': '199 BAY STREET, SUITE 2000', 'line2': 'COMMERCE COURT WEST', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5L 1G9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,LLOYD,HONG,"{'line1': '199 BAY STREET, SUITE 2000', 'line2': 'COMMERCE COURT WEST', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5L 1G9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,PAUL,BRINK,"{'line1': '199 BAY STREET, SUITE 2000', 'line2': 'COMMERCE COURT WEST', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5L 1G9', 'countryCode': 'CA', 'countryName': 'Canada'}"

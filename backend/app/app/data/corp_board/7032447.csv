@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Dennis,Kwong,"{'line1': '1 University Avenue, Suite 1500', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2P1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Darren,Millman,"{'line1': '1 Universtiy Ave.', 'line2': 'Suite 1500', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2P1', 'countryCode': 'CA', 'countryName': 'Canada'}"

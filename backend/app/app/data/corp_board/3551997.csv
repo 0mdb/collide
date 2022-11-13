@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Ivan,Mihaljevic,"{'line1': '1 Carrefour Alexander-Graham-Bell, A-7', 'city': 'Verdun', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3E 3B3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Thomas,Little,"{'line1': '1 Carrefour Alexander-Graham-Bell, A-7', 'city': 'Verdun', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3E 3B3', 'countryCode': 'CA', 'countryName': 'Canada'}"

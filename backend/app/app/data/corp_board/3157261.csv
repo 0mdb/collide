@@ -1,0 +1,4 @@
+,firstName,middleName,lastName,serviceAddress
+0,Grant,E.,Isaac,"{'line1': '410 Wright Crescent', 'city': 'Saskatoon', 'subdivisionCode': 'SK', 'subdivisionName': 'Saskatchewan', 'postalCode': 'S7N 4T7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,SEAN,A.,QUINN,"{'line1': '803 LEDINGHAM CR.', 'city': 'SASKATOON', 'subdivisionCode': 'SK', 'subdivisionName': 'Saskatchewan', 'postalCode': 'S7V 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Larry,,Korchinski,"{'line1': '110 Braemar Cr.', 'city': 'Saskatoon', 'subdivisionCode': 'SK', 'subdivisionName': 'Saskatchewan', 'postalCode': 'S7V 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}"

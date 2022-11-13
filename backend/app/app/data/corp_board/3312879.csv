@@ -1,0 +1,10 @@
+,firstName,lastName,serviceAddress
+0,PAUL,GARDNER,"{'line1': '150 - 6TH AVENUE S.W.', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3E3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,ARLENE,STROM,"{'line1': '150 - 6TH AVENUE S.W.', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3E3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,SYLVIE,TRAN,"{'line1': '150 - 6 Avenue SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3E3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,PATRICK,RITCHIE,"{'line1': '150 6 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3Y7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Jacquie,Moore,"{'line1': '150 6 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3Y7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,VICKY,LI,"{'line1': '150 6 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3Y7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,ADAM,ALBELDAWI,"{'line1': '150 6 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3Y7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,MIKE,AGNEW,"{'line1': '150 - 6 Avenue S.W.', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3E3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,KEVIN,MACINTOSH,"{'line1': '150 - 6 Avenue S.W.', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3E3', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Luc,Guimond,"{'line1': 'Brookfield Place', 'line2': '181 Bay Street, Suite 3910', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2T3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,John,McCluskey,"{'line1': 'Brookfield Place, 181 Bay Street', 'line2': 'Suite 3910', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2T3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Jamie,Porter,"{'line1': 'Brookfield Place, 181 Bay Street', 'line2': 'Suite 3910', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2T3', 'countryCode': 'CA', 'countryName': 'Canada'}"

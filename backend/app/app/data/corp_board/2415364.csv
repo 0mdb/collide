@@ -1,0 +1,8 @@
+,firstName,lastName,serviceAddress
+0,MARK,SPROTT,"{'line1': '109 Thomas Street', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 7R4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,LIZZIE,MCNEELY,"{'line1': '109 Thomas Street', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 7R4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,SHARMAN,LEARIE,"{'line1': '109 Thomas Street', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 7R4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,LARISA,SPROTT,"{'line1': '109 Thomas Street', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 7R4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,JULIANA,SPROTT,"{'line1': '109 Thomas Street', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 7R4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,VIZMA,SPROTT,"{'line1': '109 Thomas Street', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 7R4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,ERIC,SPROTT,"{'line1': '109 Thomas Street', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 7R4', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,JULIE,TURGEON,"{'line1': '2185 RUE BORDUAS', 'city': 'ST-JULIE', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J3E 2H4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Michael,Keroullé,"{'line1': '1101 rue Parent', 'city': 'Saint-Bruno', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J3V 6E6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Marc,Bernier,"{'line1': '2212 rue des  Hémisphères', 'city': 'Saint-Laurent', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4R 0K1', 'countryCode': 'CA', 'countryName': 'Canada'}"

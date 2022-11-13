@@ -1,0 +1,6 @@
+,firstName,lastName,serviceAddress,middleName
+0,DARYL,WILSON,"{'line1': '621 AVENUE ROTHESAY', 'city': 'SAINT JOHN', 'subdivisionCode': 'NB', 'subdivisionName': 'New Brunswick', 'postalCode': 'E2H 2G9', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Derek,Oland,"{'line1': '89 Maine Street West', 'line2': 'P.O. Box 3100', 'city': 'Saint John', 'subdivisionCode': 'NB', 'subdivisionName': 'New Brunswick', 'postalCode': 'E2M 3H2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,Nancy,Mathis,"{'line1': '5151 Terminal Road', 'city': 'Halifax', 'subdivisionCode': 'NS', 'subdivisionName': 'Nova Scotia', 'postalCode': 'B3J 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}",
+3,Daniel,Muldoon,"{'line1': '5151 Terminal Road', 'city': 'Halifax', 'subdivisionCode': 'NS', 'subdivisionName': 'Nova Scotia', 'postalCode': 'B3J 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}",P.
+4,STEPHEN,AFTANAS,"{'line1': '5151 Terminal Road', 'city': 'HALIFAX', 'subdivisionCode': 'NS', 'subdivisionName': 'Nova Scotia', 'postalCode': 'B3J 1A1', 'countryCode': 'CA', 'countryName': 'Canada'}",D.

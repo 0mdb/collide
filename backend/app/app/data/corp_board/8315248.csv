@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Neil ,Rossy,"{'line1': '309 Stanstead Avenue', 'city': 'Mont-Royal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3R 1X5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Jean-Philippe,Towner,"{'line1': '6 Avenue Pagnuelo', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 3B9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Nicolas,Hien,"{'line1': ""900 Avenue de l'Épée, App. 10"", 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 3V4', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Julie,Turgeon,"{'line1': '1101 Rue Parent', 'city': 'Saint-Bruno-de-Montarville', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J3V 6E6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Marc,Bernier,"{'line1': '1101 Rue Parent', 'city': 'Saint-Bruno-de-Montarville', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J3V 6E6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Michael,Keroullé,"{'line1': '1101 Rue Parent', 'city': 'Saint-Bruno-de-Montarville', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J3V 6E6', 'countryCode': 'CA', 'countryName': 'Canada'}"

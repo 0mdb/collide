@@ -1,0 +1,5 @@
+,firstName,lastName,serviceAddress
+0,Patrick,Decostre,"{'line1': '4535 Rue Marquette', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2J 3Y3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Mario,Plourde,"{'line1': '1, rue du Boisé', 'city': 'Kingsey Falls', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0A 1B0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Allan,Hogg,"{'line1': '10, rue Martel', 'city': 'Kingsey Falls', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0A 1B0', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Alain,Lemaire,"{'line1': '396, Boul. Marie-Victorin', 'city': 'Kingsey Falls', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J0A 1B0', 'countryCode': 'CA', 'countryName': 'Canada'}"

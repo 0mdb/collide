@@ -1,0 +1,6 @@
+,firstName,lastName,serviceAddress,middleName
+0,S. PATRICIA,CALLON,"{'line1': '1 YORK STREET', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Karen,Woodman,"{'line1': '227 KING STREET SOUTH', 'city': 'WATERLOO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2J 4C5', 'countryCode': 'CA', 'countryName': 'Canada'}",E.
+2,JACQUES,GOULET,"{'line1': '1 YORK STREET', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+3,ROWENA,CHAN,"{'line1': '1 YORK STREET', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 0B6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,MICHAEL,SCHOFIELD,"{'line1': '227 KING STREET SOUTH', 'city': 'WATERLOO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N2J 4C5', 'countryCode': 'CA', 'countryName': 'Canada'}",B.

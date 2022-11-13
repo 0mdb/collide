@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress,middleName
+0,James,Wishart,"{'line1': '1 Hershey Drive', 'city': 'Smiths Falls', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'K7A 0A8', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Antonio,Droghetti Neto,"{'line1': 'Rua Iraci 213', 'city': 'Sao Paulo', 'postalCode': 'SP', 'countryCode': 'BR', 'countryName': 'Brazil'}",Luiz

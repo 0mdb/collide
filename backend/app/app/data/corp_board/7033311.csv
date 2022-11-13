@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Christopher,Fralick,"{'line1': '110 - 12th Ave SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Brent,Ward,"{'line1': '110 - 12th Avenue SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 2M1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Todd,Stack,"{'line1': '110 12 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 2M1', 'countryCode': 'CA', 'countryName': 'Canada'}"

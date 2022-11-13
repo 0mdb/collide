@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Neil,Erlick,"{'line1': '468 Rue Dufferin', 'city': 'Hampstead', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3X 2Y9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,David,Schwartz,"{'line1': '5920 Tommy Douglas', 'city': 'Cote St.Luc', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3X 4A6', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,IOANNIS,NOMPELIS,"{'line1': '3115 Second Avenue South', 'city': 'Minneapolis', 'subdivisionCode': 'MN', 'subdivisionName': 'Minnesota', 'postalCode': '55408', 'countryCode': 'US', 'countryName': 'United States'}"
+1,KONSTANTINOS,KONTZIALIS,"{'line1': '2445 Sunset Street, Apt 110', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3R 2Y9', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,Greg,Grant,"{'line1': '450-1st Street SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 5H1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Lindsay,Mackay,"{'line1': '450-1st Street SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 5H1', 'countryCode': 'CA', 'countryName': 'Canada'}"

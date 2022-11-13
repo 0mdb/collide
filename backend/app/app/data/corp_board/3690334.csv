@@ -1,0 +1,12 @@
+,firstName,lastName,serviceAddress
+0,Judy,Kesanko,"{'line1': '8 Fieldstone Place', 'city': 'Spruce Grove', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7X 2Z4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Sharlene,Page,"{'line1': '218-101 Township Road 540', 'city': 'Stony Plain', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Z 1X3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Nathaniel,Rutter,"{'line1': '#2- 53512 Highway 779', 'city': 'Stony Plain', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Z 1X3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Wendy,Woolsey,"{'line1': '12-52419 RR13', 'city': 'Parkland County', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Y 2C1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Diane,Mitchell,"{'line1': '16 Wellington Crescent', 'city': 'Spruce Grove', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7X 1K3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Joel,Marquez,"{'line1': '17715 96 Avenue Northwest', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T5T 6W9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Katreena,Gartly,"{'line1': '348 108 4301B South Park Drive', 'city': 'Stony Plain', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Z 2A9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Jan,Paasuke,"{'line1': '437 Heatherglen Drive', 'city': 'Spruce Grove', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7X 0R6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,Bill,Courtis,"{'line1': '3 Guenette Crescent', 'city': 'Spruce Grove', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7X 3G8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,Alex,Clowes,"{'line1': '40 Balmoral Drive', 'city': 'Spruce Grove', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7X 1C8', 'countryCode': 'CA', 'countryName': 'Canada'}"
+10,Donna,Plitt,"{'line1': '1103 Township Road 540', 'line2': 'Unit 116', 'city': 'Parkland County', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T7Y 0A6', 'countryCode': 'CA', 'countryName': 'Canada'}"

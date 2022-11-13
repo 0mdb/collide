@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Roger,Fulton,"{'line1': '287 Speedvale Avenue West', 'city': 'Guelph', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N1H 1C5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Linda,Hasenfratz,"{'line1': '287 Speedvale Avenue West', 'city': 'Guelph', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N1H 1C5', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,James,Jarrell,"{'line1': '287 Speedvale Avenue West', 'city': 'Guelph', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'N1H 1C5', 'countryCode': 'CA', 'countryName': 'Canada'}"

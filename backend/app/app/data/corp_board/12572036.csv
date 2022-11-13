@@ -1,0 +1,8 @@
+,firstName,lastName,serviceAddress
+0,Darlene,Kelly,"{'line1': '161 Bay Street, Suite 2325', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2S1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Toni,Rinow,"{'line1': '161 Bay Street, Suite 2325', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2S1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Ralph,Garcea,"{'line1': '161 Bay Street, Suite 2325', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2S1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Nathan,Chan,"{'line1': '85 Rue Victoria', 'city': 'Gatineau', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8X 2A3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Shaun,Maine,"{'line1': '85 Rue Victoria', 'city': 'Gatineau', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8X 2A3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Thomas,Volk,"{'line1': '161 Bay Street, Suite 2325', 'city': 'Toronto', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M5J 2S1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Brian,Phillips,"{'line1': '85 Rue Victoria', 'city': 'Gatineau', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8X 2A3', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,12 @@
+,firstName,middleName,lastName,serviceAddress
+0,Justin,M.,Howell,"{'line1': '935 de la Gauchetiere St. West', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Denise,,Gray,"{'line1': '935 de la Gauchetiere St. West', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Tracy,,Robinson,"{'line1': '935 de la Gauchetiere St. West', 'line2': '16th Floor', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,ROBERT,,PHILLIPS,"{'line1': '935 DE LA GAUCHETIERE STREET WEST', 'line2': 'FLOOR 16', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,KEVIN,,LYNCH,"{'line1': '935 DE LA GAUCHETIERE STREET WEST', 'line2': 'FLOOR 16', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Margaret,A.,McKenzie,"{'line1': '935 de la Gauchetiere St. West, Floor 16', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Jo-Ann,,dePass Olsovsky,"{'line1': '935 Rue De La Gauchetière Ouest', 'line2': '16th Floor', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,David,,Freeman,"{'line1': '935 Rue De La Gauchetière Ouest', 'line2': 'Floor 16', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,Robert,,Knight,"{'line1': '935 Rue De La Gauchetière Ouest', 'line2': 'Floor 16', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+9,Susan,C.,Jones,"{'line1': '935 Rue De La Gauchetière Ouest', 'line2': 'Floor 16,', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"
+10,SHAUNEEN,,BRUDER,"{'line1': '935 de la Gauchetiere St. West, Floor 16', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3B 2M9', 'countryCode': 'CA', 'countryName': 'Canada'}"

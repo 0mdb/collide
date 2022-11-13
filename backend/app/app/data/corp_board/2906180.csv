@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,LYNE,ROBITAILLE,"{'line1': '6121 PLACE DES HUARDS', 'city': 'LAVAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H7L 5Y6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Pierre Karl,Péladeau,"{'line1': '134 Avenue Duchastel', 'city': 'Outremont', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2V 3G1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Hugues,Simard,"{'line1': '505-65 Rue Saint-Paul Ouest', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H2Y 3S5', 'countryCode': 'CA', 'countryName': 'Canada'}"

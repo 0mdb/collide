@@ -1,0 +1,6 @@
+,firstName,middleName,lastName,serviceAddress
+0,ANDREW,JOHN,HUNTER,"{'line1': 'NO.2, G/F., 83 STEWART TERRACE', 'line2': '81-95 PEAK ROAD, THE PEAK', 'city': 'HONG KONG', 'countryCode': 'CN', 'countryName': 'China'}"
+1,CHARLES,,TSAI,"{'line1': 'Block 11 Greenview Gdn, 31 Razor Hill Rd', 'line2': 'Clear Water Bay, Sai Kung', 'city': 'HONG KONG', 'countryCode': 'CN', 'countryName': 'China'}"
+2,Blain,,van Melle,"{'line1': '110 12 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 2M1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Gary,,Woods,"{'line1': '110 - 12 Ave SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Aron,,Willis,"{'line1': '110 - 12 Ave SW', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2R 0G7', 'countryCode': 'CA', 'countryName': 'Canada'}"

@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Bernard,Cardinal,"{'line1': '41 Rue Victoria', 'city': 'Gatineau', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8X 2A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Frédéric,Verlez,"{'line1': '41 Rue Victoria', 'city': 'Gatineau', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8X 2A1', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Micheline,Pion,"{'line1': '41 Rue Victoria', 'city': 'Gatineau', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'J8X 2A1', 'countryCode': 'CA', 'countryName': 'Canada'}"

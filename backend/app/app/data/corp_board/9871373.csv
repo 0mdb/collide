@@ -1,0 +1,3 @@
+,firstName,lastName,serviceAddress
+0,James,Landon,"{'line1': '4TH FLOOR, WEST BUILDING', 'line2': '5302 FORAND ST. SW', 'city': 'CALGARY', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T3E 8A4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Peter,Tapatia,"{'line1': 'Box 129', 'line2': 'House #190', 'city': 'Pond Inlet', 'subdivisionCode': 'NU', 'subdivisionName': 'Nunavut', 'postalCode': 'X0A 0S0', 'countryCode': 'CA', 'countryName': 'Canada'}"

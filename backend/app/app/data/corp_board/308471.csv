@@ -1,0 +1,3 @@
+,firstName,middleName,lastName,serviceAddress
+0,Kris,P.,Smith,"{'line1': '150 6 Avenue Southwest', 'city': 'Calgary', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T2P 3Y7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Myriam,,Levasseur,"{'line1': '3275 Rebecca Street', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6L 6N5', 'countryCode': 'CA', 'countryName': 'Canada'}"

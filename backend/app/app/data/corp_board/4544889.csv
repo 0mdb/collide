@@ -1,0 +1,11 @@
+,firstName,lastName,serviceAddress,middleName
+0,Polly,Craik,"{'line1': '132 Campbell Street', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3N 1B2', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,Melissa,Sonberg,"{'line1': '3550 Belmore Avenue', 'city': 'Montreal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H4B 2B9', 'countryCode': 'CA', 'countryName': 'Canada'}",
+2,EDWARD,WARKENTIN,"{'line1': '121 BURR OAK BAY', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R2E 0G1', 'countryCode': 'CA', 'countryName': 'Canada'}",
+3,Bruce,Jack,"{'line1': '35 Hazel Park Dr.', 'city': 'Winnipeg', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3T 5H5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+4,DONALD,STREUBER,"{'line1': '33 KERSLAKE DRIVE', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3P 2C8', 'countryCode': 'CA', 'countryName': 'Canada'}",
+5,MICHAEL,PYLE,"{'line1': '127 Oak Forest Crescent', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3K 1M4', 'countryCode': 'CA', 'countryName': 'Canada'}",
+6,GARY,BUCKLEY,"{'line1': '2 Oakdale Drive', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3R 0Z4', 'countryCode': 'CA', 'countryName': 'Canada'}",
+7,DUNCAN,JESSIMAN,"{'line1': '5-525 WELLINGTON CRESCENT', 'city': 'WINNIPEG', 'subdivisionCode': 'MB', 'subdivisionName': 'Manitoba', 'postalCode': 'R3M 0A1', 'countryCode': 'CA', 'countryName': 'Canada'}",D
+8,BRAD,BENNETT,"{'line1': '4710 Lakeshore Road', 'city': 'KELOWNA', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V1W 4H6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+9,Grace,Schalkwyk,"{'line1': '49 Main Street', 'city': 'Sharon', 'subdivisionCode': 'CT', 'subdivisionName': 'Connecticut', 'postalCode': '06069', 'countryCode': 'US', 'countryName': 'United States'}",

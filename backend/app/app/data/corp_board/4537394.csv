@@ -1,0 +1,10 @@
+,firstName,lastName,serviceAddress,middleName
+0,GREGORY,DAVID,"{'line1': '10 DELISLE AVENUE', 'line2': 'APT.421 ', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4V 3C6', 'countryCode': 'CA', 'countryName': 'Canada'}",
+1,ELISA,GARCIA C.,"{'line1': '5 Adams Road', 'city': 'Ocean Ridge', 'subdivisionCode': 'FL', 'subdivisionName': 'Florida', 'postalCode': '33435', 'countryCode': 'US', 'countryName': 'United States'}",D.
+2,SAMIRA,SAKHIA,"{'line1': '3160 Place de Ramezay', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3Y 2B5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+3,KRISTIN,MUGFORD,"{'line1': '23 Hawthorn Street', 'city': 'Cambridge', 'subdivisionCode': 'MA', 'subdivisionName': 'Massachusetts', 'postalCode': '02138', 'countryCode': 'US', 'countryName': 'United States'}",WILLIAMS
+4,STEPHEN,GUNN,"{'line1': '195 STRATHGOWAN AVENUE', 'city': 'TORONTO', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'M4N 1C4', 'countryCode': 'CA', 'countryName': 'Canada'}",
+5,NEIL,ROSSY,"{'line1': '309 STANSTEAD CRESCENT', 'city': 'TOWN OF MOUNT-ROYAL', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3R 1X5', 'countryCode': 'CA', 'countryName': 'Canada'}",
+6,JOSHUA,BEKENSTEIN,"{'line1': '200 Clarendon Street', 'city': 'Boston', 'subdivisionCode': 'MA', 'subdivisionName': 'Massachusetts', 'postalCode': '02116', 'countryCode': 'US', 'countryName': 'United States'}",
+7,HUW,THOMAS,"{'line1': '276 Gloucester Avenue', 'city': 'Oakville', 'subdivisionCode': 'ON', 'subdivisionName': 'Ontario', 'postalCode': 'L6J 3W9', 'countryCode': 'CA', 'countryName': 'Canada'}",
+8,NICHOLAS,NOMICOS,"{'line1': '78 Crestview Rd', 'city': 'Belmont', 'subdivisionCode': 'MA', 'subdivisionName': 'Massachusetts', 'postalCode': '02478', 'countryCode': 'US', 'countryName': 'United States'}",

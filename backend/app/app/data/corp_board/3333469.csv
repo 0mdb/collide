@@ -1,0 +1,10 @@
+,firstName,lastName,serviceAddress
+0,Bobbie,Racette,"{'line1': '510 West Georgia Street', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Ashif,Mawji,"{'line1': '510 West Georgia Street', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Fiona,Entwistle,"{'line1': '510 West Georgia Street', 'line2': '7th Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Craig,Kielburger,"{'line1': '510 West Georgia Street', 'line2': '7th Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+4,Lane,Merrifield,"{'line1': '510 West Georgia Street', 'line2': '7th Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+5,Jill,Schnarr,"{'line1': '510 West Georgia Street', 'line2': '7th Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+6,Christopher,Main,"{'line1': '510 West Georgia Street', 'line2': '7th Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+7,Tania,Carnegie,"{'line1': '510 West Georgia Street', 'line2': '7th Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"
+8,Hilen,Wong,"{'line1': '510 West Georgia Street, 7th Floor', 'city': 'Vancouver', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V6B 0M3', 'countryCode': 'CA', 'countryName': 'Canada'}"

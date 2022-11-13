@@ -1,0 +1,5 @@
+,firstName,lastName,serviceAddress
+0,Marrianne,Levesque,"{'line1': '924 CHAPMAN RD', 'city': 'COBBLE HILL', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V0R 1L7', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Simon-Pierre,Glaude,"{'line1': '1759 Maple Bay Road', 'city': 'Duncan', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V9L 5N6', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,Mary,Dougherty,"{'line1': '6175 Lane Rd', 'city': 'Duncan', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V9L 4E2', 'countryCode': 'CA', 'countryName': 'Canada'}"
+3,Martin,Mercier,"{'line1': '10659 Cedar Dr.', 'city': 'Youbou', 'subdivisionCode': 'BC', 'subdivisionName': 'British Columbia', 'postalCode': 'V0R 2G0', 'countryCode': 'CA', 'countryName': 'Canada'}"

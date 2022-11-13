@@ -1,0 +1,4 @@
+,firstName,lastName,serviceAddress
+0,Steve,Perron,"{'line1': '1350 Boulevard René-Lévesque Ouest', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3G 1T4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,FRANÇOIS,BOULANGER,"{'line1': '1350 boul. René-Lévesque O.', 'line2': '25ème étage', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3G 1T4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+2,BENOIT,DUBÉ,"{'line1': '1350 boul. René-Lévesque O.', 'line2': '25ème étage', 'city': 'Montréal', 'subdivisionCode': 'QC', 'subdivisionName': 'Quebec', 'postalCode': 'H3G 1T4', 'countryCode': 'CA', 'countryName': 'Canada'}"

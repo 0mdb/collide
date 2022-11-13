@@ -1,0 +1,3 @@
+,firstName,middleName,lastName,serviceAddress
+0,PAUL,J.D.,ALPERN,"{'line1': 'Suite #400, 10220 - 103 Avenue NW', 'city': 'EDMONTON', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T5J 0K4', 'countryCode': 'CA', 'countryName': 'Canada'}"
+1,Gordon,A.,Johnston,"{'line1': 'Suite #400, 10220 - 103 Avenue NW', 'city': 'Edmonton', 'subdivisionCode': 'AB', 'subdivisionName': 'Alberta', 'postalCode': 'T5J 0K4', 'countryCode': 'CA', 'countryName': 'Canada'}"
