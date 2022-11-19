@@ -9,9 +9,12 @@ from datetime import date
 
 schema_name = "lf_mockup"
 
+meta = sa.MetaData(schema=schema_name)
+
 
 class Source(SQLModel, table=True):
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     date_obtained: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
     data_source: str
@@ -22,7 +25,8 @@ class Source(SQLModel, table=True):
 
 
 class Person(SQLModel, table=True):
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     display_name: str = Field(unique=True, nullable=False)
     match_name: str = Field(unique=True, nullable=False)
@@ -30,21 +34,24 @@ class Person(SQLModel, table=True):
 
 
 class Sector(SQLModel, table=True):
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     display_name: str = Field(unique=True, nullable=False)
     match_name: str = Field(unique=True, nullable=False)
 
 
 class OrganizationType(SQLModel, table=True):
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     display_name: str = Field(unique=True, nullable=False)
     match_name: str = Field(unique=True, nullable=False)
 
 
 class Organization(SQLModel, table=True):
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     display_name: str = Field(unique=True, nullable=False)
     match_name: str = Field(unique=True, nullable=False)
@@ -59,7 +66,8 @@ class Organization(SQLModel, table=True):
 
 
 class OrganizationMembership(SQLModel, table=True):
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     person: int = Field(foreign_key='person.id', nullable=False)
     organization: int = Field(foreign_key='organization.id', nullable=False)
@@ -69,7 +77,8 @@ class OrganizationMembership(SQLModel, table=True):
 
 
 class Communications(SQLModel, table=True):
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     party_1: int = Field(foreign_key='person.id', nullable=False)
     party_2: int = Field(foreign_key='person.id', nullable=False)
@@ -79,7 +88,8 @@ class Communications(SQLModel, table=True):
 
 
 class Funding(SQLModel, table=True):
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     party_1: int = Field(foreign_key='organization.id', nullable=False)
     party_2: int = Field(foreign_key='organization.id', nullable=False)
@@ -90,7 +100,8 @@ class Funding(SQLModel, table=True):
 
 
 class CorporateInfo:
-    __table_args__ = {"schema": f"{schema_name}"}
+    #__table_args__ = {"schema": f"{schema_name}"}
+    metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
     organization: int = Field(foreign_key='organization.id', nullable=False, unique=True)
     corporate_number: int = Field(nullable=False, unique=True)
@@ -107,4 +118,4 @@ if __name__ == "__main__":
 
     engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}",  echo=True)
 
-    SQLModel.metadata.create_all(engine)
+    meta.create_all(engine)
