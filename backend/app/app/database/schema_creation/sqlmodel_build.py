@@ -3,7 +3,7 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.dialects.postgresql as pg
 
-from sqlmodel import Field, Session, SQLModel, MetaData, create_engine
+from sqlmodel import Field, SQLModel, create_engine
 from datetime import date
 
 
@@ -99,7 +99,7 @@ class Funding(SQLModel, table=True):
     source: int = Field(foreign_key='source.id', nullable=False)
 
 
-class CorporateInfo:
+class CorporateInfo(SQLModel, table=True):
     #__table_args__ = {"schema": f"{schema_name}"}
     metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -117,5 +117,4 @@ if __name__ == "__main__":
     schema_name = "lf_mockup"
 
     engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}",  echo=True)
-
     meta.create_all(engine)
