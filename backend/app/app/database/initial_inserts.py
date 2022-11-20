@@ -1,10 +1,52 @@
-from sqlmodel import Session, create_engine
+from sqlmodel import Session, create_engine, select, engine
 from parse_injest.utils import create_match_name
-from schema_creation.sqlmodel_build import OrganizationType
+from schema_creation.sqlmodel_build import (
+    OrganizationType,
+    Organization,
+    Sector,
+    Source,
+)
+from datetime import date
+
+
+def ensure_source(eng: engine, sl: Source):
+    sess = Session(eng)
+    stat = (
+        select(Source.id)
+        .where(Source.data_source == sl.data_source)
+        .where(Source.date_obtained == sl.date_obtained)
+    )
+    res = sess.exec(stat).all()
+
+    if len(res) == 0:
+        sess.add(sl)
+        sess.commit()
+        stat = (
+            select(Source.id)
+            .where(Source.data_source == sl.data_source)
+            .where(Source.date_obtained == sl.date_obtained)
+        )
+        res = sess.exec(stat).all()
+        sess.close()
+        return res[0]
+    else:
+        return res[0]
+
 
 if __name__ == "__main__":
 
-    org_type_list = ['Corporation', 'Government', 'Charity', 'Professional Association']
+    initial_source = Source(data_source="initial inserts", date_obtained=date.today())
+    org_type_list = [
+        "Corporation",
+        "Government",
+        "Charity",
+        "Professional Association",
+        "Political Party",
+    ]
+    sector_list = ["Government"]
+    org_list = {
+        "Federal Government of Canada": {"type": "Government", "sector": "Government"}
+    }
 
     db_host = "localhost"
     db_name = "lq_test"
@@ -12,14 +54,71 @@ if __name__ == "__main__":
     db_pw = "changethis"
     schema_name = "lf_mockup"
 
-    engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}",  echo=True)
+    motor = create_engine(
+        f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=True
+    )
 
-    session = Session(engine)
-
+    session = Session(motor)
     for tn in org_type_list:
-        ot = OrganizationType(display_name=tn, match_name=create_match_name(tn))
-        session.add(ot)
+
+        stat = select(OrganizationType.id).where(
+            OrganizationType.match_name == create_match_name(tn)
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            ot = OrganizationType(display_name=tn, match_name=create_match_name(tn))
+            session.add(ot)
 
     session.commit()
     session.close()
 
+    session = Session(motor)
+    for s in sector_list:
+        stat = select(Sector.id).where(Sector.match_name == create_match_name(s))
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            sec = Sector(display_name=s, match_name=create_match_name(s))
+            session.add(sec)
+    session.commit()
+    session.close()
+
+    session = Session(motor)
+    for on in org_list.keys():
+        stat = select(Organization.id).where(
+            Organization.match_name == create_match_name(on)
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            src_id = ensure_source(motor, initial_source)
+
+            org_sec = org_list[on]["sector"]
+            stat = select(Sector.id).where(
+                Sector.match_name == create_match_name(org_sec)
+            )
+            res = session.exec(stat).all()
+            if len(res) == 0:
+                raise RuntimeError("org sector not in database")
+            org_sec_id = res[0]
+
+            org_type = org_list[on]["type"]
+            stat = select(OrganizationType.id).where(
+                OrganizationType.match_name == create_match_name(org_type)
+            )
+            res = session.exec(stat).all()
+            if len(res) == 0:
+                raise RuntimeError("org type not in database")
+            org_type_id = res[0]
+
+            orgo = Organization(
+                display_name=on,
+                match_name=create_match_name(on),
+                organization_type=org_type_id,
+                sector=org_sec_id,
+                source=src_id,
+            )
+            session.add(orgo)
+    session.commit()
+    session.close()
