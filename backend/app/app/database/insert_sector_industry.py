@@ -25,13 +25,13 @@ for i in pathlib.Path(curr_dir_name).parents:
         break
 
 file_dir = os.path.join(absolute_project_path, data_dir, data_dir_corp_tsx)
-tsx_csv = glob.glob("*tsx*.csv")
+tsx_csv = glob.glob(file_dir + "/*tsx*.csv")
 
-if len(tsx_csv) > 0:
+if len(tsx_csv) > 1:
     raise RuntimeError("More than one csv detected.")
 
 df = pd.read_csv(tsx_csv[0])
-sectors = df["sector"].to_list()
+sectors = df["section"].to_list()
 industries = df["industry"].to_list()
 
 db_host = "localhost"
@@ -48,7 +48,7 @@ session = Session(motor)
 for idx, itm in enumerate(sectors):
     # Check if it already exists
     stat = select(SectorIndustry.id).where(
-        SectorIndustry.sector_match_name == create_match_name(sectors[idx]) and
+        SectorIndustry.sector_match_name == create_match_name(sectors[idx])).where(
         SectorIndustry.industry_match_name == create_match_name(industries[idx])
     )
     res = session.exec(stat).all()
