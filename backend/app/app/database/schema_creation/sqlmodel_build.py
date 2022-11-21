@@ -33,13 +33,14 @@ class Person(SQLModel, table=True):
     source: int = Field(foreign_key="source.id", nullable=False)
 
 
-class Sector(SQLModel, table=True):
+class SectorIndustry(SQLModel, table=True):
     #__table_args__ = {"schema": f"{schema_name}"}
     metadata = meta
     id: Optional[int] = Field(default=None, primary_key=True)
-    display_name: str = Field(unique=True, nullable=False)
-    match_name: str = Field(unique=True, nullable=False)
-
+    sector_display_name: str = Field(default=None)
+    sector_match_name: str = Field(default=None)
+    industry_display_name: str = Field(default=None)
+    industry_match_name: str = Field(default=None)
 
 class OrganizationType(SQLModel, table=True):
     #__table_args__ = {"schema": f"{schema_name}"}
@@ -57,7 +58,7 @@ class Organization(SQLModel, table=True):
     match_name: str = Field(unique=True, nullable=False)
     organization_type: int = Field(foreign_key='organizationtype.id', nullable=False)
     parent_organization: int = Field(foreign_key='organization.id', nullable=True)
-    sector: int = Field(foreign_key='sector.id', nullable=False)
+    sector: int = Field(foreign_key='sectorindustry.id', nullable=False)
     source: int = Field(foreign_key='source.id', nullable=False)
     misc_data: dict = Field(default={}, sa_column=sa.Column(pg.JSONB))
 
@@ -76,6 +77,12 @@ class OrganizationMembership(SQLModel, table=True):
     source: int = Field(foreign_key='source.id', nullable=False)
 
 
+class CommsTopic(SQLModel, table=True):
+    metadata = meta
+    id: Optional[int] = Field(default=None, primary_key=True)
+    display_name: str = Field(nullable=False)
+    match_name: str = Field(nullable=False)
+
 class Communications(SQLModel, table=True):
     #__table_args__ = {"schema": f"{schema_name}"}
     metadata = meta
@@ -83,7 +90,7 @@ class Communications(SQLModel, table=True):
     party_1: int = Field(foreign_key='person.id', nullable=False)
     party_2: int = Field(foreign_key='person.id', nullable=False)
     com_date: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
-    sector: int = Field(foreign_key='sector.id')
+    topic: int = Field(foreign_key='commstopic.id')
     source: int = Field(foreign_key='source.id', nullable=False)
 
 
