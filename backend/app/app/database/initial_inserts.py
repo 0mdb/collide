@@ -3,7 +3,7 @@ from parse_injest.utils import create_match_name
 from schema_creation.sqlmodel_build import (
     OrganizationType,
     Organization,
-    Sector,
+    SectorIndustry,
     Source,
 )
 from datetime import date
@@ -75,11 +75,11 @@ if __name__ == "__main__":
 
     session = Session(motor)
     for s in sector_list:
-        stat = select(Sector.id).where(Sector.match_name == create_match_name(s))
+        stat = select(SectorIndustry.id).where(SectorIndustry.sector_match_name == create_match_name(s))
         res = session.exec(stat).all()
 
         if len(res) == 0:
-            sec = Sector(display_name=s, match_name=create_match_name(s))
+            sec = SectorIndustry(sector_display_name=s, sector_match_name=create_match_name(s))
             session.add(sec)
     session.commit()
     session.close()
@@ -95,8 +95,8 @@ if __name__ == "__main__":
             src_id = ensure_source(motor, initial_source)
 
             org_sec = org_list[on]["sector"]
-            stat = select(Sector.id).where(
-                Sector.match_name == create_match_name(org_sec)
+            stat = select(SectorIndustry.id).where(
+                SectorIndustry.sector_match_name == create_match_name(org_sec)
             )
             res = session.exec(stat).all()
             if len(res) == 0:
