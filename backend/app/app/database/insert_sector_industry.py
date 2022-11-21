@@ -13,7 +13,7 @@ from parse_injest.utils import create_match_name
 # Preamble, folder locations
 project_name = "app"  # collide\backend\app\app
 data_dir = "data"
-data_dir_corp_tsx = "corp_tsx"
+data_dir_corp_tsx = "wiki_tsx"
 
 # Folder creation, directories
 curr_dir_name = os.path.dirname(__file__)

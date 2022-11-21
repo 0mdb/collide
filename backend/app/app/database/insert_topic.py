@@ -11,7 +11,8 @@ from parse_injest.utils import create_match_name
 # Preamble, folder locations
 project_name = "app"  # collide\backend\app\app
 data_dir = "data"
-data_dir_corp_tsx = "lobby_comms"
+data_dir_reg = "lobby_regs"
+data_dir_comm = "lobby_comms"
 
 # Folder creation, directories
 curr_dir_name = os.path.dirname(__file__)
@@ -22,8 +23,13 @@ for i in pathlib.Path(curr_dir_name).parents:
         absolute_project_path = i.absolute()
         break
 
-file_dir = os.path.join(absolute_project_path, data_dir, data_dir_corp_tsx)
-sub_csv = glob.glob(file_dir + "/*SubjectMattersExport.csv")
+file_dir = os.path.join(absolute_project_path, data_dir, data_dir_reg)
+sub_csv_1 = glob.glob(file_dir + "/*SubjectMattersExport.csv")
+
+file_dir = os.path.join(absolute_project_path, data_dir, data_dir_comm)
+sub_csv_2 = glob.glob(file_dir + "/*SubjectMattersExport.csv")
+
+sub_csv = sub_csv_1 + sub_csv_2
 
 if len(sub_csv) > 2:
     raise RuntimeError("More than expected two csv detected.")
