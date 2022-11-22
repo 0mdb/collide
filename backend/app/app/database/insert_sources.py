@@ -1,13 +1,10 @@
 import os
 import pathlib
-import pandas as pd
-import glob
-from sqlmodel import Session, create_engine, select, engine
+from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
     Source
 )
-from parse_injest.utils import create_match_name
-
+from pathlib import Path
 
 # Manually designate sources
 # 2022-11-21
@@ -15,6 +12,41 @@ from parse_injest.utils import create_match_name
 # date_obtained: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
 # data_source: str
 # misc_data: dict = Field(default={}, sa_column=sa.Column(pg.JSONB))
+
+# Preamble, folder locations
+project_name = "app"  # collide\backend\app\app
+data_dir = "data"
+data_dir_members = "members_xml"
+data_dir_cabinet = "cabinet_xml"
+data_dir_boards = "corp_board"
+
+# Folder creation, directories
+curr_dir_name = os.path.dirname(__file__)
+
+absolute_project_path = None
+for i in pathlib.Path(curr_dir_name).parents:
+    if i.name == project_name:
+        absolute_project_path = i.absolute()
+        break
+
+our_commons_file_list = []
+file_dir = os.path.join(absolute_project_path, data_dir, data_dir_members)
+
+for path in Path(file_dir).rglob("*"):
+    if os.path.isfile(path):
+        our_commons_file_list.append(os.path.basename(path))
+
+file_dir = os.path.join(absolute_project_path, data_dir, data_dir_cabinet)
+
+for path in Path(file_dir).rglob("*"):
+    if os.path.isfile(path):
+        our_commons_file_list.append(os.path.basename(path))
+
+file_dir = os.path.join(absolute_project_path, data_dir, data_dir_boards)
+
+corp_directors_list = []
+for path in Path(file_dir).glob("*.csv"):
+    corp_directors_list.append(os.path.basename(path))
 
 manual_sources = [
     {"date_obtained": "2022-11-19T23:17:00+00:00",  # UTC ISO
@@ -41,27 +73,19 @@ manual_sources = [
      "data_source": "Wikipedia, S&P/TSX Composite Index",
      "misc_data": {"filenames": ["20210920_comp_index_tsx.csv"],
                    "url": "https://en.wikipedia.org/wiki/S%26P/TSX_Composite_Index"}},
-
-    # TODO: I am here
-    {"date_obtained": "xx",
-     "data_source": "Corporate Numbers Source??",
-     "misc_data": {"filenames": [""],
-                   "url": ""}},
-    {"date_obtained": "xx",
-     "data_source": "Corporate Boards Source??",
-     "misc_data": {"filenames": [""],
-                   "url": ""}},
-    {"date_obtained": "xx",
-     "data_source": "Members XML Source??",
-     "misc_data": {"filenames": [""],
-                   "url": ""}},
-    {"date_obtained": "xx",
-     "data_source": "Cabinet XML Source??",
-     "misc_data": {"filenames": [""],
-                   "url": ""}},
-
+    {"date_obtained": "2022-11-11T00:00:00+00:00",
+     "data_source": "Innovation, Science and Economic Development Canada, Corporations Canada Search",
+     "misc_data": {"filenames": ["20221111_corp_no_listing.csv"],
+                   "url": "https://www.ic.gc.ca/app/scr/cc/CorporationsCanada/fdrlCrpSrch.html"}},
+    {"date_obtained": "2022-11-11T00:00:00+00:00",
+     "data_source": "Innovation, Science and Economic Development Canada, Corporations Canada API",
+     "misc_data": {"filenames": corp_directors_list,
+                   "url": "https://ised-isde.canada.ca/site/corporations-canada/en/accessing-federal-corporation-json-datasets"}},
+    {"date_obtained": "2022-11-13T21:36:00+00:00",
+     "data_source": "House of Commons Canada",
+     "misc_data": {"filenames": our_commons_file_list,
+                   "url": "https://www.ourcommons.ca/members/en"}}
 ]
-
 
 db_host = "localhost"
 db_name = "lq_test"
@@ -75,20 +99,18 @@ motor = create_engine(
 
 session = Session(motor)
 
-
-df = pd.read_csv(each_file)
-subs = df["SUBJ_MATTER_OBJET"].to_list()
-
-for itm in subs:
-    # Check if it already exists
-    stat = select(CommsTopic.id).where(
-        CommsTopic.match_name == create_match_name(itm)
-    )
+for each_dict in manual_sources:
+    # Check if it already exists with same timestamp
+    stat = select(Source.id).where(
+        Source.data_source == each_dict.get("data_source")
+    ).where(
+        Source.date_obtained == each_dict.get("date_obtained"))
     res = session.exec(stat).all()
 
     if len(res) == 0:
-        ot = CommsTopic(display_name=itm,
-                        match_name=create_match_name(itm))
+        ot = Source(data_source=each_dict.get("data_source"),
+                    date_obtained=each_dict.get("date_obtained"),
+                    misc_data=each_dict.get("misc_data"))
         session.add(ot)
 
 session.commit()
