@@ -1,3 +1,4 @@
+import datetime
 import os
 import pathlib
 from sqlmodel import Session, create_engine, select
@@ -49,7 +50,7 @@ for path in Path(file_dir).glob("*.csv"):
     corp_directors_list.append(os.path.basename(path))
 
 manual_sources = [
-    {"date_obtained": "2022-11-19T23:17:00+00:00",  # UTC ISO
+    {"date_obtained": datetime.datetime.fromisoformat("2022-11-19T23:17:00+00:00"),  # UTC ISO
      "data_source": "Office of the Commissioner of Lobbying of Canada, Lobbying Registrations",
      "misc_data": {"filenames": ["Registration_BeneficiariesExport.csv",
                                  "Registration_CommunicationTechniquesExport.csv",
@@ -63,25 +64,25 @@ manual_sources = [
                                  "Registration_SubjectMatterDetailsExport.csv",
                                  "Registration_SubjectMattersExport.csv"],
                    "url": "https://lobbycanada.gc.ca/en/open-data/"}},
-    {"date_obtained": "2022-11-19T23:17:00+00:00",
+    {"date_obtained": datetime.datetime.fromisoformat("2022-11-19T23:17:00+00:00"),
      "data_source": "Office of the Commissioner of Lobbying of Canada, Monthly Communication Reports",
      "misc_data": {"filenames": ["Communication_DpohExport.csv",
                                  "Communication_PrimaryExport.csv",
                                  "Communication_SubjectMattersExport.csv"],
                    "url": "https://lobbycanada.gc.ca/en/open-data/"}},
-    {"date_obtained": "2022-11-13T21:36:00+00:00",
+    {"date_obtained": datetime.datetime.fromisoformat("2022-11-13T21:36:00+00:00"),
      "data_source": "Wikipedia, S&P/TSX Composite Index",
      "misc_data": {"filenames": ["20210920_comp_index_tsx.csv"],
                    "url": "https://en.wikipedia.org/wiki/S%26P/TSX_Composite_Index"}},
-    {"date_obtained": "2022-11-11T00:00:00+00:00",
+    {"date_obtained": datetime.datetime.fromisoformat("2022-11-11T00:00:00+00:00"),
      "data_source": "Innovation, Science and Economic Development Canada, Corporations Canada Search",
      "misc_data": {"filenames": ["20221111_corp_no_listing.csv"],
                    "url": "https://www.ic.gc.ca/app/scr/cc/CorporationsCanada/fdrlCrpSrch.html"}},
-    {"date_obtained": "2022-11-11T00:00:00+00:00",
+    {"date_obtained": datetime.datetime.fromisoformat("2022-11-11T00:00:00+00:00"),
      "data_source": "Innovation, Science and Economic Development Canada, Corporations Canada API",
      "misc_data": {"filenames": corp_directors_list,
                    "url": "https://ised-isde.canada.ca/site/corporations-canada/en/accessing-federal-corporation-json-datasets"}},
-    {"date_obtained": "2022-11-13T21:36:00+00:00",
+    {"date_obtained": datetime.datetime.fromisoformat("2022-11-13T21:36:00+00:00"),
      "data_source": "House of Commons Canada",
      "misc_data": {"filenames": our_commons_file_list,
                    "url": "https://www.ourcommons.ca/members/en"}}
