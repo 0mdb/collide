@@ -1,8 +1,8 @@
 from sqlmodel import Session, create_engine, select
 from parse_injest.utils import create_match_name
-from schema_creation.sqlmodel_build import OrganizationType, Organization, Person, Source, OrganizationMembership
+from schema_creation.sqlmodel_build import OrganizationType, Organization, Person, Source, OrganizationMembership, SectorIndustry
 
-from datetime import date
+from datetime import date, datetime
 import glob
 import os
 import pathlib
@@ -26,7 +26,7 @@ if not os.path.isdir(data_dir):
 file_list = glob.glob(data_dir + "/*.xml")
 grab_date = date(2022, 11, 9) #'20221109'
 
-src = Source(date_obtained=grab_date, data_src='OurCommons.ca', misc_data={'url': "ourcommons.ca"})
+src = Source(date_obtained=grab_date, data_source='OurCommons.ca', misc_data={'url': "ourcommons.ca"})
 
 
 
@@ -45,11 +45,28 @@ if len(res) == 0:
     sess.commit()
     res = sess.exec(sql_select).all()
     src_id = res[0]
-res_id = res[0]
+src_id = res[0]
 
 # get sector id and org type id for Government
+sql_select = select(OrganizationType.id).where(OrganizationType.match_name == create_match_name('Government'))
+res = sess.exec(sql_select).all()
+gov_org_type_id = res[0]
 
+sql_select = select(SectorIndustry.id).where(SectorIndustry.sector_match_name == create_match_name('Government'))
+res = sess.exec(sql_select).all()
+gov_sect_id = res[0]
 
+# get org type for political party
+sql_select = select(OrganizationType.id).where(OrganizationType.match_name == create_match_name('Political Party'))
+res = sess.exec(sql_select).all()
+pol_part_id = res[0]
+
+# get org id for the federal government
+sql_select = select(Organization.id).where(Organization.match_name == create_match_name("Federal Government of Canada"))
+res = sess.exec(sql_select).all()
+fed_gov_id = res[0]
+
+sess.close()
 
 member_of_parliament_role_field_list = ['PersonOfficialFirstName',
                                         'PersonOfficialLastName',
@@ -59,7 +76,8 @@ member_of_parliament_role_field_list = ['PersonOfficialFirstName',
                                         'FromDateTime',
                                         'ToDateTime']
 
-for file in file_list[0:1]:
+
+for file in file_list:
     print(file)
 
     tree = et.parse(file)
@@ -94,5 +112,48 @@ for file in file_list[0:1]:
 
     print(mp_role_dict)
 
+    mp_name = " ".join([mp_role_dict['PersonOfficialFirstName'], mp_role_dict['PersonOfficialLastName']])
 
-    print("stop")
+    federal_riding_name = mp_role_dict['ConstituencyName'] + " - Federal Riding"
+
+    start_date = datetime.fromisoformat(mp_role_dict['FromDateTime']).date()
+    if mp_role_dict['ToDateTime'] is not None:
+        end_date = datetime.fromisoformat(mp_role_dict['ToDateTime']).date()
+    else:
+        end_date = None
+
+    sess = Session(motor)
+
+    sql_query = select(Person.id).where(Person.match_name == create_match_name(mp_name))
+    res = sess.exec(sql_query).first()
+    if res is None:
+        per = Person(display_name=mp_name, match_name=create_match_name(mp_name), source=src_id)
+        sess.add(per)
+        sess.commit()
+        person_id = per.id
+    else:
+        person_id = res
+
+    sql_query = select(Organization.id).where(Organization.match_name == create_match_name(federal_riding_name))
+    res = sess.exec(sql_query).first()
+    if res is None:
+        rid = Organization(display_name=federal_riding_name, match_name=create_match_name(federal_riding_name), organization_type=gov_org_type_id, sector=gov_sect_id, parent_organization=fed_gov_id, source=src_id)
+        sess.add(rid)
+        sess.commit()
+        riding_id = rid.id
+    else:
+        riding_id = res
+
+    sql_query = select(OrganizationMembership.id).where(OrganizationMembership.person == person_id).where(OrganizationMembership.organization == riding_id).where(OrganizationMembership.start_date == start_date)
+    res = sess.exec(sql_query).first()
+    if res is None:
+        rid_mem = OrganizationMembership(start_date=start_date, end_date=end_date, person=person_id, organization=riding_id, source=src_id)
+        sess.add(rid_mem)
+        sess.commit()
+
+    # TODO add in code to update the end dates for cases where end date was not available during one import, but available during a later one
+
+
+    sess.close()
+
+
