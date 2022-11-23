@@ -49,18 +49,22 @@ session = Session(motor)
 for each_file in sub_csv:
     df = pd.read_csv(each_file)
     subs = df["SUBJ_MATTER_OBJET"].to_list()
+    i = 0
 
     for itm in subs:
+        print(f"{i} of {len(subs)}")
         # Check if it already exists
         stat = select(CommsTopic.id).where(
-            CommsTopic.match_name == create_match_name(itm)
+            CommsTopic.match_name == create_match_name(str(itm))
         )
         res = session.exec(stat).all()
 
         if len(res) == 0:
             ot = CommsTopic(display_name=itm,
-                            match_name=create_match_name(itm))
+                            match_name=create_match_name(str(itm)))
             session.add(ot)
+            session.commit()
 
-session.commit()
+        i = i + 1
+
 session.close()

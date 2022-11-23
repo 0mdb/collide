@@ -59,6 +59,6 @@ for idx, itm in enumerate(sectors):
                             industry_display_name=industries[idx],
                             industry_match_name=create_match_name(industries[idx]))
         session.add(ot)
+        session.commit()
 
-session.commit()
 session.close()
