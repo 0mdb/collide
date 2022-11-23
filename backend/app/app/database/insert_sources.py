@@ -113,6 +113,6 @@ for each_dict in manual_sources:
                     date_obtained=each_dict.get("date_obtained"),
                     misc_data=each_dict.get("misc_data"))
         session.add(ot)
+        session.commit()
 
-session.commit()
 session.close()
