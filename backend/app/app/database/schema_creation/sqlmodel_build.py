@@ -58,7 +58,7 @@ class Organization(SQLModel, table=True):
     match_name: str = Field(unique=True, nullable=False)
     organization_type: int = Field(foreign_key='organizationtype.id', nullable=False)
     parent_organization: int = Field(foreign_key='organization.id', nullable=True)
-    sector: int = Field(foreign_key='sectorindustry.id', nullable=False)
+    sector: int = Field(foreign_key='sectorindustry.id', nullable=True)
     source: int = Field(foreign_key='source.id', nullable=False)
     misc_data: dict = Field(default={}, sa_column=sa.Column(pg.JSONB))
 
