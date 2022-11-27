@@ -64,9 +64,9 @@ if __name__ == "__main__":
         stat = select(OrganizationType.id).where(
             OrganizationType.match_name == create_match_name(tn)
         )
-        res = session.exec(stat).all()
+        res = session.exec(stat).first()
 
-        if len(res) == 0:
+        if res is None:
             ot = OrganizationType(display_name=tn, match_name=create_match_name(tn))
             session.add(ot)
 
@@ -75,11 +75,15 @@ if __name__ == "__main__":
 
     session = Session(motor)
     for s in sector_list:
-        stat = select(SectorIndustry.id).where(SectorIndustry.sector_match_name == create_match_name(s))
-        res = session.exec(stat).all()
+        stat = select(SectorIndustry.id).where(
+            SectorIndustry.sector_match_name == create_match_name(s)
+        )
+        res = session.exec(stat).first()
 
-        if len(res) == 0:
-            sec = SectorIndustry(sector_display_name=s, sector_match_name=create_match_name(s))
+        if res is None:
+            sec = SectorIndustry(
+                sector_display_name=s, sector_match_name=create_match_name(s)
+            )
             session.add(sec)
     session.commit()
     session.close()
@@ -89,9 +93,9 @@ if __name__ == "__main__":
         stat = select(Organization.id).where(
             Organization.match_name == create_match_name(on)
         )
-        res = session.exec(stat).all()
+        res = session.exec(stat).first()
 
-        if len(res) == 0:
+        if res is None:
             src_id = ensure_source(motor, initial_source)
 
             org_sec = org_list[on]["sector"]
@@ -107,10 +111,10 @@ if __name__ == "__main__":
             stat = select(OrganizationType.id).where(
                 OrganizationType.match_name == create_match_name(org_type)
             )
-            res = session.exec(stat).all()
-            if len(res) == 0:
+            res = session.exec(stat).first()
+            if res is None:
                 raise RuntimeError("org type not in database")
-            org_type_id = res[0]
+            org_type_id = res
 
             orgo = Organization(
                 display_name=on,
