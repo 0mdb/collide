@@ -42,6 +42,7 @@ if __name__ == "__main__":
         "Charity",
         "Professional Association",
         "Political Party",
+        "Unclassified"
     ]
     sector_list = ["Government"]
     org_list = {
