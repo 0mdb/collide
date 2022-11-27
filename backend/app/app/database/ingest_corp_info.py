@@ -5,7 +5,8 @@ import pandas as pd
 import glob
 from sqlmodel import Session, create_engine, select, engine
 from schema_creation.sqlmodel_build import (
-    Person, Source, Organization, SectorIndustry, OrganizationType, CorporateInfo, OrganizationMembership
+    Person, Source, Organization, SectorIndustry, OrganizationType, OrganizationMembership,
+    # CorporateInfo,
 )
 from parse_injest.utils import create_match_name
 

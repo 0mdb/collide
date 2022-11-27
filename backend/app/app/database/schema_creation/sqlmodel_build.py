@@ -106,14 +106,14 @@ class Funding(SQLModel, table=True):
     source: int = Field(foreign_key='source.id', nullable=False)
 
 
-class CorporateInfo(SQLModel, table=True):
-    #__table_args__ = {"schema": f"{schema_name}"}
-    metadata = meta
-    id: Optional[int] = Field(default=None, primary_key=True)
-    organization: int = Field(foreign_key='organization.id', nullable=False, unique=True)
-    corporate_number: int = Field(nullable=False, unique=True)
-    stock_ticker: str = Field(max_length=10, unique=True)
-    source: int = Field(foreign_key='source.id', nullable=False)
+# class CorporateInfo(SQLModel, table=True):
+#     #__table_args__ = {"schema": f"{schema_name}"}
+#     metadata = meta
+#     id: Optional[int] = Field(default=None, primary_key=True)
+#     organization: int = Field(foreign_key='organization.id', nullable=False, unique=True)
+#     corporate_number: int = Field(nullable=False, unique=True)
+#     stock_ticker: str = Field(max_length=10, unique=True)
+#     source: int = Field(foreign_key='source.id', nullable=False)
 
 
 if __name__ == "__main__":
