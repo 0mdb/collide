@@ -33,9 +33,17 @@ if len(prim_csv) > 1:
     raise RuntimeError("More than one csv detected.")
 df_prim = pd.read_csv(prim_csv[0])
 
+# Drop rows with EN_CLIENT_ORG_CORP_NM_AN as "*", blank, "null"
+df_prim["EN_CLIENT_ORG_CORP_NM_AN"].replace("", np.NaN, inplace=True)
+df_prim["EN_CLIENT_ORG_CORP_NM_AN"].replace("null", np.NaN, inplace=True)
+df_prim["EN_CLIENT_ORG_CORP_NM_AN"].replace("nan", np.NaN, inplace=True)
+df_prim["EN_CLIENT_ORG_CORP_NM_AN"].replace("*", np.NaN, inplace=True)
+df_prim["merged_client_org"] = df_prim["EN_CLIENT_ORG_CORP_NM_AN"].combine_first(df_prim["FR_CLIENT_ORG_CORP_NM"])
+df_prim.dropna(subset=["merged_client_org"], inplace=True)
+
 first_name_lst = df_prim["RGSTRNT_1ST_NM_PRENOM_DCLRNT"].to_list()
 last_name_lst = df_prim["RGSTRNT_LAST_NM_DCLRNT"].to_list()
-org_name_lst = df_prim["EN_CLIENT_ORG_CORP_NM_AN"].to_list()
+org_name_lst = df_prim["merged_client_org"].to_list()
 date_lst = df_prim["COMM_DATE"].to_list()
 
 # Dummy database information
@@ -68,6 +76,7 @@ if len(res_source) > 1:
 for name, f, l, dt in zip(org_name_lst, first_name_lst, last_name_lst, date_lst):
     # ORGANIZATION TABLE
     # check if entry unique
+    print(f"name: {name}")
     stat = select(Organization.id).where(
         Organization.match_name == create_match_name(name)
     )
@@ -80,35 +89,19 @@ for name, f, l, dt in zip(org_name_lst, first_name_lst, last_name_lst, date_lst)
         # New organization
 
         stat = select(OrganizationType.id).where(
-            OrganizationType.match_name == "government"
+            OrganizationType.match_name == "unclassified"
         )
         res_org_type = session.exec(stat).all()
 
         if len(res_org_type) > 1:
             raise RuntimeError("Too many org types identified")
 
-        stat = select(Organization.id).where(
-            Organization.match_name == "federalgovernmentofcanada"
-        )
-        res_parent = session.exec(stat).all()
-
-        if len(res_parent) > 1:
-            raise RuntimeError("Too many org parents identified")
-
-        stat = select(SectorIndustry.id).where(
-            SectorIndustry.sector_match_name == "government"
-        )
-        res_sector = session.exec(stat).all()
-
-        if len(res_sector) > 1:
-            raise RuntimeError("Too many sectors identified")
-
         ot = Organization(display_name=name,
                           match_name=create_match_name(name),
                           organization_type=res_org_type[0],
-                          parent_organization=res_parent[0],
+                          # parent_organization=res_parent[0],
                           source=res_source[0],
-                          sector=res_sector[0],
+                          # sector=res_sector[0],
                           misc_data={})
         session.add(ot)
         session.commit()
