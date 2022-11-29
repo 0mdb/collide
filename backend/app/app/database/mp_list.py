@@ -32,7 +32,7 @@ if not os.path.isdir(data_dir):
 # glob the filenames
 file_list = glob.glob(data_dir + "/*.xml")
 
-# TODO: fix the source that is grabbed
+
 grab_date = date(2022, 11, 13)  #'20221109'
 src = Source(
     date_obtained=grab_date,
@@ -52,17 +52,20 @@ motor = create_engine(
 )
 sess = Session(motor)
 sql_select = (
-    select(Source.id)
+    select(Source.id, Source.date_obtained)
     .where(Source.date_obtained == src.date_obtained)
     .where(Source.data_source == src.data_source)
 )
-res = sess.exec(sql_select).first()
-if res is None:
+res_id, res_date_obtained = sess.exec(sql_select).first()
+if res_id is None:
     sess.add(src)
     sess.commit()
     src_id = src.id
+    src_date_obtained = src.date_obtained
 else:
-    src_id = res
+    src_id = res_id
+    src_date_obtained = res_date_obtained
+
 
 # get sector id and org type id for Government
 sql_select = select(OrganizationType.id).where(
@@ -196,7 +199,7 @@ for file in file_list:
     if mp_role_dict["ToDateTime"] is not None:
         end_date = datetime.fromisoformat(mp_role_dict["ToDateTime"]).date()
     else:
-        end_date = None
+        end_date = src_date_obtained
 
     sess = Session(motor)
 
@@ -248,17 +251,21 @@ for file in file_list:
         )
         sess.add(rid_mem)
         sess.commit()
+    else:
+        pass
+        # TODO: if the entry exists, check the end date and update if necessary
 
     # caucus membership
     for c in caucus_roles:
+        loc_caucus = " ".join([c['CaucusShortName'].strip(), '- Caucus'])
         sql_query = select(Organization.id).where(
-            Organization.match_name == create_match_name(c["CaucusShortName"])
+            Organization.match_name == create_match_name(loc_caucus)
         )
         res = sess.exec(sql_query).first()
         if res is None:
             cauc = Organization(
-                display_name=c["CaucusShortName"],
-                match_name=create_match_name(c["CaucusShortName"]),
+                display_name=loc_caucus,
+                match_name=create_match_name(loc_caucus),
                 organization_type=pol_part_id,
                 sector=gov_sect_id,
                 source=src_id,
@@ -273,12 +280,12 @@ for file in file_list:
         if c["ToDateTime"] is not None:
             ed = datetime.fromisoformat(c["ToDateTime"]).date()
         else:
-            ed = None
+            ed = src_date_obtained
 
         sql_query = (
             select(OrganizationMembership.id)
             .where(OrganizationMembership.person == person_id)
-            .where(OrganizationMembership.organization == cauc_id)
+            .where(OrganizationMembership.organization == cauc_id).where(OrganizationMembership.start_date == sd)
         )
         res = sess.exec(sql_query).first()
         if res is None:
@@ -291,64 +298,116 @@ for file in file_list:
             )
             sess.add(cauc_mem)
             sess.commit()
+        else:
+            pass
+            # TODO if the entry exists, update the end date if necessary
 
     # parliamentary positions
     for p in parliamentary_positions:
         try:
-            sql_query = select(Organization.id).where(
-                Organization.match_name == create_match_name(p["Title"])
-            )
-            res = sess.exec(sql_query).first()
-            if res is None:
-                pp = Organization(
-                    display_name=p["Title"],
-                    match_name=create_match_name(p["Title"]),
-                    organization_type=gov_org_type_id,
-                    sector=gov_sect_id,
-                    parent_organization=fed_gov_id,
-                    source=src_id,
-                )
-                sess.add(pp)
-                sess.commit()
-                pp_id = pp.id
-            else:
-                pp_id = res
+            loc_title = p['Title']
 
-            sd = datetime.fromisoformat(p["FromDateTime"]).date()
-            if p["ToDateTime"] is not None:
-                ed = datetime.fromisoformat(p["ToDateTime"]).date()
-            else:
-                ed = None
 
-            sql_query = (
-                select(OrganizationMembership.id)
-                .where(OrganizationMembership.person == person_id)
-                .where(OrganizationMembership.organization == pp_id)
-            )
-            res = sess.exec(sql_query)
-            if res is None:
-                pp_mem = OrganizationMembership(
-                    person=person_id,
-                    organization=pp_id,
-                    start_date=sd,
-                    end_date=ed,
-                    source=src_id,
+            multi_position = []
+            if 'minister of' in loc_title.lower():
+                # if associate is present in the string, wipe it out
+                loc_title = loc_title.replace("Associate", "")
+                # if parliamentary secretary is in a ministry entry, wipe it out
+                loc_title = loc_title.replace("Parliamentary Secretary to the ", '')
+
+                # how many times is 'minister of' present?
+                if loc_title.lower().count('minister of') > 1:
+                    pop_words = ['and', 'the', 'to']
+                    cut_string = loc_title
+
+                    ind_1 = cut_string.lower().find('minister', 0)
+                    while ind_1 >= 0:
+                        ind_2 = cut_string.lower().find('minister', ind_1 + 1)
+                        if ind_2 < 0:
+                            substring = cut_string[ind_1:].strip()
+                            cut_string = ''
+                        else:
+                            substring = cut_string[ind_1:ind_2].strip()
+                            cut_string = cut_string[ind_2:].strip()
+                        substring_split = substring.split(' ')
+                        substring_split.reverse()
+                        start_ind = 0
+                        for i in range(0, len(substring_split)):
+                            if substring_split[i].lower() in pop_words:
+                                start_ind += 1
+                            else:
+                                break
+                        substring_split = substring_split[start_ind:]
+                        substring_split.reverse()
+                        multi_position.append(" ".join(substring_split))
+                        ind_1 = cut_string.lower().find('minister', 0)
+                else:
+                    multi_position.append(loc_title)
+
+            for loc_title in multi_position:
+                loc_title = loc_title.replace('Minister of', 'Ministry of')
+
+                loc_title = loc_title.strip()
+                sql_query = select(Organization.id).where(
+                    Organization.match_name == create_match_name(loc_title)
                 )
-                sess.add(pp_mem)
-                sess.commit()
-        except:
+                res = sess.exec(sql_query).first()
+                if res is None:
+                    pp = Organization(
+                        display_name=loc_title,
+                        match_name=create_match_name(loc_title),
+                        organization_type=gov_org_type_id,
+                        sector=gov_sect_id,
+                        parent_organization=fed_gov_id,
+                        source=src_id,
+                    )
+                    sess.add(pp)
+                    sess.commit()
+                    pp_id = pp.id
+                else:
+                    pp_id = res
+
+                sd = datetime.fromisoformat(p["FromDateTime"]).date()
+                if p["ToDateTime"] is not None:
+                    ed = datetime.fromisoformat(p["ToDateTime"]).date()
+                else:
+                    ed = src_date_obtained
+
+                sql_query = (
+                    select(OrganizationMembership.id)
+                    .where(OrganizationMembership.person == person_id)
+                    .where(OrganizationMembership.organization == pp_id).where(OrganizationMembership.start_date == sd)
+                )
+                res = sess.exec(sql_query).first()
+                if res is None:
+                    pp_mem = OrganizationMembership(
+                        person=person_id,
+                        organization=pp_id,
+                        start_date=sd,
+                        end_date=ed,
+                        source=src_id,
+                    )
+                    sess.add(pp_mem)
+                    sess.commit()
+                else:
+                    pass
+                    # TODO if the entry exists, check end date and update if necessary
+        except Exception as e:
+            print (e)
             pass
 
     # committe memberships
     for c in committee_member_roles:
+        loc_name = " ".join([c["CommitteeName"], "- Committee"])
+
         sql_query = select(Organization.id).where(
-            Organization.match_name == create_match_name(c["CommitteeName"])
+            Organization.match_name == create_match_name(loc_name)
         )
         res = sess.exec(sql_query).first()
         if res is None:
             committee = Organization(
-                display_name=c["CommitteeName"],
-                match_name=create_match_name(c["CommitteeName"]),
+                display_name=loc_name,
+                match_name=create_match_name(loc_name),
                 organization_type=gov_org_type_id,
                 sector=gov_sect_id,
                 parent_organization=fed_gov_id,
@@ -364,7 +423,7 @@ for file in file_list:
         if c["ToDateTime"] is not None:
             ed = datetime.fromisoformat(c["ToDateTime"]).date()
         else:
-            ed = None
+            ed = src_date_obtained
 
         sql_query = (
             select(OrganizationMembership.id)
@@ -383,6 +442,9 @@ for file in file_list:
             )
             sess.add(committee_membership)
             sess.commit()
+        else:
+            pass
+            # TODO if entry exists, update end date if necessary
 
     # associations
     # TODO fix start and end dates for associations
@@ -409,7 +471,7 @@ for file in file_list:
         sql_query = (
             select(OrganizationMembership.id)
             .where(OrganizationMembership.person == person_id)
-            .where(OrganizationMembership.organization == association_id)
+            .where(OrganizationMembership.organization == association_id).where(OrganizationMembership.start_date == src_date_obtained)
         )
         res = sess.exec(sql_query).first()
         if res is None:
@@ -417,11 +479,15 @@ for file in file_list:
                 person=person_id,
                 organization=association_id,
                 source=src_id,
-                start_date=src.date_obtained,
+                start_date=src_date_obtained,
+                end_date=src_date_obtained
             )
             sess.add(assoc_membership)
             sess.commit()
+        else:
+            pass
+            # TODO update end date if necessary
 
-    # TODO add in code to update the end dates for cases where end date was not available during one import, but available during a later one
+
 
     sess.close()
