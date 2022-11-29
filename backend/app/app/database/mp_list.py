@@ -52,19 +52,19 @@ motor = create_engine(
 )
 sess = Session(motor)
 sql_select = (
-    select(Source.id, Source.date_obtained)
+    select(Source)
     .where(Source.date_obtained == src.date_obtained)
     .where(Source.data_source == src.data_source)
 )
-res_id, res_date_obtained = sess.exec(sql_select).first()
-if res_id is None:
+res = sess.exec(sql_select).first()
+if res is None:
     sess.add(src)
     sess.commit()
     src_id = src.id
     src_date_obtained = src.date_obtained
 else:
-    src_id = res_id
-    src_date_obtained = res_date_obtained
+    src_id = res.id
+    src_date_obtained = res.date_obtained
 
 
 # get sector id and org type id for Government
@@ -235,7 +235,7 @@ for file in file_list:
         riding_id = res
 
     sql_query = (
-        select(OrganizationMembership.id)
+        select(OrganizationMembership)
         .where(OrganizationMembership.person == person_id)
         .where(OrganizationMembership.organization == riding_id)
         .where(OrganizationMembership.start_date == start_date)
@@ -252,8 +252,11 @@ for file in file_list:
         sess.add(rid_mem)
         sess.commit()
     else:
-        pass
-        # TODO: if the entry exists, check the end date and update if necessary
+        existing = res
+        if existing.end_date < src_date_obtained:
+            existing.end_date = src_date_obtained
+            sess.add(existing)
+            sess.commit()
 
     # caucus membership
     for c in caucus_roles:
@@ -283,7 +286,7 @@ for file in file_list:
             ed = src_date_obtained
 
         sql_query = (
-            select(OrganizationMembership.id)
+            select(OrganizationMembership)
             .where(OrganizationMembership.person == person_id)
             .where(OrganizationMembership.organization == cauc_id).where(OrganizationMembership.start_date == sd)
         )
@@ -299,8 +302,11 @@ for file in file_list:
             sess.add(cauc_mem)
             sess.commit()
         else:
-            pass
-            # TODO if the entry exists, update the end date if necessary
+            existing = res
+            if existing.end_date < src_date_obtained:
+                existing.end_date = src_date_obtained
+                sess.add(existing)
+                sess.commit()
 
     # parliamentary positions
     for p in parliamentary_positions:
@@ -374,7 +380,7 @@ for file in file_list:
                     ed = src_date_obtained
 
                 sql_query = (
-                    select(OrganizationMembership.id)
+                    select(OrganizationMembership)
                     .where(OrganizationMembership.person == person_id)
                     .where(OrganizationMembership.organization == pp_id).where(OrganizationMembership.start_date == sd)
                 )
@@ -390,10 +396,14 @@ for file in file_list:
                     sess.add(pp_mem)
                     sess.commit()
                 else:
-                    pass
-                    # TODO if the entry exists, check end date and update if necessary
+                    existing = res
+                    if existing.end_date < src_date_obtained:
+                        existing.end_date = src_date_obtained
+                        sess.add(existing)
+                        sess.commit()
+
         except Exception as e:
-            print (e)
+            print(e)
             pass
 
     # committe memberships
@@ -426,7 +436,7 @@ for file in file_list:
             ed = src_date_obtained
 
         sql_query = (
-            select(OrganizationMembership.id)
+            select(OrganizationMembership)
             .where(OrganizationMembership.person == person_id)
             .where(OrganizationMembership.organization == committee_id)
             .where(OrganizationMembership.start_date == sd)
@@ -443,11 +453,13 @@ for file in file_list:
             sess.add(committee_membership)
             sess.commit()
         else:
-            pass
-            # TODO if entry exists, update end date if necessary
+            existing = res
+            if existing.end_date < src_date_obtained:
+                existing.end_date = src.date_obtained
+                sess.add(existing)
+                sess.commit()
 
     # associations
-    # TODO fix start and end dates for associations
     for a in association_and_group_roles:
         sql_query = select(Organization.id).where(
             Organization.match_name == create_match_name(a["Organization"])
@@ -469,9 +481,9 @@ for file in file_list:
             association_id = res
 
         sql_query = (
-            select(OrganizationMembership.id)
+            select(OrganizationMembership)
             .where(OrganizationMembership.person == person_id)
-            .where(OrganizationMembership.organization == association_id).where(OrganizationMembership.start_date == src_date_obtained)
+            .where(OrganizationMembership.organization == association_id)
         )
         res = sess.exec(sql_query).first()
         if res is None:
@@ -485,9 +497,10 @@ for file in file_list:
             sess.add(assoc_membership)
             sess.commit()
         else:
-            pass
-            # TODO update end date if necessary
-
-
+            existing = res
+            if existing.end_date < src_date_obtained:
+                existing.end_date = src_date_obtained
+                sess.add(existing)
+                sess.commit()
 
     sess.close()
