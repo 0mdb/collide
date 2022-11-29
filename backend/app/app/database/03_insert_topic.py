@@ -49,10 +49,19 @@ session = Session(motor)
 for each_file in sub_csv:
     df = pd.read_csv(each_file)
     subs = df["SUBJ_MATTER_OBJET"].to_list()
+
+    try:
+        subs = subs + df["OTHER_SUBJ_MATTER_AUTRE_OBJET"].to_list()
+        print("Other subject exists")
+    except:
+        print("No other subject exists")
+
     i = 0
 
-    for itm in subs:
-        print(f"{i} of {len(subs)}")
+    subs_unique = list(set(subs))
+
+    for itm in subs_unique:
+        print(f"{i} of {len(subs_unique)}")
         # Check if it already exists
         stat = select(CommsTopic.id).where(
             CommsTopic.match_name == create_match_name(str(itm))
