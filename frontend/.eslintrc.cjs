@@ -4,7 +4,6 @@ module.exports = {
     'plugin:@blueprintjs/recommended',
     'plugin:react/recommended',
     'prettier',
-    'airbnb-typescript',
     'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
   parser: '@typescript-eslint/parser',
@@ -14,15 +13,9 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', '@blueprintjs'],
   root: true,
-  // rules: {
-  // 'react/prop-types': 'off',
-  // 'react/restructuring-assignment': 'off',
-  // 'prefer-template': 'off',
-  // 'react/jsx-filename-extension': [
-  //   1,
-  //   {
-  //     extensions: ['.ts', '.tsx'],
-  //   },
-  // ],
-  // },
+  rules: {
+  'react/prop-types': 'off',
+  'react/react-in-jsx-scope': 'off',
+  '@typescript-eslint/no-unsafe-member-access': 'off'
+  },
 };
