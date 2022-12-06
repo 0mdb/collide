@@ -7,7 +7,7 @@ from sqlmodel import Field, SQLModel, create_engine
 from datetime import date
 
 
-schema_name = "lf_mockup"
+schema_name = "lf_mockup_2"
 
 meta = sa.MetaData(schema=schema_name)
 

@@ -38,10 +38,10 @@ db_host = "localhost"
 db_name = "lq_test"
 db_user = "test_user"
 db_pw = "changethis"
-schema_name = "lf_mockup"
+schema_name = "lf_mockup_2"
 
 motor = create_engine(
-        f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=True
+        f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=False
 )
 
 session = Session(motor)
