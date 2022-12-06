@@ -10,14 +10,6 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
@@ -36,16 +28,37 @@
     justify-content: space-between;
 }
 
-.highlight-card {
-    flex: 0 1 calc(25% - 4em);
-    padding-bottom: 4em;
-}
 
 .login {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
-  width: 100vw;
   text-align: center;
+}
+
+.register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5em;
+}
+
+.search-bar {
+    position: absolute;
+    max-width: 100px;
+    top: 10px;
+    left: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.navgroup {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    flex-direction: column;
+    align-items: flex-end;
+
 }

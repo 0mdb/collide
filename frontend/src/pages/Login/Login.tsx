@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { Button, H1, Label } from '@blueprintjs/core'
+import { Checkbox, Button, FormGroup, H1, InputGroup, Label, Card } from '@blueprintjs/core'
 import useAuth from '../../hooks/useAuth'
 import axios from '../../api/axios'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
@@ -60,52 +60,55 @@ function Login() {
   }, [persist])
 
   return (
-    <section>
-      <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live='assertive'>
-        {errMsg}
-      </p>
-      <H1>Sign In</H1>
-      <form onSubmit={handleSubmit}>
-        <Label htmlFor='username'>Email</Label>
-        <input
-          type='email'
-          id='username'
-          ref={userRef}
-          autoComplete='off'
-          onChange={(e) => setUser(e.target.value)}
-          value={user}
-          required
-        />
-        <Label htmlFor='password'>Password</Label>
-        <input
-          type='password'
-          id='password'
-          ref={userRef}
-          onChange={(e) => setPwd(e.target.value)}
-          value={pwd}
-          required
+    <div className='login'>
+      <Card>
+        <form onSubmit={handleSubmit}>
+          <H1>Collide</H1>
+          <FormGroup label='Email' labelFor='username'>
+            <input
+              type='email'
+              placeholder='Email'
+              id='username'
+              ref={userRef}
+              autoComplete='off'
+              onChange={(e) => setUser(e.target.value)}
+              value={user}
+              required
+            />
+          </FormGroup>
+          <FormGroup label='Password' labelFor='password'>
+            <input
+              type='password'
+              id='password'
+              placeholder='Password'
+              ref={userRef}
+              onChange={(e) => setPwd(e.target.value)}
+              value={pwd}
+              required
+            />
+          </FormGroup>
+          <p>
+            <Button intent='primary' type='submit' text='Login' />
+          </p>
+        </form>
+        <Checkbox
+          checked={persist}
+          label='Remember me'
+          onChange={togglePersist}
+          alignIndicator='left'
         />
         <p>
+          Need an Account?
           <br />
-          <Button
-            // intent="primary"
-            type='submit'
-            text='Login'
-          />
+          <span className='line'>
+            <Link to='/register'>Sign up</Link>
+          </span>
         </p>
-      </form>
-      <div className='persistCheck'>
-        <input type='checkbox' id='persist' onChange={togglePersist} checked={persist} />
-      </div>
-      <label htmlFor='persist'>Remember Me</label>
-      <p>
-        Need an Account?
-        <br />
-        <span className='line'>
-          <Link to='/register'>Sign up</Link>
-        </span>
-      </p>
-    </section>
+        <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live='assertive'>
+          {errMsg}
+        </p>
+      </Card>
+    </div>
   )
 }
 
