@@ -5,8 +5,8 @@ import myData from './dataset.json'
 
 const ForceGraph3Dprops = {
   graphData: myData,
-  nodeAutoColorBy: 'group',
   backgroundColor: Colors.DARK_GRAY3,
+  nodeColor: Colors.ROSE3,
 }
 
 function Home() {
