@@ -12,7 +12,7 @@ import re
 project_name = "app"  # collide\backend\app\app
 data_dir = "data"
 save_dir_corp_no = "corp_no"
-tsx_list_dir = "corp_tsx"
+tsx_list_dir = "wiki_tsx"
 
 # Folder creation, directories
 curr_dir_name = os.path.dirname(__file__)
