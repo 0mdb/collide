@@ -58,7 +58,7 @@ class Organization(SQLModel, table=True):
     match_name: str = Field(unique=True, nullable=False)
     organization_type: int = Field(foreign_key='organizationtype.id', nullable=False)
     parent_organization: int = Field(foreign_key='organization.id', nullable=True)
-    sector: int = Field(foreign_key='sectorindustry.id', nullable=False)
+    sector: int = Field(foreign_key='sectorindustry.id', nullable=True)
     source: int = Field(foreign_key='source.id', nullable=False)
     misc_data: dict = Field(default={}, sa_column=sa.Column(pg.JSONB))
 
@@ -106,14 +106,14 @@ class Funding(SQLModel, table=True):
     source: int = Field(foreign_key='source.id', nullable=False)
 
 
-class CorporateInfo(SQLModel, table=True):
-    #__table_args__ = {"schema": f"{schema_name}"}
-    metadata = meta
-    id: Optional[int] = Field(default=None, primary_key=True)
-    organization: int = Field(foreign_key='organization.id', nullable=False, unique=True)
-    corporate_number: int = Field(nullable=False, unique=True)
-    stock_ticker: str = Field(max_length=10, unique=True)
-    source: int = Field(foreign_key='source.id', nullable=False)
+# class CorporateInfo(SQLModel, table=True):
+#     #__table_args__ = {"schema": f"{schema_name}"}
+#     metadata = meta
+#     id: Optional[int] = Field(default=None, primary_key=True)
+#     organization: int = Field(foreign_key='organization.id', nullable=False, unique=True)
+#     corporate_number: int = Field(nullable=False, unique=True)
+#     stock_ticker: str = Field(max_length=10, unique=True)
+#     source: int = Field(foreign_key='source.id', nullable=False)
 
 
 if __name__ == "__main__":
