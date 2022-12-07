@@ -44,7 +44,7 @@ function NavGroup() {
           </Tooltip2>
         )}
       </ButtonGroup>
-      <SearchBar />
+      {/* <SearchBar /> */}
     </div>
   )
 }

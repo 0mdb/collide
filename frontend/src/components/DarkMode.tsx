@@ -19,12 +19,10 @@ function DarkMode() {
   if (theme === lightTheme) {
     body.classList.remove(Classes.DARK)
     localStorage.setItem('theme', 'light')
-    text = 'Dark theme'
     icon = 'moon'
   } else {
     body.classList.add(Classes.DARK)
     localStorage.setItem('theme', 'dark')
-    text = 'Light theme'
     icon = 'flash'
   }
 
@@ -32,12 +30,10 @@ function DarkMode() {
     if (theme === darkTheme) {
       e.target.classList.remove(Classes.DARK)
       localStorage.setItem('theme', 'light')
-      text = 'Light theme'
       icon = 'flash'
     } else {
       e.target.classList.add(Classes.DARK)
       localStorage.setItem('theme', 'dark')
-      text = 'Dark theme'
       icon = 'moon'
     }
   }
