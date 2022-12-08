@@ -1,10 +1,13 @@
 import datetime
 import os
 import pathlib
+import pandas as pd
 from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
     Source
 )
+import glob
+import common_func as cf
 from pathlib import Path
 
 # Manually designate sources
@@ -30,49 +33,104 @@ for i in pathlib.Path(curr_dir_name).parents:
 
 file_dir = os.path.join(absolute_project_path, data_dir, data_dir_ab)
 
-# Insert source for lobbying website
+session = cf.create_session()
 
-manual_sources = [
+# Insert source for lobbying website
+sources = [
     {"date_obtained": datetime.datetime.fromisoformat("2022-12-06T00:00:00+00:00"),
      "data_source": "Alberta Lobby Registry",
      "misc_data": {"filenames": ["lobby_comm_ab.csv"],
                    "url": "https://www.albertalobbyistregistry.ca/"}}
 ]
+src_objs = cf.add_sources(session, sources)
 
-db_host = "localhost"
-db_name = "lq_test"
-db_user = "test_user"
-db_pw = "changethis"
-schema_name = "lf_mockup_2"
-
-motor = create_engine(
-    f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=True
-)
-
-session = Session(motor)
-
-for each_dict in manual_sources:
-    # Check if it already exists with same timestamp
-    stat = select(Source.id).where(
-        Source.data_source == each_dict.get("data_source")
-    ).where(
-        Source.date_obtained == each_dict.get("date_obtained"))
-    res = session.exec(stat).all()
-
-    if len(res) == 0:
-        ot = Source(data_source=each_dict.get("data_source"),
-                    date_obtained=each_dict.get("date_obtained"),
-                    misc_data=each_dict.get("misc_data"))
-        session.add(ot)
-        session.commit()
-
-session.close()
+# Insert Government of Alberta as Organization
+orgs = [
+        {
+            "name": "Government of Alberta",
+            "org_type_str": "Government",
+            "org_parent_str": None,
+            "org_sector_str": "Government",
+            "org_source_id": src_objs[0].id,
+            "misc": {}
+        }
+    ]
+goa_objs = cf.add_organizations(session, orgs)
 
 # Ingest csv
+ab_csv = glob.glob(file_dir + "/*lobby_com_ab.csv")
 
-# Organization inserts from "Organization", "Client Name"
-# Organization inserts from "Government Department Lobbied" and "Prescribed Provincial Entity Lobbied" (parent GoA)
+if len(ab_csv) > 1:
+    raise RuntimeError("More than one csv detected.")
+
+ab_df = pd.read_csv(ab_csv[0])
+
+# Organization inserts from "Organization"
+orgs = []
+for each_org in ab_df["Organization"].to_list():
+    org_type = cf.match_organization_type(each_org)
+    orgs.append(
+        {
+            "name": each_org,
+            "org_type_str": org_type,
+            "org_parent_str": None,
+            "org_sector_str": None,
+            "org_source_id": src_objs[0].id,
+            "misc": {}
+        }
+    )
+org_objs = cf.add_organizations(session, orgs)
+
+# Organization inserts from "Client Name"
+orgs = []
+for each_org in ab_df["Client Name"].to_list():
+    org_type = cf.match_organization_type(each_org)
+    orgs.append(
+        {
+            "name": each_org,
+            "org_type_str": org_type,
+            "org_parent_str": None,
+            "org_sector_str": None,
+            "org_source_id": src_objs[0].id,
+            "misc": {}
+        }
+    )
+client_name_objs = cf.add_organizations(session, orgs)
+
+# Organization inserts from "Government Department Lobbied"
+orgs = []
+for each_org in ab_df["Government Department Lobbied"].to_list():
+    orgs.append(
+        {
+            "name": each_org,
+            "org_type_str": "Government",
+            "org_parent_str": "Government of Alberta",
+            "org_sector_str": "Government",
+            "org_source_id": src_objs[0].id,
+            "misc": {}
+        }
+    )
+gov_department_objs = cf.add_organizations(session, orgs)
+
+# Organization inserts from "Prescribed Provincial Entity Lobbied"
+orgs = []
+for each_org in ab_df["Prescribed Provincial Entity Lobbied"].to_list():
+    orgs.append(
+        {
+            "name": each_org,
+            "org_type_str": "Government",
+            "org_parent_str": "Government of Alberta",
+            "org_sector_str": "Government",
+            "org_source_id": src_objs[0].id,
+            "misc": {}
+        }
+    )
+gov_department_objs = cf.add_organizations(session, orgs)
+
 # Person inserts from "Designated Filer" and "Lobbyists"
 # OrganizationMembership inserts between filer/lobbyists and organization/client name
 # CommsTopic inserts from "Subject Matter of Lobbying"
 # CommunicationsP2O (new table?) inserts between filer/lobbyists with departments/entities
+
+
+session.close()
