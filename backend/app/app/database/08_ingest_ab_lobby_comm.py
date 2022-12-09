@@ -125,10 +125,59 @@ for each_org in ab_df["Prescribed Provincial Entity Lobbied"].to_list():
             "misc": {}
         }
     )
-gov_department_objs = cf.add_organizations(session, orgs)
+gov_entity_objs = cf.add_organizations(session, orgs)
 
-# Person inserts from "Designated Filer" and "Lobbyists"
-# OrganizationMembership inserts between filer/lobbyists and organization/client name
+# Person inserts from "Designated Filer"
+ppl = []
+for each_person in ab_df["Designated Filer"].to_list():
+    ppl.append(
+        {
+            "name": each_person,
+            "ppl_source_id": src_objs[0].id,
+        }
+    )
+filer_objs = cf.add_people(session, ppl)
+
+# Person inserts from "Lobbyists"
+lobby_objs = []
+for each_lobby_lst in ab_df["Lobbyists"].to_list():
+    ppl = []
+    for each_person in each_lobby_lst.split(","):
+        ppl.append(
+            {
+                "name": each_person,
+                "ppl_source_id": src_objs[0].id,
+            }
+        )
+    int_objs = cf.add_people(session, ppl)
+lobby_objs.append(int_objs)
+
+# OrganizationMembership inserts between filer and organization + client name
+filer_org_memberships = []
+filer_client_memberships = []
+for each_filer, each_org, each_client, start_str, end_str in zip(filer_objs, org_objs, client_name_objs, ab_df["Filing Date"].to_list(), ab_df["Termination Date"].to_list()):
+    filer_org_memberships.append(
+        {
+            "person_id": each_filer.id,
+            "organization_id": each_org.id,
+            "start_date": start_str,
+            "end_date": end_str,
+            "source": src_objs[0].id
+        }
+    )
+    filer_client_memberships.append(
+        {
+            "person_id": each_filer.id,
+            "organization_id": each_client.id,
+            "start_date": start_str,
+            "end_date": end_str,
+            "source": src_objs[0].id
+        }
+    )
+filer_org_membership_objs = cf.add_memberships(session, filer_org_memberships)
+filer_client_membership_objs = cf.add_memberships(session, filer_client_memberships)
+
+# OrganizationMembership inserts between lobbyists and organization/client name
 # CommsTopic inserts from "Subject Matter of Lobbying"
 # CommunicationsP2O (new table?) inserts between filer/lobbyists with departments/entities
 
