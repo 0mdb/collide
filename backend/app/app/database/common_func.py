@@ -3,7 +3,7 @@ import os
 import pathlib
 from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
-    Source, Organization, OrganizationType, SectorIndustry
+    Source, Organization, OrganizationType, SectorIndustry, Person
 )
 import glob
 from pathlib import Path
@@ -48,6 +48,31 @@ def add_sources(session, src_lst):
         else:
             raise RuntimeError("Non unique source detected")
     return src_obj_lst
+
+
+def add_people(session, ppl_lst):
+    ppl_obj_lst = []
+    for each_dict in ppl_lst:
+        # Check if it already exists with same match_name
+        stat = select(Person.id).where(
+            Person.match_name == create_match_name(each_dict.get("name"))
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New entry
+            ot = Person(display_name=each_dict.get("name"),
+                        match_name=create_match_name(each_dict.get("name")),
+                        source=each_dict.get("ppl_source_id"))
+            session.add(ot)
+            session.commit()
+            ppl_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            ppl_obj_lst.append(res[0])
+        else:
+            raise RuntimeError("Non unique person detected")
+    return ppl_obj_lst
 
 
 def add_organizations(session, org_lst):
