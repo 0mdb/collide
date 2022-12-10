@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 import os
 import pathlib
 import pandas as pd
@@ -59,10 +59,11 @@ db_host = "localhost"
 db_name = "lq_test"
 db_user = "test_user"
 db_pw = "changethis"
-schema_name = "lf_mockup"
+schema_name = "lf_mockup_2"
 
+verbose = False
 motor = create_engine(
-    f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=True
+    f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=verbose
 )
 
 session = Session(motor)
@@ -85,6 +86,8 @@ if len(res_source) > 1:
 for gov_f, gov_l, corp_f, corp_l, topic, dt in zip(gov_first_name_lst, gov_last_name_lst,
                                                    corp_first_name_lst, corp_last_name_lst,
                                                    topic_lst, date_lst):
+    # if datetime.fromisoformat(dt).date() > date(2022, 6, 14):
+    #     continue
 
     # Gov and corp names should already be populated in table
     gov_party = f"{gov_f} {gov_l}"
@@ -151,7 +154,8 @@ for gov_f, gov_l, corp_f, corp_l, topic, dt in zip(gov_first_name_lst, gov_last_
         if len(res_topic) > 1:
             raise RuntimeError("Too many topics identified")
 
-        print("TOPIC:" + topic)
+        if verbose:
+            print(f"TOPIC: {topic}")
 
         ot = Communications(party_1=res_gov[0],
                             party_2=res_corp[0],
