@@ -177,9 +177,10 @@ for each_filer, each_org, each_client, start_str, end_str in zip(filer_objs, org
 filer_org_membership_objs = cf.add_memberships(session, filer_org_memberships)
 filer_client_membership_objs = cf.add_memberships(session, filer_client_memberships)
 
-# OrganizationMembership inserts between lobbyists and organization/client name
-# CommsTopic inserts from "Subject Matter of Lobbying"
-# CommunicationsP2O (new table?) inserts between filer/lobbyists with departments/entities
+# TODO: write add_memberships
+# TODO: OrganizationMembership inserts between lobbyists and organization/client name
+# TODO: CommsTopic inserts from "Subject Matter of Lobbying"
+# TODO: CommunicationsP2O (new table?) inserts between filer/lobbyists with departments/entities
 
 
 session.close()

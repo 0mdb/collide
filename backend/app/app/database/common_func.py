@@ -145,7 +145,7 @@ def match_organization_type(str_name):
         org_type = "Corporation"
     elif "government" in lc_name:
         org_type = "Goverment"
-    if "charity" in lc_name:
+    elif "charity" in lc_name:
         org_type = "Charity"
     elif "profession" in lc_name:
         org_type = "Professional Association"
