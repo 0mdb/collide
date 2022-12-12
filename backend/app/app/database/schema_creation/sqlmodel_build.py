@@ -95,6 +95,26 @@ class Communications(SQLModel, table=True):
     source: int = Field(foreign_key='source.id', nullable=False)
 
 
+class CommunicationsPersonOrg(SQLModel, table=True):
+    metadata = meta
+    id: Optional[int] = Field(default=None, primary_key=True)
+    person: int = Field(foreign_key='person.id', nullable=False, index=True)
+    organization: int = Field(foreign_key='organization.id', nullable=False, index=True)
+    com_date: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
+    topic: int = Field(foreign_key='commstopic.id')
+    source: int = Field(foreign_key='source.id', nullable=False)
+
+
+class CommunicationsOrgOrg(SQLModel, table=True):
+    metadata = meta
+    id: Optional[int] = Field(default=None, primary_key=True)
+    party_1: int = Field(foreign_key='organization.id', nullable=False, index=True)
+    party_2: int = Field(foreign_key='organization.id', nullable=False, index=True)
+    com_date: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
+    topic: int = Field(foreign_key='commstopic.id')
+    source: int = Field(foreign_key='source.id', nullable=False)
+
+
 class Funding(SQLModel, table=True):
     #__table_args__ = {"schema": f"{schema_name}"}
     metadata = meta
@@ -104,6 +124,28 @@ class Funding(SQLModel, table=True):
     amount: int = Field(nullable=False)
     start_date: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
     end_date: date = Field(sa_column=sa.Column(sa.Date))
+    source: int = Field(foreign_key='source.id', nullable=False)
+
+
+class FundingPersonPerson(SQLModel, table=True):
+    metadata = meta
+    id: Optional[int] = Field(default=None, primary_key=True)
+    party_1: int = Field(foreign_key='person.id', nullable=False, index=True)
+    party_2: int = Field(foreign_key='person.id', nullable=False, index=True)
+    amount: int = Field(nullable=False)
+    start_date: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
+    end_date: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
+    source: int = Field(foreign_key='source.id', nullable=False)
+
+
+class FundingPersonOrg(SQLModel, table=True):
+    metadata = meta
+    id: Optional[int] = Field(default=None, primary_key=True)
+    person: int = Field(foreign_key='person.id', nullable=False, index=True)
+    organization: int = Field(foreign_key='organization.id', nullable=False, index=True)
+    amount: int = Field(nullable=False)
+    start_date: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
+    end_date: date = Field(sa_column=sa.Column(sa.Date, nullable=False))
     source: int = Field(foreign_key='source.id', nullable=False)
 
 
