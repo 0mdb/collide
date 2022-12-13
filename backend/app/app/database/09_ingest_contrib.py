@@ -10,7 +10,7 @@ from typing import List, Optional
 
 class Transaction:
 
-    def __init__(self, pol_ent, recip_f, recip_l, recip_party, fiscal_date, con_type, con_l, con_f, amt):
+    def __init__(self, pol_ent, recip_f, recip_l, recip_party, fiscal_date, con_type, con_f, con_l, amt):
         self.pol_ent = pol_ent
         self.recip_f = recip_f
         self.recip_l = recip_l
@@ -45,30 +45,32 @@ class ElxCsv:
         self.contrib_gov = ["Governments"]
 
     def load_csv(self):
-        self.df = pd.read_csv(self.csv_path)
+        self.df = pd.read_csv(self.csv_path, nrows=100)
 
     def build_transactions(self):
-        self.df["Political Entity"].to_list()
-        self.df["Recipient last name"].to_list()
-        self.df["Recipient first name"].to_list()
-        self.df["Political Party of Recipient"].to_list()
-        self.df["Fiscal/Election date"].to_list()
+        pe = self.df["Political Entity"].to_list()
+        rl = self.df["Recipient last name"].to_list()
+        rf = self.df["Recipient first name"].to_list()
+        p = self.df["Political Party of Recipient"].to_list()
+        d = self.df["Fiscal/Election date"].to_list()
 
-        self.df["Contributor type"].to_list()
-        self.df["Contributor last name"].to_list()
-        self.df["Contributor first name"].to_list()
-        self.df["Monetary amount"].to_list()
+        ct = self.df["Contributor type"].to_list()
+        cl = self.df["Contributor last name"].to_list()
+        cf = self.df["Contributor first name"].to_list()
+        amt = self.df["Monetary amount"].to_list()
 
-        # TODO: fix this
-        self.transactions = [Transaction(a["Political Entity"],
-                                         a["Recipient last name"],
-                                         a["Recipient first name"],
-                                         a["Political Party of Recipient"],
-                                         a["Fiscal/Election date"],
-                                         a["Contributor type"],
-                                         a["Contributor last name"],
-                                         a["Contributor first name"],
-                                         a["Monetary amount"]) for a in self.df.itertuples()]
+        tsn = []
+        for idx, each_pe in enumerate(pe):
+            tsn.append(Transaction(str(pe[idx]),
+                                   str(rf[idx]),
+                                   str(rl[idx]),
+                                   str(p[idx]),
+                                   str(d[idx]),
+                                   str(ct[idx]),
+                                   str(cf[idx]),
+                                   str(cl[idx]),
+                                   abs(float(amt[idx]))))
+        self.transactions = tsn
 
 
 # Preamble, folder locations
@@ -96,4 +98,31 @@ election_csv = ElxCsv(contrib_csv[0])
 election_csv.load_csv()
 election_csv.build_transactions()
 
-print("stop")
+# TODO: Apply threshold for contribution amount ($500)
+# TODO: Insert people to people fund transfers
+# From Contributor type = contrib_ppl --> Recipient type = recip_ent_ppl (filter)
+# CONTRIBUTOR: Retrieve id from People (exists) or create People entry w/ no memberships (new)
+# RECIPIENT: Retrieve id from People (exists) or create People entry w/ "Political Party of Recipient" membership (new)
+# Enter FundingPersonPerson record
+# party_1 = contributor; party_2 = recipient, positive AMT
+
+# TODO: Insert org to people fund transfers
+# From Contributor type = contrib_corp, _union, _assoc, _gov --> Recipient type = recip_ent_ppl (filter)
+# CONTRIBUTOR: Retrieve id from Organization (exists) or create Organization entry (new)
+# RECIPIENT: Retrieve id from People (exists) or create People entry w/ "Political Party of Recipient" membership (new)
+# Enter FundingPersonOrg record
+# org = contributor; people = recipient, negative AMT
+
+# TODO: Insert people to org fund transfers
+# From Contributor type = contrib_ppl --> Recipient type = recip_ent_parties (filter)
+# CONTRIBUTOR: Retrieve id from People (exists) or create People entry w/ no memberships (new)
+# RECIPIENT: Retrieve id from Organization (exists) or create Organization entry (new)
+# Enter FundingPersonOrg record
+# people = contributor; org = recipient, positive AMT
+
+# TODO: Insert org to org fund transfers
+# From Contributor type = contrib_corp, _union, _assoc, _gov --> Recipient type = recip_ent_parties (filter)
+# CONTRIBUTOR: Retrieve id from Organization (exists) or create Organization entry (new)
+# RECIPIENT: Retrieve id from Organization (exists) or create Organization entry (new)
+# Enter Funding record
+# party_1 = contributor; party_2 = recipient, positive AMT
