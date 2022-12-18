@@ -3,6 +3,8 @@ import string
 
 
 def create_match_name(name_in):
+    if not type(name_in) == str:
+        name_in = str(name_in)
     # remove any accented characters
     new = unidecode(name_in)
     # remove punctuation, since it may or may not always be present (e.g. Inc. vs Inc)
