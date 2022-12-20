@@ -1,7 +1,7 @@
 import { Colors } from '@blueprintjs/core'
 import React from 'react'
 import { ForceGraph3D } from 'react-force-graph'
-import myData from './dataset.json'
+import myData from './sample_graph.json'
 
 const ForceGraph3Dprops = {
   graphData: myData,
