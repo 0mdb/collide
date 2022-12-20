@@ -1,18 +1,23 @@
 import { Colors } from '@blueprintjs/core'
 import React from 'react'
-import { ForceGraph3D } from 'react-force-graph'
-import myData from './sample_graph.json'
+import { ForceGraph2D } from 'react-force-graph'
+import myData from './sample_graph3.json'
 
 const ForceGraph3Dprops = {
   graphData: myData,
-  backgroundColor: Colors.DARK_GRAY3,
-  nodeColor: Colors.ROSE3,
 }
 
 function Home() {
   return (
     <div className='Home'>
-      <ForceGraph3D {...ForceGraph3Dprops} />
+      <ForceGraph2D
+        graphData={myData}
+        nodeAutoColorBy='id'
+        linkColor={Colors.GOLD3}
+        linkDirectionalParticles='value'
+        linkCurvature='curvature'
+        linkDirectionalParticles={1}
+      />
     </div>
   )
 }
