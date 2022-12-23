@@ -10,29 +10,20 @@ from pathlib import Path
 from parse_injest.utils import create_match_name
 
 
-def backup_postgres(host, user, passw, db_name):
-    import gzip
+def backup_postgres(host, user, passw, db_name, schema_name, pg_dump_command='pg_dump'):
     import subprocess
     import time
 
     timestr = str(int(time.time()))
 
-    # pg_dump_loc = r"C:\Program Files\PostgreSQL\12\bin\pg_dump.exe"
-    # cmd = rf'"{pg_dump_loc}" -h {host} -U {user} {db_name}'
-    cmd = [r"C:\Program Files\PostgreSQL\12\bin\pg_dump.exe",
-           f'--dbname=postgresql+psycopg2://{user}:{passw}@{host}/{db_name}']
-    # cmd = [rf"C:\Program Files\PostgreSQL\12\bin\pg_dump.exe", "-h", host, "-U", user, "-W", passw, db_name]
+    cmd = [pg_dump_command,
+           f"-n", schema_name, '-Z', '9', '-f', f"backup_{timestr}.gz", '-d',
+           f'postgresql://{user}:{passw}@{host}/{db_name}']
 
-    with gzip.open(f"backup_{timestr}.gz", "wb") as f:
-        popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
-
-        for stdout_line in iter(popen.stdout.readline, ""):
-            print(stdout_line)
-            f.write(stdout_line.encode("utf - 8"))
-
-            popen.stdout.close()
-            popen.wait()
-
+    try:
+        popen = subprocess.run(cmd, check=True)
+    except subprocess.CalledProcessError:
+        print('database backup not made')
 
 def create_session():
     db_host = "localhost"
