@@ -10,6 +10,30 @@ from pathlib import Path
 from parse_injest.utils import create_match_name
 
 
+def backup_postgres(host, user, passw, db_name):
+    import gzip
+    import subprocess
+    import time
+
+    timestr = str(int(time.time()))
+
+    # pg_dump_loc = r"C:\Program Files\PostgreSQL\12\bin\pg_dump.exe"
+    # cmd = rf'"{pg_dump_loc}" -h {host} -U {user} {db_name}'
+    cmd = [r"C:\Program Files\PostgreSQL\12\bin\pg_dump.exe",
+           f'--dbname=postgresql+psycopg2://{user}:{passw}@{host}/{db_name}']
+    # cmd = [rf"C:\Program Files\PostgreSQL\12\bin\pg_dump.exe", "-h", host, "-U", user, "-W", passw, db_name]
+
+    with gzip.open(f"backup_{timestr}.gz", "wb") as f:
+        popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
+
+        for stdout_line in iter(popen.stdout.readline, ""):
+            print(stdout_line)
+            f.write(stdout_line.encode("utf - 8"))
+
+            popen.stdout.close()
+            popen.wait()
+
+
 def create_session():
     db_host = "localhost"
     db_name = "lq_test"
@@ -20,6 +44,11 @@ def create_session():
     motor = create_engine(
         f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=True
     )
+
+    # backup_postgres(host=db_host,
+    #                 user=db_user,
+    #                 passw=db_pw,
+    #                 db_name=db_name)
 
     return Session(motor)
 
