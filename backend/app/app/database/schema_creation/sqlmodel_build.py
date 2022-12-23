@@ -1,14 +1,11 @@
 from typing import Optional
-
 import sqlalchemy as sa
 import sqlalchemy.dialects.postgresql as pg
-
 from sqlmodel import Field, SQLModel, create_engine
 from datetime import date
 
 
 schema_name = "lf_mockup_2"
-
 meta = sa.MetaData(schema=schema_name)
 
 
@@ -157,14 +154,3 @@ class FundingPersonOrg(SQLModel, table=True):
 #     corporate_number: int = Field(nullable=False, unique=True)
 #     stock_ticker: str = Field(max_length=10, unique=True)
 #     source: int = Field(foreign_key='source.id', nullable=False)
-
-
-if __name__ == "__main__":
-    db_host = "localhost"
-    db_name = "lq_test"
-    db_user = "test_user"
-    db_pw = "changethis"
-    schema_name = "lf_mockup"
-
-    engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}",  echo=True)
-    meta.create_all(engine)
