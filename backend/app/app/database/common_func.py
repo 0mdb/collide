@@ -1,9 +1,9 @@
-import datetime
+from datetime import datetime
 import os
 import pathlib
 from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
-    Source, Organization, OrganizationType, SectorIndustry, Person
+    Source, Organization, OrganizationType, SectorIndustry, Person, OrganizationMembership
 )
 import glob
 from pathlib import Path
@@ -133,13 +133,18 @@ def add_organizations(session, org_lst):
             if len(res_org_type) > 1:
                 raise RuntimeError("Too many org types identified")
 
-            stat = select(Organization.id).where(
-                Organization.match_name == create_match_name(each_dict.get("org_parent_str"))
-            )
-            res_parent = session.exec(stat).all()
+            # Retrieve parent org id from string name if key in dict
+            if "org_parent_str" in each_dict.keys():
+                stat = select(Organization.id).where(
+                    Organization.match_name == create_match_name(each_dict.get("org_parent_str"))
+                )
+                res_parent = session.exec(stat).all()
 
-            if len(res_parent) > 1:
-                raise RuntimeError("Too many org parents identified")
+                if len(res_parent) > 1:
+                    raise RuntimeError("Too many org parents identified")
+
+            else:
+                res_parent = [None]
 
             stat = select(SectorIndustry.id).where(
                 SectorIndustry.sector_match_name == create_match_name(each_dict.get("org_sector_str"))
@@ -165,6 +170,55 @@ def add_organizations(session, org_lst):
         else:
             raise RuntimeError("Too many organizations identified")
     return org_obj_lst
+
+
+def add_memberships(session, mem_lst):
+    # {
+    #     "person_id": int,
+    #     "org_id": int,
+    #     "start_date": str,
+    #     "end_date": str,
+    #     "source_id": int,
+    # }
+
+    mem_obj_lst = []
+    for each_dict in mem_lst:
+        # MEMBERSHIP TABLE
+        # check if entry unique
+        stat = select(OrganizationMembership).where(
+            OrganizationMembership.person == each_dict.get("person_id")
+        ).where(
+            OrganizationMembership.organization == each_dict.get("org_id")
+        )
+        res_membership = session.exec(stat).all()
+
+        if len(res_membership) == 0:
+            # New membership
+            new_membership = OrganizationMembership(person=each_dict.get("person_id"),
+                                                    organization=each_dict.get("org_id"),
+                                                    start_date=datetime.fromisoformat(each_dict.get("start_date")),
+                                                    end_date=datetime.fromisoformat(each_dict.get("end_date")),
+                                                    source=each_dict.get("source_id"))
+
+            session.add(new_membership)
+            session.commit()
+            mem_obj_lst.append(new_membership)
+
+        elif len(res_membership) == 1:
+            # Existing membership, update end_date
+            existing_membership = res_membership[0]
+
+            if existing_membership.end_date < datetime.fromisoformat(each_dict.get("end_date")).date():
+                existing_membership.end_date = datetime.fromisoformat(each_dict.get("end_date"))
+                session.add(existing_membership)
+                session.commit()
+
+            mem_obj_lst.append(existing_membership)
+
+        else:
+            raise RuntimeError("Too many memberships identified")
+
+    return mem_obj_lst
 
 
 def match_organization_type(str_name):
