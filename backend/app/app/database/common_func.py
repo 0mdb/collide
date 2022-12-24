@@ -139,13 +139,17 @@ def add_organizations(session, org_lst):
             else:
                 res_parent_id = [None]
 
-            stat = select(SectorIndustry.id).where(
-                SectorIndustry.sector_match_name == create_match_name(each_dict.get("org_sector_str"))
-            )
-            res_sector_id = session.exec(stat).all()
+            # Retrieve section id from string name if key in dict
+            if "org_sector_str" in each_dict.keys():
+                stat = select(SectorIndustry.id).where(
+                    SectorIndustry.sector_match_name == create_match_name(each_dict.get("org_sector_str"))
+                )
+                res_sector_id = session.exec(stat).all()
 
-            if len(res_sector_id) > 1:
-                raise RuntimeError("Too many sectors identified")
+                if len(res_sector_id) > 1:
+                    raise RuntimeError("Too many sectors identified")
+            else:
+                res_sector_id = [None]
 
             ot = Organization(display_name=each_dict.get("name"),
                               match_name=create_match_name(each_dict.get("name")),
@@ -263,13 +267,62 @@ def add_funding_p2p(session, funding_lst):
     return fund_obj_lst
 
 
+def add_funding_p2o(session, funding_lst):
+    # {
+    #     "person": int,
+    #     "organization": int,
+    #     "amount": int,
+    #     "start_date": str,
+    #     "end_date": str,
+    #     "source_id": int,
+    # }
+
+    fund_obj_lst = []
+    for each_dict in funding_lst:
+        # FundingPersonOrg TABLE
+        # check if entry unique (same parties, same amount, same start_date)
+        stat = select(FundingPersonOrg).where(
+            FundingPersonOrg.person == each_dict.get("person")
+        ).where(
+            FundingPersonOrg.organization == each_dict.get("organization")
+        ).where(
+            FundingPersonOrg.amount == each_dict.get("amount")
+        ).where(
+            FundingPersonOrg.start_date == datetime.fromisoformat(each_dict.get("start_date").date())
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New fund transfer
+            new = FundingPersonOrg(person=each_dict.get("person"),
+                                   organization=each_dict.get("organization"),
+                                   amount=each_dict.get("amount"),
+                                   start_date=datetime.fromisoformat(each_dict.get("start_date")).date(),
+                                   end_date=datetime.fromisoformat(each_dict.get("end_date")).date(),
+                                   source=each_dict.get("source_id"))
+
+            session.add(new)
+            session.commit()
+            fund_obj_lst.append(new)
+
+        elif len(res) == 1:
+            # Existing
+            existing_entry = res[0]
+            fund_obj_lst.append(existing_entry)
+
+        else:
+            raise RuntimeError("Too many transfers identified")
+
+    return fund_obj_lst
+
+
 def match_organization_type(str_name):
     lc_name = str.lower(str_name)
 
     if "corporation" in lc_name:
         org_type = "Corporation"
     elif "government" in lc_name:
-        org_type = "Goverment"
+        org_type = "Government"
     elif "charity" in lc_name:
         org_type = "Charity"
     elif "profession" in lc_name:
@@ -278,5 +331,26 @@ def match_organization_type(str_name):
         org_type = "Political Party"
     else:
         org_type = "Unclassified"
+
+    return org_type
+
+
+def match_ecanada_organization_type(str_name):
+    lc_name = str.lower(str_name)
+
+    if "individual" in lc_name:
+        raise AssertionError("Individuals cannot be organizations!!")
+    elif "corporation" in lc_name:
+        org_type = "Corporation"
+    elif "government" in lc_name:
+        org_type = "Government"
+    elif "trade" in lc_name:
+        org_type = "Trade Union"
+    elif "business" in lc_name:
+        org_type = "Unclassified"
+    elif "association" in lc_name:
+        org_type = "Unclassified"
+    else:
+        raise AssertionError("No known org type")
 
     return org_type
