@@ -1,9 +1,10 @@
-import datetime
+from datetime import datetime
 import os
 import pathlib
 from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
-    Source, Organization, OrganizationType, SectorIndustry, Person
+    Source, Organization, OrganizationType, SectorIndustry, Person, OrganizationMembership,
+    FundingPersonPerson
 )
 import glob
 from pathlib import Path
@@ -24,6 +25,7 @@ def backup_postgres(host, user, passw, db_name, schema_name, pg_dump_command='pg
         popen = subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError:
         print('database backup not made')
+
 
 def create_session():
     db_host = "localhost"
@@ -48,7 +50,7 @@ def add_sources(session, src_lst):
     src_obj_lst = []
     for each_dict in src_lst:
         # Check if it already exists with same timestamp
-        stat = select(Source.id).where(
+        stat = select(Source).where(
             Source.data_source == each_dict.get("data_source")
         ).where(
             Source.date_obtained == each_dict.get("date_obtained"))
@@ -74,7 +76,7 @@ def add_people(session, ppl_lst):
     ppl_obj_lst = []
     for each_dict in ppl_lst:
         # Check if it already exists with same match_name
-        stat = select(Person.id).where(
+        stat = select(Person).where(
             Person.match_name == create_match_name(each_dict.get("name"))
         )
         res = session.exec(stat).all()
@@ -109,7 +111,7 @@ def add_organizations(session, org_lst):
     for each_dict in org_lst:
         # ORGANIZATION TABLE
         # check if entry unique
-        stat = select(Organization.id).where(
+        stat = select(Organization).where(
             Organization.match_name == create_match_name(each_dict.get("name"))
         )
         res = session.exec(stat).all()
@@ -119,33 +121,38 @@ def add_organizations(session, org_lst):
             stat = select(OrganizationType.id).where(
                 OrganizationType.match_name == create_match_name(each_dict.get("org_type_str"))
             )
-            res_org_type = session.exec(stat).all()
+            res_org_type_id = session.exec(stat).all()
 
-            if len(res_org_type) > 1:
+            if len(res_org_type_id) > 1:
                 raise RuntimeError("Too many org types identified")
 
-            stat = select(Organization.id).where(
-                Organization.match_name == create_match_name(each_dict.get("org_parent_str"))
-            )
-            res_parent = session.exec(stat).all()
+            # Retrieve parent org id from string name if key in dict
+            if "org_parent_str" in each_dict.keys():
+                stat = select(Organization.id).where(
+                    Organization.match_name == create_match_name(each_dict.get("org_parent_str"))
+                )
+                res_parent_id = session.exec(stat).all()
 
-            if len(res_parent) > 1:
-                raise RuntimeError("Too many org parents identified")
+                if len(res_parent_id) > 1:
+                    raise RuntimeError("Too many org parents identified")
+
+            else:
+                res_parent_id = [None]
 
             stat = select(SectorIndustry.id).where(
                 SectorIndustry.sector_match_name == create_match_name(each_dict.get("org_sector_str"))
             )
-            res_sector = session.exec(stat).all()
+            res_sector_id = session.exec(stat).all()
 
-            if len(res_sector) > 1:
+            if len(res_sector_id) > 1:
                 raise RuntimeError("Too many sectors identified")
 
             ot = Organization(display_name=each_dict.get("name"),
                               match_name=create_match_name(each_dict.get("name")),
-                              organization_type=res_org_type[0],
-                              parent_organization=res_parent[0],
+                              organization_type=res_org_type_id[0],
+                              parent_organization=res_parent_id[0],
                               source=each_dict.get("org_source_id"),
-                              sector=res_sector[0],
+                              sector=res_sector_id[0],
                               misc_data={})
             session.add(ot)
             session.commit()
@@ -156,6 +163,104 @@ def add_organizations(session, org_lst):
         else:
             raise RuntimeError("Too many organizations identified")
     return org_obj_lst
+
+
+def add_memberships(session, mem_lst):
+    # {
+    #     "person_id": int,
+    #     "org_id": int,
+    #     "start_date": str,
+    #     "end_date": str,
+    #     "source_id": int,
+    # }
+
+    mem_obj_lst = []
+    for each_dict in mem_lst:
+        # MEMBERSHIP TABLE
+        # check if entry unique
+        stat = select(OrganizationMembership).where(
+            OrganizationMembership.person == each_dict.get("person_id")
+        ).where(
+            OrganizationMembership.organization == each_dict.get("org_id")
+        )
+        res_membership = session.exec(stat).all()
+
+        if len(res_membership) == 0:
+            # New membership
+            new_membership = OrganizationMembership(person=each_dict.get("person_id"),
+                                                    organization=each_dict.get("org_id"),
+                                                    start_date=datetime.fromisoformat(each_dict.get("start_date")).date(),
+                                                    end_date=datetime.fromisoformat(each_dict.get("end_date")).date(),
+                                                    source=each_dict.get("source_id"))
+
+            session.add(new_membership)
+            session.commit()
+            mem_obj_lst.append(new_membership)
+
+        elif len(res_membership) == 1:
+            # Existing membership, update end_date
+            existing_membership = res_membership[0]
+
+            if existing_membership.end_date < datetime.fromisoformat(each_dict.get("end_date")).date():
+                existing_membership.end_date = datetime.fromisoformat(each_dict.get("end_date")).date()
+                session.add(existing_membership)
+                session.commit()
+
+            mem_obj_lst.append(existing_membership)
+
+        else:
+            raise RuntimeError("Too many memberships identified")
+
+    return mem_obj_lst
+
+
+def add_funding_p2p(session, funding_lst):
+    # {
+    #     "party_1": int,
+    #     "party_2": int,
+    #     "amount": int,
+    #     "start_date": str,
+    #     "end_date": str,
+    #     "source_id": int,
+    # }
+
+    fund_obj_lst = []
+    for each_dict in funding_lst:
+        # FundingPersonPerson TABLE
+        # check if entry unique (same parties, same amount, same start_date)
+        stat = select(FundingPersonPerson).where(
+            FundingPersonPerson.party_1 == each_dict.get("party_1")
+        ).where(
+            FundingPersonPerson.party_2 == each_dict.get("party_2")
+        ).where(
+            FundingPersonPerson.amount == each_dict.get("amount")
+        ).where(
+            FundingPersonPerson.start_date == datetime.fromisoformat(each_dict.get("start_date").date())
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New fund transfer
+            new = FundingPersonPerson(party_1=each_dict.get("party_1"),
+                                      party_2=each_dict.get("party_2"),
+                                      amount=each_dict.get("amount"),
+                                      start_date=datetime.fromisoformat(each_dict.get("start_date")).date(),
+                                      end_date=datetime.fromisoformat(each_dict.get("end_date")).date(),
+                                      source=each_dict.get("source_id"))
+
+            session.add(new)
+            session.commit()
+            fund_obj_lst.append(new)
+
+        elif len(res) == 1:
+            # Existing
+            existing_membership = res[0]
+            fund_obj_lst.append(existing_membership)
+
+        else:
+            raise RuntimeError("Too many transfers identified")
+
+    return fund_obj_lst
 
 
 def match_organization_type(str_name):
