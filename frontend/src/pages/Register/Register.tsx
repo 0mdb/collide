@@ -1,39 +1,41 @@
 import { Link } from 'react-router-dom'
-import React, { useContext, useState } from 'react'
-import { Card, Button, Label, H1, H5, FormGroup, InputGroup } from '@blueprintjs/core'
+import React, { useState, useRef } from 'react'
+import { Card, Button, H1, H5, InputGroup } from '@blueprintjs/core'
+
+const LOGIN_URL = 'login/access-token'
 
 function Register() {
   const [user, setUser] = useState('')
   const [pwd, setPwd] = useState('')
   const [errMsg, setErrMsg] = useState('')
-  const [confirmationPwd, setConfirmationPwd] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const errRef = useRef()
+  const userRef = useRef<HTMLHeadingElement>()
 
-  const submitRegistration = async () => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, hashed_password: password }),
-    }
-
-    const response = await fetch('/api/users', requestOptions)
-    const data = await response.json()
-
-    if (!response.ok) {
-      setErrorMessage(data.detail)
-    } else {
-      setToken(data.access_token)
-    }
-  }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (password === confirmationPassword && password.length > 4) {
-      submitRegistration()
-    } else {
-      setErrorMessage('Ensure that passwords match and greater than 5 charecters')
+    try {
+      const formData = new FormData()
+      formData.append('username', user)
+      formData.append('password', pwd)
+      const response = await axios.post(LOGIN_URL, formData)
+      const accessToken = response?.data?.access_token
+      const refreshToken = response?.data?.refresh_token
+      setAuth({ user, accessToken, refreshToken })
+      setUser('')
+      setPwd('')
+      navigate(from, { replace: true })
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg('No Server Response')
+      } else if (err.response?.status === 400) {
+        setErrMsg('Incorrect email or password')
+      } else {
+        setErrMsg('Login Failed')
+      }
+      errRef.current.focus()
     }
   }
-
   return (
     <div className='register'>
       <Card className='highlight-card' interactive={true}>
