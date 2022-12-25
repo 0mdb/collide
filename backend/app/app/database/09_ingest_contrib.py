@@ -54,6 +54,10 @@ class ElxCsv:
     def load_csv(self):
         self.df = pd.read_csv(self.data_path, nrows=100)
 
+        # Person to Org donation example (not in first 100 rows)
+        # self.df = pd.read_csv(self.data_path, nrows=358695)
+        # self.df = self.df.iloc[358595:]
+
     def load_meta_txt(self):
         temp_df = pd.read_csv(self.meta_path)
         self.date_scraped = temp_df["date_scraped"].to_list()[0]
@@ -236,7 +240,6 @@ for each_tsn in tsn_o2p:
     }])
 
 # From Contributor type = contrib_ppl --> Recipient type = recip_ent_parties (filter)
-# TODO: Debug (need to pull > 100 rows from csv to find applicable case!)
 tsn_p2o = [x for x in tsn_above_threshold if (x.con_type.lower() in election_csv.contrib_ppl) and (x.pol_ent.lower() in election_csv.recip_ent_parties)]
 
 for each_tsn in tsn_p2o:
@@ -247,11 +250,23 @@ for each_tsn in tsn_p2o:
     }])
 
     # RECIPIENT: Retrieve id from Organization (exists) or create Organization entry (new)
+    # Recipient association/org has parent Political Party (**assuming always)
+    recip_parent_org_obj = cf.add_organizations(session, [{
+            "name": each_tsn.recip_party,
+            "org_type_str": "Political Party",
+            # "org_parent_str": "",
+            "org_sector_str": "Government",
+            "org_source_id": src_objs[0].id,
+            "misc": {}
+
+    }])
+
     recip_org_type = cf.match_ecanada_recip_org_type(each_tsn.pol_ent)
 
     recip_org_obj = cf.add_organizations(session, [{
         "name": each_tsn.recip_l,  # org name held in last name position
         "org_type_str": recip_org_type,
+        "org_parent_str": each_tsn.recip_party,
         # "org_sector_str": "",
         "org_source_id": src_objs[0].id,
         "misc": {}
