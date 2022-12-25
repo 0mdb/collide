@@ -335,7 +335,7 @@ def match_organization_type(str_name):
     return org_type
 
 
-def match_ecanada_organization_type(str_name):
+def match_ecanada_contrib_org_type(str_name):
     lc_name = str.lower(str_name)
 
     if "individual" in lc_name:
@@ -351,6 +351,19 @@ def match_ecanada_organization_type(str_name):
     elif "association" in lc_name:
         org_type = "Unclassified"
     else:
-        raise AssertionError("No known org type")
+        raise AssertionError("No known contributor org type")
+
+    return org_type
+
+
+def match_ecanada_recip_org_type(str_name):
+    lc_name = str.lower(str_name)
+
+    if "parties" in lc_name:
+        org_type = "Political Party"
+    elif "association" in lc_name:
+        org_type = "Unclassified"
+    else:
+        raise AssertionError("No known recipient org type")
 
     return org_type

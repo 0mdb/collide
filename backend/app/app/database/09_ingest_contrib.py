@@ -187,7 +187,7 @@ tsn_o2p = [x for x in tsn_above_threshold if (x.con_type.lower() in contrib_org_
 
 for each_tsn in tsn_o2p:
     # CONTRIBUTOR: Retrieve id from Organization (exists) or create Organization entry (new)
-    con_org_type = cf.match_ecanada_organization_type(each_tsn.con_type)
+    con_org_type = cf.match_ecanada_contrib_org_type(each_tsn.con_type)
 
     contrib_org_obj = cf.add_organizations(session, [{
         "name": each_tsn.con_l,  # org name held in last name position
@@ -235,14 +235,40 @@ for each_tsn in tsn_o2p:
         "source_id": src_objs[0].id
     }])
 
-print("DONE")
-
-# TODO: Insert people to org fund transfers
 # From Contributor type = contrib_ppl --> Recipient type = recip_ent_parties (filter)
-# CONTRIBUTOR: Retrieve id from People (exists) or create People entry w/ no memberships (new)
-# RECIPIENT: Retrieve id from Organization (exists) or create Organization entry (new)
-# Enter FundingPersonOrg record
-# people = contributor; org = recipient, positive AMT
+# TODO: Debug (need to pull > 100 rows from csv to find applicable case!)
+tsn_p2o = [x for x in tsn_above_threshold if (x.con_type.lower() in election_csv.contrib_ppl) and (x.pol_ent.lower() in election_csv.recip_ent_parties)]
+
+for each_tsn in tsn_p2o:
+    # CONTRIBUTOR: Retrieve id from People (exists) or create People entry w/ no memberships (new)
+    contrib_obj = cf.add_people(session, [{
+        "name": f"{each_tsn.con_f} {each_tsn.con_l}",
+        "ppl_source_id": src_objs[0].id
+    }])
+
+    # RECIPIENT: Retrieve id from Organization (exists) or create Organization entry (new)
+    recip_org_type = cf.match_ecanada_recip_org_type(each_tsn.pol_ent)
+
+    recip_org_obj = cf.add_organizations(session, [{
+        "name": each_tsn.recip_l,  # org name held in last name position
+        "org_type_str": recip_org_type,
+        # "org_sector_str": "",
+        "org_source_id": src_objs[0].id,
+        "misc": {}
+    }])
+
+    # Enter FundingPersonOrg record
+    # people = contributor; org = recipient, positive AMT
+    funds_obj = cf.add_funding_p2o(session, [{
+        "organization": recip_org_obj[0].id,
+        "person": contrib_obj[0].id,
+        "amount": each_tsn.amt,
+        "start_date": each_tsn.fiscal_date,
+        "end_date": each_tsn.fiscal_date,
+        "source_id": src_objs[0].id
+    }])
+
+print("DONE")
 
 # TODO: Insert org to org fund transfers
 # From Contributor type = contrib_corp, _union, _assoc, _gov --> Recipient type = recip_ent_parties (filter)
