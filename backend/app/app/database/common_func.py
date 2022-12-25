@@ -27,12 +27,20 @@ def backup_postgres(host, user, passw, db_name, schema_name, pg_dump_command='pg
         print('database backup not made')
 
 
-def create_session():
-    db_host = "localhost"
-    db_name = "lq_test"
-    db_user = "test_user"
-    db_pw = "changethis"
-    schema_name = "lf_mockup_2"
+def create_session(debug=True):
+
+    if debug:
+        db_host = "localhost"
+        db_name = "lq_test"
+        db_user = "test_user"
+        db_pw = "changethis"
+        # schema_name = "lf_mockup_2"
+    else:
+        db_host = "192.168.0.10"
+        db_name = "collide"
+        db_user = "test_user"
+        db_pw = "change_this"
+        # schema_name = "lf_mockup_2"
 
     motor = create_engine(
         f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=True
