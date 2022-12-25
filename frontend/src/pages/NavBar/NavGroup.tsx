@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Classes, ButtonGroup, AnchorButton, InputGroup } from '@blueprintjs/core'
+import { Button, Classes, ButtonGroup, AnchorButton } from '@blueprintjs/core'
 import { Tooltip2 } from '@blueprintjs/popover2'
 import useLogout from '../../hooks/useLogout'
 import useAuth from '../../hooks/useAuth'
-import SearchBar from '../../components/SearchBar'
 
 function NavGroup() {
   const navigate = useNavigate()
@@ -22,7 +21,13 @@ function NavGroup() {
         <Link to='/'>
           <Button className={Classes.MINIMAL} icon='home' />
         </Link>
-        <Button className={Classes.MINIMAL} icon='series-configuration' />
+        {/* <Link to='/graph1'>
+        <Button className={Classes.MINIMAL} icon='series-configuration' text='2D' />
+        </Link>
+        <Link to='/graph2'>
+        <Button className={Classes.MINIMAL} icon='series-configuration' text='Graph2' />
+        </Link> */}
+        {/* <Button className={Classes.MINIMAL} icon='series-configuration' text='3D' /> */}
         <Tooltip2 content='Light Mode' placement='bottom-end'>
           <Button className={Classes.MINIMAL} icon='flash' />
         </Tooltip2>
