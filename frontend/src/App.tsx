@@ -1,4 +1,5 @@
-import React, { lazy, Suspense } from 'react'
+/* import React, { lazy, Suspense } from 'react' */
+import React from 'react'
 import jsonserverprovider from 'ra-data-json-server'
 import { Route, Routes } from 'react-router-dom'
 import { H1 } from '@blueprintjs/core'
@@ -8,7 +9,7 @@ import './App.scss'
 import Home from './pages/Home'
 import Layout from './pages/Layout'
 // import Graph2 from './pages/Graph2'
-// import Graph1 from './pages/Graph1'
+import Sankey from './pages/Sankey'
 import Login from './pages/Login'
 import Unauthorized from './components/Unauthorized'
 import RequireAuth from './components/RequireAuth'
@@ -23,7 +24,6 @@ const dataProvider = jsonserverprovider('http://jsonplaceholder.typicode.com')
 // const Register = lazy(() => import('./pages/Register'))
 // const Unauthorized = lazy(() => import('./components/Unauthorized'))
 // const RequireAuth = lazy(() => import('./components/RequireAuth'))
-
 
 const ROLES = {
   User: 'user',
@@ -40,7 +40,7 @@ function App() {
         <Route path='register' element={<Register />} />
         <Route path='/' element={<Home />} />
         <Route path='unauthorized' element={<Unauthorized />} />
-        {/* <Route path='graph1' element={<Graph1 />} /> */}
+        <Route path='sankey' element={<Sankey />} />
         {/* <Route path='graph2' element={<Graph2 />} /> */}
         {/* protected routes */}
         <Route element={<PersistLogin />}>
