@@ -4,7 +4,7 @@ import pathlib
 from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
     Source, Organization, OrganizationType, SectorIndustry, Person, OrganizationMembership,
-    FundingPersonPerson, FundingPersonOrg
+    FundingPersonPerson, FundingPersonOrg, Funding
 )
 import glob
 from pathlib import Path
@@ -317,6 +317,55 @@ def add_funding_p2o(session, funding_lst):
             # Existing
             existing_entry = res[0]
             fund_obj_lst.append(existing_entry)
+
+        else:
+            raise RuntimeError("Too many transfers identified")
+
+    return fund_obj_lst
+
+
+def add_funding_o2o(session, funding_lst):
+    # {
+    #     "party_1": int,
+    #     "party_2": int,
+    #     "amount": int,
+    #     "start_date": str,
+    #     "end_date": str,
+    #     "source_id": int,
+    # }
+
+    fund_obj_lst = []
+    for each_dict in funding_lst:
+        # Funding TABLE
+        # check if entry unique (same parties, same amount, same start_date)
+        stat = select(Funding).where(
+            Funding.party_1 == each_dict.get("party_1")
+        ).where(
+            Funding.party_2 == each_dict.get("party_2")  # recipient
+        ).where(
+            Funding.amount == each_dict.get("amount")
+        ).where(
+            Funding.start_date == datetime.fromisoformat(each_dict.get("start_date")).date()
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New fund transfer
+            new = Funding(party_1=each_dict.get("party_1"),
+                          party_2=each_dict.get("party_2"),
+                          amount=each_dict.get("amount"),
+                          start_date=datetime.fromisoformat(each_dict.get("start_date")).date(),
+                          end_date=datetime.fromisoformat(each_dict.get("end_date")).date(),
+                          source=each_dict.get("source_id"))
+
+            session.add(new)
+            session.commit()
+            fund_obj_lst.append(new)
+
+        elif len(res) == 1:
+            # Existing
+            existing_membership = res[0]
+            fund_obj_lst.append(existing_membership)
 
         else:
             raise RuntimeError("Too many transfers identified")

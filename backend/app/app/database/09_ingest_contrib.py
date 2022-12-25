@@ -52,9 +52,10 @@ class ElxCsv:
         self.contrib_gov = ["governments"]
 
     def load_csv(self):
-        self.df = pd.read_csv(self.data_path, nrows=100)
+        self.df = pd.read_csv(self.data_path)
 
-        # Person to Org donation example (not in first 100 rows)
+        # self.df = pd.read_csv(self.data_path, nrows=100)
+        # Person to Org, Org to Org donation example (not in first 100 rows)
         # self.df = pd.read_csv(self.data_path, nrows=358695)
         # self.df = self.df.iloc[358595:]
 
@@ -185,7 +186,7 @@ for each_tsn in tsn_p2p:
     }])
 
 # Insert org to people fund transfers
-# From Contributor type = contrib_corp, _union, _assoc, _gov --> Recipient type = recip_ent_ppl (filter)
+# From Contributor type = contrib_corp, _union, _assoc, _gov, _bus --> Recipient type = recip_ent_ppl (filter)
 contrib_org_list = election_csv.contrib_corp + election_csv.contrib_union + election_csv.contrib_assoc + election_csv.contrib_gov + election_csv.contrib_bus
 tsn_o2p = [x for x in tsn_above_threshold if (x.con_type.lower() in contrib_org_list) and (x.pol_ent.lower() in election_csv.recip_ent_ppl)]
 
@@ -283,11 +284,54 @@ for each_tsn in tsn_p2o:
         "source_id": src_objs[0].id
     }])
 
-print("DONE")
 
-# TODO: Insert org to org fund transfers
-# From Contributor type = contrib_corp, _union, _assoc, _gov --> Recipient type = recip_ent_parties (filter)
-# CONTRIBUTOR: Retrieve id from Organization (exists) or create Organization entry (new)
-# RECIPIENT: Retrieve id from Organization (exists) or create Organization entry (new)
-# Enter Funding record
-# party_1 = contributor; party_2 = recipient, positive AMT
+# Insert org to org fund transfers
+# From Contributor type = contrib_corp, _union, _assoc, _gov, _bus --> Recipient type = recip_ent_parties (filter)
+tsn_o2o = [x for x in tsn_above_threshold if (x.con_type.lower() in contrib_org_list) and (x.pol_ent.lower() in election_csv.recip_ent_parties)]
+
+for each_tsn in tsn_o2o:
+    # CONTRIBUTOR: Retrieve id from Organization (exists) or create Organization entry (new)
+    con_org_type = cf.match_ecanada_contrib_org_type(each_tsn.con_type)
+
+    contrib_org_obj = cf.add_organizations(session, [{
+        "name": each_tsn.con_l,  # org name held in last name position
+        "org_type_str": con_org_type,
+        # "org_sector_str": "",
+        "org_source_id": src_objs[0].id,
+        "misc": {}
+    }])
+
+    # RECIPIENT: Retrieve id from Organization (exists) or create Organization entry (new)
+    # Recipient association/org has parent Political Party (**assuming always)
+    recip_parent_org_obj = cf.add_organizations(session, [{
+            "name": each_tsn.recip_party,
+            "org_type_str": "Political Party",
+            # "org_parent_str": "",
+            "org_sector_str": "Government",
+            "org_source_id": src_objs[0].id,
+            "misc": {}
+    }])
+
+    recip_org_type = cf.match_ecanada_recip_org_type(each_tsn.pol_ent)
+
+    recip_org_obj = cf.add_organizations(session, [{
+        "name": each_tsn.recip_l,  # org name held in last name position
+        "org_type_str": recip_org_type,
+        "org_parent_str": each_tsn.recip_party,
+        # "org_sector_str": "",
+        "org_source_id": src_objs[0].id,
+        "misc": {}
+    }])
+
+    # Enter Funding record (org to org)
+    # party_1 = contributor; party_2 = recipient, positive AMT
+    funds_obj = cf.add_funding_o2o(session, [{
+        "party_1": contrib_org_obj[0].id,
+        "party_2": recip_org_obj[0].id,
+        "amount": each_tsn.amt,
+        "start_date": each_tsn.fiscal_date,
+        "end_date": each_tsn.fiscal_date,
+        "source_id": src_objs[0].id
+    }])
+
+print("DONE")
