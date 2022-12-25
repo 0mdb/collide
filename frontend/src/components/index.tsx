@@ -1,5 +1,3 @@
-export { default } from './DarkMode'
-export { default } from './Unauthorized'
-export { default } from './RequireAuth'
-export { default } from './PersistLogin'
-export { default } from './DarkMode'
+export { default as Unauthorized } from './Unauthorized'
+export { default as RequireAuth } from './RequireAuth'
+export { default as PersistLogin } from './PersistLogin'
