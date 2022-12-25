@@ -4,7 +4,7 @@ import pathlib
 from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
     Source, Organization, OrganizationType, SectorIndustry, Person, OrganizationMembership,
-    FundingPersonPerson
+    FundingPersonPerson, FundingPersonOrg
 )
 import glob
 from pathlib import Path
@@ -239,7 +239,7 @@ def add_funding_p2p(session, funding_lst):
         ).where(
             FundingPersonPerson.amount == each_dict.get("amount")
         ).where(
-            FundingPersonPerson.start_date == datetime.fromisoformat(each_dict.get("start_date").date())
+            FundingPersonPerson.start_date == datetime.fromisoformat(each_dict.get("start_date")).date()
         )
         res = session.exec(stat).all()
 
@@ -288,7 +288,7 @@ def add_funding_p2o(session, funding_lst):
         ).where(
             FundingPersonOrg.amount == each_dict.get("amount")
         ).where(
-            FundingPersonOrg.start_date == datetime.fromisoformat(each_dict.get("start_date").date())
+            FundingPersonOrg.start_date == datetime.fromisoformat(each_dict.get("start_date")).date()
         )
         res = session.exec(stat).all()
 
