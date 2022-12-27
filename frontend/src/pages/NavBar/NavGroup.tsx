@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Icon from '@blueprintjs/core/lib/esm/components/icon/icon'
 import { Button, Classes, ButtonGroup, AnchorButton } from '@blueprintjs/core'
 import { Tooltip2 } from '@blueprintjs/popover2'
 import useLogout from '../../hooks/useLogout'
@@ -22,7 +21,7 @@ function NavGroup() {
         <Link to='/'>
           <Button className={Classes.MINIMAL} icon='home' />
         </Link>
-        <Link to='/graph1'>
+        <Link to='/sankey'>
         <Button className={Classes.MINIMAL} icon='series-configuration' text='Sankey' />
         </Link>
         {/* <Link to='/graph2'>

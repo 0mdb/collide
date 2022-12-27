@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { Checkbox, Button, FormGroup, H1, InputGroup, Label, Card } from '@blueprintjs/core'
+import { Checkbox, Button, FormGroup, H1, Card } from '@blueprintjs/core'
 import useAuth from '../../hooks/useAuth'
 import axios from '../../api/axios'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
