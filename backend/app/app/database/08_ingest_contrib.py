@@ -123,6 +123,7 @@ election_csv.build_transactions()
 threshold_amt = 500.0
 tsn_above_threshold = [x for x in election_csv.transactions if x.amt >= threshold_amt]
 
+# TODO: Change this depending on debug vs production
 session = cf.create_session()
 
 src_objs = cf.add_sources(session,
