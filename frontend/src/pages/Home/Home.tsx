@@ -1,6 +1,6 @@
 import React from 'react'
 import { ForceGraph2D } from 'react-force-graph'
-import { FormGroup, InputGroup, MenuItem, Classes } from '@blueprintjs/core'
+import { FormGroup, InputGroup, MenuItem } from '@blueprintjs/core'
 import { Suggest2 } from '@blueprintjs/select'
 import myData from './sample_graph4.json'
 
