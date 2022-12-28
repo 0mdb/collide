@@ -218,6 +218,11 @@ def add_memberships(session, mem_lst):
                 session.add(existing_membership)
                 session.commit()
 
+            if existing_membership.start_date > datetime.fromisoformat(each_dict.get("start_date")).date():
+                existing_membership.start_date = datetime.fromisoformat(each_dict.get("start_date")).date()
+                session.add(existing_membership)
+                session.commit()
+
             mem_obj_lst.append(existing_membership)
 
         else:
