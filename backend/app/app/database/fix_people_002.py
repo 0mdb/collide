@@ -6,8 +6,8 @@ from parse_injest.utils import create_match_name
 
 from fix_people_000_common import shit_list_combined
 
-db_host = "localhost"
-db_name = "lq_test"
+db_host = "192.168.0.10"
+db_name = "collide"
 db_user = "test_user"
 db_pw = "change_this"
 
@@ -35,19 +35,24 @@ for p in res:
     if nt != orig_display_name:
         print(f"changing {orig_display_name} to {nt}")
         new_match_name = create_match_name(nt)
-        sql_query = select(Person).where(Person.match_name == new_match_name)
+        sql_query = select(Person).where(Person.match_name == new_match_name).where(Person.id != p.id)
         res_1 = sess.exec(sql_query).all()
         sql_query = select(Person).where(Person.display_name == nt)
         res_2 = sess.exec(sql_query).all()
 
-        if len(res_2) > 1 or len(res_2) > 0:
+        if len(res_1) > 0 or len(res_2) > 0:
             print("this change will cause problems")
+            print(f"{p}")
+            print(f"{res_1}")
+            print(f"{res_2}")
             total_problems += 1
         else:
 
             total_changes += 1
             p.display_name = nt
+            p.match_name = create_match_name(nt)
             sess.add(p)
             sess.commit()
 
+sess.close()
 print(f"total changes {total_changes}, total problems {total_problems}")
