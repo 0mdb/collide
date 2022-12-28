@@ -116,13 +116,39 @@ for name, f, l, dt in zip(org_name_lst, first_name_lst, last_name_lst, date_lst)
         if len(res_sector) > 1:
             raise RuntimeError("Too many sectors identified")
 
-        ot = Organization(display_name=name,
-                          match_name=create_match_name(name),
-                          organization_type=res_org_type[0],
-                          parent_organization=res_parent[0],
-                          source=res_source[0],
-                          sector=res_sector[0],
-                          misc_data={})
+        # Show up in INSTITUTION "Other (Specify)"
+        party_name_issue_lst = ["Liberal Party of Canada",
+                                "Liberal",
+                                "Liberal Party of Canada, Official opposition",
+                                # "Office of the Leader of the Opposition, Liberal Research Bureau",
+                                "Conservative",
+                                "NDP",
+                                "Parti Libéral"]
+
+        if name in party_name_issue_lst:
+            stat = select(OrganizationType.id).where(
+                OrganizationType.match_name == "politicalparty"
+            )
+            alt_org_type = session.exec(stat).all()
+
+            if len(alt_org_type) > 1:
+                raise RuntimeError("Too many alt org types identified")
+
+            ot = Organization(display_name=name,
+                              match_name=create_match_name(name),
+                              organization_type=alt_org_type[0],
+                              # parent_organization=res_parent[0],
+                              source=res_source[0],
+                              sector=res_sector[0],
+                              misc_data={})
+        else:
+            ot = Organization(display_name=name,
+                              match_name=create_match_name(name),
+                              organization_type=res_org_type[0],
+                              parent_organization=res_parent[0],
+                              source=res_source[0],
+                              sector=res_sector[0],
+                              misc_data={})
         session.add(ot)
         session.commit()
         organization_id = ot.id
