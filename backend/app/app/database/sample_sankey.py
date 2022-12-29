@@ -3,14 +3,9 @@ from schema_creation.sqlmodel_build import (
     Source, Organization, OrganizationType, SectorIndustry, Person, OrganizationMembership,
     FundingPersonPerson, FundingPersonOrg, Funding
 )
-import glob
-from pathlib import Path
 from sqlmodel import Session, create_engine, select
-from parse_injest.utils import create_match_name
-import time
 
 
-# TODO: retrieve all people in People table
 session = cf.create_session()
 stat = select(Person)
 all_people = session.exec(stat).all()
@@ -43,7 +38,6 @@ final_form_json = {"nodes": [],
 for each_family in fam_results:
     if len(fam_results[each_family]) >= 2:
         fam_results_2ormore[each_family] = fam_results[each_family]
-        final_form_json["nodes"].append({"name": each_family})
 
 # Political parties
 stat = select(OrganizationType).where(
@@ -59,7 +53,6 @@ party_org_ids = []
 party_org_id_display_map = {}
 for each_party in party_orgs:
     party_org_ids.append(each_party.id)
-    final_form_json["nodes"].append({"name": each_party.display_name})
     party_org_id_display_map[each_party.id] = each_party.display_name
 
 # Grab person -> person
@@ -101,16 +94,27 @@ for each_family in fam_results_2ormore.keys():
 
 for each_family in family_to_people_vals.keys():
     final_form_json["links"].append({"source": each_family,
-                                     "target": f"individuals",
+                                     "target": f"election candidates",
                                      "value": family_to_people_vals[each_family]})
 
 for each_family in family_to_people_orgs_vals.keys():
     for each_party in family_to_people_orgs_vals[each_family].keys():
-        final_form_json["links"].append({"source": f"individuals",
+        final_form_json["links"].append({"source": f"election candidates",
                                          "target": each_party,
                                          "value": family_to_people_orgs_vals[each_family][each_party]})
 
+trimmed_link_list = [x for x in final_form_json["links"] if x.get("value") > 0]
+final_form_json["links"] = trimmed_link_list
+source_nodes = [{"name": x.get("source")} for x in final_form_json["links"]]
+target_nodes = [{"name": x.get("target")} for x in final_form_json["links"]]
+nodes_list = source_nodes + target_nodes
+nodes_list = [dict(t) for t in {tuple(d.items()) for d in nodes_list}]
+final_form_json["nodes"] = nodes_list
 
+import json
+
+with open("weston_sankey.json", 'w') as f:
+    json.dump(final_form_json, f)
 
 # TODO: Mine people -> org -> party table/route
 
