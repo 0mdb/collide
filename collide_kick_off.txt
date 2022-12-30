@@ -1,0 +1,301 @@
+                           _________________
+
+                            PROJECT COLLIDE
+
+                              Ben Welwood
+                           _________________
+
+
+
+
+
+Agenda
+======
+
+  - the MVP
+  - startup considerations
+  - architecture
+  - milestones
+  - round table
+
+
+Collide Concept
+===============
+
+  - make it easy to understand lobbying in Canada
+  - learn something new (like graphs)!
+  - good for our resumes/linkedIn/github
+
+
+Launch features
+~~~~~~~~~~~~~~~
+
+Key#1: Fast smart search
+------------------------
+
+  - in-house relational query (aka James)
+  - open(elastic)search?
+  - recommendations with memgraph voodoo?
+
+
+Other Key#1: Easy to understand graphs
+--------------------------------------
+
+  - easy to use and snappy!
+  - force-directed
+  - Sankey
+
+
+misc website things
+-------------------
+
+  - admin panel (in progress)
+  - user pw reset, email
+  - telemetry
+  - SEO
+
+
+Brand & Design Language
+-----------------------
+
+  - Collide is the project (placeholder) name
+  - Need good domain and product name
+  - Blueprint.js for UI & colors
+  - Will need real front end person to scale
+
+
+Collide as a Startup
+~~~~~~~~~~~~~~~~~~~~
+
+  - what is the problem we are solving?
+  - wearch engine for government data?
+  - who is our customer?
+  - probably should pivot to USA as soon as we can
+
+
+Business models
+---------------
+
+* SaaS
+
+  Cloud-based subscription software
+
+
+* Usage-Based
+
+  Pay as you go based on consumption
+
+
+* **Both require user retention aka providing value!
+
+
+* Do we have any moats?
+
+  - Can we create network effects?
+  - Lock-in/high switching costs - save user search
+  - Organic distribution
+
+
+Early thoughts on pricing
+-------------------------
+
+  - price implies value aka who is willing to pay?
+  - price on value, not on costs
+  - Free, Premium, Ultimate pricing
+  - pricing can change!
+
+
+MVP Architecture
+================
+
+Housekeeping
+~~~~~~~~~~~~
+
+  - thoughts on docker as a development tool so far? *
+  - gitflow or other git merge standard? *
+  - python: flake8, mypy, black
+  - typescript: eslint, prettier
+
+
+Front-end
+~~~~~~~~~
+
+  - React with Typescript
+  - Vite Build
+  - React Force Directed Graphs
+  - Echarts (nice but not React bindings)
+  - SASS for CSS..
+  - On deck
+    - User admin dash with live DB
+    - 1-click signup
+
+
+Other Plots
+-----------
+
+  - Directed Graphs
+  - Other?
+
+
+Back-end
+~~~~~~~~
+
+Databases
+---------
+
+* Postgress
+
+  - Raw data is parsed into DB *
+    - initDB to docker postgres from RAW source *
+  - Local, vs Azure(?) vs RDS
+  - Build local docker from Raw
+  - Views vs queries?
+
+
+* Memgraph
+
+  - How should we prioritize this?
+
+
+* S3 for Raw Storage or? *
+
+
+FastAPI
+-------
+
+  - FastAPI CRUD & JWT auth
+    - JWT was kind of a pain but mostly solved
+  - Django?
+  - Something else?
+
+
+Scrape
+------
+
+  - What does production look like?
+  - Cron-like interval or event based? *
+  - Collect raw data in S3 or other *
+  - Use celery worker for scrape or drop from stack *
+
+
+Search
+------
+
+  - Elastisearch?
+  - Custom query
+  - memgraph?
+  - Recommendation engine?
+
+
+Datasets
+--------
+
+  - TSX
+  - Province of Alberta
+  - Members of Parliament
+  - Lobby Communications
+  - Corporate Donations
+  - Corporate board appointments
+  - What are we missing?
+  - When to freeze new data?
+
+
+Hosting
+~~~~~~~
+
+  - ECS something else? *
+  - Bidspread of options *
+
+
+Marketing plan
+~~~~~~~~~~~~~~
+
+  - Twitter
+  - reddit
+  - youtube
+  - instagram
+  - ticktock
+  - Video?
+  - Collab?
+
+
+Key Milestones
+==============
+
+  - MVP Definition - January 5th
+  - Working prototype - January 19th
+  - Market Research & Branding
+  - Start selling - February 1st
+  - Production design finalized
+  - Marketing design finalized
+  - Launch - February 14th
+
+
+Round Table
+===========
+
+TODO Finish user management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+TODO Define MVP Spec
+~~~~~~~~~~~~~~~~~~~~
+
+DONE use S3 for raw data
+------------------------
+
+
+DONE use github flow
+--------------------
+
+
+TODO Define search methodology
+------------------------------
+
+
+TODO Specify plot library, colors, etc
+--------------------------------------
+
+  - Setup app around 2 plot choices and search
+
+
+TODO Finalize Datasets
+----------------------
+
+  - Province of Alberta is a different animal TBD..
+  - Provincial Election coming up could be good for launch
+  - Where does bulk of lobbying happen?
+  - What do those amendments look like? What are the impacts?
+  - follow the money...
+
+
+TODO Define scrape production strategy
+--------------------------------------
+
+
+TODO Evaluate app host options
+------------------------------
+
+
+TODO Node aggrigation strategy
+------------------------------
+
+  How to you simplify connections... Roll things up a bit, and show off
+  things more clearly.. Big bucket of misc Donors.... Smarts for
+  Funding.
+
+
+TODO Define DB spec for Postgres and Memgraph
+---------------------------------------------
+
+  - Build docker DB from S3?
+  - Memgraph migration Tool... Needs lots of queries to build relations.
+    SLOW
+  - Algorithms get hung up on node in between..
+  - Community detection
+  - Recommendation engine
+  - load from raw CSV/XML data?
+
+
+TODO develop CI/CD workflows
+----------------------------
