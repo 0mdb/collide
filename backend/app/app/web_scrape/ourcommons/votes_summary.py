@@ -88,8 +88,8 @@ for every_session in parl_sessions:
 driver.close()
 
 meta_df = pd.DataFrame.from_dict({
-    "date_scraped": "2022-12-29T00:00:00+00:00",
-    "source_name": "Our Commons Votes Summary",
-    "source_url": "https://www.ourcommons.ca/members/en/votes"
+    "date_scraped": ["2022-12-29T00:00:00+00:00"],
+    "source_name": ["Our Commons Votes Summary"],
+    "source_url": ["https://www.ourcommons.ca/members/en/votes"]
 })
 meta_df.to_csv(os.path.join(save_dir_votes_summary, "meta.csv"))
