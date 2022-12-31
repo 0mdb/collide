@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'plugin:@blueprintjs/recommended',
     'plugin:react/recommended',
     'prettier',
     'plugin:@typescript-eslint/recommended-requiring-type-checking'
