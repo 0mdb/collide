@@ -22,8 +22,9 @@ import glob
 "https://www.parl.ca/Content/Bills/402/Government/S-2/S-2_3/S-2-e.xml"
 "https://www.parl.ca/Content/Bills/402/Government/S-2/S-2_4/S-2-e.xml"
 
-base_url = r"https://www.parl.ca/Content/Bills/{}{}/{}/{}/{}_{}/{}_E.xml"
-base_url2 = r"https://www.parl.ca/Content/Bills/{}{}/{}/{}/{}_{}/{}-E.xml"
+base_url1 = r"https://www.parl.ca/Content/Bills/{}{}/{}/{}/{}_{}/{}_E.xml"
+base_url2 = r"https://www.parl.ca/Content/Bills/{}{}/{}/{}/{}_{}/{}-e.xml"
+base_urls = [base_url1, base_url2]
 
 # Preamble, folder locations
 project_name = "app"  # collide\backend\app\app
@@ -70,12 +71,12 @@ for each_item in structure:
     else:
         bill_type = "Government"
 
-    for reading_no in [1, 2, 3, 4]:
-        link_lst.append(base_url.format(parl_no, parl_session, bill_type, bill_no, bill_no, reading_no, bill_no))
-        file_lst.append(f"{parl_no}_{parl_session}_{bill_no}_{reading_no}.xml")
-        # f"https://www.parl.ca/Content/Bills/{parl_no}{parl_session}/{bill_type}/{bill_no}/{bill_no}_{reading_no}/{bill_no}_E.xml"
+    for each_url in base_urls:
+        for reading_no in [1, 2, 3, 4]:
+            link_lst.append(each_url.format(parl_no, parl_session, bill_type, bill_no, bill_no, reading_no, bill_no))
+            file_lst.append(f"{parl_no}_{parl_session}_{bill_no}_{reading_no}.xml")
 
-print(f"{len(link_lst)} potential bill readings to pull")
+print(f"Potential bill readings: {len(link_lst)}")
 
 # open browser
 try:
@@ -87,6 +88,7 @@ failure_lst = []
 # Retrieve bill files
 link_lst.reverse()
 for idx, each_xml_link in enumerate(link_lst):
+    print(f"Loop {idx} of {len(link_lst)}")
 
     # get a filename from parl session
     fn = file_lst[idx]
