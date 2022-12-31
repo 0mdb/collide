@@ -74,28 +74,35 @@ for x, y, z in zip(parl_no_lst, parl_session_lst, parl_vote_lst):
     fp = os.path.join(save_dir_votes_detail, fn)
     print(fp)
 
-    status_code = None
-    max_tries = 10
-    cur_try = 0
-
-    while cur_try < max_tries and status_code != requests.codes.ok:
-        response = requests.get(xml_link)
-        status_code = response.status_code
-        cur_try += 1
-        time.sleep(5)
-        print(f"{xml_link}\ttry {cur_try}\tcode {response.status_code}")
-
-    if response.status_code == requests.codes.ok:
-        with open(fp, 'wb') as handle:
-            handle.write(response.content)
+    if os.path.exists(fp):
+        continue
     else:
-        raise RuntimeWarning(f"couldn't get {xml_link}")
+
+        try:
+            status_code = None
+            max_tries = 10
+            cur_try = 0
+
+            while cur_try < max_tries and status_code != requests.codes.ok:
+                response = requests.get(xml_link)
+                status_code = response.status_code
+                cur_try += 1
+                time.sleep(5)
+                print(f"{xml_link}\ttry {cur_try}\tcode {response.status_code}")
+
+            if response.status_code == requests.codes.ok:
+                with open(fp, 'wb') as handle:
+                    handle.write(response.content)
+            else:
+                print(f"couldn't get {xml_link}")
+        except Exception as e:
+            print(f"couldn't get {xml_link} ({e})")
 
 driver.close()
 
 meta_df = pd.DataFrame.from_dict({
-    "date_scraped": "2022-12-29T00:00:00+00:00",
-    "source_name": "Our Commons Votes Detailed",
-    "source_url": "https://www.ourcommons.ca/members/en/votes"
+    "date_scraped": ["2022-12-29T00:00:00+00:00"],
+    "source_name": ["Our Commons Votes Detailed"],
+    "source_url": ["https://www.ourcommons.ca/members/en/votes"]
 })
 meta_df.to_csv(os.path.join(save_dir_votes_detail, "meta.csv"))
