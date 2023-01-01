@@ -335,4 +335,5 @@ for each_tsn in tsn_o2o:
         "source_id": src_objs[0].id
     }])
 
+session.close()
 print("DONE")
