@@ -10,7 +10,7 @@ const TopNavigation = () => {
       <Title />
       <ThemeIcon />
       <Search />
-      {/* <BellIcon /> */}
+      <BellIcon />
       {/* <ThemeIcon /> */}
       {/* <SankeyGraph /> */}
       <UserCircle />
