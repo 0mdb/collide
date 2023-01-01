@@ -4,7 +4,8 @@ import pathlib
 from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
     Source, Organization, OrganizationType, SectorIndustry, Person, OrganizationMembership,
-    FundingPersonPerson, FundingPersonOrg, Funding
+    FundingPersonPerson, FundingPersonOrg, Funding,
+    Bill, Vote, VoteIndividual, BillDiff, LegStage
 )
 import glob
 from pathlib import Path
@@ -43,7 +44,7 @@ def create_session(debug=True):
         # schema_name = "lf_mockup_2"
 
     motor = create_engine(
-        f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=True
+        f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=False
     )
 
     # backup_postgres(host=db_host,
@@ -376,6 +377,142 @@ def add_funding_o2o(session, funding_lst):
             raise RuntimeError("Too many transfers identified")
 
     return fund_obj_lst
+
+
+def add_bills(session, bill_lst):
+    bill_obj_lst = []
+    for each_dict in bill_lst:
+        # Check if it already exists with same match_name
+        parl = each_dict.get("parliament")
+        parl_sess = each_dict.get("parliament_session")
+        name = each_dict.get("bill_name")
+        bill_match_name = f"{parl}_{parl_sess}_{name.lower()}"  # parl_session_name
+        stat = select(Bill).where(
+            Bill.match_name == bill_match_name
+        )
+        res = session.exec(stat).all()
+
+        # Date handling
+        if each_dict.get("first_house_read_date") is not None:
+            first_house_read_dt = each_dict.get("first_house_read_date").split("T")[0]
+            first_house_read_dt = datetime.fromisoformat(first_house_read_dt).date()
+        else:
+            first_house_read_dt = None
+
+        if each_dict.get("second_house_read_date") is not None:
+            second_house_read_dt = each_dict.get("second_house_read_date").split("T")[0]
+            second_house_read_dt = datetime.fromisoformat(second_house_read_dt).date()
+        else:
+            second_house_read_dt = None
+
+        if each_dict.get("third_house_read_date") is not None:
+            third_house_read_dt = each_dict.get("third_house_read_date").split("T")[0]
+            third_house_read_dt = datetime.fromisoformat(third_house_read_dt).date()
+        else:
+            third_house_read_dt = None
+
+        if each_dict.get("first_senate_read_date") is not None:
+            first_sen_read_dt = each_dict.get("first_senate_read_date").split("T")[0]
+            first_sen_read_dt = datetime.fromisoformat(first_sen_read_dt).date()
+        else:
+            first_sen_read_dt = None
+
+        if each_dict.get("second_senate_read_date") is not None:
+            second_sen_read_dt = each_dict.get("second_senate_read_date").split("T")[0]
+            second_sen_read_dt = datetime.fromisoformat(second_sen_read_dt).date()
+        else:
+            second_sen_read_dt = None
+
+        if each_dict.get("third_senate_read_date") is not None:
+            third_sen_read_dt = each_dict.get("third_senate_read_date").split("T")[0]
+            third_sen_read_dt = datetime.fromisoformat(third_sen_read_dt).date()
+        else:
+            third_sen_read_dt = None
+
+        if each_dict.get("royal_assent_date") is not None:
+            royal_assent_dt = each_dict.get("royal_assent_date").split("T")[0]
+            royal_assent_dt = datetime.fromisoformat(royal_assent_dt).date()
+        else:
+            royal_assent_dt = None
+
+        if len(res) == 0:
+            # New entry
+
+            ot = Bill(bill_name=each_dict.get("bill_name"),
+                      parliament=each_dict.get("parliament"),
+                      parliament_session=each_dict.get("parliament_session"),
+                      match_name=bill_match_name,
+                      description=each_dict.get("description"),
+                      is_house_bill=each_dict.get("is_house_bill"),
+                      is_senate_bill=each_dict.get("is_senate_bill"),
+
+                      first_house_read_date=first_house_read_dt,
+                      second_house_read_date=second_house_read_dt,
+                      third_house_read_date=third_house_read_dt,
+                      first_senate_read_date=first_sen_read_dt,
+                      second_senate_read_date=second_sen_read_dt,
+                      third_senate_read_date=third_sen_read_dt,
+                      royal_assent_date=royal_assent_dt,
+
+                      is_read_first_house=(False if first_house_read_dt is None else True),
+                      is_read_second_house=(False if second_house_read_dt is None else True),
+                      is_read_third_house=(False if third_house_read_dt is None else True),
+                      is_read_first_senate=(False if first_sen_read_dt is None else True),
+                      is_read_second_senate=(False if second_sen_read_dt is None else True),
+                      is_read_third_senate=(False if third_sen_read_dt is None else True),
+                      is_passed_royal_assent=(False if royal_assent_dt is None else True),
+
+                      source=each_dict.get("source_id"))
+            session.add(ot)
+            session.commit()
+            bill_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            # Update read_date and bools
+            existing_bill = res[0]
+
+            if not existing_bill.is_read_first_house and first_house_read_dt is not None:
+                # Update
+                existing_bill.is_read_first_house = True
+                existing_bill.first_house_read_date = first_house_read_dt
+
+            if not existing_bill.is_read_second_house and second_house_read_dt is not None:
+                # Update
+                existing_bill.is_read_second_house = True
+                existing_bill.second_house_read_date = second_house_read_dt
+
+            if not existing_bill.is_read_third_house and third_house_read_dt is not None:
+                # Update
+                existing_bill.is_read_third_house = True
+                existing_bill.third_house_read_date = third_house_read_dt
+
+            if not existing_bill.is_read_first_senate and first_sen_read_dt is not None:
+                # Update
+                existing_bill.is_read_first_senate = True
+                existing_bill.first_senate_read_date = first_sen_read_dt
+
+            if not existing_bill.is_read_second_senate and second_sen_read_dt is not None:
+                # Update
+                existing_bill.is_read_second_senate = True
+                existing_bill.second_senate_read_date = second_sen_read_dt
+
+            if not existing_bill.is_read_third_senate and third_sen_read_dt is not None:
+                # Update
+                existing_bill.is_read_third_senate = True
+                existing_bill.third_senate_read_date = third_sen_read_dt
+
+            if not existing_bill.is_passed_royal_assent and royal_assent_dt is not None:
+                # Update
+                existing_bill.is_passed_royal_assent = True
+                existing_bill.royal_assent_date = royal_assent_dt
+
+            session.add(existing_bill)
+            session.commit()
+
+            bill_obj_lst.append(res[0])
+        else:
+            raise RuntimeError("Non unique bill detected")
+    return bill_obj_lst
 
 
 def match_organization_type(str_name):
