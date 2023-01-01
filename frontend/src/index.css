@@ -144,7 +144,7 @@
 
   .bottom-bar {
     @apply flex flex-row items-center justify-between 
-    fixed left-88 right-8 bottom-2 
+    fixed left-88 right-8 top-20
     rounded-lg shadow-lg 
     bg-gray-400 dark:bg-gray-600 px-2
     h-12;
