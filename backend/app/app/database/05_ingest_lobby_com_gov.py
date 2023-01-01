@@ -216,7 +216,7 @@ for name, f, l, dt in zip(org_name_lst, first_name_lst, last_name_lst, date_lst)
             session.add(existing_membership)
     session.commit()
 
-
+session.close()
 print("END")
 
 
