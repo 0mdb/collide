@@ -23,7 +23,6 @@ const SideBar = () => {
       <Link to='/admin'>
         <SideBarIcon icon={<Icon icon='database' size={28} />} text='Admin' />
       </Link>
-      <SideBarIcon icon={<Icon icon='help' size={28} />} text='Help' />
     </div>
   )
 }
