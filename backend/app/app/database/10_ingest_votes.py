@@ -4,12 +4,6 @@ import os
 import pathlib
 import pandas as pd
 import common_func as cf
-import json
-from parse_injest.utils import create_match_name
-from schema_creation.sqlmodel_build import (
-    LegStage
-)
-from sqlmodel import select
 
 # Preamble, folder locations
 project_name = "app"  # collide\backend\app\app
@@ -98,47 +92,37 @@ vote_objs = cf.add_votes(session, vote_ensemble)
 
 # Construct list of VoteIndividual entries
 # Call cf.add_vote_individual
-#
-# with open(bills_json[0], encoding="utf-8") as f:
-#     data = f.read()
-#     structure = json.loads(data)
-#
-# bills_df = pd.json_normalize(structure)
-#
-# bill_name = bills_df["NumberCode"].to_list()
-# parl = bills_df["ParliamentNumber"].to_list()
-# parl_session = bills_df["SessionNumber"].to_list()
-# desc = bills_df["LongTitleEn"].to_list()
-# house_bool = bills_df["IsHouseBill"].to_list()
-# senate_bool = bills_df["IsSenateBill"].to_list()
-# first_house_read_date = bills_df["PassedHouseFirstReadingDateTime"].to_list()
-# second_house_read_date = bills_df["PassedHouseSecondReadingDateTime"].to_list()
-# third_house_read_date = bills_df["PassedHouseThirdReadingDateTime"].to_list()
-# first_senate_read_date = bills_df["PassedSenateFirstReadingDateTime"].to_list()
-# second_senate_read_date = bills_df["PassedSenateSecondReadingDateTime"].to_list()
-# third_senate_read_date = bills_df["PassedSenateThirdReadingDateTime"].to_list()
-# royal_assent_date = bills_df["ReceivedRoyalAssentDateTime"].to_list()
-#
-# print(f"Expected entry count: {len(bill_name)}")
-#
-# bill_lst = []
-# for idx, every_bill in enumerate(bill_name):
-#     bill_lst.append({"bill_name": every_bill,
-#                      "parliament": parl[idx],
-#                      "parliament_session": parl_session[idx],
-#                      "description": desc[idx],
-#                      "is_house_bill": house_bool[idx],
-#                      "is_senate_bill": senate_bool[idx],
-#                      "first_house_read_date": first_house_read_date[idx],
-#                      "second_house_read_date": second_house_read_date[idx],
-#                      "third_house_read_date": third_house_read_date[idx],
-#                      "first_senate_read_date": first_senate_read_date[idx],
-#                      "second_senate_read_date": second_senate_read_date[idx],
-#                      "third_senate_read_date": third_senate_read_date[idx],
-#                      "royal_assent_date": royal_assent_date[idx],
-#                      "source_id": src_obj.id})
-#
-# bills_objs = cf.add_bills(session, bill_lst)
+individual_votes_df = pd.DataFrame()
+for each_xml in det_file_lst:
+    individual_votes_df = pd.concat([individual_votes_df, pd.read_xml(each_xml)], axis=0, ignore_index=True)
+
+parl = individual_votes_df["ParliamentNumber"].to_list()
+parl_session = individual_votes_df["SessionNumber"].to_list()
+vote_no = individual_votes_df["DecisionDivisionNumber"].to_list()
+first_name = individual_votes_df["PersonOfficialFirstName"].to_list()
+last_name = individual_votes_df["PersonOfficialLastName"].to_list()
+yes_bool = individual_votes_df["IsVoteYea"].to_list()
+no_bool = individual_votes_df["IsVoteNay"].to_list()
+pair_bool = individual_votes_df["IsVotePaired"].to_list()
+
+print(f"Expected IndVote entry count: {len(parl)}")
+
+ind_vote_lst = []
+for idx, parl_entry in enumerate(parl):
+    print(f"Loop: {idx} of {len(parl)}")
+    ind_vote_lst.append({"parliament": parl[idx],
+                         "parliament_session": parl_session[idx],
+                         "vote_no": vote_no[idx],
+                         "first_name": first_name[idx],
+                         "last_name": last_name[idx],
+                         "yes_bool": yes_bool[idx],
+                         "no_bool": no_bool[idx],
+                         "pair_bool": pair_bool[idx],
+                         "source_id": detail_src_obj.id})
+
+bills_objs = cf.add_individual_votes(session, ind_vote_lst)
 
 session.close()
 print("END")
+
+# TODO: compare yea/nay/pair sums from completed VoteIndividual table vs Vote table totals when complete
