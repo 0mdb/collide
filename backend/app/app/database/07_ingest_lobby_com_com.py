@@ -166,3 +166,5 @@ for gov_f, gov_l, corp_f, corp_l, topic, dt in zip(gov_first_name_lst, gov_last_
 
         session.add(ot)
         session.commit()
+
+session.close()
