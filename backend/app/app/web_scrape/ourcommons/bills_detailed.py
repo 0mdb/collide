@@ -86,7 +86,6 @@ except:
 
 failure_lst = []
 # Retrieve bill files
-link_lst.reverse()
 for idx, each_xml_link in enumerate(link_lst):
     print(f"Loop {idx} of {len(link_lst)}")
 
