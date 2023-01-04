@@ -10,6 +10,8 @@ from sqlmodel import create_engine, select, Session, col, or_
 
 from parse_injest.utils import create_match_name
 
+actually_do_it = False
+
 db_host = "192.168.0.10"
 db_name = "collide"
 db_user = "test_user"
@@ -147,9 +149,11 @@ for person in all_people:
             print("\t\tthe following memberships should be updated:")
             for mem in memberships_to_update:
                 print(f"\t\t\t{mem}")
-                mem.person = id_to_keep
-                sess.add(mem)
-            sess.commit()
+                if actually_do_it:
+                    mem.person = id_to_keep
+                    sess.add(mem)
+            if actually_do_it:
+                sess.commit()
 
         sql_query = select(Communications).where(
             or_(
@@ -177,9 +181,11 @@ for person in all_people:
             )
             for com in communications_to_update:
                 print(f"\t\t\t{com}")
-                com.person = id_to_keep
-                sess.add(com)
-            sess.commit()
+                if actually_do_it:
+                    com.person = id_to_keep
+                    sess.add(com)
+            if actually_do_it:
+                sess.commit()
 
         sql_query = select(FundingPersonOrg).where(FundingPersonOrg.person == id_to_axe)
         fundings_to_update = sess.exec(sql_query).all()
@@ -187,9 +193,11 @@ for person in all_people:
             print(f"\t\tthe following fundings should be updated (person-org):")
             for fun in fundings_to_update:
                 print(f"\t\t\t{fun}")
-                fun.person = id_to_keep
-                sess.add(fun)
-            sess.commit()
+                if actually_do_it:
+                    fun.person = id_to_keep
+                    sess.add(fun)
+            if actually_do_it:
+                sess.commit()
 
         sql_query = select(FundingPersonPerson).where(
             or_(
@@ -201,15 +209,19 @@ for person in all_people:
         if len(fundings_to_update) > 0:
             print(f"\t\tthe following fundings should be updated (person-person):")
             for fun in fundings_to_update:
-                if fun.party_1 == id_to_axe:
-                    fun.party_1 = id_to_keep
-                else:
-                    fun.party_2 = id_to_keep
-                sess.add(fun)
-            sess.commit()
+                print(f"\t\t\t{fun}")
+                if actually_do_it:
+                    if fun.party_1 == id_to_axe:
+                        fun.party_1 = id_to_keep
+                    else:
+                        fun.party_2 = id_to_keep
+                    sess.add(fun)
+            if actually_do_it:
+                sess.commit()
 
-        finally_delete = sess.exec(select(Person).where(Person.id == id_to_axe)).first()
-        sess.delete(finally_delete)
-        sess.commit()
+        if actually_do_it:
+            finally_delete = sess.exec(select(Person).where(Person.id == id_to_axe)).first()
+            sess.delete(finally_delete)
+            sess.commit()
 
 sess.close()

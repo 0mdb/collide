@@ -10,6 +10,8 @@ db_pw = "change_this"
 
 schema_name = "lf_mockup_2"
 
+actually_do_it = False
+
 engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=False)
 sess = Session(engine)
 
@@ -24,9 +26,10 @@ for p in res:
     mn = p.match_name
     if mn != create_match_name(dn):
         print(p)
-        p.match_name = create_match_name(dn)
-        sess.add(p)
-        sess.commit()
+        if actually_do_it:
+            p.match_name = create_match_name(dn)
+            sess.add(p)
+            sess.commit()
         total_problems += 1
 
 

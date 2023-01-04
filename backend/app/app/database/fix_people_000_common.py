@@ -1,5 +1,6 @@
-
 shit_list_pref = ["Mr.",
+                  "MR",
+                  "MRS",
                   "Ms.",
                   "Mrs.",
                   "Dr.",
@@ -49,19 +50,19 @@ shit_list_suff = ["P.C.",
                   "MP",
                   "PC",
                   "Ph.D",
+                  "Ph.D.",
                   "PhD",
-                  "MA",
+                  # "MA",
                   "M.A.",
+                  "O.C.",
                   "Manager",
                   "Policy",
                   "Director"]
-
 
 shit_list_pref_lower = [x.lower() for x in shit_list_pref]
 shit_list_suff_lower = [x.lower() for x in shit_list_suff]
 shit_list_combined = shit_list_pref_lower.copy()
 shit_list_combined.extend(shit_list_suff_lower)
-
 
 first_name_synonyms = {'Alexander': ['Alex'],
                        "James": ['Jim', "Jimmy"],
