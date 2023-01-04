@@ -10,6 +10,7 @@ from schema_creation.sqlmodel_build import (
 import glob
 from pathlib import Path
 from parse_injest.utils import create_match_name
+import numpy as np
 
 
 def backup_postgres(host, user, passw, db_name, schema_name, pg_dump_command='pg_dump'):
@@ -513,10 +514,151 @@ def add_bills(session, bill_lst):
             session.add(existing_bill)
             session.commit()
 
-            bill_obj_lst.append(res[0])
+            bill_obj_lst.append(existing_bill)
         else:
             raise RuntimeError("Non unique bill detected")
     return bill_obj_lst
+
+
+def add_votes(session, vote_lst):
+    """
+    {
+        "parliament": parl[idx],
+        "parliament_session": parl_session[idx],
+        "date_held": dates[idx],
+        "vote_number": each_vote_no,
+        "description": desc[idx],
+        "yeas": yeas[idx],
+        "nays": nays[idx],
+        "paired": pairs[idx],
+        "result": vote_res[idx],
+        "bill_name": bill_no[idx],
+        "source_id": summary_src_obj.id
+    }
+    """
+    vote_obj_lst = []
+    for each_dict in vote_lst:
+        # Check if it already exists with same match_name
+        parl = each_dict.get("parliament")
+        parl_sess = each_dict.get("parliament_session")
+        vote_no = each_dict.get("vote_number")
+        vote_match_name = f"{parl}_{parl_sess}_{vote_no}"  # parl_session_voteno
+
+        stat = select(Vote).where(
+            Vote.match_name == vote_match_name
+        )
+        res = session.exec(stat).all()
+
+        # Date handling
+        date_dt = each_dict.get("date_held").split()[0]
+        date_dt = datetime.fromisoformat(date_dt).date()
+
+        if len(res) == 0:
+            # New entry
+            if each_dict.get("bill_name") is np.nan:
+                bill_id = None
+            else:
+                bill_name = each_dict.get("bill_name").lower()
+                bill_match_name = f"{parl}_{parl_sess}_{bill_name}"
+
+                stat_bill = select(Bill).where(
+                    Bill.match_name == bill_match_name
+                )
+                res_bill = session.exec(stat_bill).all()
+
+                if len(res_bill) == 0 or len(res_bill) > 1:
+                    raise AssertionError(f"Bill does not exist or is not unique ({bill_match_name})")
+
+                bill_id = res_bill[0].id
+
+            ot = Vote(parliament=parl,
+                      parliament_session=parl_sess,
+                      date_held=date_dt,
+                      vote_number=vote_no,
+                      match_name=vote_match_name,
+                      description=each_dict.get("description"),
+                      yeas=each_dict.get("yeas"),
+                      nays=each_dict.get("nays"),
+                      paired=each_dict.get("paired"),
+                      result=each_dict.get("result"),
+                      bill=bill_id,
+                      source=each_dict.get("source_id"))
+
+            session.add(ot)
+            session.commit()
+            vote_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            existing_vote = res[0]
+            vote_obj_lst.append(existing_vote)
+        else:
+            raise RuntimeError("Non unique vote detected")
+    return vote_obj_lst
+
+
+def add_individual_votes(session, ind_vote_lst):
+    """
+        {"parliament": parl[idx],
+        "parliament_session": parl_session[idx],
+        "vote_no": vote_no[idx],
+        "first_name": first_name[idx],
+        "last_name": last_name[idx],
+        "yes_bool": yes_bool[idx],
+        "no_bool": no_bool[idx],
+        "pair_bool": pair_bool[idx],
+        "source_id": detail_src_obj.id}
+    """
+    ind_vote_obj_lst = []
+    for jdx, each_dict in enumerate(ind_vote_lst):
+        print(f"IndVotes loop: {jdx} of {len(ind_vote_lst)}")
+        # Retrieve vote.id and person.id
+        vote_match_name = str(each_dict.get("parliament")) + "_" + str(each_dict.get("parliament_session")) + "_" + str(each_dict.get("vote_no"))
+        person_display_name = each_dict.get("first_name") + " " + each_dict.get("last_name")
+        person_match_name = create_match_name(person_display_name)
+
+        stat = select(Vote).where(
+            Vote.match_name == vote_match_name
+        )
+        vote_res = session.exec(stat).all()
+
+        if len(vote_res) == 0 or len(vote_res) > 1:
+            raise AssertionError(f"Vote does not exist or is not unique ({vote_match_name})")
+
+        stat = select(Person).where(
+            Person.match_name == person_match_name
+        )
+        person_res = session.exec(stat).all()
+
+        if len(person_res) == 0 or len(person_res) > 1:
+            raise AssertionError(f"Person does not exist or is not unique ({person_match_name})")
+
+        # Check if it already exists with same vote.id and person.id
+        stat = select(VoteIndividual).where(
+            VoteIndividual.person == person_res[0].id
+        ).where(
+            VoteIndividual.vote == vote_res[0].id
+        )
+        ind_vote_res = session.exec(stat).all()
+
+        if len(ind_vote_res) == 0:
+            # New entry
+            ot = VoteIndividual(vote=vote_res[0].id,
+                                person=person_res[0].id,
+                                is_yea=each_dict.get("yes_bool"),
+                                is_nay=each_dict.get("no_bool"),
+                                is_paired=each_dict.get("pair_bool"),
+                                source=each_dict.get("source_id"))
+
+            session.add(ot)
+            session.commit()
+            ind_vote_obj_lst.append(ot)
+        elif len(ind_vote_res) == 1:
+            # Existing entry
+            existing_vote = ind_vote_res[0]
+            ind_vote_obj_lst.append(existing_vote)
+        else:
+            raise RuntimeError("Non unique individual vote detected")
+    return ind_vote_obj_lst
 
 
 def match_organization_type(str_name):
