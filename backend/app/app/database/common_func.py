@@ -29,8 +29,7 @@ def backup_postgres(host, user, passw, db_name, schema_name, pg_dump_command='pg
         print('database backup not made')
 
 
-def create_session(debug=True):
-
+def create_session(debug=True, **kwargs):
     if debug:
         db_host = "localhost"
         db_name = "lq_test"
@@ -43,6 +42,11 @@ def create_session(debug=True):
         db_user = "test_user"
         db_pw = "change_this"
         # schema_name = "lf_mockup_2"
+
+    db_host = kwargs.pop('db_host', db_host)
+    db_name = kwargs.pop('db_name', db_name)
+    db_user = kwargs.pop('db_user', db_user)
+    db_pw = kwargs.pop('db_pw', db_pw)
 
     motor = create_engine(
         f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=False

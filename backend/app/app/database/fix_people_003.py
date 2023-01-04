@@ -22,13 +22,12 @@ db_pw = "change_this"
 
 schema_name = "lf_mockup_2"
 
+actually_do_it = False
+
 engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=False)
 sess = Session(engine)
 
-
-
 sql_query = select(Person)
-
 res = sess.exec(sql_query).all()
 
 for p in res:
@@ -70,30 +69,35 @@ for p in res:
                                 print("\t\t\t\tthe following memberships should be updated:")
                                 for mem in memberships_to_update:
                                     print(f"\t\t\t\t\t{mem}")
-                                    mem.person = keep_person.id
-                                    sess.add(mem)
-                                sess.commit()
+                                    if actually_do_it:
+                                        mem.person = keep_person.id
+                                        sess.add(mem)
+                                if actually_do_it:
+                                    sess.commit()
 
-                            sql_query = select(Communications).where(or_(Communications.party_1 == res.id, Communications.party_2 == res.id))
+                            sql_query = select(Communications).where(
+                                or_(Communications.party_1 == res.id, Communications.party_2 == res.id))
                             communications_to_update = sess.exec(sql_query).all()
                             if len(communications_to_update) > 0:
                                 print("\t\t\t\tthe following communications should be updated:")
                                 for com in communications_to_update:
                                     print(f"\t\t\t\t\t{com}")
-                                    if com.party_1 == res.id:
-                                        com.party_1 = keep_person.id
-                                    elif com.party_2 == res.id:
-                                        com.party_2 = keep_person.id
-                                    sess.add(com)
+                                    if actually_do_it:
+                                        if com.party_1 == res.id:
+                                            com.party_1 = keep_person.id
+                                        elif com.party_2 == res.id:
+                                            com.party_2 = keep_person.id
+                                        sess.add(com)
 
+                                if actually_do_it:
+                                    sess.commit()
+
+                            if actually_do_it:
+                                finally_delete = sess.exec(select(Person).where(Person.id == res.id)).first()
+                                sess.delete(finally_delete)
                                 sess.commit()
 
-                            finally_delete = sess.exec(select(Person).where(Person.id == res.id)).first()
-                            sess.delete(finally_delete)
-                            sess.commit()
-
-
-
+sess.close()
 
                     #
                     # print(f"{p.display_name}")
