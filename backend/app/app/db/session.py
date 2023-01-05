@@ -2,17 +2,15 @@ from typing import AsyncGenerator
 
 from fastapi import Depends
 from fastapi_users.db import SQLAlchemyUserDatabase
+from fastapi_users_db_sqlalchemy.access_token import SQLAlchemyAccessTokenDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.models import User, Base
-
-DATABASE_URL = "postgresql+asyncpg://postgres:changethis@db/app"
-
-
 from app.core.config import settings
+from app.db.base import Base
+from app.models import AccessToken, User
 
-engine = create_async_engine(DATABASE_URL, pool_pre_ping=True)
+engine = create_async_engine(settings.SQLALCHEMY_DATABASE_URI, pool_pre_ping=True)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
@@ -28,3 +26,9 @@ async def create_db_and_tables():
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
     yield SQLAlchemyUserDatabase(session, User)
+
+
+async def get_access_token_db(
+    session: AsyncSession = Depends(get_async_session),
+):
+    yield SQLAlchemyAccessTokenDatabase(session, AccessToken)
