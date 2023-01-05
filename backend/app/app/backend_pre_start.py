@@ -1,8 +1,8 @@
 import logging
-from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
-import asyncio
-from app.db.session import get_async_session, engine
 
+from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
+
+from app.db.session import engine
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -11,8 +11,6 @@ max_tries = 60 * 5  # 5 minutes
 wait_seconds = 1
 
 
-# async with engine.begin() as conn:
-#     await conn.execute("SELECT 1")
 @retry(
     stop=stop_after_attempt(max_tries),
     wait=wait_fixed(wait_seconds),
@@ -21,20 +19,16 @@ wait_seconds = 1
 )
 def init() -> None:
     try:
+        logger.info("Checking DB is awake")
         con = engine.connect()
         con.execute("SELECT 1")
-        # db = SessionLocal()
-        # Try to create session to check if DB is awake
-        # db.execute("SELECT 1")
-        # asyncio.run(check_db())
-        print("DB is awake")
+        logger.info("DB is awake")
     except Exception as e:
         logger.error(e)
         raise e
 
 
 def main() -> None:
-    logger.info("Initializing service")
     init()
     logger.info("Service finished initializing")
 
