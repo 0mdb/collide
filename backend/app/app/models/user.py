@@ -1,9 +1,12 @@
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
+from sqlalchemy.orm import relationship
+from typing import TYPE_CHECKING
+from app.db.base_class import Base
 
-Base: DeclarativeMeta = declarative_base()
+if TYPE_CHECKING:
+    from .item import Item  # noqa: F401
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    pass
+    items = relationship("Item", back_populates="owner")
     # full_name = Column(String, index=True)
