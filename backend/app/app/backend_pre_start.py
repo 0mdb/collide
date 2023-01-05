@@ -1,8 +1,13 @@
 import logging
 
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
+from sqlalchemy import create_engine
+from app.core.config import settings
 
-from app.db.session import engine
+# use sync engine for checking db is awake
+# TODO move to settings
+uri = "postgresql://postgres:changethis@db:5432/app"
+engine = create_engine(uri, pool_pre_ping=True)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
