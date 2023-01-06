@@ -1,6 +1,6 @@
 import React from 'react'
 import { ForceGraph2D } from 'react-force-graph'
-import myData from './sample_graph4.json'
+import myData from './sample_graph3.json'
 
 function ForceGraph() {
   return (
