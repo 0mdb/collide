@@ -6,7 +6,7 @@ import pandas as pd
 import common_func as cf
 import xml.etree.ElementTree as et
 from sqlmodel import select
-from schema_creation.sqlmodel_build import (Bill)
+from schema_creation.sqlmodel_build import (Bill, LegStage)
 
 
 def get_all_para_marginalnotes_xml(xml_elem):
@@ -30,7 +30,7 @@ def get_all_para_marginalnotes_xml(xml_elem):
 # Preamble, folder locations
 project_name = "app"  # collide\backend\app\app
 data_dir = "data"
-data_dir_bills_detailed = os.path.join("bills", "detail")
+data_dir_bills_detailed = os.path.join("bills", "debug")
 
 # Folder creation, directories
 curr_dir_name = os.path.dirname(__file__)
@@ -74,20 +74,29 @@ xml_reading_map = {
     "assented-to": 4
 }
 
-legstage_map = {
-    "first-reading-senate": 4,
-    "first-reading-house": 1,
-    "second-reading-senate": 5,
-    "second-reading-house": 2,
-    "third-reading-senate": 6,
-    "third-reading-house": 3,
-    "assented-to": 7
-}
+stat = select(LegStage)
+all_stages = session.exec(stat).all()
+legstage_map = {}
+for each_leg_stage in all_stages:
+    if each_leg_stage.match_name == "housereadingfirst":
+        legstage_map["first-reading-house"] = each_leg_stage.id
+    if each_leg_stage.match_name == "housereadingsecond":
+        legstage_map["second-reading-house"] = each_leg_stage.id
+        legstage_map["report-house"] = each_leg_stage.id
+    if each_leg_stage.match_name == "housereadingthird":
+        legstage_map["third-reading-house"] = each_leg_stage.id
+    if each_leg_stage.match_name == "senatereadingfirst":
+        legstage_map["first-reading-senate"] = each_leg_stage.id
+    if each_leg_stage.match_name == "senatereadingsecond":
+        legstage_map["second-reading-senate"] = each_leg_stage.id
+    if each_leg_stage.match_name == "senatereadingthird":
+        legstage_map["third-reading-senate"] = each_leg_stage.id
+    if each_leg_stage.match_name == "royalassent":
+        legstage_map["assented-to"] = each_leg_stage.id
 
 stat = select(Bill)
 all_bills = session.exec(stat).all()
 
-# TODO: debug why only one reading appears for each bill.id
 # TODO: computer diffs for every combination
 # TODO: create billdiff objects, insert into table
 
@@ -97,10 +106,12 @@ for idx, each_bill in enumerate(all_bills):
     uc_match_name = each_bill.match_name.upper()
     match_file_lst = glob.glob(detail_dir + f"/{uc_match_name}_*.xml")
 
+    if len(match_file_lst) > 0:
+        bill_dict[match_id] = {}
+
     for jdx, each_xml in enumerate(match_file_lst):
         print(f"XML loop {jdx} of {len(match_file_lst)}")
         # print(file)
-        bill_dict[match_id] = {}
         file_str_mess = []
 
         tree = et.parse(each_xml)
