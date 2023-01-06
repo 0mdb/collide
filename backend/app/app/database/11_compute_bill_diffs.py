@@ -5,6 +5,27 @@ import pathlib
 import pandas as pd
 import common_func as cf
 import xml.etree.ElementTree as et
+from sqlmodel import select
+from schema_creation.sqlmodel_build import (Bill)
+
+
+def get_all_para_marginalnotes_xml(xml_elem):
+    mini_mess = []
+    for c in xml_elem:
+        # if c.tag == "Block":
+        #     mini_mess += get_all_para_marginalnotes_xml(c)
+        # else:
+
+        #if c.tag == "Para" or c.tag == "MarginalNote":
+        if c.text is not None:
+            mini_mess = mini_mess + [c.text]
+        if c.tail is not None:
+            mini_mess = mini_mess + [c.tail]
+
+        mini_mess += get_all_para_marginalnotes_xml(c)
+
+    return mini_mess
+
 
 # Preamble, folder locations
 project_name = "app"  # collide\backend\app\app
@@ -41,55 +62,86 @@ detail_src_obj = cf.add_sources(session,
 # bill_txt_df = pd.DataFrame()
 # for each_xml in det_file_lst[0:2]:
 #     bill_txt_df = pd.concat([bill_txt_df, pd.read_xml(each_xml)], axis=0, ignore_index=True)
+bill_dict = {}
+xml_reading_map = {
+    "first-reading-senate": 1,
+    "first-reading-house": 1,
+    "second-reading-senate": 2,
+    "second-reading-house": 2,
+    "report-house": 2,
+    "third-reading-senate": 3,
+    "third-reading-house": 3,
+    "assented-to": 4
+}
 
-for each_xml in det_file_lst[0:2]:
-    # print(file)
-    file_str_mess = ""
+legstage_map = {
+    "first-reading-senate": 4,
+    "first-reading-house": 1,
+    "second-reading-senate": 5,
+    "second-reading-house": 2,
+    "third-reading-senate": 6,
+    "third-reading-house": 3,
+    "assented-to": 7
+}
 
-    tree = et.parse(each_xml)
-    root = tree.getroot()
-    # print(root.tag)
+stat = select(Bill)
+all_bills = session.exec(stat).all()
 
-    mp_role_dict = {}
-    caucus_roles = []
-    parliamentary_positions = []
-    committee_member_roles = []
-    association_and_group_roles = []
+# TODO: debug why only one reading appears for each bill.id
+# TODO: computer diffs for every combination
+# TODO: create billdiff objects, insert into table
 
-    for child in root:
-        # print(child.tag)
-        # Cover, InsideCover, MainText,
-        xml_part = child.attrib.get("Part_Type")
-        if xml_part == "MainText":
-            for c in child:
-                print(c)
-                if c.tag == "Block":
-                    for g_c in c:
-                        if g_c.tag == "Para" or g_c.tag == "MarginalNote":
-                            print(g_c)
-                            if g_c.text is not None:
-                                file_str_mess = file_str_mess + "\n" + g_c.text
-                            if g_c.tail is not None:
-                                file_str_mess = file_str_mess + "\n" + g_c.tail
+for idx, each_bill in enumerate(all_bills):
+    print(f"Bill loop {idx} of {len(all_bills)}")
+    match_id = each_bill.id
+    uc_match_name = each_bill.match_name.upper()
+    match_file_lst = glob.glob(detail_dir + f"/{uc_match_name}_*.xml")
 
+    for jdx, each_xml in enumerate(match_file_lst):
+        print(f"XML loop {jdx} of {len(match_file_lst)}")
+        # print(file)
+        bill_dict[match_id] = {}
+        file_str_mess = []
+
+        tree = et.parse(each_xml)
+        root = tree.getroot()
+        bill_name = root.attrib.get("Bill_No")
+        bill_reading = root.attrib.get("Stage_Name")
+        # print(root.tag)
+
+        file_name_info = os.path.basename(each_xml).split("_")
+        expected_parl = int(file_name_info[0])
+        expected_parl_session = int(file_name_info[1])
+        expected_bill_name = file_name_info[2]
+        expected_reading = int(file_name_info[3].split(".")[0])
+
+        for child in root:
+            # print(child.tag)
+            # Cover, InsideCover, MainText,
+            if child.tag == "Identification":
+                for g_c in child:
+                    if g_c.tag == "BillNumber":
+                        bill_name = g_c.text
+                    if g_c.tag == "BillHistory":
                         for g_g_c in g_c:
-                            print(g_g_c)
-                            if g_g_c.text is not None:
-                                file_str_mess = file_str_mess + "\n" + g_g_c.text
-                            if g_g_c.tail is not None:
-                                file_str_mess = file_str_mess + "\n" + g_g_c.tail
+                            if g_g_c.tag == "Stages":
+                                bill_reading = g_g_c.attrib.get("stage")
+            xml_part = child.attrib.get("Part_Type")
+            if xml_part == "MainText" or child.tag == "Body":
+                file_str_mess += get_all_para_marginalnotes_xml(child)
 
-                            for g_g_g_c in g_g_c:
-                                print(g_g_g_c)
-                                if g_g_g_c.text is not None:
-                                    file_str_mess = file_str_mess + "\n" + g_g_g_c.text
-                                if g_g_g_c.tail is not None:
-                                    file_str_mess = file_str_mess + "\n" + g_g_g_c.tail
+        file_str_mess = '\n'.join(file_str_mess)
+        print(file_str_mess)
 
-    print("Cover")
-            # for node in child:
-            #     if node.tag in member_of_parliament_role_field_list:
-            #         mp_role_dict[node.tag] = node.text
+        # sanity check filename vs file contents
+        if bill_name.lower() == expected_bill_name.lower():
+            if xml_reading_map.get(bill_reading.lower()) == expected_reading:
+                bill_dict[match_id][legstage_map.get(bill_reading.lower())] = file_str_mess
+            else:
+                raise AssertionError("Reading number does not match")
+        else:
+            raise AssertionError("Bill number does not match")
+
 
 session.close()
 print("END")
