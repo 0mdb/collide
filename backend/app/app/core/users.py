@@ -80,7 +80,7 @@ def get_database_strategy(
 
 auth_backend = AuthenticationBackend(
     name="db",
-    transport=cookie_transport,
+    transport=bearer_transport,
     get_strategy=get_database_strategy,
 )
 
