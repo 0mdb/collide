@@ -6,6 +6,9 @@ import pandas as pd
 import common_func as cf
 import xml.etree.ElementTree as et
 from sqlmodel import select
+from unidecode import unidecode
+
+from app.database.diff import myers_kickoff
 from schema_creation.sqlmodel_build import (Bill, LegStage)
 
 
@@ -30,7 +33,8 @@ def get_all_para_marginalnotes_xml(xml_elem):
 # Preamble, folder locations
 project_name = "app"  # collide\backend\app\app
 data_dir = "data"
-data_dir_bills_detailed = os.path.join("bills", "debug")
+data_dir_bills_detailed = os.path.join("bills", "detail")
+diff_dir = os.path.join("bills", "diffs")
 
 # Folder creation, directories
 curr_dir_name = os.path.dirname(__file__)
@@ -40,6 +44,10 @@ for i in pathlib.Path(curr_dir_name).parents:
     if i.name == project_name:
         absolute_project_path = i.absolute()
         break
+
+if not os.path.exists(os.path.join(absolute_project_path, data_dir, diff_dir)):
+    os.mkdir(os.path.join(absolute_project_path, data_dir, diff_dir))
+diff_dir = os.path.join(absolute_project_path, data_dir, diff_dir)
 
 detail_dir = os.path.join(absolute_project_path, data_dir, data_dir_bills_detailed)
 
@@ -97,10 +105,7 @@ for each_leg_stage in all_stages:
 stat = select(Bill)
 all_bills = session.exec(stat).all()
 
-# TODO: computer diffs for every combination
-# TODO: create billdiff objects, insert into table
-
-for idx, each_bill in enumerate(all_bills):
+for idx, each_bill in enumerate(all_bills[0:100]):
     print(f"Bill loop {idx} of {len(all_bills)}")
     match_id = each_bill.id
     uc_match_name = each_bill.match_name.upper()
@@ -153,6 +158,32 @@ for idx, each_bill in enumerate(all_bills):
         else:
             raise AssertionError("Bill number does not match")
 
+# Compute diffs for every combination
+diffs_lst = []
+for each_bill_id in bill_dict.keys():
+    readings_available = sorted(list(bill_dict[each_bill_id].keys()))
+    for idx, each_reading_id in enumerate(readings_available[0:-1]):
+        start_id = each_reading_id
+        end_id = readings_available[idx+1]
+
+        start_text = bill_dict[each_bill_id][start_id]
+        end_text = bill_dict[each_bill_id][end_id]
+
+        diffs_a_to_b = myers_kickoff(start_text, end_text)
+        diffs_a_to_b = unidecode(diffs_a_to_b)
+
+        with open(os.path.join(diff_dir, f"{each_bill_id}_{start_id}_{end_id}.txt"), "w+", encoding="utf-8") as text_file:
+            text_file.write(diffs_a_to_b)
+
+        print("done file")
+        # TODO: create billdiff objects, insert into table
+        # diffs_lst.append({
+        #     "bill_id": each_bill_id,
+        #     "stage_1_id": start_id,
+        #     "stage_2_id": end_id,
+        #     "text_diff": diffs_a_to_b,
+        #     # "source_id":
+        # })
 
 session.close()
 print("END")
