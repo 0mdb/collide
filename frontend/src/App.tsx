@@ -6,6 +6,7 @@ import { H1 } from '@blueprintjs/core'
 import { Admin, Resource, ListGuesser } from 'react-admin'
 import PersistLogin from './components/PersistLogin'
 import Home from './pages/Home'
+import Landing from './pages/Landing'
 import Layout from './pages/Layout'
 import Sankey from './components/SankeyGraph'
 import Login from './pages/Login'
@@ -16,8 +17,6 @@ import Register from './pages/Register'
 const dataProvider = jsonserverprovider('http://jsonplaceholder.typicode.com')
 
 // const Home = lazy(() => import('./pages/Home'))
-// const Graph1 = lazy(() => import('./pages/Graph1'))
-// const Graph2 = lazy(() => import('./pages/Graph2'))
 // const Login = lazy(() => import('./pages/Login'))
 // const Register = lazy(() => import('./pages/Register'))
 // const Unauthorized = lazy(() => import('./components/Unauthorized'))
@@ -36,23 +35,25 @@ function App() {
         {/* public routes */}
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Landing />} />
         <Route path='unauthorized' element={<Unauthorized />} />
-        <Route path='sankey' element={<Sankey />} />
-        {/* <Route path='graph2' element={<Graph2 />} /> */}
+        <Route path='home' element={<Home />} />
         {/* protected routes */}
-        <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-            <Route
-              path='admin/*'
-              element={
-                <Admin dataProvider={dataProvider} basename='/admin'>
-                  <Resource name='users' list={ListGuesser} />
-                </Admin>
-              }
-            />
-          </Route>
+        {/* <Route element={<PersistLogin />}> */}
+        {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}>
+          <Route path='home' element={<Home />} />
+        </Route> */}
+        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+          <Route
+            path='admin/*'
+            element={
+              <Admin dataProvider={dataProvider} basename='/admin'>
+                <Resource name='users' list={ListGuesser} />
+              </Admin>
+            }
+          />
         </Route>
+        {/* </Route> */}
         {/* catch all */}
         <Route path='*' element={<H1>Page Missing</H1>} />
       </Route>
