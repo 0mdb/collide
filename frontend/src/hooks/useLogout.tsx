@@ -1,15 +1,16 @@
 import axios from '../api/axios'
 import useAuth from './useAuth'
+import cookie from 'js-cookie'
 
 const useLogout = () => {
   const { setAuth } = useAuth()
 
   const logout = async () => {
-    // setAuth({}) // clear auth
+    setAuth({}) // clear auth
     try {
-      const response = await axios.post('auth/cookie/logout', {
+      await axios.post('auth/cookie/logout', {
         withcredentials: true,
-      })
+      }) // clear cookie
     } catch (err) {
       console.error(err)
     }
