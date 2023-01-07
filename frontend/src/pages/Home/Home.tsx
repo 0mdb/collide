@@ -25,7 +25,7 @@ function Home() {
       <div className='content-container'>
         <TopNavigation />
         <div className='inline-block grid'>
-          <Sankey />
+          {/* <Sankey /> */}
           <ForceGraph />
         </div>
         <BottomBar />
