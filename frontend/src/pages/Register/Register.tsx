@@ -2,72 +2,9 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import loginImage from '../Login/login_img.png'
-const LOGIN_URL = 'login/access-token'
+import axios from '../../api/axios'
 
-// function Register() {
-//   const [user, setUser] = useState('')
-//   const [pwd, setPwd] = useState('')
-//   const [errMsg, setErrMsg] = useState('')
-//   const [errorMessage, setErrorMessage] = useState('')
-//   const errRef = useRef()
-//   const userRef = useRef<HTMLHeadingElement>()
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault()
-//     try {
-//       const formData = new FormData()
-//       formData.append('username', user)
-//       formData.append('password', pwd)
-//       const response = await axios.post(LOGIN_URL, formData)
-//       const accessToken = response?.data?.access_token
-//       const refreshToken = response?.data?.refresh_token
-//       setAuth({ user, accessToken, refreshToken })
-//       setUser('')
-//       setPwd('')
-//       navigate(from, { replace: true })
-//     } catch (err) {
-//       if (!err?.response) {
-//         setErrMsg('No Server Response')
-//       } else if (err.response?.status === 400) {
-//         setErrMsg('Incorrect email or password')
-//       } else {
-//         setErrMsg('Login Failed')
-//       }
-//       errRef.current.focus()
-//     }
-//   }
-//   return (
-//     <div className='login'>
-//       <Card className='highlight-card' interactive={true}>
-//         <form onSubmit={handleSubmit}>
-//           <H1>Collide</H1>
-//           <br />
-//           <InputGroup type='email' placeholder='Email' id='username' autoComplete='off' required />
-//           <br />
-//           <InputGroup type='password' id='password' placeholder='Password' required />
-//           <br />
-//           <InputGroup
-//             type='password'
-//             id='confirmpassword'
-//             placeholder='Confirm password'
-//             required
-//           />
-//           <br />
-//           <p>
-//             <Button intent='primary' type='submit' text='Sign up' />
-//           </p>
-//         </form>
-//       </Card>
-//       <Card className='highlight-card' interactive={true}>
-//         <H5>
-//           Have an account?
-//           <br />
-//           <Link to='/login'>Sign in</Link>
-//         </H5>
-//       </Card>
-//     </div>
-//   )
-// }
+const REGISTER_URL = 'auth/register'
 
 function Register() {
   const { setAuth, persist, setPersist } = useAuth()
@@ -77,8 +14,8 @@ function Register() {
   const from = location.state?.from?.pathname || '/'
   const userRef = useRef<HTMLHeadingElement>()
   const errRef = useRef()
-  const [user, setUser] = useState('')
-  const [pwd, setPwd] = useState('')
+  const [email, setUser] = useState('')
+  const [password, setPwd] = useState('')
   const [errMsg, setErrMsg] = useState('')
 
   useEffect(() => {
@@ -87,18 +24,15 @@ function Register() {
 
   useEffect(() => {
     setErrMsg('')
-  }, [user, pwd])
+  }, [email, password])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const formData = new FormData()
-      formData.append('username', user)
-      formData.append('password', pwd)
-      const response = await axios.post(LOGIN_URL, formData)
+      const response = await axios.post(REGISTER_URL, { email, password })
       const accessToken = response?.data?.access_token
-      const refreshToken = response?.data?.refresh_token
-      setAuth({ user, accessToken, refreshToken })
+
+      setAuth({ email, accessToken })
       setUser('')
       setPwd('')
       navigate(from, { replace: true })
@@ -106,7 +40,7 @@ function Register() {
       if (!err?.response) {
         setErrMsg('No Server Response')
       } else if (err.response?.status === 400) {
-        setErrMsg('Incorrect email or password')
+        setErrMsg('User already exists')
       } else {
         setErrMsg('Login Failed')
       }
@@ -137,11 +71,11 @@ function Register() {
             <input
               type='email'
               placeholder='Email'
-              id='username'
+              id='email'
               ref={userRef}
               autoComplete='off'
               onChange={(e) => setUser(e.target.value)}
-              value={user}
+              value={email}
               required={true}
               className='first: rounded-lg border p-2 shadow-lg'
             />
@@ -154,7 +88,7 @@ function Register() {
               className='rounded-lg border p-2 shadow-lg'
               type='password'
               onChange={(e) => setPwd(e.target.value)}
-              value={pwd}
+              value={password}
               required
             />
           </div>
@@ -165,7 +99,7 @@ function Register() {
               className='rounded-lg border p-2 shadow-lg'
               type='password'
               onChange={(e) => setPwd(e.target.value)}
-              value={pwd}
+              value={password}
               required
             />
           </div>
