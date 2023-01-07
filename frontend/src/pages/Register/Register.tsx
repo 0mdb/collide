@@ -35,7 +35,8 @@ function Register() {
       setAuth({ email, accessToken })
       setUser('')
       setPwd('')
-      navigate(from, { replace: true })
+      // navigate(from, { replace: true })
+      navigate('/home')
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
