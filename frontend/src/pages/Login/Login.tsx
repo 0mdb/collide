@@ -5,7 +5,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import React from 'react'
 import loginImage from './login_img.png'
 
-const LOGIN_URL = 'login/access-token'
+const LOGIN_URL = 'auth/cookie/login'
 
 function Login() {
   const { setAuth, persist, setPersist } = useAuth()
@@ -35,11 +35,11 @@ function Login() {
       formData.append('password', pwd)
       const response = await axios.post(LOGIN_URL, formData)
       const accessToken = response?.data?.access_token
-      const refreshToken = response?.data?.refresh_token
-      setAuth({ user, accessToken, refreshToken })
+      setAuth({ user, accessToken })
       setUser('')
       setPwd('')
-      navigate(from, { replace: true })
+      // navigate(from, { replace: true })
+      navigate('/home')
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response')
