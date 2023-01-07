@@ -18,14 +18,17 @@ def get_all_para_marginalnotes_xml(xml_elem):
         # if c.tag == "Block":
         #     mini_mess += get_all_para_marginalnotes_xml(c)
         # else:
+        if c.tag == "ExplanatoryNote" or c.tag == "HistoricalNote":
+            continue
 
         #if c.tag == "Para" or c.tag == "MarginalNote":
         if c.text is not None:
-            mini_mess = mini_mess + [c.text]
-        if c.tail is not None:
-            mini_mess = mini_mess + [c.tail]
+            mini_mess = mini_mess + [c.text.strip()]
 
         mini_mess += get_all_para_marginalnotes_xml(c)
+
+        if c.tail is not None:
+            mini_mess = mini_mess + [c.tail.strip()]
 
     return mini_mess
 
@@ -105,7 +108,7 @@ for each_leg_stage in all_stages:
 stat = select(Bill)
 all_bills = session.exec(stat).all()
 
-for idx, each_bill in enumerate(all_bills[0:100]):
+for idx, each_bill in enumerate(all_bills):
     print(f"Bill loop {idx} of {len(all_bills)}")
     match_id = each_bill.id
     uc_match_name = each_bill.match_name.upper()
@@ -146,7 +149,7 @@ for idx, each_bill in enumerate(all_bills[0:100]):
             if xml_part == "MainText" or child.tag == "Body":
                 file_str_mess += get_all_para_marginalnotes_xml(child)
 
-        file_str_mess = '\n'.join(file_str_mess)
+        file_str_mess = ' '.join(file_str_mess)
         print(file_str_mess)
 
         # sanity check filename vs file contents
@@ -169,10 +172,30 @@ for each_bill_id in bill_dict.keys():
         start_text = bill_dict[each_bill_id][start_id]
         end_text = bill_dict[each_bill_id][end_id]
 
+        start_text = unidecode(start_text)
+        # start_text = start_text.replace('.', '.\n')
+        start_text = start_text.replace('  ', ' ')
+        start_text = start_text.replace(' ,', ',')
+        start_text = start_text.replace(' .', '.')
+        start_text = start_text.replace(' :', ':')
+        start_text = start_text.replace(' ;', ';')
+        start_text = start_text.replace(':', ':\n')
+        start_text = start_text.replace(';', ';\n')
+        #
+        end_text = unidecode(end_text)
+        # end_text = end_text.replace('.', '.\n')
+        end_text = end_text.replace('  ', ' ')
+        end_text = end_text.replace(' ,', ',')
+        end_text = end_text.replace(' .', '.')
+        end_text = end_text.replace(' :', ':')
+        end_text = end_text.replace(' ;', ';')
+        end_text = end_text.replace(':', ':\n')
+        end_text = end_text.replace(';', ';\n')
+
         diffs_a_to_b = myers_kickoff(start_text, end_text)
         diffs_a_to_b = unidecode(diffs_a_to_b)
 
-        with open(os.path.join(diff_dir, f"{each_bill_id}_{start_id}_{end_id}.txt"), "w+", encoding="utf-8") as text_file:
+        with open(os.path.join(diff_dir, f"{each_bill_id}_{start_id}_{end_id}.txt"), "w+") as text_file:
             text_file.write(diffs_a_to_b)
 
         print("done file")
