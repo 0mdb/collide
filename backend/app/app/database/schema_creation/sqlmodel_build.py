@@ -382,14 +382,19 @@ class BillDiff(SQLModel, table=True):
     bill: int = Field(foreign_key='bill.id', nullable=False, index=True)
     stage_1: int = Field(foreign_key='legstage.id', nullable=False, index=True)
     stage_2: int = Field(foreign_key='legstage.id', nullable=False, index=True)
-    txt_diff: str = Field(nullable=False)
+    txt_diff: bytes = Field(nullable=False, sa_column=sa.Column(pg.BYTEA))
+
+    class Config:
+        arbitrary_types_allowed = True
 
     def as_dict(self):
         return {'id': self.id,
                 'bill': self.bill,
                 'stage_1': self.stage_1,
                 'stage_2': self.stage_2,
-                'txt_diff': self.txt_diff}
+                'txt_diff': self.txt_diff,
+                # 'source': self.source
+                }
 
 # class CorporateInfo(SQLModel, table=True):
 #     #__table_args__ = {"schema": f"{schema_name}"}
