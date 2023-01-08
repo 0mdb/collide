@@ -192,6 +192,9 @@ for each_bill_id in bill_dict.keys():
         end_text = end_text.replace(':', ':\n')
         end_text = end_text.replace(';', ';\n')
 
+        # TODO: Consider improving html ingestion script to join on ' ' or '/n' depending on
+        #  child.tag matches (e.g. Para) and remove string .replace mess
+
         # diffs_a_to_b = myers_kickoff(start_text, end_text)
         html_diff = difflib.HtmlDiff()
         diffs_a_to_b_html = html_diff.make_file(fromlines=start_text.split('\n'),
@@ -226,7 +229,7 @@ for each_bill_id in bill_dict.keys():
             "bill_id": each_bill_id,
             "stage_1_id": start_id,
             "stage_2_id": end_id,
-            "text_diff": compressed_value,
+            "txt_diff": compressed_value,
             # "source_id":
         })
 
