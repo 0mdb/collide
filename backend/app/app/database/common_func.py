@@ -1,16 +1,13 @@
 from datetime import datetime
-import os
-import pathlib
 from sqlmodel import Session, create_engine, select
 from schema_creation.sqlmodel_build import (
     Source, Organization, OrganizationType, SectorIndustry, Person, OrganizationMembership,
     FundingPersonPerson, FundingPersonOrg, Funding,
     Bill, Vote, VoteIndividual, BillDiff, LegStage
 )
-import glob
-from pathlib import Path
 from parse_injest.utils import create_match_name
 import numpy as np
+import gzip
 
 
 def backup_postgres(host, user, passw, db_name, schema_name, pg_dump_command='pg_dump'):
@@ -739,7 +736,7 @@ def add_diffs(session, diffs_lst):
         "bill_id": each_bill_id,
         "stage_1_id": start_id,
         "stage_2_id": end_id,
-        "text_diff": compressed_html,
+        "txt_diff": compressed_html,
     }
     """
     diff_obj_lst = []
@@ -775,6 +772,27 @@ def add_diffs(session, diffs_lst):
         else:
             raise RuntimeError("Non unique billdiff detected")
     return diff_obj_lst
+
+
+def decode_billdiff(bill_id, stage_1_id, stage_2_id):
+    session = create_session()
+
+    stat = select(BillDiff).where(
+        BillDiff.bill == bill_id
+    ).where(
+        BillDiff.stage_1 == stage_1_id
+    ).where(
+        BillDiff.stage_2 == stage_2_id
+    )
+    res = session.exec(stat).all()
+
+    if len(res) != 1:
+        raise AssertionError("wrong")
+
+    plain_string_again = gzip.decompress(res[0].txt_diff).decode('utf-8')
+
+    with open(f"decoded_table.html", "w") as text_file:
+        text_file.write(plain_string_again)
 
 
 def match_organization_type(str_name):
