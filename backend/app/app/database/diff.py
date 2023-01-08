@@ -25,7 +25,6 @@
 
 from __future__ import print_function  # Py2 compat
 from collections import namedtuple
-import sys
 
 # These define the structure of the history, and correspond to diff output with
 # lines that start with a space, a + and a - respectively.
@@ -112,30 +111,11 @@ def myers_diff(a_lines, b_lines):
 
 
 def myers_kickoff(start_complete_str, end_complete_str):
-    # try:
-    #     _, a_file, b_file = sys.argv
-    # except ValueError:
-    #     print(sys.argv[0], '<FILE>', '<FILE>')
-    #     return 1
-    #
-    # with open(a_file) as a_handle:
-    #     a_lines = [line.rstrip() for line in a_handle]
-    #
-    # with open(b_file) as b_handle:
-    #     b_lines = [line.rstrip() for line in b_handle]
-
     a_lines = [line.rstrip() for line in start_complete_str.split('\n')]
     b_lines = [line.rstrip() for line in end_complete_str.split('\n')]
     diffs_a_to_b = ""
 
     diff = myers_diff(a_lines, b_lines)
-    # for elem in diff:
-    #     if isinstance(elem, Keep):
-    #         print(' ' + elem.line)
-    #     elif isinstance(elem, Insert):
-    #         print('+' + elem.line)
-    #     else:
-    #         print('-' + elem.line)
     for elem in diff:
         if isinstance(elem, Keep):
             diffs_a_to_b = diffs_a_to_b + (' ' + elem.line) + '\n'
@@ -145,7 +125,3 @@ def myers_kickoff(start_complete_str, end_complete_str):
             diffs_a_to_b = diffs_a_to_b + ('-' + elem.line) + '\n'
 
     return diffs_a_to_b
-
-
-# if __name__ == '__main__':
-#     sys.exit(main())
