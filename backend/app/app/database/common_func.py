@@ -730,8 +730,52 @@ def add_individual_votes_single(inputs):
 
     loc_sess.close()
 
-
     return ind_vote_obj_lst
+
+
+def add_diffs(session, diffs_lst):
+    """
+    {
+        "bill_id": each_bill_id,
+        "stage_1_id": start_id,
+        "stage_2_id": end_id,
+        "text_diff": compressed_html,
+    }
+    """
+    diff_obj_lst = []
+    for each_dict in diffs_lst:
+        # Check if it already exists with same bill, stage 1 and 2
+        bill_id = each_dict.get("bill_id")
+        stage_1_id = each_dict.get("stage_1_id")
+        stage_2_id = each_dict.get("stage_2_id")
+
+        stat = select(BillDiff).where(
+            BillDiff.bill == bill_id
+        ).where(
+            BillDiff.stage_1 == stage_1_id
+        ).where(
+            BillDiff.stage_2 == stage_2_id
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New entry
+            ot = BillDiff(bill=bill_id,
+                          stage_1=stage_1_id,
+                          stage_2=stage_2_id,
+                          txt_diff=each_dict.get("txt_diff"))
+
+            session.add(ot)
+            session.commit()
+            diff_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            existing_billdiif = res[0]
+            diff_obj_lst.append(existing_billdiif)
+        else:
+            raise RuntimeError("Non unique billdiff detected")
+    return diff_obj_lst
+
 
 def match_organization_type(str_name):
     lc_name = str.lower(str_name)

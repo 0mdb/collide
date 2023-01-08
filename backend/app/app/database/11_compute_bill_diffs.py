@@ -7,6 +7,8 @@ import common_func as cf
 import xml.etree.ElementTree as et
 from sqlmodel import select
 from unidecode import unidecode
+import difflib
+import gzip
 
 from app.database.diff import myers_kickoff
 from schema_creation.sqlmodel_build import (Bill, LegStage)
@@ -172,8 +174,7 @@ for each_bill_id in bill_dict.keys():
         start_text = bill_dict[each_bill_id][start_id]
         end_text = bill_dict[each_bill_id][end_id]
 
-        start_text = unidecode(start_text)
-        # start_text = start_text.replace('.', '.\n')
+        start_text = unidecode(start_text, errors='replace')
         start_text = start_text.replace('  ', ' ')
         start_text = start_text.replace(' ,', ',')
         start_text = start_text.replace(' .', '.')
@@ -182,8 +183,7 @@ for each_bill_id in bill_dict.keys():
         start_text = start_text.replace(':', ':\n')
         start_text = start_text.replace(';', ';\n')
         #
-        end_text = unidecode(end_text)
-        # end_text = end_text.replace('.', '.\n')
+        end_text = unidecode(end_text, errors='replace')
         end_text = end_text.replace('  ', ' ')
         end_text = end_text.replace(' ,', ',')
         end_text = end_text.replace(' .', '.')
@@ -192,21 +192,45 @@ for each_bill_id in bill_dict.keys():
         end_text = end_text.replace(':', ':\n')
         end_text = end_text.replace(';', ';\n')
 
-        diffs_a_to_b = myers_kickoff(start_text, end_text)
-        diffs_a_to_b = unidecode(diffs_a_to_b)
+        # diffs_a_to_b = myers_kickoff(start_text, end_text)
+        html_diff = difflib.HtmlDiff()
+        diffs_a_to_b_html = html_diff.make_file(fromlines=start_text.split('\n'),
+                                                tolines=end_text.split('\n'),
+                                                fromdesc=f"Bill.id {each_bill_id}, stage.id {start_id}",
+                                                todesc=f"Bill.id {each_bill_id}, stage.id {end_id}",
+                                                context=True,
+                                                numlines=2)
 
-        with open(os.path.join(diff_dir, f"{each_bill_id}_{start_id}_{end_id}.txt"), "w+") as text_file:
-            text_file.write(diffs_a_to_b)
+        with open(os.path.join(diff_dir, f"{each_bill_id}_{start_id}_{end_id}.html"), "w") as text_file:
+            text_file.write(diffs_a_to_b_html)
 
-        print("done file")
-        # TODO: create billdiff objects, insert into table
-        # diffs_lst.append({
-        #     "bill_id": each_bill_id,
-        #     "stage_1_id": start_id,
-        #     "stage_2_id": end_id,
-        #     "text_diff": diffs_a_to_b,
-        #     # "source_id":
-        # })
+        compressed_value = gzip.compress(bytes(diffs_a_to_b_html, 'utf-8'))
+        # plain_string_again = gzip.decompress(compressed_value).decode('utf-8')
+
+        # diffs_a_to_b_str = difflib.context_diff(start_text.split('\n'),
+        #                                         end_text.split('\n'),
+        #                                         fromfile='Bill Reading',
+        #                                         tofile='Next Avail Bill Reading',
+        #                                         fromfiledate='',
+        #                                         tofiledate='',
+        #                                         n=2,
+        #                                         lineterm='\n')
+        #
+        # diffs_a_to_b_str = [x for x in diffs_a_to_b_str]
+        # if len(diffs_a_to_b_str) > 0:
+        #     diffs_a_to_b_str = "".join(diffs_a_to_b_str)
+        # else:
+        #     diffs_a_to_b_str = "No detected difference"
+
+        diffs_lst.append({
+            "bill_id": each_bill_id,
+            "stage_1_id": start_id,
+            "stage_2_id": end_id,
+            "text_diff": compressed_value,
+            # "source_id":
+        })
+
+objs = cf.add_diffs(session, diffs_lst)
 
 session.close()
 print("END")
