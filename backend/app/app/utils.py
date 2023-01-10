@@ -74,7 +74,6 @@ async def send_reset_password_email(email_to: str, token: str) -> None:
         html_template=template_str,
         environment={
             "project_name": settings.PROJECT_NAME,
-            # "username": email,
             "email": email_to,
             "valid_hours": settings.EMAIL_RESET_TOKEN_EXPIRE_HOURS,
             "link": link,
