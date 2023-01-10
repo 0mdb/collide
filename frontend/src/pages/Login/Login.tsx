@@ -4,9 +4,8 @@ import axios from '../../api/axios'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import React from 'react'
 import loginImage from './login_img.png'
-import useFindUser from 'hooks/useFindUser'
 
-const LOGIN_URL = 'auth/cookie/login'
+const LOGIN_URL = 'auth/jwt/login'
 
 function Login() {
   const { setAuth, persist, setPersist } = useAuth()
@@ -16,7 +15,7 @@ function Login() {
   const from = location.state?.from?.pathname || '/'
   const userRef = useRef<HTMLHeadingElement>()
   const errRef = useRef()
-  const [email, setUser] = useState('')
+  const [user, setUser] = useState('')
   const [pwd, setPwd] = useState('')
   const [errMsg, setErrMsg] = useState('')
 
@@ -26,20 +25,22 @@ function Login() {
 
   useEffect(() => {
     setErrMsg('')
-  }, [email, pwd])
+  }, [user, pwd])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     try {
       const formData = new FormData()
-      formData.append('username', email)
+      formData.append('username', user)
       formData.append('password', pwd)
       const response = await axios.post(LOGIN_URL, formData, {
         withCredentials: true,
       })
+      const accessToken = response?.data?.access_token
+      const roles = response?.data?.roles
 
-      const accessToken = response
-      setAuth({ email, accessToken })
+      setAuth({ user, pwd, roles, accessToken })
       setUser('')
       setPwd('')
       // navigate(from, { replace: true })
@@ -82,7 +83,7 @@ function Login() {
               ref={userRef}
               autoComplete='off'
               onChange={(e) => setUser(e.target.value)}
-              value={email}
+              value={user}
               required={true}
               className='rounded-lg border p-2 shadow-lg'
             />
