@@ -118,6 +118,11 @@ function Login() {
                 <Link to='/register'>Create an account</Link>
               </span>
             </p>
+            <p>
+              <span className='line'>
+                <Link to='/password'>Forgot your password?</Link>
+              </span>
+            </p>
           </div>
         </form>
       </div>

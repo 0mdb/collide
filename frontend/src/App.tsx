@@ -13,6 +13,7 @@ import Login from './pages/Login'
 import Unauthorized from './components/Unauthorized'
 import RequireAuth from './components/RequireAuth'
 import Register from './pages/Register'
+import LostPassword from './pages/Password'
 
 const dataProvider = jsonserverprovider('http://jsonplaceholder.typicode.com')
 
@@ -38,6 +39,7 @@ function App() {
         <Route path='/' element={<Landing />} />
         <Route path='unauthorized' element={<Unauthorized />} />
         <Route path='home' element={<Home />} />
+        <Route path='password' element={<LostPassword />} />
         {/* protected routes */}
         {/* <Route element={<PersistLogin />}> */}
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}>
