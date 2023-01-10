@@ -1,4 +1,5 @@
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
+
 from sqlalchemy.orm import relationship
 from typing import TYPE_CHECKING
 from app.db.base_class import Base
@@ -9,4 +10,3 @@ if TYPE_CHECKING:
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
     items = relationship("Item", back_populates="owner")
-    # full_name = Column(String, index=True)
