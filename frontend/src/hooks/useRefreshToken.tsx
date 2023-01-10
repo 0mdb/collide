@@ -1,32 +1,21 @@
-import axios from '../api/axios';
-import useAuth from './useAuth';
-
-const REFRESH_URL = '/login/access-token';
+import axios from '../api/axios'
+import useAuth from './useAuth'
 
 const useRefreshToken = () => {
-  const { setAuth, auth } = useAuth();
+  const { setAuth } = useAuth()
 
   const refresh = async () => {
-    const formData = new FormData();
-    formData.append('grant_type', "refresh_token");
-    formData.append('refresh_token', auth?.accessToken);
-
-    const response = await axios.post(REFRESH_URL, formData, {
-      headers: {
-        'Content-Type': 'www-form-urlencoded',
-      },
+    const response = await axios.get('/auth/jwt/refresh', {
       withCredentials: true,
-    });
+    })
     setAuth((prev) => {
-      return {
-        ...prev,
-        roles: response.data.roles,
-        refreshToken: response.data.refresh_token,
-      };
-    });
-    return response.data.refresh_token;
-  };
-  return refresh;
-};
+      console.log(JSON.stringify(prev))
+      console.log(response.data.accessToken)
+      return { ...prev, accessToken: response.data.accessToken }
+    })
+    return response.data.accessToken
+  }
+  return refresh
+}
 
-export default useRefreshToken;
+export default useRefreshToken
