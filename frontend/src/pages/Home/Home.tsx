@@ -5,6 +5,7 @@ import GraphBar from '../../components/GraphBar'
 import SideBar from '../../components/SideBar'
 import Sankey from '../../components/SankeyGraph'
 import { Icon } from '@blueprintjs/core'
+import { DemoTable } from '../../components/Table'
 
 const PlusIcon = () => (
   <Icon icon='search' size={22} className='dark:text-primary mx-2 text-green-500 dark:shadow-lg' />
@@ -24,11 +25,14 @@ function Home() {
       <GraphBar />
       <div className='content-container'>
         <TopNavigation />
-        <div className='inline-block grid'>
+        <BottomBar />
+        <div className='m-4 rounded-lg shadow-xl outline-double outline-rose-800'>
           {/* <Sankey /> */}
           <ForceGraph />
         </div>
-        <BottomBar />
+        <div className='mx-4 mb-4 rounded-lg p-6 shadow-xl outline-double outline-rose-800'>
+          <DemoTable />
+        </div>
       </div>
     </div>
   )
