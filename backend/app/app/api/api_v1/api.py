@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-# from app.api.api_v1.endpoints import items
+from app.api.api_v1.endpoints import items
+
 from app.core.users import auth_backend, fastapi_users
 from app.schemas.user import UserCreate, UserRead, UserUpdate
 
@@ -11,7 +12,7 @@ api_router = APIRouter()
 # api_router.include_router(items.router, prefix="/items", tags=["items"])
 
 api_router.include_router(
-    fastapi_users.get_auth_router(auth_backend), prefix="/auth/cookie", tags=["auth"]
+    fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]
 )
 api_router.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
