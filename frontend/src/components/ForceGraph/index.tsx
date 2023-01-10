@@ -1,20 +1,25 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { ForceGraph2D } from 'react-force-graph'
 import myData from './sample_graph3.json'
 
+import { useWindowSize } from '@react-hook/window-size'
+
 function ForceGraph() {
+  const fgRef = useRef()
+  const [width, height] = useWindowSize()
+
   return (
-    <div className='overflow-hidden rounded-lg shadow-lg'>
-      <div className='light:bg-inherit py-3 px-5 dark:bg-inherit'>
-        <ForceGraph2D
-          graphData={myData}
-          nodeAutoColorBy='id'
-          linkDirectionalParticles='value'
-          linkCurvature='curvature'
-        />
-      </div>
-    </div>
+    <ForceGraph2D
+      ref={fgRef}
+      graphData={myData}
+      height={height - 400}
+      width={width - 200}
+      cooldownTicks={100}
+      nodeAutoColorBy='id'
+      linkDirectionalParticles='value'
+      linkCurvature='curvature'
+      onEngineStop={() => fgRef.current.zoomToFit(400)}
+    />
   )
 }
-
 export default ForceGraph
