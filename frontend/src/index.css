@@ -158,6 +158,21 @@
     cursor-text;
   }
 
+  .table {
+    @apply flex flex-row items-center justify-between 
+    mx-4 mb-4 rounded-lg p-6 shadow-xl
+    bg-gray-400 dark:bg-gray-600 px-2 mt-4
+    h-12;
+  }
+
+  .table-input {
+    @apply font-semibold w-full
+    table-fixed
+    bg-transparent outline-none
+    text-gray-500  dark:text-gray-400 placeholder-gray-500
+    outline-double outline-rose-800
+    cursor-text;
+  }
   .channel-bar {
     @apply w-80 h-auto m-0 ml-16 bg-gray-200 dark:bg-gray-800
      overflow-hidden;
