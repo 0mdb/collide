@@ -10,9 +10,9 @@ import Newsletter from './Newsletter'
 
 function Landing() {
   return (
-    <div className='landing'>
+    <div className='bg-gray-300 dark:bg-gray-700'>
       <Navbar />
-      {/* <Hero /> */}
+      <Hero />
       <Analytics />
       <Newsletter />
       {/* <Cards /> */}
