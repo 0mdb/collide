@@ -62,7 +62,7 @@ function ForceGraph() {
         ref={fgRef}
         graphData={filteredNodes.length ? { nodes: filteredNodes, links: [] } : data}
         height={height}
-        width={width - height / 3}
+        width={width}
         cooldownTicks={100}
         nodeAutoColorBy='id'
         linkDirectionalParticles='value'
