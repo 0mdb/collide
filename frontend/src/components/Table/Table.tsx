@@ -1,6 +1,6 @@
 function DemoTable() {
   return (
-    <table class='table-auto text-gray-500 dark:text-gray-400'>
+    <table className='table-auto text-gray-500 dark:text-gray-400'>
       <thead>
         <tr>
           <th>song</th>

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Newsletter = () => {
   return (
-    <div className='w-full py-16 px-4 text-white'>
+    <div className='w-full py-16 px-4'>
       <div className='mx-auto grid max-w-[1240px] lg:grid-cols-3'>
         <div className='my-4 lg:col-span-2'>
           <h1 className='py-2 text-2xl font-bold sm:text-3xl md:text-4xl'>
@@ -13,7 +13,8 @@ const Newsletter = () => {
         <div className='my-4'>
           <div className='flex w-full flex-col items-center justify-between sm:flex-row'>
             <input
-              className='flex w-full rounded-md p-3 text-black'
+              // className='flex w-full rounded-md p-3 text-black'
+              className='flex w-full rounded-md bg-gray-400 p-3 text-gray-500 dark:bg-gray-600 dark:text-gray-400'
               type='email'
               placeholder='Enter Email'
             />
