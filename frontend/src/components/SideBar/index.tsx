@@ -1,6 +1,34 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '@blueprintjs/core'
+import useDarkMode from '../../hooks/useDarkMode'
+import useLogout from '../../hooks/useLogout'
+import { useNavigate } from 'react-router-dom'
+
+const ThemeIcon = () => {
+  const [darkTheme, setDarkTheme] = useDarkMode()
+  const handleMode = () => setDarkTheme(!darkTheme)
+  return (
+    <span onClick={handleMode}>
+      {darkTheme ? <Icon icon='flash' size={28} /> : <Icon icon='moon' size={32} />}
+    </span>
+  )
+}
+
+const SignOutButton = () => {
+  const navigate = useNavigate()
+  const logout = useLogout()
+  const signOut = async () => {
+    await logout()
+    navigate('/')
+  }
+  return (
+    <SideBarIcon
+      text='Sign Out'
+      icon={<Icon icon='log-out' size={24} onClick={() => signOut()} />}
+    />
+  )
+}
 
 const SideBar = () => {
   return (
@@ -12,17 +40,10 @@ const SideBar = () => {
         <SideBarIcon icon={<Icon icon='home' size={28} />} text={'Home'} />
       </Link>
       <Divider />
-      <SideBarIcon icon={<Icon icon='plus' size={32} />} />
-      <SideBarIcon icon={<Icon icon='export' size={20} />} />
-
-      <Link to='/sankey'>
-        <SideBarIcon icon={<Icon icon='diagram-tree' size={28} />} text='Sankey' />
-      </Link>
       <Divider />
       <SideBarIcon icon={<Icon icon='cog' size={28} />} text='Settings ' />
-      <Link to='/admin'>
-        <SideBarIcon icon={<Icon icon='database' size={28} />} text='Admin' />
-      </Link>
+      <SideBarIcon icon={<ThemeIcon />} text='Theme' />
+      <SignOutButton />
     </div>
   )
 }
