@@ -14,7 +14,7 @@ const Newsletter = () => {
           <div className='flex w-full flex-col items-center justify-between sm:flex-row'>
             <input
               // className='flex w-full rounded-md p-3 text-black'
-              className='flex w-full rounded-md bg-gray-400 p-3 text-gray-500 dark:bg-gray-600 dark:text-gray-400'
+              className='flex w-full rounded-md bg-gray-400 p-3 text-gray-500 placeholder-gray-500 dark:bg-gray-600 dark:text-gray-400'
               type='email'
               placeholder='Enter Email'
             />
