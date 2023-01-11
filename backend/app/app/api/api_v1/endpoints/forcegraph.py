@@ -8,7 +8,7 @@ import json
 router = APIRouter()
 
 
-@router.get("/forcegraph/sample", tags=["forcegraph"])
+@router.get("/", tags=["forcegraph"])
 def sample_graph() -> Any:
     """
     Retrieve items.
