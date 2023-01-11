@@ -13,7 +13,6 @@ const Navbar = () => {
 
   return (
     <div className='mx-auto flex h-24 max-w-[1240px] items-center justify-between px-4'>
-      <ThemeIcon />
       <h1 className='w-full text-3xl font-bold'>collide.io</h1>
       <ul className='hidden md:flex'>
         {/* <Link to='/'>
@@ -26,6 +25,7 @@ const Navbar = () => {
           <li className='p-4'>Signup</li>
         </Link>
       </ul>
+      <ThemeIcon />
       <div onClick={handleNav} className='block md:hidden'>
         {nav ? <Icon icon='cross' size={20} /> : <Icon icon='menu' size={20} />}
       </div>
