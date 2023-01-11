@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { ForceGraph2D } from 'react-force-graph'
 import { useQuery } from '@tanstack/react-query'
 import { getGraph } from '../../api/graph'
@@ -7,17 +7,24 @@ import { useWindowSize } from '@react-hook/window-size'
 import { Icon, FormGroup, InputGroup, MenuItem } from '@blueprintjs/core'
 import { Suggest2 } from '@blueprintjs/select'
 
-// searchbar for nodes in myData that uses Suggest2 for names and stores filtered results in state
-function SearchBar() {
-  const [filteredNodes, setFilteredNodes] = React.useState([])
-  const [query, setQuery] = React.useState('')
-  const [selected, setSelected] = React.useState(null)
-  const [node, setNode] = React.useState(null)
+const SearchIcon = () => (
+  <Icon icon='search' size={28} className='dark:text-primary mx-2 text-green-500 dark:shadow-lg' />
+)
 
+function ForceGraph() {
+  const fgRef = useRef()
+  const [width, height] = useWindowSize()
+  const [filteredNodes, setFilteredNodes] = useState([])
+  const [query, setQuery] = useState('')
+  const [selected, setSelected] = useState(null)
+  const [node, setNode] = useState(null)
   const { status, error, data } = useQuery({
     queryKey: ['forcegraph'],
     queryFn: getGraph,
   })
+
+  if (status === 'loading') return <Loading />
+  if (error === 'error') return <div>Error</div>
 
   const handleQueryChange = (query) => {
     setQuery(query)
@@ -37,6 +44,9 @@ function SearchBar() {
     }
     return (
       <MenuItem
+        className='text-gray-500 
+         dark:text-gray-400
+        '
         active={modifiers.active}
         disabled={modifiers.disabled}
         key={node.id}
@@ -47,50 +57,10 @@ function SearchBar() {
   }
 
   return (
-    <FormGroup labelFor='text-input'>
-      <Suggest2
-        inputValueRenderer={(node) => node.name}
-        items={filteredNodes}
-        itemRenderer={renderNode}
-        noResults={<MenuItem disabled={true} text='No results.' />}
-        onItemSelect={handleNodeSelect}
-        onQueryChange={handleQueryChange}
-        query={query}
-        resetOnSelect={true}
-      >
-        <InputGroup
-          Icon='search'
-          type='search'
-          className='bottom-bar-input'
-          placeholder='Search for nodes...'
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </Suggest2>
-    </FormGroup>
-  )
-}
-
-const SearchIcon = () => (
-  <Icon icon='search' size={22} className='dark:text-primary mx-2 text-green-500 dark:shadow-lg' />
-)
-
-function ForceGraph() {
-  const fgRef = useRef()
-  const [width, height] = useWindowSize()
-  const { status, error, data } = useQuery({
-    queryKey: ['forcegraph'],
-    queryFn: getGraph,
-  })
-
-  if (status === 'loading') return <Loading />
-  if (error === 'error') return <div>Error</div>
-
-  return (
     <>
       <ForceGraph2D
         ref={fgRef}
-        graphData={data}
+        graphData={filteredNodes.length ? { nodes: filteredNodes, links: [] } : data}
         height={height}
         width={width - height / 3}
         cooldownTicks={100}
@@ -99,13 +69,37 @@ function ForceGraph() {
         linkCurvature='curvature'
         onEngineStop={() => fgRef.current.zoomToFit(400)}
       />
-      <div className='flex'>
-        {/* <SearchBar /> */}
-        <div className='bottom-bar'>
+      <>
+        <div className='fixed top-4 left-24 flex h-12 flex-row items-center justify-center'>
           <SearchIcon />
-          <input type='search' placeholder='Search...' className='bottom-bar-input' />
+          <FormGroup labelFor='text-input'>
+            <Suggest2
+              inputValueRenderer={(node) => node.name}
+              items={filteredNodes}
+              itemRenderer={renderNode}
+              noResults={<MenuItem disabled={true} text='No results.' />}
+              onItemSelect={handleNodeSelect}
+              onQueryChange={handleQueryChange}
+              query={query}
+              resetOnSelect={true}
+            >
+              {/* <div className='bottom-bar'>
+                <SearchIcon />
+                <input type='search' placeholder='Search...' className='bottom-bar-input' />
+              </div> */}
+              {/* <InputGroup
+                large={true}
+                style={{ width: '300px' }}
+                icon={SearchIcon}
+                type='search'
+                placeholder='Search for nodes...'
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              /> */}
+            </Suggest2>
+          </FormGroup>
         </div>
-      </div>
+      </>
     </>
   )
 }
