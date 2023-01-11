@@ -101,32 +101,6 @@
     overflow-y-scroll;
   }
 
-  .post {
-    @apply w-full
-    flex flex-row items-center justify-evenly
-    py-4 px-8 m-0
-    cursor-pointer;
-  }
-
-  .post-selected {
-    @apply bg-green-400 dark:bg-gray-900
-    shadow-md;
-  }
-
-  .post-content {
-    @apply w-4/5 
-    flex flex-col justify-start 
-    ml-auto;
-  }
-
-  .post-text {
-    @apply text-lg text-left text-gray-800 dark:text-white 
-    mr-auto whitespace-normal;
-  }
-
-  .post-owner {
-    @apply text-left font-semibold text-gray-800 dark:text-white mr-2 cursor-pointer;
-  }
 
   .avatar-wrapper {
     @apply flex flex-col items-center
