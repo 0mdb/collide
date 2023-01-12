@@ -9,15 +9,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <Routes>
-            <Route path='/*' element={<App />} />
-          </Routes>
-        </QueryClientProvider>
-      </AuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <BrowserRouter>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path='/*' element={<App />} />
+        </Routes>
+      </QueryClientProvider>
+    </AuthProvider>
+  </BrowserRouter>,
+  // </React.StrictMode>,
 )
