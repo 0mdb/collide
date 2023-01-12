@@ -120,7 +120,7 @@ for idx, parl_entry in enumerate(parl):
                          "pair_bool": pair_bool[idx],
                          "source_id": detail_src_obj.id})
 
-bills_objs = cf.add_individual_votes(session, ind_vote_lst)
+ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst)
 
 session.close()
 print("END")
