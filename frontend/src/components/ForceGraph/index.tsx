@@ -62,7 +62,7 @@ function ForceGraph() {
         ref={fgRef}
         graphData={filteredNodes.length ? { nodes: filteredNodes, links: [] } : data}
         height={height}
-        width={width}
+        width={width - 100}
         cooldownTicks={100}
         nodeAutoColorBy='id'
         linkDirectionalParticles='value'
@@ -82,21 +82,7 @@ function ForceGraph() {
               onQueryChange={handleQueryChange}
               query={query}
               resetOnSelect={true}
-            >
-              {/* <div className='bottom-bar'>
-                <SearchIcon />
-                <input type='search' placeholder='Search...' className='bottom-bar-input' />
-              </div> */}
-              {/* <InputGroup
-                large={true}
-                style={{ width: '300px' }}
-                icon={SearchIcon}
-                type='search'
-                placeholder='Search for nodes...'
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              /> */}
-            </Suggest2>
+            ></Suggest2>
           </FormGroup>
         </div>
       </>
