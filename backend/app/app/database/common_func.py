@@ -605,6 +605,19 @@ def add_individual_votes(session, ind_vote_lst):
         "pair_bool": pair_bool[idx],
         "source_id": detail_src_obj.id}
     """
+    # Check if it already exists with same vote.id and person.id
+    stat = select(VoteIndividual)
+    all_vote_res = session.exec(stat).all()
+    lst_o_tuples = []
+    for each_all_vote_res_entry in all_vote_res:
+        new_tuple = (each_all_vote_res_entry.person, each_all_vote_res_entry.vote)
+        lst_o_tuples.append(new_tuple)
+
+    set_o_tuples = set(lst_o_tuples)
+
+    if len(set_o_tuples) != len(lst_o_tuples):
+        raise RuntimeError("Non unique individual vote detected in table")
+
     ind_vote_obj_lst = []
     for jdx, each_dict in enumerate(ind_vote_lst):
         print(f"IndVotes loop: {jdx} of {len(ind_vote_lst)}")
@@ -629,16 +642,10 @@ def add_individual_votes(session, ind_vote_lst):
         if len(person_res) == 0 or len(person_res) > 1:
             raise AssertionError(f"Person does not exist or is not unique ({person_match_name})")
 
-        # Check if it already exists with same vote.id and person.id
-        stat = select(VoteIndividual).where(
-            VoteIndividual.person == person_res[0].id
-        ).where(
-            VoteIndividual.vote == vote_res[0].id
-        )
-        ind_vote_res = session.exec(stat).all()
-
-        if len(ind_vote_res) == 0:
+        new_tuple = (person_res[0].id, vote_res[0].id)
+        if new_tuple not in set_o_tuples:
             # New entry
+            set_o_tuples.add(new_tuple)
             ot = VoteIndividual(vote=vote_res[0].id,
                                 person=person_res[0].id,
                                 is_yea=each_dict.get("yes_bool"),
@@ -648,13 +655,11 @@ def add_individual_votes(session, ind_vote_lst):
 
             session.add(ot)
             session.commit()
-            ind_vote_obj_lst.append(ot)
-        elif len(ind_vote_res) == 1:
-            # Existing entry
-            existing_vote = ind_vote_res[0]
-            ind_vote_obj_lst.append(existing_vote)
+            ind_vote_obj_lst.append(-1)
         else:
-            raise RuntimeError("Non unique individual vote detected")
+            # Existing entry
+            # existing_vote = ind_vote_res[0]
+            ind_vote_obj_lst.append(-1)
     return ind_vote_obj_lst
 
 
