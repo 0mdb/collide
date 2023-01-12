@@ -28,7 +28,3 @@ class GraphData(BaseModel):
 
 class GraphSearch(BaseModel):
     search: str
-
-
-class GraphSubjet(BaseModel):
-    subject: str
