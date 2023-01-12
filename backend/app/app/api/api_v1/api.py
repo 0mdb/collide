@@ -13,9 +13,7 @@ api_router = APIRouter()
 # api_router.include_router(utils.router, prefix="/utils", tags=["utils"])
 # api_router.include_router(items.router, prefix="/items", tags=["items"])
 api_router.include_router(resfresh.router, prefix="/auth", tags=["auth"])
-api_router.include_router(
-    forcegraph.router, prefix="/forcegraph/sample", tags=["forcegraph"]
-)
+api_router.include_router(forcegraph.router, prefix="/forcegraph", tags=["forcegraph"])
 
 api_router.include_router(
     fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]
