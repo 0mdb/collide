@@ -1,8 +1,9 @@
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Generator
 
 from fastapi import Depends
 from fastapi_users.db import SQLAlchemyUserDatabase
 from fastapi_users_db_sqlalchemy.access_token import SQLAlchemyAccessTokenDatabase
+from gqlalchemy import Memgraph
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -10,6 +11,7 @@ from app.core.config import settings
 from app.db.base import Base
 from app.models import AccessToken, User
 
+# Postgres instance
 engine = create_async_engine(settings.SQLALCHEMY_DATABASE_URI, pool_pre_ping=True)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
@@ -32,3 +34,12 @@ async def get_access_token_db(
     session: AsyncSession = Depends(get_async_session),
 ):
     yield SQLAlchemyAccessTokenDatabase(session, AccessToken)
+
+
+
+def get_mdb() -> Generator:
+    try:
+        db = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
+        yield db
+    finally:
+        db.close()
