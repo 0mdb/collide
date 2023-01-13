@@ -82,6 +82,9 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str
     USERS_OPEN_REGISTRATION: bool = False
 
+    MEMGRAPH_HOST: HttpUrl
+    MEMGRAPH_PORT: int
+
     class Config:
         case_sensitive = True
 
