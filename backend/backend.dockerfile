@@ -1,6 +1,22 @@
-FROM python:3.10
+FROM ubuntu:22.04
+# FROM python:3.10
 
 WORKDIR /app/
+
+
+# RUN apt-get install -y software-properties-common && \
+# RUN add-apt-repository 'ppa:deadsnakes/ppa' && \
+RUN apt-get -y update && \
+    apt-get -y install curl \
+    build-essential \
+    cmake \
+    gcc \
+    g++ \
+    libssl-dev \
+    python3.10 \
+    python3-distutils \
+    python3.10-dev \
+    python-is-python3
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
@@ -14,12 +30,15 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/opt/poetry python
     cd /usr/local/bin && \
     ln -s /opt/poetry/bin/poetry && \
     poetry config virtualenvs.create false
+
+
 # Copy poetry.lock* in case it doesn't exist in the repo
 COPY ./app/pyproject.toml ./app/poetry.lock* /app/
 
 # Allow installing dev dependencies to run tests
 ARG INSTALL_DEV=false
 RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; else poetry install --no-root --no-dev ; fi"
+
 
 # For development, Jupyter remote kernel, Hydrogen
 # Using inside the container:
