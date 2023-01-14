@@ -8,12 +8,7 @@ from app.core.users import auth_backend, fastapi_users
 from app.schemas.user import UserCreate, UserRead, UserUpdate
 
 api_router = APIRouter()
-# api_router.include_router(login.router, tags=["login"])
-# api_router.include_router(users.router, prefix="/users", tags=["users"])
-# api_router.include_router(utils.router, prefix="/utils", tags=["utils"])
-# api_router.include_router(items.router, prefix="/items", tags=["items"])
 api_router.include_router(resfresh.router, prefix="/auth", tags=["auth"])
-api_router.include_router(forcegraph.router, prefix="/forcegraph", tags=["forcegraph"])
 
 api_router.include_router(
     fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]
@@ -38,3 +33,5 @@ api_router.include_router(
     prefix="/users",
     tags=["users"],
 )
+
+api_router.include_router(forcegraph.router, prefix="/forcegraph", tags=["forcegraph"])
