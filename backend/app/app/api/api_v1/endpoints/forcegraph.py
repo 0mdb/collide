@@ -2,6 +2,7 @@ from typing import Any, List
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from app.db.session import get_gdb
 
 import json
 from app import crud, models, schemas
@@ -10,7 +11,7 @@ router = APIRouter()
 
 
 @router.get("/sample", response_model=schemas.GraphData)
-async def sample_graph() -> Any:
+async def sample_graph(db: Session = Depends(get_gdb)) -> Any:
     """
     Sample graph data.
     """
@@ -60,7 +61,7 @@ def sample_graph() -> Any:
     return sample_json
 
 
-@router.get("/memgraph/single", response_model=schemas.GraphData)
+@router.get("/memgraph/single/{id}", response_model=schemas.GraphData)
 def sample_graph() -> Any:
     """
     Retrieve search subject and nearest nodes 3D data.
@@ -120,8 +121,8 @@ def sample_graph() -> Any:
     return sample_json
 
 
-@router.get("/search_terms", response_model=List[schemas.GraphSearch])
-def sample_graph() -> Any:
+@router.get("/search", response_model=List[schemas.GraphSearch])
+async def sample_graph() -> Any:
     """
     Retrieve search terms.
     """
