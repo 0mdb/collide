@@ -4,9 +4,8 @@ from sqlmodel import select
 import common_func as cf
 import fix_funcs
 
-sess = cf.create_session(debug=True)
-
-actually_do_it = False
+sess = cf.create_session(debug=False)
+actually_do_it = True
 
 sql_query = select(Organization)
 res_all_orgs = sess.exec(sql_query).all()
@@ -46,7 +45,7 @@ for each_org in res_all_orgs:
             sess.commit()
 
         if name_in_question != preferred_match_name:
-            print(f"\tthe following organization should be eliminated: {name_in_question}")
+            print(f"\tthe following organization should be eliminated: {each_org.display_name} (id {each_org.id})")
 
             fix_funcs.replace_organization(old_id=each_org.id,
                                            new_id=keeper_id,
