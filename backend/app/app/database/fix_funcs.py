@@ -109,6 +109,17 @@ def replace_organization(old_id, new_id, sess, actually_do_it):
             sess.add(each_membership)
             sess.commit()
 
+    # update organization (parent_organization) links
+    sql_query = select(Organization).where(Organization.parent_organization == old_id)
+    res = sess.exec(sql_query).all()
+
+    for each_parent_org in res:
+        each_parent_org.parent_organization = new_id
+
+        if actually_do_it:
+            sess.add(each_parent_org)
+            sess.commit()
+
     # delete organization entry
     if actually_do_it:
         final_moments = sess.exec(select(Organization).where(Organization.id == old_id)).first()
