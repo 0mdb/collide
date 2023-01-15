@@ -1,3 +1,7 @@
+"""
+This script looks for the problem of a match name and a display name not following from one another.  This
+sometimes creeps in from other fixes
+"""
 from schema_creation.sqlmodel_build import Person
 from sqlmodel import create_engine, select, Session
 
@@ -12,7 +16,9 @@ schema_name = "lf_mockup_2"
 
 actually_do_it = False
 
-engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=False)
+engine = create_engine(
+    f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=False
+)
 sess = Session(engine)
 
 sql_query = select(Person)
@@ -31,7 +37,6 @@ for p in res:
             sess.add(p)
             sess.commit()
         total_problems += 1
-
 
 sess.close()
 
