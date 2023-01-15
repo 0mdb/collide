@@ -1,7 +1,12 @@
 import axios from './axios'
 
 interface Graph {
-    nodes: any[],
+    nodes: {
+      "id": string,
+      "name": string,
+      "person": boolean,
+      "db_id": string,
+    },
     links: any[],
 }
 
