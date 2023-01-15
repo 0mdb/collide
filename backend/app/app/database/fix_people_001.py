@@ -1,3 +1,6 @@
+"""
+This script looks for entries with titles and after-name letters and strips them out, merging their entries
+"""
 from schema_creation.sqlmodel_build import (
     Person,
     OrganizationMembership,
@@ -112,7 +115,9 @@ for p in res:
                     if actually_do_it:
                         sess.commit()
 
-                sql_query = select(CommunicationsPersonOrg).where(CommunicationsPersonOrg.person == rem)
+                sql_query = select(CommunicationsPersonOrg).where(
+                    CommunicationsPersonOrg.person == rem
+                )
                 communications_to_update = sess.exec(sql_query).all()
                 if len(communications_to_update) > 0:
                     print("\t\t\t\tthe following communications should be updated:")
@@ -124,10 +129,17 @@ for p in res:
                     if actually_do_it:
                         sess.commit()
 
-                sql_query = select(FundingPersonPerson).where(or_(FundingPersonPerson.party_1 == rem, FundingPersonPerson.party_2 == rem))
+                sql_query = select(FundingPersonPerson).where(
+                    or_(
+                        FundingPersonPerson.party_1 == rem,
+                        FundingPersonPerson.party_2 == rem,
+                    )
+                )
                 fundings_to_update = sess.exec(sql_query).all()
                 if len(fundings_to_update) > 0:
-                    print("\t\t\t\tthe following funding relationships should be updated:")
+                    print(
+                        "\t\t\t\tthe following funding relationships should be updated:"
+                    )
                     for fun in fundings_to_update:
                         print(f"\t\t\t\t\t{fun}")
                         if actually_do_it:
@@ -139,10 +151,14 @@ for p in res:
                     if actually_do_it:
                         sess.commit()
 
-                sql_query = select(FundingPersonOrg).where(FundingPersonOrg.person == rem)
+                sql_query = select(FundingPersonOrg).where(
+                    FundingPersonOrg.person == rem
+                )
                 fundings_to_update = sess.exec(sql_query).all()
                 if len(fundings_to_update) > 0:
-                    print("\t\t\t\tthe following funding relationships should be updated:")
+                    print(
+                        "\t\t\t\tthe following funding relationships should be updated:"
+                    )
                     for fun in fundings_to_update:
                         print(f"\t\t\t\t\t{fun}")
                         if actually_do_it:

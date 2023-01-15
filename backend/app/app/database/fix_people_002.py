@@ -1,12 +1,19 @@
+"""
+This script aims to fix the capitalization of the names, but doesn't do a great job with van and von name bits
+"""
 import titlecase
-from schema_creation.sqlmodel_build import Person, OrganizationMembership, Communications
+from schema_creation.sqlmodel_build import (
+    Person,
+    OrganizationMembership,
+    Communications,
+)
 from sqlmodel import create_engine, select, Session, col, or_
 
 from parse_injest.utils import create_match_name
 
 from fix_people_000_common import shit_list_combined
 
-actually_do_it = False
+actually_do_it = True
 
 db_host = "192.168.0.10"
 db_name = "collide"
@@ -15,7 +22,9 @@ db_pw = "change_this"
 
 schema_name = "lf_mockup_2"
 
-engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=False)
+engine = create_engine(
+    f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=False
+)
 sess = Session(engine)
 
 sql_query = select(Person)
@@ -27,7 +36,7 @@ total_problems = 0
 for p in res:
     orig_display_name = p.display_name
     nt = p.display_name.split(" ")
-    nt = [x[:-1] if x.endswith(',') else x for x in nt]
+    nt = [x[:-1] if x.endswith(",") else x for x in nt]
     nt = [x.strip() for x in nt]
     nt = [x for x in nt if x.lower() not in shit_list_combined]
 
@@ -38,7 +47,11 @@ for p in res:
         print(f"changing {orig_display_name} to {nt}")
 
         new_match_name = create_match_name(nt)
-        sql_query = select(Person).where(Person.match_name == new_match_name).where(Person.id != p.id)
+        sql_query = (
+            select(Person)
+            .where(Person.match_name == new_match_name)
+            .where(Person.id != p.id)
+        )
         res_1 = sess.exec(sql_query).all()
         sql_query = select(Person).where(Person.display_name == nt)
         res_2 = sess.exec(sql_query).all()
