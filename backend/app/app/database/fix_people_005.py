@@ -1,3 +1,7 @@
+"""
+This script looks for cases where the persons name has been entered in some datasource as LASTNAME FIRSTNAME and looks
+for the instance that has the most communications, memberships, fundings associated with it and merges the two entries
+"""
 from schema_creation.sqlmodel_build import (
     Person,
     OrganizationMembership,
@@ -220,7 +224,9 @@ for person in all_people:
                 sess.commit()
 
         if actually_do_it:
-            finally_delete = sess.exec(select(Person).where(Person.id == id_to_axe)).first()
+            finally_delete = sess.exec(
+                select(Person).where(Person.id == id_to_axe)
+            ).first()
             sess.delete(finally_delete)
             sess.commit()
 
