@@ -11,6 +11,7 @@ def return_preferred_party_name(match_name_in_question):
                         "liberalpartyofcanadaofficialopposition"}
     con_name_set = {"conservativepartyofcanada", "conservative", "conservativecaucus"}
     ind_name_set = {"independent", "independentcaucus"}
+    green_name_set = {"greenpartyofcanada", "greenpartycaucus"}
 
     if match_name_in_question in bloc_name_set:
         return "blocquebecois"
@@ -26,6 +27,9 @@ def return_preferred_party_name(match_name_in_question):
 
     if match_name_in_question in ind_name_set:
         return "independent"
+
+    if match_name_in_question in green_name_set:
+        return "greenpartyofcanada"
 
     return -1
 
