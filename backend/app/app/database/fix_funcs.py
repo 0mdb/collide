@@ -1,5 +1,12 @@
-from schema_creation.sqlmodel_build import OrganizationMembership, Organization, \
-    CommunicationsOrgOrg, CommunicationsPersonOrg, OrganizationType, FundingPersonOrg, Funding
+from schema_creation.sqlmodel_build import (
+    OrganizationMembership,
+    Organization,
+    CommunicationsOrgOrg,
+    CommunicationsPersonOrg,
+    OrganizationType,
+    FundingPersonOrg,
+    Funding,
+)
 from sqlmodel import select
 import common_func as cf
 
@@ -7,8 +14,13 @@ import common_func as cf
 def return_preferred_party_name(match_name_in_question):
     bloc_name_set = {"blocquebecois", "blocquebecoiscaucus"}
     ndp_name_set = {"newdemocraticparty", "ndpcaucus", "ndp"}
-    liberal_name_set = {"liberalpartyofcanada", "liberalcaucus", "liberal", "partiliberal",
-                        "liberalpartyofcanadaofficialopposition"}
+    liberal_name_set = {
+        "liberalpartyofcanada",
+        "liberalcaucus",
+        "liberal",
+        "partiliberal",
+        "liberalpartyofcanadaofficialopposition",
+    }
     con_name_set = {"conservativepartyofcanada", "conservative", "conservativecaucus"}
     ind_name_set = {"independent", "independentcaucus"}
     green_name_set = {"greenpartyofcanada", "greenpartycaucus"}
@@ -35,9 +47,12 @@ def return_preferred_party_name(match_name_in_question):
 
 
 def replace_organization(old_id, new_id, sess, actually_do_it):
+    # old_id is the one that is going to be removed
 
     # update communicationsorgorg party_1 links
-    sql_query = select(CommunicationsOrgOrg).where(CommunicationsOrgOrg.party_1 == old_id)
+    sql_query = select(CommunicationsOrgOrg).where(
+        CommunicationsOrgOrg.party_1 == old_id
+    )
     res = sess.exec(sql_query).all()
 
     for each_commsorgorg_p1 in res:
@@ -48,7 +63,9 @@ def replace_organization(old_id, new_id, sess, actually_do_it):
             sess.commit()
 
     # update communicationsorgorg party_2 links
-    sql_query = select(CommunicationsOrgOrg).where(CommunicationsOrgOrg.party_2 == old_id)
+    sql_query = select(CommunicationsOrgOrg).where(
+        CommunicationsOrgOrg.party_2 == old_id
+    )
     res = sess.exec(sql_query).all()
 
     for each_commsorgorg_p2 in res:
@@ -59,7 +76,9 @@ def replace_organization(old_id, new_id, sess, actually_do_it):
             sess.commit()
 
     # update communicationspersonorg links
-    sql_query = select(CommunicationsPersonOrg).where(CommunicationsPersonOrg.organization == old_id)
+    sql_query = select(CommunicationsPersonOrg).where(
+        CommunicationsPersonOrg.organization == old_id
+    )
     res = sess.exec(sql_query).all()
 
     for each_commspersonorg in res:
@@ -103,7 +122,9 @@ def replace_organization(old_id, new_id, sess, actually_do_it):
             sess.commit()
 
     # update organizationmembership links
-    sql_query = select(OrganizationMembership).where(OrganizationMembership.organization == old_id)
+    sql_query = select(OrganizationMembership).where(
+        OrganizationMembership.organization == old_id
+    )
     res = sess.exec(sql_query).all()
 
     for each_membership in res:
@@ -126,6 +147,8 @@ def replace_organization(old_id, new_id, sess, actually_do_it):
 
     # delete organization entry
     if actually_do_it:
-        final_moments = sess.exec(select(Organization).where(Organization.id == old_id)).first()
+        final_moments = sess.exec(
+            select(Organization).where(Organization.id == old_id)
+        ).first()
         sess.delete(final_moments)
         sess.commit()
