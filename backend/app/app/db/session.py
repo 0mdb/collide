@@ -36,10 +36,13 @@ async def get_access_token_db(
     yield SQLAlchemyAccessTokenDatabase(session, AccessToken)
 
 
-def get_gdb() -> Generator:
-    try:
-        db = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
-        yield db
-    finally:
-        pass
-    #     db.close()
+# def get_gdb() -> Generator:
+#     try:
+#         db = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
+#         yield db
+#     finally:
+#         pass
+
+
+# gdb = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
+#     db.close()

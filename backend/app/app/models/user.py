@@ -9,4 +9,5 @@ if TYPE_CHECKING:
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    items = relationship("Item", back_populates="owner")
+    pass
+    # items = relationship("Item", back_populates="owner")
