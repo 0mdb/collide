@@ -1,11 +1,9 @@
-from ..gqlmodels.graph import (
-    MGSource,
-    MGPersondex,
-    MGSectorIndustry,
-    MGOrganizationType,
-    MGOrganizationdex,
-    MGMembershipship,
-    MGCommsTopic,
-    MGCommunicationsship,
-    MGFunding,
-)
+# from .graph import (
+#     MGCommsTopic,
+#     MGFunding,
+#     MGOrganization,
+#     MGOrganizationType,
+#     MGPerson,
+#     MGSectorIndustry,
+#     MGSource,
+# )

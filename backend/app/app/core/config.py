@@ -1,7 +1,14 @@
 import secrets
 from typing import Any, Dict, List, Optional, Union
 
-from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
+from pydantic import (
+    AnyHttpUrl,
+    BaseSettings,
+    EmailStr,
+    HttpUrl,
+    PostgresDsn,
+    validator,
+)
 
 
 class Settings(BaseSettings):
@@ -82,7 +89,7 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str
     USERS_OPEN_REGISTRATION: bool = False
 
-    MEMGRAPH_HOST: HttpUrl
+    MEMGRAPH_HOST: str
     MEMGRAPH_PORT: int
 
     class Config:
