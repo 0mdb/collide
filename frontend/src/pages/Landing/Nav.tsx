@@ -12,7 +12,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className='mx-auto flex h-24 max-w-[1240px] items-center justify-between px-4'>
+    <div className='mx-auto flex h-24 max-w-[1240px] items-center justify-between px-4 dark:text-muted'>
       <h1 className='w-full text-3xl font-bold'>collide.io</h1>
       <ul className='hidden md:flex'>
         {/* <Link to='/'>
@@ -36,7 +36,7 @@ const Navbar = () => {
             : 'fixed left-[-100%] duration-500 ease-in-out'
         }
       >
-        <h1 className='m-4 w-full text-3xl font-bold text-[#00df9a]'>collide.io</h1>
+        <h1 className='m-4 w-full text-3xl font-bold'>collide.io</h1>
         <Link to='login'>
           <li className='border-b border-gray-600 p-4'>Login</li>
         </Link>

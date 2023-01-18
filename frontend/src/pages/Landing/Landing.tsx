@@ -1,8 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Icon } from '@blueprintjs/core'
+import React from 'react'
 import Analytics from './Analytics'
-import Cards from './Cards'
 import Footer from './Footer'
 import Hero from './Hero'
 import Navbar from './Nav'
@@ -10,7 +7,7 @@ import Newsletter from './Newsletter'
 
 function Landing() {
   return (
-    <div className='bg-gray-300 dark:bg-gray-700'>
+    <div className='bg-gray-400 dark:bg-gray-700'>
       <Navbar />
       <Hero />
       <Analytics />
