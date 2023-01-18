@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react'
 import { ForceGraph2D } from 'react-force-graph'
 import { useQuery } from '@tanstack/react-query'
-import { getGraph } from '../../api/graph'
+import { getGraph, getOptions } from '../../api/graph'
 import Loading from '../Loading'
 import { useWindowSize } from '@react-hook/window-size'
-import { Icon, FormGroup, InputGroup, MenuItem } from '@blueprintjs/core'
+import { Icon, FormGroup, MenuItem } from '@blueprintjs/core'
 import { Suggest2 } from '@blueprintjs/select'
 
 const SearchIcon = () => (
@@ -26,6 +26,15 @@ function ForceGraph() {
   if (status === 'loading') return <Loading />
   if (error === 'error') return <div>Error</div>
 
+  {
+    /* const { optstat, opterr, options } = useQuery({
+    queryKey: ['forcegraph'],
+    queryFn: getOptions,
+  })
+  if (optstat === 'loading') return <Loading />
+  if (opterr === 'error') return <div>Error</div>
+ */
+  }
   const handleQueryChange = (query) => {
     setQuery(query)
     setFilteredNodes(

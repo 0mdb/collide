@@ -199,6 +199,10 @@ services:
       - "7687:7687"
       - "3000:3000"
       - "7444:7444"
+    tty: true
+    # deploy:
+    #   labels:
+    #     - traefik.enable=true
     volumes:
       - mg_lib:/var/lib/memgraph
       - mg_log:/var/log/memgraph
