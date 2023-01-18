@@ -1,17 +1,20 @@
-from typing import Any, List
+import json
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from app.db.session import get_gdb
+from pydantic import BaseModel
 
-import json
-from app import crud, models, schemas
+from app import schemas
+from app.crud.memgraph_make_graph import (
+    graph_search_options,
+    memgraph_query_and_aggregate,
+)
 
 router = APIRouter()
 
 
 @router.get("/sample", response_model=schemas.GraphData)
-async def sample_graph(db: Session = Depends(get_gdb)) -> Any:
+def sample_graph() -> Any:
     """
     Sample graph data.
     """
@@ -22,7 +25,7 @@ async def sample_graph(db: Session = Depends(get_gdb)) -> Any:
 
 
 @router.get("/bills", response_model=schemas.GraphData)
-def sample_graph() -> Any:
+def bills() -> Any:
     """
     Return sample 2D BILL data.
     """
@@ -41,91 +44,23 @@ def sample_graph() -> Any:
     return sample_json
 
 
-@router.get("/memgraph", response_model=schemas.GraphData)
-def sample_graph() -> Any:
-    """
-    Retrieve memgraph 3D data.
-    """
-    sample_json = {
-        "nodes": [
-            {"id": "Myriel", "group": 1},
-            {"id": "Napoleon", "group": 1},
-            {"id": "Mlle.Baptistine", "group": 1},
-        ],
-        "links": [
-            {"source": "Napoleon", "target": "Myriel", "value": 1},
-            {"source": "Mlle.Baptistine", "target": "Myriel", "value": 8},
-        ],
-    }
-
-    return sample_json
+class GraphSearch(BaseModel):
+    search: str
 
 
-@router.get("/memgraph/single/{id}", response_model=schemas.GraphData)
-def sample_graph() -> Any:
-    """
-    Retrieve search subject and nearest nodes 3D data.
-    """
-    sample_json = {
-        "nodes": [
-            {"id": "Myriel", "group": 1},
-            {"id": "Napoleon", "group": 1},
-            {"id": "Mlle.Baptistine", "group": 1},
-        ],
-        "links": [
-            {"source": "Napoleon", "target": "Myriel", "value": 1},
-            {"source": "Mlle.Baptistine", "target": "Myriel", "value": 8},
-        ],
-    }
-
-    return sample_json
-
-
-@router.get("/memgraph/double", response_model=schemas.GraphData)
-def sample_graph() -> Any:
-    """
-    Retrieve graph data that connects two search subjects.
-    """
-    sample_json = {
-        "nodes": [
-            {"id": "Myriel", "group": 1},
-            {"id": "Napoleon", "group": 1},
-            {"id": "Mlle.Baptistine", "group": 1},
-        ],
-        "links": [
-            {"source": "Napoleon", "target": "Myriel", "value": 1},
-            {"source": "Mlle.Baptistine", "target": "Myriel", "value": 8},
-        ],
-    }
-
-    return sample_json
-
-
-@router.get("/sankey", response_model=schemas.GraphData)
-def sample_graph() -> Any:
-    """
-    Retrieve sankey data.
-    """
-    sample_json = {
-        "nodes": [
-            {"id": "Myriel", "group": 1},
-            {"id": "Napoleon", "group": 1},
-            {"id": "Mlle.Baptistine", "group": 1},
-        ],
-        "links": [
-            {"source": "Napoleon", "target": "Myriel", "value": 1},
-            {"source": "Mlle.Baptistine", "target": "Myriel", "value": 8},
-        ],
-    }
-
-    return sample_json
-
-
-@router.get("/search", response_model=List[schemas.GraphSearch])
-async def sample_graph() -> Any:
+@router.get("/search", response_model=schemas.GraphData)
+def search_id(poi: str) -> Any:
     """
     Retrieve search terms.
     """
-    search_terms = ["thing1", "thing2", "thing3"]
 
-    return search_terms
+    return memgraph_query_and_aggregate(poi_mn=poi, is_person=True, fund_depth=1, membership_depth=1, communication_depth=1)
+
+
+@router.get("/search_options")
+def search_options(query: str) -> Any:
+    """
+    Retrieve search terms.
+    """
+
+    return graph_search_options(query)
