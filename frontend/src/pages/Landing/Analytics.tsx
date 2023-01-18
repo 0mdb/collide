@@ -6,7 +6,7 @@ const Analytics = () => {
       <div className='mx-auto grid max-w-[1240px] md:grid-cols-2'>
         {/* <img className='mx-auto my-4 w-[500px]' alt='/' /> */}
         <div className='flex flex-col justify-center'>
-          <p className='font-bold text-[#00df9a] '>DATA ANALYTICS DASHBOARD</p>
+          <p className='font-bold text-primary dark:text-primary-d'>DATA ANALYTICS DASHBOARD</p>
           <h1 className='py-2 text-2xl font-bold sm:text-3xl md:text-4xl'>
             Manage Data Analytics Centrally
           </h1>
@@ -15,7 +15,7 @@ const Analytics = () => {
             culpa hic assumenda, voluptate reprehenderit dolore autem cum ullam sed odit
             perspiciatis. Doloribus quos velit, eveniet ex deserunt fuga?
           </p>
-          <button className='my-6 mx-auto w-[200px] rounded-md bg-black py-3 font-medium text-[#00df9a] md:mx-0'>
+          <button className='my-6 mx-auto w-[200px] rounded-md bg-black py-3 font-medium text-primary dark:text-primary-d md:mx-0'>
             Get Started
           </button>
         </div>

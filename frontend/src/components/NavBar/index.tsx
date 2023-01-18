@@ -53,7 +53,7 @@ export const ThemeIcon = () => {
   return (
     <span onClick={handleMode}>
       {darkTheme ? (
-        <Icon icon='flash' size={24} className='top-navigation-icon' />
+        <Icon icon='flash' size={24} className='top-navigation-icon dark:fill-muted' />
       ) : (
         <Icon icon='moon' size={24} className='top-navigation-icon' />
       )}
