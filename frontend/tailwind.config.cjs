@@ -17,8 +17,10 @@ module.exports = {
           200: '#ebedef',
           100: '#f2f3f5',
         },
-        'dark-text-color': '#f6f7f9',
-        'dark-text-color-muted': '#abb3bf',
+        'morp': '#f6f7f9',
+        'muted': '#abb3bf',
+        'primary': '#184A90',
+        'primary-d': '#4C90F0',
       },
       spacing: {
         88: '22rem',
