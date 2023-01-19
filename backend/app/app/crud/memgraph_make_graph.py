@@ -3,55 +3,55 @@ from typing import Optional
 from app import schemas
 import networkx as nx
 from gqlalchemy import Field, Memgraph, Node, Relationship
+from app.db.session import get_gdb
 
 from app.core.config import settings
 
-# gdb = Memgraph(host="memgraph-platform", port=7687)
 gdb = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
 
 
-class MGPerson(Node, index=True, db=gdb):
-    id: Optional[int] = Field(index=True, exists=True, unique=True, db=gdb)
-    display_name: Optional[str] = Field(unique=True)
-    match_name: Optional[str] = Field(index=True, unique=True)
-    source: Optional[int] = Field(exists=True)
+# class MGPerson(Node, index=True, db=gdb):
+#     id: Optional[int] = Field(index=True, exists=True, unique=True, db=gdb)
+#     display_name: Optional[str] = Field(unique=True)
+#     match_name: Optional[str] = Field(index=True, unique=True)
+#     source: Optional[int] = Field(exists=True)
 
 
-class MGOrganization(Node, index=True, db=gdb):
-    id: Optional[int] = Field(index=True, unique=True, exists=True)
-    display_name: Optional[str] = Field(unique=True)
-    match_name: Optional[str] = Field(index=True, unique=True)
-    organization_type: Optional[str] = Field(exists=True)
-    sector: Optional[str]
-    industry: Optional[str]
-    source: Optional[int] = Field()
-    misc_data: Optional[str] = Field()
+# class MGOrganization(Node, index=True, db=gdb):
+#     id: Optional[int] = Field(index=True, unique=True, exists=True)
+#     display_name: Optional[str] = Field(unique=True)
+#     match_name: Optional[str] = Field(index=True, unique=True)
+#     organization_type: Optional[str] = Field(exists=True)
+#     sector: Optional[str]
+#     industry: Optional[str]
+#     source: Optional[int] = Field()
+#     misc_data: Optional[str] = Field()
 
 
-class MGMembership(Relationship, type="MEMBERSHIP"):
-    id: Optional[int] = Field(unique=True)
-    start_date: Optional[date] = Field()
-    end_date: Optional[date] = Field()
-    source: Optional[int] = Field(exists=True)
+# class MGMembership(Relationship, type="MEMBERSHIP"):
+#     id: Optional[int] = Field(unique=True)
+#     start_date: Optional[date] = Field()
+#     end_date: Optional[date] = Field()
+#     source: Optional[int] = Field(exists=True)
 
 
-class MGCommunications(Relationship, type="COMMUNICATION"):
-    id: Optional[int] = Field(exists=True, unique=True)
-    party_1: Optional[int] = Field(exists=True)
-    party_2: Optional[int] = Field(exists=True)
-    com_date: Optional[date] = Field(exists=True)
-    topic: Optional[str] = Field()
-    source: Optional[int] = Field(exists=True)
+# class MGCommunications(Relationship, type="COMMUNICATION"):
+#     id: Optional[int] = Field(exists=True, unique=True)
+#     party_1: Optional[int] = Field(exists=True)
+#     party_2: Optional[int] = Field(exists=True)
+#     com_date: Optional[date] = Field(exists=True)
+#     topic: Optional[str] = Field()
+#     source: Optional[int] = Field(exists=True)
 
 
-class MGFunding(Relationship, type="FUNDS"):
-    id: Optional[int] = Field(exists=True)
-    party_1: Optional[int] = Field(exists=True)
-    party_2: Optional[int] = Field(exists=True)
-    amount: Optional[int] = Field(exist=True)
-    start_date: Optional[date] = Field(exists=True)
-    end_date: Optional[date] = Field()
-    source: Optional[int] = Field(exists=True)
+# class MGFunding(Relationship, type="FUNDS"):
+#     id: Optional[int] = Field(exists=True)
+#     party_1: Optional[int] = Field(exists=True)
+#     party_2: Optional[int] = Field(exists=True)
+#     amount: Optional[int] = Field(exist=True)
+#     start_date: Optional[date] = Field(exists=True)
+#     end_date: Optional[date] = Field()
+#     source: Optional[int] = Field(exists=True)
 
 
 def mapped_memgraph_to_nx(res_dict):
@@ -654,28 +654,22 @@ def memgraph_query_and_aggregate(
 
 
 def graph_search_options(search: str) -> list[schemas.GraphSearchOptions]:
+    """Search for people and organizations in the graph database."""
 
     peeps = []
-    # orgs = set()
 
+    # TODO add orgs into search
+    # limit responses to 10
     query = f"""
-    MATCH (n:MGPerson) WHERE n.match_name CONTAINS toLower("{search}") RETURN n.display_name LIMIT 10;
+    MATCH (n:MGPerson) WHERE n.match_name CONTAINS toLower("{search}") RETURN n.display_name, n.match_name LIMIT 10;
     """
-
     res = gdb.execute_and_fetch(query)
 
-    # for org in all_organizations:
-    #     orgs.append(org["o"].display_name)
-
     for person in res:
-        label = person["n.display_name"]
-        print(label)
-        value = label.lower().replace(" ", "")
-        print(value)
         options = {
             # TODO remove value and build it in the front end
-            "value": value,
-            "label": label,
+            "value": person["n.match_name"],
+            "label": person["n.display_name"],
         }
 
         peeps.append(options)
