@@ -10,7 +10,7 @@ import os
 import json
 
 
-def create_sankey_from_individual(search_match_name):
+def create_sankey_from_individual(search_match_name, session):
     """
     final_form_json = {
         "nodes": [
@@ -51,7 +51,6 @@ def create_sankey_from_individual(search_match_name):
     final_form_json = {"nodes": [],
                        "links": []}
 
-    session = cf.create_session(debug=False)
     stat = select(Person).where(
         Person.match_name == search_match_name
     )
@@ -180,8 +179,14 @@ def create_sankey_from_individual(search_match_name):
     with open(os.path.join(dest_dir, f"{person_of_interest.match_name}_sankey.json"), 'w') as f:
         json.dump(final_form_json_dict, f)
 
-    session.close()
-    print("END")
 
+session = cf.create_session(debug=False)
+all_stat = select(Person.match_name)
+list_match_names = session.exec(all_stat).all()
 
-create_sankey_from_individual("michaelwilson")
+for idx, each_name in enumerate(list_match_names):
+    print(f"Name {idx} of {len(list_match_names)}")
+    create_sankey_from_individual(each_name, session)
+
+session.close()
+print("END")
