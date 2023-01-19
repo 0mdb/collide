@@ -3,7 +3,6 @@ from typing import Optional
 from app import schemas
 import networkx as nx
 from gqlalchemy import Field, Memgraph, Node, Relationship
-from app.db.session import get_gdb
 
 from app.core.config import settings
 
