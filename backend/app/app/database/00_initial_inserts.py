@@ -1,41 +1,24 @@
-from sqlmodel import Session, create_engine, select, engine
+from sqlmodel import select
 from parse_injest.utils import create_match_name
 from schema_creation.sqlmodel_build import (
     OrganizationType,
     Organization,
     SectorIndustry,
-    Source,
 )
 from datetime import date
+import common_func as cf
 
 
-def ensure_source(eng: engine, sl: Source):
-    sess = Session(eng)
-    stat = (
-        select(Source.id)
-        .where(Source.data_source == sl.data_source)
-        .where(Source.date_obtained == sl.date_obtained)
-    )
-    res = sess.exec(stat).all()
+def insert_entries_for_fresh_db():
+    """
+    Run after tables have been created but no entries exist.
+    Includes Organization, SectorIndustry, OrganizationType entries.
 
-    if len(res) == 0:
-        sess.add(sl)
-        sess.commit()
-        stat = (
-            select(Source.id)
-            .where(Source.data_source == sl.data_source)
-            .where(Source.date_obtained == sl.date_obtained)
-        )
-        res = sess.exec(stat).all()
-        sess.close()
-        return res[0]
-    else:
-        return res[0]
+    Returns
+    -------
 
+    """
 
-if __name__ == "__main__":
-
-    initial_source = Source(data_source="initial inserts", date_obtained=date.today())
     org_type_list = [
         "Corporation",
         "Government",
@@ -50,17 +33,8 @@ if __name__ == "__main__":
         "Federal Government of Canada": {"type": "Government", "sector": "Government"}
     }
 
-    db_host = "localhost"
-    db_name = "lq_test"
-    db_user = "test_user"
-    db_pw = "changethis"
-    schema_name = "lf_mockup_2"
+    session = cf.create_session(debug=True)
 
-    motor = create_engine(
-        f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=True
-    )
-
-    session = Session(motor)
     for tn in org_type_list:
 
         stat = select(OrganizationType.id).where(
@@ -73,9 +47,7 @@ if __name__ == "__main__":
             session.add(ot)
 
     session.commit()
-    session.close()
 
-    session = Session(motor)
     for s in sector_list:
         stat = select(SectorIndustry.id).where(
             SectorIndustry.sector_match_name == create_match_name(s)
@@ -88,9 +60,7 @@ if __name__ == "__main__":
             )
             session.add(sec)
     session.commit()
-    session.close()
 
-    session = Session(motor)
     for on in org_list.keys():
         stat = select(Organization.id).where(
             Organization.match_name == create_match_name(on)
@@ -98,7 +68,9 @@ if __name__ == "__main__":
         res = session.exec(stat).first()
 
         if res is None:
-            src_id = ensure_source(motor, initial_source)
+            src_obj = cf.add_sources(session, [{"data_source": "initial inserts",
+                                               "date_obtained": date.today()}])
+            src_id = src_obj.id
 
             org_sec = org_list[on]["sector"]
             stat = select(SectorIndustry.id).where(

@@ -99,21 +99,34 @@ def create_session(debug=True, **kwargs):
 def add_sources(session, src_lst):
     src_obj_lst = []
     for each_dict in src_lst:
-        # Check if it already exists with same timestamp
-        stat = (
-            select(Source)
-            .where(Source.data_source == each_dict.get("data_source"))
-            .where(Source.date_obtained == each_dict.get("date_obtained"))
-        )
+        if each_dict.get("data_source") == "initial inserts":
+            # Check if it already exists with same name
+            stat = (
+                select(Source)
+                .where(Source.data_source == each_dict.get("data_source"))
+            )
+        else:
+            # Check if it already exists with same name and timestamp
+            stat = (
+                select(Source)
+                .where(Source.data_source == each_dict.get("data_source"))
+                .where(Source.date_obtained == each_dict.get("date_obtained"))
+            )
         res = session.exec(stat).all()
 
         if len(res) == 0:
             # New entry
-            ot = Source(
-                data_source=each_dict.get("data_source"),
-                date_obtained=each_dict.get("date_obtained"),
-                misc_data=each_dict.get("misc_data"),
-            )
+            if "misc_data" in each_dict.keys():
+                ot = Source(
+                    data_source=each_dict.get("data_source"),
+                    date_obtained=each_dict.get("date_obtained"),
+                    misc_data=each_dict.get("misc_data"),
+                )
+            else:  # no misc_data
+                ot = Source(
+                    data_source=each_dict.get("data_source"),
+                    date_obtained=each_dict.get("date_obtained"),
+                )
             session.add(ot)
             session.commit()
             src_obj_lst.append(ot)
