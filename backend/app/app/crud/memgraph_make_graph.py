@@ -1,6 +1,6 @@
 from datetime import date
 from typing import Optional
-
+from app import schemas
 import networkx as nx
 from gqlalchemy import Field, Memgraph, Node, Relationship
 
@@ -8,6 +8,7 @@ from app.core.config import settings
 
 # gdb = Memgraph(host="memgraph-platform", port=7687)
 gdb = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
+
 
 class MGPerson(Node, index=True, db=gdb):
     id: Optional[int] = Field(index=True, exists=True, unique=True, db=gdb)
@@ -652,13 +653,13 @@ def memgraph_query_and_aggregate(
     return graph_json
 
 
-def graph_search_options(search: str) -> list[str]:
+def graph_search_options(search: str) -> list[schemas.GraphSearchOptions]:
 
     peeps = []
     # orgs = set()
 
     query = f"""
-    MATCH (n:MGPerson) WHERE n.match_name CONTAINS toLower("{search}") RETURN n.display_name;
+    MATCH (n:MGPerson) WHERE n.match_name CONTAINS toLower("{search}") RETURN n.display_name LIMIT 10;
     """
 
     res = gdb.execute_and_fetch(query)
@@ -667,7 +668,16 @@ def graph_search_options(search: str) -> list[str]:
     #     orgs.append(org["o"].display_name)
 
     for person in res:
-        peeps.append(person['n.display_name'])
+        label = person["n.display_name"]
+        print(label)
+        value = label.lower().replace(" ", "")
+        print(value)
+        options = {
+            # TODO remove value and build it in the front end
+            "value": value,
+            "label": label,
+        }
+
+        peeps.append(options)
 
     return peeps
-

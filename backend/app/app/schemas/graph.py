@@ -26,5 +26,6 @@ class GraphData(BaseModel):
     links: List[Link]
 
 
-class GraphSearch(BaseModel):
-    search: str
+class GraphSearchOptions(BaseModel):
+    value: str
+    label: str
