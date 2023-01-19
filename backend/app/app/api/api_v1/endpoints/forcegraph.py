@@ -44,14 +44,14 @@ def bills() -> Any:
     return sample_json
 
 
-@router.post("/search", response_model=schemas.GraphData)
-def search_id(poi: str) -> Any:
+@router.post("/search/{id}", response_model=schemas.GraphData)
+def search_id(id: str) -> Any:
     """
     Retrieve search terms.
     """
 
     return memgraph_query_and_aggregate(
-        poi_mn=poi,
+        poi_mn=id,
         is_person=True,
         fund_depth=1,
         membership_depth=1,
