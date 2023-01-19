@@ -44,20 +44,23 @@ def bills() -> Any:
     return sample_json
 
 
-class GraphSearch(BaseModel):
-    search: str
-
-
-@router.get("/search", response_model=schemas.GraphData)
+@router.post("/search", response_model=schemas.GraphData)
 def search_id(poi: str) -> Any:
     """
     Retrieve search terms.
     """
 
-    return memgraph_query_and_aggregate(poi_mn=poi, is_person=True, fund_depth=1, membership_depth=1, communication_depth=1)
+    return memgraph_query_and_aggregate(
+        poi_mn=poi,
+        is_person=True,
+        fund_depth=1,
+        membership_depth=1,
+        communication_depth=1,
+    )
 
 
-@router.get("/search_options")
+@router.post("/search_options", response_model=list[schemas.GraphSearchOptions])
+# @router.post("/search_options")
 def search_options(query: str) -> Any:
     """
     Retrieve search terms.
