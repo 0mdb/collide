@@ -53,9 +53,9 @@ def search_id(id: str) -> Any:
     return memgraph_query_and_aggregate(
         poi_mn=id,
         is_person=True,
-        fund_depth=1,
-        membership_depth=1,
-        communication_depth=1,
+        fund_depth=2,
+        membership_depth=2,
+        communication_depth=2,
     )
 
 
