@@ -138,6 +138,75 @@ def add_sources(session, src_lst):
     return src_obj_lst
 
 
+def add_organization_types(session, type_lst):
+    # {
+    #     "name": "abc",
+    # }
+
+    type_obj_lst = []
+    for each_dict in type_lst:
+        # Check if it already exists with same match_name
+        stat = select(OrganizationType).where(
+            OrganizationType.match_name == create_match_name(each_dict.get("name"))
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New entry
+            ot = OrganizationType(
+                display_name=each_dict.get("name"),
+                match_name=create_match_name(each_dict.get("name")),
+            )
+            session.add(ot)
+            session.commit()
+            type_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            type_obj_lst.append(res[0])
+        else:
+            raise RuntimeError("Non unique org type detected")
+    return type_obj_lst
+
+
+def add_sectors(session, sector_lst):
+    # {
+    #     "sector_name": "abc",
+    #     "industry_name": "def"
+    # }
+
+    sector_obj_lst = []
+    for each_dict in sector_lst:
+        # Check if it already exists with same match_name
+        stat = select(SectorIndustry).where(
+            SectorIndustry.sector_match_name == create_match_name(each_dict.get("sector_name"))
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New entry
+            if "industry_name" in each_dict.keys():
+                ot = SectorIndustry(
+                    sector_display_name=each_dict.get("sector_name"),
+                    sector_match_name=create_match_name(each_dict.get("sector_name")),
+                    industry_display_name=each_dict.get("industry_name"),
+                    industry_match_name=create_match_name(each_dict.get("industry_name")),
+                )
+            else:  # industry not available
+                ot = SectorIndustry(
+                    sector_display_name=each_dict.get("sector_name"),
+                    sector_match_name=create_match_name(each_dict.get("sector_name")),
+                )
+            session.add(ot)
+            session.commit()
+            sector_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            sector_obj_lst.append(res[0])
+        else:
+            raise RuntimeError("Non unique sector detected")
+    return sector_obj_lst
+
+
 def add_people(session, ppl_lst):
     ppl_obj_lst = []
     for each_dict in ppl_lst:
