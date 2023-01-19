@@ -549,7 +549,7 @@ def memgraph_query_and_aggregate(
         print(f"total nodes in {nx.number_of_nodes(temp_tot_graph)}")
         print(f"total edges in {nx.number_of_edges(temp_tot_graph)}")
 
-    reductions = []
+    reductions = ["aggrigate_same_edges", "aggregate_parallel_edges"]
     brk = False
 
     temp_fund_g = fund_g.copy(as_view=False)
@@ -660,7 +660,7 @@ def graph_search_options(search: str) -> list[schemas.GraphSearchOptions]:
     # TODO add orgs into search
     # limit responses to 10
     query = f"""
-    MATCH (n:MGPerson) WHERE n.match_name CONTAINS toLower("{search}") RETURN n.display_name, n.match_name LIMIT 10;
+    MATCH (n:MGPerson) WHERE n.match_name CONTAINS toLower("{search}") RETURN n.display_name, n.match_name LIMIT 50;
     """
     res = gdb.execute_and_fetch(query)
 
