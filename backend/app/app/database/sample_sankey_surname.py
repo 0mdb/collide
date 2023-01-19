@@ -1,3 +1,6 @@
+import os
+import pathlib
+
 import common_func as cf
 from schema_creation.sqlmodel_build import (
     Organization, OrganizationType, Person, OrganizationMembership,
@@ -5,10 +8,10 @@ from schema_creation.sqlmodel_build import (
 )
 from sqlmodel import select
 import json
-# TODO: Mine people -> org -> party table/route
+from common_func import create_match_name
 
 
-def create_sankey_from_surname(search_name):
+def create_sankey_from_surname(search_name, session):
     """
     final_form_json = {
         "nodes": [
@@ -25,12 +28,29 @@ def create_sankey_from_surname(search_name):
     ----------
     search_name
 
+    session
+
     Returns
     -------
 
     """
 
-    session = cf.create_session()
+    # Preamble, folder locations
+    project_name = "app"  # collide\backend\app\app
+    data_dir = "data"
+    dest_dir = "_sankey"
+
+    # Folder creation, directories
+    curr_dir_name = os.path.dirname(__file__)
+
+    absolute_project_path = None
+    for i in pathlib.Path(curr_dir_name).parents:
+        if i.name == project_name:
+            absolute_project_path = i.absolute()
+            break
+
+    dest_dir = os.path.join(absolute_project_path, data_dir, dest_dir)
+
     stat = select(Person)
     all_people = session.exec(stat).all()
 
@@ -40,7 +60,7 @@ def create_sankey_from_surname(search_name):
         last_name = each_person.display_name.split()[-1]
         surname_lst.append(last_name.lower())
 
-    search_name = search_name.lower()
+    search_name = create_match_name(search_name)
 
     # start = time.time()
     fam_results = {search_name: []}
@@ -191,11 +211,11 @@ def create_sankey_from_surname(search_name):
     nodes_list = [dict(t) for t in {tuple(d.items()) for d in nodes_list}]
     final_form_json["nodes"] = nodes_list
 
-    with open(f"{search_name}_sankey.json", 'w') as f:
+    with open(os.path.join(dest_dir, f"_{search_name}_sankey.json"), 'w') as f:
         json.dump(final_form_json, f)
 
-    print("END")
-    session.close()
 
-
-create_sankey_from_surname("Weston")
+session = cf.create_session(debug=False)
+create_sankey_from_surname("Weston", session)
+session.close()
+print("END")
