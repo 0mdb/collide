@@ -89,7 +89,7 @@ const option = {
 }
 function Sankey() {
   return (
-    <div className='inline-grid h-80 overflow-hidden rounded-lg shadow-lg'>
+    <div className='flex rounded-lg shadow-lg'>
       <div className='light:bg-inherit py-3 px-5 dark:bg-inherit'>
         <ReactECharts option={option} style={{ width: '1200px', height: '600px' }} />
       </div>
