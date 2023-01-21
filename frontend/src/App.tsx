@@ -6,14 +6,17 @@ import { H1 } from '@blueprintjs/core'
 import { Admin, Resource, ListGuesser } from 'react-admin'
 import PersistLogin from './components/PersistLogin'
 import Home from './pages/Home'
+import Home3 from './pages/Home/Home3'
 import Landing from './pages/Landing'
 import Layout from './pages/Layout'
-import Sankey from './components/SankeyGraph'
+import ForceGraph from './pages/Home/ForceGraph'
+import Sankey from './pages/Home/Sankey'
 import Login from './pages/Login'
 import Unauthorized from './components/Unauthorized'
 import RequireAuth from './components/RequireAuth'
 import Register from './pages/Register'
 import LostPassword from './pages/Password'
+import { Law, Money, UserSettings } from './pages/Home'
 
 const dataProvider = jsonserverprovider('http://jsonplaceholder.typicode.com')
 
@@ -38,7 +41,13 @@ function App() {
         <Route path='register' element={<Register />} />
         <Route path='/' element={<Landing />} />
         <Route path='unauthorized' element={<Unauthorized />} />
-        <Route path='home' element={<Home />} />
+        <Route path='home' element={<Home />}>
+          <Route path='force' element={<ForceGraph />} />
+          <Route path='law' element={<Law />} />
+          <Route path='money' element={<Money />} />
+          <Route path='settings' element={<UserSettings />} />
+        </Route>
+        <Route path='home3' element={<Home3 />} />
         <Route path='password' element={<LostPassword />} />
         {/* protected routes */}
         {/* <Route element={<PersistLogin />}> */}
