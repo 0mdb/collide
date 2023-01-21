@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai'
 import { Icon } from '@blueprintjs/core'
-import { ThemeIcon } from '../../components/NavBar'
+import { ThemeButton } from '../../components/ThemeButton.tsx'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
@@ -25,9 +24,13 @@ const Navbar = () => {
           <li className='p-4'>Signup</li>
         </Link>
       </ul>
-      <ThemeIcon />
+      <ThemeButton />
       <div onClick={handleNav} className='block md:hidden'>
-        {nav ? <Icon icon='cross' size={20} /> : <Icon icon='menu' size={20} />}
+        {nav ? (
+          <Icon icon='cross' className='dark:fill-muted' size={20} />
+        ) : (
+          <Icon icon='menu' size={20} className='dark:fill-muted' />
+        )}
       </div>
       <ul
         className={
