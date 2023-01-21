@@ -22,10 +22,15 @@ module.exports = {
         'primary': '#184A90',
         'primary-d': '#4C90F0',
       },
-      spacing: {
-        88: '22rem',
-      },
+      // spacing: {
+      //   88: '22rem',
+      // },
     },
   },
-  plugins: [],
-}
+    plugins: [
+      // require('@tailwindcss/typography'),
+      // require('@tailwindcss/forms'),
+      // require('@tailwindcss/line-clamp'),
+      // require('@tailwindcss/aspect-ratio'),
+  ],
+};
