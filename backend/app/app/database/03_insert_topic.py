@@ -1,79 +1,45 @@
-import os
-import pathlib
 import pandas as pd
 import glob
-from sqlmodel import Session, create_engine, select, engine
-from schema_creation.sqlmodel_build import (
-    CommsTopic
-)
-from parse_injest.utils import create_match_name
+import common_func as cf
+from DirectoryHandler import DirectoryHandler
 
-# Preamble, folder locations
-project_name = "app"  # collide\backend\app\app
-data_dir = "data"
-data_dir_reg = "lobby_regs"
-data_dir_comm = "lobby_comms"
 
-# Folder creation, directories
-curr_dir_name = os.path.dirname(__file__)
+def insert_topics_from_lobby_regs_comms():
+    # TODO: Test on fresh db 0/1
+    # TODO: Test on populated db 1/1
 
-absolute_project_path = None
-for i in pathlib.Path(curr_dir_name).parents:
-    if i.name == project_name:
-        absolute_project_path = i.absolute()
-        break
+    # Preamble, folder locations
+    dh = DirectoryHandler("lobby_regs")
+    sub_csv_1 = glob.glob(dh.path_of_interest + "/*SubjectMattersExport.csv")
 
-file_dir = os.path.join(absolute_project_path, data_dir, data_dir_reg)
-sub_csv_1 = glob.glob(file_dir + "/*SubjectMattersExport.csv")
+    dh = DirectoryHandler("lobby_comms")
+    sub_csv_2 = glob.glob(dh.path_of_interest + "/*SubjectMattersExport.csv")
 
-file_dir = os.path.join(absolute_project_path, data_dir, data_dir_comm)
-sub_csv_2 = glob.glob(file_dir + "/*SubjectMattersExport.csv")
+    sub_csv = sub_csv_1 + sub_csv_2
 
-sub_csv = sub_csv_1 + sub_csv_2
+    if len(sub_csv) > 2 or len(sub_csv) < 2:
+        raise RuntimeError("Incorrect number of csv detected.")
 
-if len(sub_csv) > 2:
-    raise RuntimeError("More than expected two csv detected.")
+    session = cf.create_session(debug=True)
 
-db_host = "localhost"
-db_name = "lq_test"
-db_user = "test_user"
-db_pw = "changethis"
-schema_name = "lf_mockup_2"
+    for each_file in sub_csv:
+        df = pd.read_csv(each_file)
+        subs = df["SUBJ_MATTER_OBJET"].to_list()
 
-motor = create_engine(
-        f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=False
-)
+        try:
+            subs = subs + df["OTHER_SUBJ_MATTER_AUTRE_OBJET"].to_list()
+            print("Other subject exists")
+        except:
+            print("No other subject exists")
 
-session = Session(motor)
+        i = 0
 
-for each_file in sub_csv:
-    df = pd.read_csv(each_file)
-    subs = df["SUBJ_MATTER_OBJET"].to_list()
+        subs_unique = list(set(subs))
 
-    try:
-        subs = subs + df["OTHER_SUBJ_MATTER_AUTRE_OBJET"].to_list()
-        print("Other subject exists")
-    except:
-        print("No other subject exists")
+        for itm in subs_unique:
+            print(f"{i} of {len(subs_unique)}")
+            cf.add_commstopic(session, [{"topic_display_name": str(itm)}])
+            i = i + 1
 
-    i = 0
+    session.close()
 
-    subs_unique = list(set(subs))
-
-    for itm in subs_unique:
-        print(f"{i} of {len(subs_unique)}")
-        # Check if it already exists
-        stat = select(CommsTopic.id).where(
-            CommsTopic.match_name == create_match_name(str(itm))
-        )
-        res = session.exec(stat).all()
-
-        if len(res) == 0:
-            ot = CommsTopic(display_name=itm,
-                            match_name=create_match_name(str(itm)))
-            session.add(ot)
-            session.commit()
-
-        i = i + 1
-
-session.close()
