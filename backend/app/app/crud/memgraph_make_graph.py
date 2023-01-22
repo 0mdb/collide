@@ -248,10 +248,15 @@ def aggregate_parallel_edges(g):
     return g
 
 
-def aggregate_leaves(g, label, threshold):
+def aggregate_leaves(g, label, threshold, object_of_interest=None):
     fund_degrees = nx.degree(g)
     # get all of the people that just fund
-    funding_leaves = [x[0] for x in fund_degrees if x[1] == 1]
+    if object_of_interest is None:
+        funding_leaves = [x[0] for x in fund_degrees if x[1] == 1]
+    else:  # don't aggregate the object_of_interest
+        funding_leaves = [
+            x[0] for x in fund_degrees if x[1] == 1 and x[0] != object_of_interest
+        ]
     all_degrees = {x[0]: x[1] for x in fund_degrees}
 
     funding_totals = {}
@@ -551,7 +556,7 @@ def memgraph_query_and_aggregate(
         print(f"total nodes in {nx.number_of_nodes(temp_tot_graph)}")
         print(f"total edges in {nx.number_of_edges(temp_tot_graph)}")
 
-    reductions = ["aggrigate_same_edges", "aggregate_parallel_edges"]
+    reductions = set()
     brk = False
 
     temp_fund_g = fund_g.copy(as_view=False)
@@ -562,8 +567,8 @@ def memgraph_query_and_aggregate(
     while tot_nodes > target_max_nodes and not brk:
 
         if "aggregate_fund_leaves" not in reductions:
-            temp_fund_g = aggregate_leaves(temp_fund_g, "Misc Donors", 0)
-            reductions.append("aggregate_fund_leaves")
+            temp_fund_g = aggregate_leaves(temp_fund_g, "Misc Donors", 0, object_of_interest=poi_mn)
+            reductions.add("aggregate_fund_leaves")
             tot_nodes -= nn_f
             nn_f = nx.number_of_nodes(temp_fund_g)
             tot_nodes += nn_f
@@ -574,7 +579,7 @@ def memgraph_query_and_aggregate(
             temp_membership_g = aggregate_leaves(
                 temp_membership_g, "Other Members", agg_threshold
             )
-            reductions.append(("aggregate_membership_leaves", agg_threshold))
+            reductions.add(("aggregate_membership_leaves", agg_threshold))
             tot_nodes -= nn_m
             nn_m = nx.number_of_nodes(temp_membership_g)
             tot_nodes += nn_m
@@ -585,7 +590,7 @@ def memgraph_query_and_aggregate(
             temp_communication_g = aggregate_leaves(
                 temp_communication_g, "Other Parties", agg_threshold
             )
-            reductions.append(("aggregate_communication_leaves", agg_threshold))
+            reductions.add(("aggregate_communication_leaves", agg_threshold))
             tot_nodes -= nn_c
             nn_c = nx.number_of_nodes(temp_communication_g)
             tot_nodes += nn_c
@@ -606,7 +611,7 @@ def memgraph_query_and_aggregate(
                     node_type="Person",
                 )
                 tot_nodes = nx.number_of_nodes(temp_tot_graph)
-                reductions.append(("aggregate_same_edges_person", agg_threshold))
+                reductions.add(("aggregate_same_edges_person", agg_threshold))
                 continue
 
             if (
@@ -621,9 +626,9 @@ def memgraph_query_and_aggregate(
                     node_type="Organization",
                 )
                 tot_nodes = nx.number_of_nodes(temp_tot_graph)
-                reductions.append(("aggregate_same_edges_organizations", agg_threshold))
+                reductions.add(("aggregate_same_edges_organizations", agg_threshold))
                 continue
-            reductions.append(("aggregate_same_edges", agg_threshold))
+            reductions.add(("aggregate_same_edges", agg_threshold))
 
         agg_threshold -= aggregation_threshold_step
         if agg_threshold <= 1:
