@@ -655,22 +655,21 @@ def memgraph_query_and_aggregate(
 def graph_search_options(search: str) -> list[schemas.GraphSearchOptions]:
     """Search for people and organizations in the graph database."""
 
-    peeps = []
+    peeps_and_orgs = []
 
-    # TODO add orgs into search
-    # limit responses to 10
+    # limit responses to 50
     query = f"""
-    MATCH (n:MGPerson) WHERE n.match_name CONTAINS toLower("{search}") RETURN n.display_name, n.match_name LIMIT 50;
+    MATCH (n) WHERE (n:MGPerson OR n:MGOrganization) AND n.match_name CONTAINS toLower("{search}") RETURN n.display_name, n.match_name LIMIT 50;
     """
     res = gdb.execute_and_fetch(query)
 
-    for person in res:
+    for person_or_org in res:
         options = {
             # TODO remove value and build it in the front end
-            "value": person["n.match_name"],
-            "label": person["n.display_name"],
+            "value": person_or_org["n.match_name"],
+            "label": person_or_org["n.display_name"],
         }
 
-        peeps.append(options)
+        peeps_and_orgs.append(options)
 
-    return peeps
+    return peeps_and_orgs
