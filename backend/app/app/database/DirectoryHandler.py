@@ -7,7 +7,11 @@ import datetime
 
 class DirectoryHandler:
 
-    def __init__(self):
+    def __init__(self, dir_of_interest):
+        self.source_age = None
+        self.source_name = None
+        self.source_misc = None
+
         # Preamble, folder locations
         project_name = "app"  # collide\backend\app\app
 
@@ -22,9 +26,6 @@ class DirectoryHandler:
 
         self.path_project = absolute_project_path
         self.path_data = os.path.join(self.path_project, "data")
-        self.dir_of_interest = None
-
-    def set_dir_of_interest(self, dir_of_interest):
         self.dir_of_interest = dir_of_interest
 
         if dir_of_interest == "bills detail":
@@ -62,19 +63,15 @@ class DirectoryHandler:
         else:
             raise AssertionError("DirectoryHandler: invalid dir_of_interest")
 
-        self.age = None
-
-    def set_existing_dir_age(self):
+    def load_meta_file(self):
         meta_filename = "meta.csv"
         meta_df = pd.read_csv(os.path.join(self.path_of_interest, meta_filename))
-        dt = datetime.datetime.fromisoformat(meta_df["date_scraped"].to_list()[0]).date()
-        self.age = dt
-
-    def get_dir_age(self):
-        return self.age
+        self.source_age = datetime.datetime.fromisoformat(meta_df["date_scraped"].to_list()[0]).date()
+        self.source_name = meta_df["source_name"].to_list()[0]
+        self.source_misc = meta_df["misc_data"].to_list()[0]
 
     def file_existing(self):
-        str_age = self.age.strftime('%Y%m%d')
+        str_age = self.source_age.strftime('%Y%m%d')
         target_dir = os.path.join(self.path_of_interest, str_age)
 
         if not os.path.exists(target_dir):
