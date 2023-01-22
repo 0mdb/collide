@@ -15,6 +15,7 @@ from schema_creation.sqlmodel_build import (
     VoteIndividual,
     BillDiff,
     LegStage,
+    CommsTopic
 )
 from parse_injest.utils import create_match_name
 import numpy as np
@@ -209,6 +210,37 @@ def add_sectors(session, sector_lst):
         else:
             raise RuntimeError("Non unique sector detected")
     return sector_obj_lst
+
+
+def add_commstopic(session, topic_lst):
+    # {
+    #     "topic_display_name": "abc"
+    # }
+
+    topic_obj_lst = []
+    for each_dict in topic_lst:
+        # Check if it already exists with same match_name
+        stat = select(CommsTopic).where(
+            CommsTopic.match_name == create_match_name(each_dict.get("topic_display_name"))
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New entry
+            ot = CommsTopic(
+                display_name=each_dict.get("topic_display_name"),
+                match_name=create_match_name(each_dict.get("topic_display_name")),
+            )
+
+            session.add(ot)
+            session.commit()
+            topic_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            topic_obj_lst.append(res[0])
+        else:
+            raise RuntimeError("Non unique commstopic detected")
+    return topic_obj_lst
 
 
 def add_people(session, ppl_lst):
