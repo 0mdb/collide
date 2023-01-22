@@ -171,31 +171,35 @@ def add_organization_types(session, type_lst):
 def add_sectors(session, sector_lst):
     # {
     #     "sector_name": "abc",
-    #     "industry_name": "def"
+    #     "industry_name": "def" (OPT)
     # }
 
     sector_obj_lst = []
     for each_dict in sector_lst:
-        # Check if it already exists with same match_name
+        if "industry_name" not in each_dict.keys():
+            industry_name = None
+            industry_match_name = None
+        else:
+            industry_name = each_dict.get("industry_name")
+            industry_match_name = create_match_name(industry_name)
+
+        # Check if it already exists with same sector_match_name AND industry_match_name
         stat = select(SectorIndustry).where(
             SectorIndustry.sector_match_name == create_match_name(each_dict.get("sector_name"))
+        ).where(
+            SectorIndustry.industry_match_name == industry_match_name
         )
         res = session.exec(stat).all()
 
         if len(res) == 0:
             # New entry
-            if "industry_name" in each_dict.keys():
-                ot = SectorIndustry(
-                    sector_display_name=each_dict.get("sector_name"),
-                    sector_match_name=create_match_name(each_dict.get("sector_name")),
-                    industry_display_name=each_dict.get("industry_name"),
-                    industry_match_name=create_match_name(each_dict.get("industry_name")),
-                )
-            else:  # industry not available
-                ot = SectorIndustry(
-                    sector_display_name=each_dict.get("sector_name"),
-                    sector_match_name=create_match_name(each_dict.get("sector_name")),
-                )
+            ot = SectorIndustry(
+                sector_display_name=each_dict.get("sector_name"),
+                sector_match_name=create_match_name(each_dict.get("sector_name")),
+                industry_display_name=industry_name,
+                industry_match_name=industry_match_name,
+            )
+
             session.add(ot)
             session.commit()
             sector_obj_lst.append(ot)
