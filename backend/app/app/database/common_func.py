@@ -244,6 +244,11 @@ def add_commstopic(session, topic_lst):
 
 
 def add_people(session, ppl_lst):
+    # {
+    #     "name": "display name",
+    #     "ppl_source_id": int
+    # }
+
     ppl_obj_lst = []
     for each_dict in ppl_lst:
         # Check if it already exists with same match_name
@@ -275,7 +280,8 @@ def add_organizations(session, org_lst):
     #     "name": "abc",
     #     "org_type_str": "abc",
     #     "org_parent_str": "abc",
-    #     "org_sector_str": "abc",
+    #     "org_sector_str": "abc", (OPTIONAL)
+    #     "org_industry_str": "abc", (OPTIONAL)
     #     "org_source_id": int,
     #     "misc": {}
     # }
@@ -315,7 +321,15 @@ def add_organizations(session, org_lst):
                 res_parent_id = [None]
 
             # Retrieve section id from string name if key in dict
-            if "org_sector_str" in each_dict.keys():
+            if "org_industry_str" in each_dict.keys():
+                stat = select(SectorIndustry.id).where(
+                    SectorIndustry.sector_match_name
+                    == create_match_name(each_dict.get("org_sector_str"))
+                ).where(
+                    SectorIndustry.industry_match_name == create_match_name(each_dict.get("org_industry_str"))
+                )
+                res_sector_id = session.exec(stat).all()
+            elif "org_sector_str" in each_dict.keys():
                 stat = select(SectorIndustry.id).where(
                     SectorIndustry.sector_match_name
                     == create_match_name(each_dict.get("org_sector_str"))
@@ -324,6 +338,7 @@ def add_organizations(session, org_lst):
 
                 if len(res_sector_id) > 1:
                     raise RuntimeError("Too many sectors identified")
+
             else:
                 res_sector_id = [None]
 

@@ -66,7 +66,8 @@ class DirectoryHandler:
     def load_meta_file(self):
         meta_filename = "meta.csv"
         meta_df = pd.read_csv(os.path.join(self.path_of_interest, meta_filename))
-        self.source_age = datetime.datetime.fromisoformat(meta_df["date_scraped"].to_list()[0]).date()
+        # self.source_age = datetime.datetime.fromisoformat(meta_df["date_scraped"].to_list()[0]).date()
+        self.source_age = meta_df["date_scraped"].to_list()[0]  # string
         self.source_name = meta_df["source_name"].to_list()[0]
         self.source_misc = meta_df["misc_data"].to_list()[0]
 
