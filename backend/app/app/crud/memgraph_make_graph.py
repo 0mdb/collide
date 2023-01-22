@@ -349,11 +349,9 @@ def aggregate_same_edges(g, label, threshold, **kwargs):
     else:
         n_val = 8
 
-    node_list = list(g.nodes)
+    node_list = set(g.nodes)
     if object_of_interest is not None:
-        node_list = [
-            x for x in node_list if x != object_of_interest
-        ]  # never aggregate the object of interest
+        node_list.discard(object_of_interest)  # never aggregate the object of interest
 
     tg = nx.to_undirected(g)
     for n in node_list:
@@ -488,10 +486,19 @@ def memgraph_query_and_aggregate(
 
     some_letters = ("r", "s", "t", "u", "v", "w", "x", "y", "z")
 
-    if is_person:
-        type_tag = "Person"
-    else:
-        type_tag = "Organization"
+    gql = f"""MATCH (n) WHERE n.match_name = '{poi_mn}'
+                    RETURN n"""
+    poi_type = gdb.execute_and_fetch(gql)
+    poi_type = list(poi_type)
+    poi_type = poi_type[0]["n"]._label
+    type_tag = poi_type.replace("MG", "")
+
+    # if is_person:
+    #     type_tag = "Person"
+    # else:
+    #     type_tag = "Organization"
+
+    pr.enable()
 
     json_file_name = f"generated_json/{poi_mn}_m{membership_depth}_c{communication_depth}_f{fund_depth}.json"
     if verbose:
@@ -634,11 +641,6 @@ def memgraph_query_and_aggregate(
         if agg_threshold <= 1:
             brk = True
 
-    fund_g = temp_fund_g
-    membership_g = temp_membership_g
-    communication_g = temp_communication_g
-
-    # tot_graph = create_tot_graph(membership_g, fund_g, communication_g)
     tot_graph = temp_tot_graph
 
     graph_json = nx_to_json(tot_graph)
