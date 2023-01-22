@@ -1,7 +1,7 @@
 /* import React, { lazy, Suspense } from 'react' */
 import React from 'react'
 import jsonserverprovider from 'ra-data-json-server'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import { H1 } from '@blueprintjs/core'
 import { Admin, Resource, ListGuesser } from 'react-admin'
 import PersistLogin from './components/PersistLogin'
@@ -10,12 +10,12 @@ import Home3 from './pages/Home/Home3'
 import Landing from './pages/Landing'
 import Layout from './pages/Layout'
 import ForceGraph from './pages/Home/ForceGraph'
-import Sankey from './pages/Home/Sankey'
 import Login from './pages/Login'
 import Unauthorized from './components/Unauthorized'
 import RequireAuth from './components/RequireAuth'
 import Register from './pages/Register'
 import LostPassword from './pages/Password'
+import PageNotFound from './components/PageNotFound'
 import { Law, Money, UserSettings } from './pages/Home'
 
 const dataProvider = jsonserverprovider('http://jsonplaceholder.typicode.com')
@@ -41,11 +41,13 @@ function App() {
         <Route path='register' element={<Register />} />
         <Route path='/' element={<Landing />} />
         <Route path='unauthorized' element={<Unauthorized />} />
-        <Route path='home' element={<Home />}>
+        <Route path='/home' element={<Home />}>
           <Route path='force' element={<ForceGraph />} />
           <Route path='law' element={<Law />} />
           <Route path='money' element={<Money />} />
           <Route path='settings' element={<UserSettings />} />
+          {/* sets default route */}
+          <Route index element={<ForceGraph />} />
         </Route>
         <Route path='home3' element={<Home3 />} />
         <Route path='password' element={<LostPassword />} />
@@ -66,7 +68,8 @@ function App() {
         </Route>
         {/* </Route> */}
         {/* catch all */}
-        <Route path='*' element={<H1>Page Missing</H1>} />
+        {/* <Route path='*' element={<H1>Page Missing</H1>} /> */}
+        <Route path='*' element={<PageNotFound />} />
       </Route>
       {/* </Suspense> */}
     </Routes>

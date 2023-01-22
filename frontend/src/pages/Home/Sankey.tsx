@@ -1,9 +1,9 @@
-import { H1 } from '@blueprintjs/core'
 import data from './energy.json'
 import React, { useRef, useEffect } from 'react'
 import { init, getInstanceByDom } from 'echarts'
 import type { CSSProperties } from 'react'
 import type { EChartsOption, ECharts, SetOptionOpts } from 'echarts'
+import { useWindowSize } from '@react-hook/window-size'
 
 export interface ReactEChartsProps {
   option: EChartsOption
@@ -21,6 +21,7 @@ export function ReactECharts({
   theme,
 }: ReactEChartsProps): JSX.Element {
   const chartRef = useRef<HTMLDivElement>(null)
+  const [width, height] = useWindowSize()
 
   useEffect(() => {
     // Initialize chart
@@ -91,7 +92,7 @@ function Sankey() {
   return (
     <div className='flex rounded-lg shadow-lg'>
       <div className='light:bg-inherit py-3 px-5 dark:bg-inherit'>
-        <ReactECharts option={option} style={{ width: '1200px', height: '600px' }} />
+        <ReactECharts option={option} style={{ width: '1200px', height: '800px' }} />
       </div>
     </div>
   )
