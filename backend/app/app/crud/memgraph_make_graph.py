@@ -87,6 +87,8 @@ def mapped_memgraph_to_nx(res_dict):
                 node_dict[e.end_id].properties["match_name"],
                 type=e.type,
                 date=e.properties["com_date"],
+                start_date=e.properties["com_date"],
+                end_date=e.properties['com_date'],
                 amount=1,
                 dash=[2, 3],
                 color="red",
