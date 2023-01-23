@@ -279,7 +279,7 @@ def add_organizations(session, org_lst):
     # {
     #     "name": "abc",
     #     "org_type_str": "abc",
-    #     "org_parent_str": "abc",
+    #     "org_parent_str": "abc", (OPTIONAL)
     #     "org_sector_str": "abc", (OPTIONAL)
     #     "org_industry_str": "abc", (OPTIONAL)
     #     "org_source_id": int,
