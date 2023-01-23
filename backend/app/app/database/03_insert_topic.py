@@ -9,11 +9,11 @@ def insert_topics_from_lobby_regs_comms():
     # TODO: Test on populated db 1/1
 
     # Preamble, folder locations
-    dh = DirectoryHandler("lobby_regs")
-    sub_csv_1 = glob.glob(dh.path_of_interest + "/*SubjectMattersExport.csv")
+    dh_reg = DirectoryHandler("lobby_regs")
+    sub_csv_1 = glob.glob(dh_reg.path_of_interest + "/*SubjectMattersExport.csv")
 
-    dh = DirectoryHandler("lobby_comms")
-    sub_csv_2 = glob.glob(dh.path_of_interest + "/*SubjectMattersExport.csv")
+    dh_comms = DirectoryHandler("lobby_comms")
+    sub_csv_2 = glob.glob(dh_comms.path_of_interest + "/*SubjectMattersExport.csv")
 
     sub_csv = sub_csv_1 + sub_csv_2
 
@@ -21,6 +21,16 @@ def insert_topics_from_lobby_regs_comms():
         raise RuntimeError("Incorrect number of csv detected.")
 
     session = cf.create_session(debug=True)
+
+    # Add sources
+    dh_reg.load_meta_file()
+    objs = cf.add_sources(session, [{"data_source": dh_reg.source_name,
+                                     "date_obtained": dh_reg.source_age,
+                                     "misc_data": dh_reg.source_misc}])
+    dh_comms.load_meta_file()
+    objs = cf.add_sources(session, [{"data_source": dh_comms.source_name,
+                                     "date_obtained": dh_comms.source_age,
+                                     "misc_data": dh_comms.source_misc}])
 
     for each_file in sub_csv:
         df = pd.read_csv(each_file)
