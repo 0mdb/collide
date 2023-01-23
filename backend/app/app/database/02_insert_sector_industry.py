@@ -24,6 +24,12 @@ def insert_sector_industry_from_tsx_listing():
 
     session = cf.create_session(debug=True)
 
+    # Insert tsx source although nothing currently uses id
+    dh.load_meta_file()
+    tsx_source_objs = cf.add_sources(session, [{"data_source": dh.source_name,
+                                                "date_obtained": dh.source_age,
+                                                "misc_data": dh.source_misc}])
+
     for idx, itm in enumerate(sectors):
         sect_obj = cf.add_sectors(session, [{"sector_name": sectors[idx],
                                              "industry_name": industries[idx]}])
