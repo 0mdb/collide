@@ -1,6 +1,6 @@
 import axios from './axios'
 
-interface Graph {
+export interface graphDataType {
   nodes: {
     id: string
     name: string
@@ -22,18 +22,16 @@ interface SearchQuery {
 }
 
 export async function getSampleGraph() {
-  return axios.get<Graph[]>('/forcegraph/sample').then((res) => res.data)
+  return axios.get<graphDataType[]>('/forcegraph/sample').then((res) => res.data)
 }
 
-// export async function getOptions({ }) {
-//   return axios.get<SearchQuery[]>('/forcegraph/search_options', 'alex').then((res) => res.data)
-// }
-
-export async function getSearch() {
-  return axios.post<SearchQuery[]>('/forcegraph/search').then((res) => res.data)
+export async function getOptions(query: string) {
+  const SEARCH_URL = 'forcegraph/search_options?query='
+  const match_name = query.toLowerCase().split(' ').join('')
+  return axios.post(SEARCH_URL + match_name).then((res) => res.data)
 }
 
-export const getOptions = (query: string) => {  
-  return axios.post<SearchQuery[]>('/forcegraph/search_options?query', query).then((res) => res.data)
+export async function getGraph(query: string) {
+console.log('getGraph', query)
+return axios.post('forcegraph/search/' + query).then((res) => res.data)
 }
-  // 'http://localhost/api/v1/forcegraph/search_options?query=alex'
