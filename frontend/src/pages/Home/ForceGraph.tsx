@@ -8,11 +8,11 @@ import { useWindowSize } from '@react-hook/window-size'
 import { Icon } from '@blueprintjs/core'
 import AsyncSelect from 'react-select/async'
 
-export async function getSampleGraph() {
+async function getSampleGraph() {
   return axios.get<graphDataType[]>('/forcegraph/sample').then((res) => res.data)
 }
 
-export async function getOptions(query: string) {
+async function getOptions(query: string) {
   const SEARCH_URL = 'forcegraph/search_options?query='
   const match_name = query.toLowerCase().split(' ').join('')
   return axios.post(SEARCH_URL + match_name).then((res) => res.data)
@@ -51,12 +51,39 @@ function ForceGraph() {
   const [graphData, setGraphData] = useState(null)
   const [graphType, setGraphType] = useState('2D')
 
-  const { status, error, data } = useQuery({
+  const {
+    status: sampleStatus,
+    error: sampleError,
+    data: sampleData,
+  } = useQuery({
     queryKey: ['getSampleGraph'],
     queryFn: () => getSampleGraph(),
   })
-  if (status === 'loading') return <Loading />
-  if (error === 'error') return <div>Error</div>
+
+  const {
+    status: optionStatus,
+    error: optionError,
+    data: optionData,
+  } = useQuery({
+    queryKey: ['getOptions'],
+    queryFn: () => getOptions(''),
+  })
+
+  // const {
+  //   status: graphStatus,
+  //   error: graphError,
+  //   data: newGraphData,
+  // } = useQuery({
+  //   queryKey: ['getGraph'],
+  //   queryFn: () => getGraph(''),
+  // })
+
+  // if (graphStatus === 'loading') return <div>Loading</div>
+  // if (graphError === 'error') return <div>Error</div>
+  if (sampleStatus === 'loading') return <div>Loading</div>
+  if (sampleError === 'error') return <div>Error</div>
+  if (optionStatus === 'loading') return <div>Loading</div>
+  if (optionError === 'error') return <div>Error</div>
 
   const handleChange = async (selectedOption) => {
     await getGraph(selectedOption.value).then((response) => {
@@ -68,12 +95,9 @@ function ForceGraph() {
   const loadOptions = async (inputValue: string, callback) => {
     console.log('inputValue', inputValue)
 
-    const options = await getOptions(inputValue)
-    const filteredOptions = await options.filter((option) =>
+    const filteredOptions = await optionData.filter((option) =>
       option.label.toLowerCase().includes(inputValue.toLowerCase()),
     )
-    console.log('loadOptions', inputValue, filteredOptions)
-
     callback(filteredOptions)
   }
 
@@ -82,7 +106,7 @@ function ForceGraph() {
       {graphType === '2D' ? (
         <ForceGraph2D
           ref={fgRef}
-          graphData={graphData ? graphData : data}
+          graphData={graphData ? graphData : sampleData}
           height={height}
           width={width - 100}
           cooldownTicks={100}
@@ -94,7 +118,7 @@ function ForceGraph() {
       ) : (
         <ForceGraph3D
           ref={fgRef}
-          graphData={graphData ? graphData : data}
+          graphData={graphData ? graphData : sampleData}
           height={height}
           width={width - 100}
           cooldownTicks={100}
