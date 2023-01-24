@@ -1,15 +1,28 @@
+import axios from '../../api/axios'
 import React, { useRef, useState } from 'react'
 import { ForceGraph2D } from 'react-force-graph'
 import { ForceGraph3D } from 'react-force-graph'
 import { useQuery } from '@tanstack/react-query'
-import { getSampleGraph } from '../../api/graph'
 import Loading from '../../components/Loading'
 import { useWindowSize } from '@react-hook/window-size'
 import { Icon } from '@blueprintjs/core'
 import AsyncSelect from 'react-select/async'
-import axios from '../../api/axios'
 
-//a function that changes the graph type from 2D to 3D and back that returns a button with the appropriate icon
+export async function getSampleGraph() {
+  return axios.get<graphDataType[]>('/forcegraph/sample').then((res) => res.data)
+}
+
+export async function getOptions(query: string) {
+  const SEARCH_URL = 'forcegraph/search_options?query='
+  const match_name = query.toLowerCase().split(' ').join('')
+  return axios.post(SEARCH_URL + match_name).then((res) => res.data)
+}
+
+export async function getGraph(query: string) {
+  console.log('getGraph', query)
+  return axios.post('forcegraph/search/' + query).then((res) => res.data)
+}
+
 function GraphTypeButton({ graphType, setGraphType }) {
   const changeGraphType = () => {
     if (graphType === '2D') {
@@ -39,41 +52,29 @@ function ForceGraph() {
   const [graphType, setGraphType] = useState('2D')
 
   const { status, error, data } = useQuery({
-    queryKey: ['forcegraph'],
-    queryFn: getSampleGraph,
+    queryKey: ['getSampleGraph'],
+    queryFn: () => getSampleGraph(),
   })
   if (status === 'loading') return <Loading />
   if (error === 'error') return <div>Error</div>
 
-  const SEARCH_URL = 'forcegraph/search_options?query='
-
-  async function getOptions(query: string) {
-    const match_name = query.toLowerCase().split(' ').join('')
-    return axios.post(SEARCH_URL + match_name).then((res) => res.data)
-  }
-
-  async function getGraph(query: string) {
-    console.log('getGraph', query)
-    return axios.post('forcegraph/search/' + query).then((res) => res.data)
-  }
-
-  const handleChange = (selectedOption) => {
-    getGraph(selectedOption.value).then((response) => {
+  const handleChange = async (selectedOption) => {
+    await getGraph(selectedOption.value).then((response) => {
       setGraphData(response)
       console.log(`selectedOption`, selectedOption, 'response', graphData)
     })
   }
 
-  const loadOptions = (inputValue: string, callback) => {
+  const loadOptions = async (inputValue: string, callback) => {
     console.log('inputValue', inputValue)
 
-    getOptions(inputValue).then(async (options) => {
-      const filteredOptions = await options.filter((option) =>
-        option.label.toLowerCase().includes(inputValue.toLowerCase()),
-      )
-      console.log('loadOptions', inputValue, filteredOptions)
-      callback(filteredOptions)
-    })
+    const options = await getOptions(inputValue)
+    const filteredOptions = await options.filter((option) =>
+      option.label.toLowerCase().includes(inputValue.toLowerCase()),
+    )
+    console.log('loadOptions', inputValue, filteredOptions)
+
+    callback(filteredOptions)
   }
 
   return (
@@ -109,8 +110,6 @@ function ForceGraph() {
           <SearchIcon />
           <AsyncSelect
             unstyled={true}
-            // closeMenuOnSelect={true}
-            // value={value}
             isClearable={true}
             className='dark: w-64 rounded-md border-2 border-gray-200 border-gray-800 shadow-sm focus:outline-none focus:ring-primary'
             loadOptions={loadOptions}
