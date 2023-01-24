@@ -45,7 +45,7 @@ def bills() -> Any:
 
 
 @router.post("/search/{id}", response_model=schemas.GraphData)
-def search_id(id: str) -> Any:
+async def search_id(id: str) -> Any:
     """
     Retrieve search terms.
     """
@@ -61,7 +61,7 @@ def search_id(id: str) -> Any:
 
 @router.post("/search_options", response_model=list[schemas.GraphSearchOptions])
 # @router.post("/search_options")
-def search_options(query: str) -> Any:
+async def search_options(query: str) -> Any:
     """
     Retrieve search terms.
     """
