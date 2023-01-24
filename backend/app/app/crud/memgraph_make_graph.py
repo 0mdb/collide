@@ -87,6 +87,8 @@ def mapped_memgraph_to_nx(res_dict):
                 node_dict[e.end_id].properties["match_name"],
                 type=e.type,
                 date=e.properties["com_date"],
+                start_date=e.properties["com_date"],
+                end_date=e.properties['com_date'],
                 amount=1,
                 dash=[2, 3],
                 color="red",
@@ -246,10 +248,15 @@ def aggregate_parallel_edges(g):
     return g
 
 
-def aggregate_leaves(g, label, threshold):
+def aggregate_leaves(g, label, threshold, object_of_interest=None):
     fund_degrees = nx.degree(g)
     # get all of the people that just fund
-    funding_leaves = [x[0] for x in fund_degrees if x[1] == 1]
+    if object_of_interest is None:
+        funding_leaves = [x[0] for x in fund_degrees if x[1] == 1]
+    else:  # don't aggregate the object_of_interest
+        funding_leaves = [
+            x[0] for x in fund_degrees if x[1] == 1 and x[0] != object_of_interest
+        ]
     all_degrees = {x[0]: x[1] for x in fund_degrees}
 
     funding_totals = {}
@@ -342,11 +349,9 @@ def aggregate_same_edges(g, label, threshold, **kwargs):
     else:
         n_val = 8
 
-    node_list = list(g.nodes)
+    node_list = set(g.nodes)
     if object_of_interest is not None:
-        node_list = [
-            x for x in node_list if x != object_of_interest
-        ]  # never aggregate the object of interest
+        node_list.discard(object_of_interest)  # never aggregate the object of interest
 
     tg = nx.to_undirected(g)
     for n in node_list:
@@ -481,10 +486,19 @@ def memgraph_query_and_aggregate(
 
     some_letters = ("r", "s", "t", "u", "v", "w", "x", "y", "z")
 
-    if is_person:
-        type_tag = "Person"
-    else:
-        type_tag = "Organization"
+    gql = f"""MATCH (n) WHERE n.match_name = '{poi_mn}'
+                    RETURN n"""
+    poi_type = gdb.execute_and_fetch(gql)
+    poi_type = list(poi_type)
+    poi_type = poi_type[0]["n"]._label
+    type_tag = poi_type.replace("MG", "")
+
+    # if is_person:
+    #     type_tag = "Person"
+    # else:
+    #     type_tag = "Organization"
+
+    pr.enable()
 
     json_file_name = f"generated_json/{poi_mn}_m{membership_depth}_c{communication_depth}_f{fund_depth}.json"
     if verbose:
@@ -549,7 +563,7 @@ def memgraph_query_and_aggregate(
         print(f"total nodes in {nx.number_of_nodes(temp_tot_graph)}")
         print(f"total edges in {nx.number_of_edges(temp_tot_graph)}")
 
-    reductions = ["aggrigate_same_edges", "aggregate_parallel_edges"]
+    reductions = set()
     brk = False
 
     temp_fund_g = fund_g.copy(as_view=False)
@@ -560,8 +574,8 @@ def memgraph_query_and_aggregate(
     while tot_nodes > target_max_nodes and not brk:
 
         if "aggregate_fund_leaves" not in reductions:
-            temp_fund_g = aggregate_leaves(temp_fund_g, "Misc Donors", 0)
-            reductions.append("aggregate_fund_leaves")
+            temp_fund_g = aggregate_leaves(temp_fund_g, "Misc Donors", 0, object_of_interest=poi_mn)
+            reductions.add("aggregate_fund_leaves")
             tot_nodes -= nn_f
             nn_f = nx.number_of_nodes(temp_fund_g)
             tot_nodes += nn_f
@@ -572,7 +586,7 @@ def memgraph_query_and_aggregate(
             temp_membership_g = aggregate_leaves(
                 temp_membership_g, "Other Members", agg_threshold
             )
-            reductions.append(("aggregate_membership_leaves", agg_threshold))
+            reductions.add(("aggregate_membership_leaves", agg_threshold))
             tot_nodes -= nn_m
             nn_m = nx.number_of_nodes(temp_membership_g)
             tot_nodes += nn_m
@@ -583,7 +597,7 @@ def memgraph_query_and_aggregate(
             temp_communication_g = aggregate_leaves(
                 temp_communication_g, "Other Parties", agg_threshold
             )
-            reductions.append(("aggregate_communication_leaves", agg_threshold))
+            reductions.add(("aggregate_communication_leaves", agg_threshold))
             tot_nodes -= nn_c
             nn_c = nx.number_of_nodes(temp_communication_g)
             tot_nodes += nn_c
@@ -604,7 +618,7 @@ def memgraph_query_and_aggregate(
                     node_type="Person",
                 )
                 tot_nodes = nx.number_of_nodes(temp_tot_graph)
-                reductions.append(("aggregate_same_edges_person", agg_threshold))
+                reductions.add(("aggregate_same_edges_person", agg_threshold))
                 continue
 
             if (
@@ -619,19 +633,14 @@ def memgraph_query_and_aggregate(
                     node_type="Organization",
                 )
                 tot_nodes = nx.number_of_nodes(temp_tot_graph)
-                reductions.append(("aggregate_same_edges_organizations", agg_threshold))
+                reductions.add(("aggregate_same_edges_organizations", agg_threshold))
                 continue
-            reductions.append(("aggregate_same_edges", agg_threshold))
+            reductions.add(("aggregate_same_edges", agg_threshold))
 
         agg_threshold -= aggregation_threshold_step
         if agg_threshold <= 1:
             brk = True
 
-    fund_g = temp_fund_g
-    membership_g = temp_membership_g
-    communication_g = temp_communication_g
-
-    # tot_graph = create_tot_graph(membership_g, fund_g, communication_g)
     tot_graph = temp_tot_graph
 
     graph_json = nx_to_json(tot_graph)
@@ -655,22 +664,21 @@ def memgraph_query_and_aggregate(
 def graph_search_options(search: str) -> list[schemas.GraphSearchOptions]:
     """Search for people and organizations in the graph database."""
 
-    peeps = []
+    peeps_and_orgs = []
 
-    # TODO add orgs into search
-    # limit responses to 10
+    # limit responses to 50
     query = f"""
-    MATCH (n:MGPerson) WHERE n.match_name CONTAINS toLower("{search}") RETURN n.display_name, n.match_name LIMIT 50;
+    MATCH (n) WHERE (n:MGPerson OR n:MGOrganization) AND n.match_name CONTAINS toLower("{search}") RETURN n.display_name, n.match_name LIMIT 50;
     """
     res = gdb.execute_and_fetch(query)
 
-    for person in res:
+    for person_or_org in res:
         options = {
             # TODO remove value and build it in the front end
-            "value": person["n.match_name"],
-            "label": person["n.display_name"],
+            "value": person_or_org["n.match_name"],
+            "label": person_or_org["n.display_name"],
         }
 
-        peeps.append(options)
+        peeps_and_orgs.append(options)
 
-    return peeps
+    return peeps_and_orgs
