@@ -2,11 +2,9 @@
 import React from 'react'
 import jsonserverprovider from 'ra-data-json-server'
 import { Route, Routes, Navigate } from 'react-router-dom'
-import { H1 } from '@blueprintjs/core'
 import { Admin, Resource, ListGuesser } from 'react-admin'
 import PersistLogin from './components/PersistLogin'
 import Home from './pages/Home'
-import Home3 from './pages/Home/Home3'
 import Landing from './pages/Landing'
 import Layout from './pages/Layout'
 import ForceGraph from './pages/Home/ForceGraph'
@@ -49,7 +47,7 @@ function App() {
           {/* sets default route */}
           <Route index element={<ForceGraph />} />
         </Route>
-        <Route path='home3' element={<Home3 />} />
+        <Route path='home3' element={<Home />} />
         <Route path='password' element={<LostPassword />} />
         {/* protected routes */}
         {/* <Route element={<PersistLogin />}> */}
@@ -68,7 +66,6 @@ function App() {
         </Route>
         {/* </Route> */}
         {/* catch all */}
-        {/* <Route path='*' element={<H1>Page Missing</H1>} /> */}
         <Route path='*' element={<PageNotFound />} />
       </Route>
       {/* </Suspense> */}
