@@ -1,128 +1,110 @@
-import datetime
 import glob
 import os
-import pathlib
 import pandas as pd
 import common_func as cf
+from DirectoryHandler import DirectoryHandler
 
-# Preamble, folder locations
-project_name = "app"  # collide\backend\app\app
-data_dir = "data"
-data_dir_votes_summary = os.path.join("votes", "summary")
-data_dir_votes_detailed = os.path.join("votes", "detail")
 
-# Folder creation, directories
-curr_dir_name = os.path.dirname(__file__)
+def insert_vote_voteindividual():
+    # TODO: Test on fresh db 0/1
+    # TODO: Test on populated db 1/1
+    # TODO: compare yea/nay/pair sums from completed VoteIndividual table vs Vote table totals when complete
 
-absolute_project_path = None
-for i in pathlib.Path(curr_dir_name).parents:
-    if i.name == project_name:
-        absolute_project_path = i.absolute()
-        break
+    # Preamble, folder locations
+    dh_votes = DirectoryHandler("votes summary")
+    dh_votes.load_meta_file()
 
-summary_dir = os.path.join(absolute_project_path, data_dir, data_dir_votes_summary)
-detail_dir = os.path.join(absolute_project_path, data_dir, data_dir_votes_detailed)
+    dh_votesindividual = DirectoryHandler("votes detail")
+    dh_votesindividual.load_meta_file()
 
-# Add source for vote summary and detailed
-vote_summary_meta = glob.glob(summary_dir + "/meta.csv")
-summary_meta_df = pd.read_csv(vote_summary_meta[0])
+    sum_file_lst = glob.glob(dh_votes.path_of_interest + "/*.csv")
+    sum_file_lst = [x for x in sum_file_lst if os.path.basename(x) != "meta.csv"]
 
-vote_detail_meta = glob.glob(detail_dir + "/meta.csv")
-detail_meta_df = pd.read_csv(vote_detail_meta[0])
+    det_file_lst = glob.glob(dh_votesindividual.path_of_interest + "/*.xml")
 
-sum_file_lst = glob.glob(summary_dir + "/*.csv")
-sum_file_lst = [x for x in sum_file_lst if os.path.basename(x) != "meta.csv"]
-sum_file_lst_base = [os.path.basename(x) for x in sum_file_lst]
+    # sum_file_lst_base = [os.path.basename(x) for x in sum_file_lst]
+    # det_file_lst_base = [os.path.basename(x) for x in det_file_lst]
 
-det_file_lst = glob.glob(detail_dir + "/*.xml")
-det_file_lst_base = [os.path.basename(x) for x in det_file_lst]
+    session = cf.create_session(debug=True)
 
-# TODO: Change from debug when ready
-session = cf.create_session()
-summary_src_obj = cf.add_sources(session,
-                                 [{
-                                     "data_source": summary_meta_df["source_name"].to_list()[0],
-                                     "date_obtained": datetime.datetime.fromisoformat(summary_meta_df["date_scraped"].to_list()[0]).date(),
-                                     "misc_data": {"filenames": sum_file_lst_base,
-                                                   "url": summary_meta_df["source_url"].to_list()[0]}
-                                 }])[0]
-detail_src_obj = cf.add_sources(session,
-                                [{
-                                    "data_source": detail_meta_df["source_name"].to_list()[0],
-                                    "date_obtained": datetime.datetime.fromisoformat(detail_meta_df["date_scraped"].to_list()[0]).date(),
-                                    "misc_data": {"filenames": det_file_lst_base,
-                                                  "url": detail_meta_df["source_url"].to_list()[0]}
-                                }])[0]
+    # Grab sources (vote summary)
+    dh_votes.load_meta_file()
+    summary_src_obj = cf.add_sources(session, [{"data_source": dh_votes.source_name,
+                                                "date_obtained": dh_votes.source_age,
+                                                "misc_data": dh_votes.source_misc}])[0]
 
-# Construct list of Vote entries
-# Vote overview info
-df = pd.DataFrame()
-for each_csv in sum_file_lst:
-    df = df.append(pd.read_csv(each_csv))
+    dh_votesindividual.load_meta_file()
+    detail_src_obj = cf.add_sources(session, [{"data_source": dh_votesindividual.source_name,
+                                               "date_obtained": dh_votesindividual.source_age,
+                                               "misc_data": dh_votesindividual.source_misc}])[0]
 
-parl = df["Parliament"].to_list()
-parl_session = df["Session"].to_list()
-vote_no = df["Vote Number"].to_list()
-dates = df["Date"].to_list()
-desc = df["Vote Subject"].to_list()
-vote_res = df["Vote Result"].to_list()
-yeas = df["Yeas"].to_list()
-nays = df["Nays"].to_list()
-pairs = df["Paired"].to_list()
-bill_no = df["Bill Number"].to_list()
+    # Construct list of Vote entries
+    # Vote overview info
+    df = pd.DataFrame()
+    for each_csv in sum_file_lst:
+        df = df.append(pd.read_csv(each_csv))
 
-vote_ensemble = []
-print(f"Number of votes to ingest: {len(vote_no)}")
-for idx, each_vote_no in enumerate(vote_no):
-    vote_ensemble.append({
-        "parliament": parl[idx],
-        "parliament_session": parl_session[idx],
-        "date_held": dates[idx],
-        "vote_number": each_vote_no,
-        "description": desc[idx],
-        "yeas": yeas[idx],
-        "nays": nays[idx],
-        "paired": pairs[idx],
-        "result": vote_res[idx],
-        "bill_name": bill_no[idx],
-        "source_id": summary_src_obj.id
-    })
+    parl = df["Parliament"].to_list()
+    parl_session = df["Session"].to_list()
+    vote_no = df["Vote Number"].to_list()
+    dates = df["Date"].to_list()
+    desc = df["Vote Subject"].to_list()
+    vote_res = df["Vote Result"].to_list()
+    yeas = df["Yeas"].to_list()
+    nays = df["Nays"].to_list()
+    pairs = df["Paired"].to_list()
+    bill_no = df["Bill Number"].to_list()
 
-vote_objs = cf.add_votes(session, vote_ensemble)
+    vote_ensemble = []
+    print(f"Number of votes to ingest: {len(vote_no)}")
+    for idx, each_vote_no in enumerate(vote_no):
+        vote_ensemble.append({
+            "parliament": parl[idx],
+            "parliament_session": parl_session[idx],
+            "date_held": dates[idx],
+            "vote_number": each_vote_no,
+            "description": desc[idx],
+            "yeas": yeas[idx],
+            "nays": nays[idx],
+            "paired": pairs[idx],
+            "result": vote_res[idx],
+            "bill_name": bill_no[idx],
+            "source_id": summary_src_obj.id
+        })
 
-# Construct list of VoteIndividual entries
-# Call cf.add_vote_individual
-individual_votes_df = pd.DataFrame()
-for each_xml in det_file_lst:
-    individual_votes_df = pd.concat([individual_votes_df, pd.read_xml(each_xml)], axis=0, ignore_index=True)
+    vote_objs = cf.add_votes(session, vote_ensemble)
 
-parl = individual_votes_df["ParliamentNumber"].to_list()
-parl_session = individual_votes_df["SessionNumber"].to_list()
-vote_no = individual_votes_df["DecisionDivisionNumber"].to_list()
-first_name = individual_votes_df["PersonOfficialFirstName"].to_list()
-last_name = individual_votes_df["PersonOfficialLastName"].to_list()
-yes_bool = individual_votes_df["IsVoteYea"].to_list()
-no_bool = individual_votes_df["IsVoteNay"].to_list()
-pair_bool = individual_votes_df["IsVotePaired"].to_list()
+    # Construct list of VoteIndividual entries
+    # Call cf.add_vote_individual
+    individual_votes_df = pd.DataFrame()
+    for each_xml in det_file_lst:
+        individual_votes_df = pd.concat([individual_votes_df, pd.read_xml(each_xml)], axis=0, ignore_index=True)
 
-print(f"Expected IndVote entry count: {len(parl)}")
+    parl = individual_votes_df["ParliamentNumber"].to_list()
+    parl_session = individual_votes_df["SessionNumber"].to_list()
+    vote_no = individual_votes_df["DecisionDivisionNumber"].to_list()
+    first_name = individual_votes_df["PersonOfficialFirstName"].to_list()
+    last_name = individual_votes_df["PersonOfficialLastName"].to_list()
+    yes_bool = individual_votes_df["IsVoteYea"].to_list()
+    no_bool = individual_votes_df["IsVoteNay"].to_list()
+    pair_bool = individual_votes_df["IsVotePaired"].to_list()
 
-ind_vote_lst = []
-for idx, parl_entry in enumerate(parl):
-    print(f"Loop: {idx} of {len(parl)}")
-    ind_vote_lst.append({"parliament": parl[idx],
-                         "parliament_session": parl_session[idx],
-                         "vote_no": vote_no[idx],
-                         "first_name": first_name[idx],
-                         "last_name": last_name[idx],
-                         "yes_bool": yes_bool[idx],
-                         "no_bool": no_bool[idx],
-                         "pair_bool": pair_bool[idx],
-                         "source_id": detail_src_obj.id})
+    print(f"Expected IndVote entry count: {len(parl)}")
 
-ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst)
+    ind_vote_lst = []
+    for idx, parl_entry in enumerate(parl):
+        print(f"Loop: {idx} of {len(parl)}")
+        ind_vote_lst.append({"parliament": parl[idx],
+                             "parliament_session": parl_session[idx],
+                             "vote_no": vote_no[idx],
+                             "first_name": first_name[idx],
+                             "last_name": last_name[idx],
+                             "yes_bool": yes_bool[idx],
+                             "no_bool": no_bool[idx],
+                             "pair_bool": pair_bool[idx],
+                             "source_id": detail_src_obj.id})
 
-session.close()
-print("END")
+    ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst)
 
-# TODO: compare yea/nay/pair sums from completed VoteIndividual table vs Vote table totals when complete
+    session.close()
+
