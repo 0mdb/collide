@@ -652,6 +652,36 @@ def add_communication(session, comms_lst):
     return comms_obj_lst
 
 
+def add_legstages(session, legstage_lst):
+    # {
+    #     "display_name": str
+    # }
+
+    legstage_objs = []
+    for each_dict in legstage_lst:
+        each_stage = each_dict.get("display_name")
+
+        # Check if it already exists
+        stat = select(LegStage).where(
+            LegStage.match_name == create_match_name(each_stage)
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            new_stage = LegStage(display_name=each_stage,
+                                 match_name=create_match_name(each_stage))
+
+            session.add(new_stage)
+            session.commit()
+            legstage_objs.append(new_stage)
+        elif len(res) == 1:
+            legstage_objs.append(res[0])
+        else:
+            raise AssertionError("impossible number of legstages found")
+
+    return legstage_objs
+
+
 def get_person_id(session, name):
     match_str = create_match_name(name)
 

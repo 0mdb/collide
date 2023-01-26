@@ -8,7 +8,7 @@ def insert_entries_for_fresh_db():
 
     """
     Run after tables have been created but no entries exist.
-    Includes Source, OrganizationType, SectorIndustry, Organization entries.
+    Includes Source, OrganizationType, SectorIndustry, Organization, LegStage entries.
 
     Returns
     -------
@@ -48,6 +48,22 @@ def insert_entries_for_fresh_db():
                  "misc": {}}]
 
     org_objs = cf.add_organizations(session, org_list)
+
+    # Add LegStage for parliamentary process
+    leg_stages = [
+        "House Reading First",
+        "House Reading Second",
+        "House Reading Third",
+        "Senate Reading First",
+        "Senate Reading Second",
+        "Senate Reading Third",
+        "Royal Assent"
+    ]
+
+    for each_stage in leg_stages:
+        stage_obj = cf.add_legstages(session, [{
+            "display_name": each_stage
+        }])
 
     session.close()
     print("END")
