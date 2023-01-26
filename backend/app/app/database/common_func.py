@@ -397,7 +397,7 @@ def add_memberships(session, mem_lst):
             mem_obj_lst.append(new_membership)
 
         elif len(res_membership) == 1:
-            # Existing membership, update end_date
+            # Existing membership, update end_date, start_end
             existing_membership = res_membership[0]
 
             if (
@@ -423,7 +423,84 @@ def add_memberships(session, mem_lst):
             mem_obj_lst.append(existing_membership)
 
         else:
-            raise RuntimeError("Too many memberships identified")
+            # Multiple memberships to the same organization
+            person_id = each_dict.get("person_id")
+            org_id = each_dict.get("org_id")
+            print(f"\tMultiple memberships for {person_id} to {org_id} identified")
+
+            # Merge existing
+            base_membership = res_membership.pop()
+            earliest_start_date = base_membership.start_date
+            latest_end_date = base_membership.end_date
+            ids_to_remove = []
+
+            for each_membership in res_membership:
+                print(f"\t{each_membership}")
+                ids_to_remove.append(each_membership.id)
+
+                if each_membership.start_date < earliest_start_date:
+                    earliest_start_date = each_membership.start_date
+                if each_membership.end_date > latest_end_date:
+                    latest_end_date = each_membership.end_date
+
+                if base_membership.start_date != earliest_start_date or base_membership.end_date != latest_end_date:
+                    print(f"\t\texpanding out the dates")
+                else:
+                    print(f"\t\tdates encompass other entry")
+
+                base_membership.start_date = earliest_start_date
+                base_membership.end_date = latest_end_date
+
+                session.add(base_membership)
+
+                for i in ids_to_remove:
+                    finally_delete = session.exec(
+                        select(OrganizationMembership).where(OrganizationMembership.id == i)
+                    ).first()
+                    if finally_delete is not None:
+                        session.delete(finally_delete)
+
+                session.commit()
+
+            # Requery
+            stat = (
+                select(OrganizationMembership)
+                .where(OrganizationMembership.person == each_dict.get("person_id"))
+                .where(OrganizationMembership.organization == each_dict.get("org_id"))
+            )
+            res_round2 = session.exec(stat).all()
+
+            if len(res_round2) == 0:
+                raise AssertionError("\t\tMerging memberships resulted in loss of all memberships")
+
+            elif len(res_round2) == 1:
+                # Existing membership, update end_date, start_end
+                existing_membership = res_round2[0]
+
+                if (
+                        existing_membership.end_date
+                        < datetime.fromisoformat(each_dict.get("end_date")).date()
+                ):
+                    existing_membership.end_date = datetime.fromisoformat(
+                        each_dict.get("end_date")
+                    ).date()
+                    session.add(existing_membership)
+                    session.commit()
+
+                if (
+                        existing_membership.start_date
+                        > datetime.fromisoformat(each_dict.get("start_date")).date()
+                ):
+                    existing_membership.start_date = datetime.fromisoformat(
+                        each_dict.get("start_date")
+                    ).date()
+                    session.add(existing_membership)
+                    session.commit()
+
+                mem_obj_lst.append(existing_membership)
+
+            else:
+                raise AssertionError("\t\tMerging memberships resulted in more than one membership")
 
     return mem_obj_lst
 
@@ -471,12 +548,33 @@ def add_funding_p2p(session, funding_lst):
 
         elif len(res) == 1:
             # Existing
-            existing_membership = res[0]
-            fund_obj_lst.append(existing_membership)
+            existing_funding = res[0]
+            fund_obj_lst.append(existing_funding)
 
         else:
-            raise RuntimeError("Too many transfers identified")
+            p1 = each_dict.get("party_1")
+            p2 = each_dict.get("party_2")
+            amt = each_dict.get("amount")
+            date = each_dict.get("start_date")
+            print(f"\tMultiple transfers for {p1} to {p2} on {date} of amt {amt}")
+            print(f"\tduplicate was likely created by name merging")
 
+            # Remove duplicates
+            base_transfer = res.pop()
+            ids_to_remove = []
+            print(f"\tbase_transfer {base_transfer}")
+
+            for other_trx in res:
+                print(f"\tother_transfer {other_trx}")
+                ids_to_remove.append(other_trx.id)
+
+            for i in ids_to_remove:
+                finally_delete = session.exec(
+                    select(FundingPersonPerson).where(FundingPersonPerson.id == i)
+                ).first()
+                if finally_delete is not None:
+                    session.delete(finally_delete)
+                    print(f"\t\tduplicate transfer, id {i} deleted")
     return fund_obj_lst
 
 
