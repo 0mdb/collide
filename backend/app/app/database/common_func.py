@@ -15,7 +15,7 @@ from schema_creation.sqlmodel_build import (
     VoteIndividual,
     BillDiff,
     LegStage,
-    CommsTopic
+    CommsTopic, Communications
 )
 from parse_injest.utils import create_match_name
 import numpy as np
@@ -582,6 +582,91 @@ def add_funding_o2o(session, funding_lst):
             raise RuntimeError("Too many transfers identified")
 
     return fund_obj_lst
+
+
+def add_communication(session, comms_lst):
+    # {
+    #     "party_1": int,
+    #     "party_2": int,
+    #     "com_date": str,
+    #     "topic": str,
+    #     "source_id": int,
+    # }
+
+    comms_obj_lst = []
+    for each_dict in comms_lst:
+        # Communications TABLE
+        # check if entry unique (same parties, same date)
+        stat = select(Communications).where(
+            Communications.party_1 == each_dict.get("party_1")
+        ).where(
+            Communications.party_2 == each_dict.get("party_2")
+        ).where(
+            Communications.com_date == datetime.fromisoformat(each_dict.get("com_date")).date()
+        )
+        res1 = session.exec(stat).all()
+
+        stat = select(Communications).where(
+            Communications.party_1 == each_dict.get("party_2")
+        ).where(
+            Communications.party_2 == each_dict.get("party_1")
+        ).where(
+            Communications.com_date == datetime.fromisoformat(each_dict.get("com_date")).date()
+        )
+        res2 = session.exec(stat).all()
+
+        if (len(res1) + len(res2)) == 0:
+            # New communication
+            stat = select(CommsTopic.id).where(
+                CommsTopic.match_name == create_match_name(each_dict.get("topic"))
+            )
+            res_topic = session.exec(stat).all()
+
+            if len(res_topic) > 1:
+                raise RuntimeError("Too many topics identified")
+
+            new = Communications(
+                party_1=each_dict.get("party_1"),
+                party_2=each_dict.get("party_2"),
+                com_date=datetime.fromisoformat(each_dict.get("com_date")).date(),
+                topic=res_topic[0],
+                source=each_dict.get("source_id"),
+            )
+
+            session.add(new)
+            session.commit()
+            comms_obj_lst.append(new)
+
+        elif len(res1) == 1:
+            # Existing
+            existing_membership = res1[0]
+            comms_obj_lst.append(existing_membership)
+
+        elif len(res2) == 1:
+            # Existing
+            existing_membership = res2[0]
+            comms_obj_lst.append(existing_membership)
+        else:
+            raise RuntimeError("Too many comms identified")
+
+    return comms_obj_lst
+
+
+def get_person_id(session, name):
+    match_str = create_match_name(name)
+
+    stat = select(Person.id).where(
+        Person.match_name == match_str
+    )
+    results = session.exec(stat).all()
+
+    if len(results) > 1:
+        raise RuntimeError("Too many people identified")
+
+    if len(results) == 0:
+        raise RuntimeError("No matching person identified")
+
+    return results[0]
 
 
 def add_bills(session, bill_lst):
