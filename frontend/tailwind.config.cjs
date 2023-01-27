@@ -7,20 +7,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gray: {
-          900: '#202225',
-          800: '#2f3136',
-          700: '#36393f',
-          600: '#4f545c',
-          400: '#d4d7dc',
-          300: '#e3e5e8',
-          200: '#ebedef',
-          100: '#f2f3f5',
+        gray: {  // slate
+          900: '#0f172a',
+          800: '#1e293b',
+          700: '#334155',
+          600: '#475569',
+          400: '#94a3b8',
+          300: '#cbd5e1',
+          200: '#e2e8f0',
+          100: '#f1f5f9',
         },
-        'morp': '#f6f7f9',
-        'muted': '#abb3bf',
-        'primary': '#184A90',
-        'primary-d': '#4C90F0',
+        'morp': '#f6f7f9',  // nearly white
+        'muted': '#abb3bf',  // light gray
+        'primary': '#4338ca',  // indigo-700
+        'primary-l': '#6366f1',  // indigo-500
+        'primary-d': '#312e81',  // indigo-900
+        'secondary': '#64748b',  // slate-500
+        'secondary-l': '#cbd5e1',  // slate-300
+        'secondary-d': '#334155',  // slate-700
+        'primary-text': '#ffffff',  // white
+        'secondary-text': '#ffffff',  // white
+        'analogous1': '#8d38ca',  // magenta
+        'analogous2': '#38b4ca'  // teal
       },
       // spacing: {
       //   88: '22rem',
