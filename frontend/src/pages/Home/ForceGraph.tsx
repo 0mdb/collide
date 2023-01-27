@@ -60,6 +60,7 @@ function ForceGraph() {
   } = useQuery({
     queryKey: ['getSampleGraph'],
     queryFn: () => getSampleGraph(),
+    refetchOnWindowFocus: false,
   })
 
   const {
@@ -69,6 +70,7 @@ function ForceGraph() {
   } = useQuery({
     queryKey: ['getOptions'],
     queryFn: () => getOptions(''),
+    refetchOnWindowFocus: false,
   })
 
   // const {
