@@ -47,7 +47,6 @@ function App() {
           {/* sets default route */}
           <Route index element={<ForceGraph />} />
         </Route>
-        <Route path='home3' element={<Home />} />
         <Route path='password' element={<LostPassword />} />
         {/* protected routes */}
         {/* <Route element={<PersistLogin />}> */}
