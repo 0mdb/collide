@@ -9,22 +9,22 @@ from app.core.config import settings
 gdb = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
 
 
-# class MGPerson(Node, index=True, db=gdb):
-#     id: Optional[int] = Field(index=True, exists=True, unique=True, db=gdb)
-#     display_name: Optional[str] = Field(unique=True)
-#     match_name: Optional[str] = Field(index=True, unique=True)
-#     source: Optional[int] = Field(exists=True)
+class MGPerson(Node, index=True, db=gdb):
+    id: Optional[int] = Field(index=True, exists=True, unique=True, db=gdb)
+    display_name: Optional[str] = Field(unique=True)
+    match_name: Optional[str] = Field(index=True, unique=True)
+    source: Optional[int] = Field(exists=True)
 
 
-# class MGOrganization(Node, index=True, db=gdb):
-#     id: Optional[int] = Field(index=True, unique=True, exists=True)
-#     display_name: Optional[str] = Field(unique=True)
-#     match_name: Optional[str] = Field(index=True, unique=True)
-#     organization_type: Optional[str] = Field(exists=True)
-#     sector: Optional[str]
-#     industry: Optional[str]
-#     source: Optional[int] = Field()
-#     misc_data: Optional[str] = Field()
+class MGOrganization(Node, index=True, db=gdb):
+    id: Optional[int] = Field(index=True, unique=True, exists=True)
+    display_name: Optional[str] = Field(unique=True)
+    match_name: Optional[str] = Field(index=True, unique=True)
+    organization_type: Optional[str] = Field(exists=True)
+    sector: Optional[str]
+    industry: Optional[str]
+    source: Optional[int] = Field()
+    misc_data: Optional[str] = Field()
 
 
 # class MGMembership(Relationship, type="MEMBERSHIP"):
@@ -88,7 +88,7 @@ def mapped_memgraph_to_nx(res_dict):
                 type=e.type,
                 date=e.properties["com_date"],
                 start_date=e.properties["com_date"],
-                end_date=e.properties['com_date'],
+                end_date=e.properties["com_date"],
                 amount=1,
                 dash=[2, 3],
                 color="red",
@@ -498,7 +498,7 @@ def memgraph_query_and_aggregate(
     # else:
     #     type_tag = "Organization"
 
-    pr.enable()
+    # pr.enable()
 
     json_file_name = f"generated_json/{poi_mn}_m{membership_depth}_c{communication_depth}_f{fund_depth}.json"
     if verbose:
@@ -574,7 +574,9 @@ def memgraph_query_and_aggregate(
     while tot_nodes > target_max_nodes and not brk:
 
         if "aggregate_fund_leaves" not in reductions:
-            temp_fund_g = aggregate_leaves(temp_fund_g, "Misc Donors", 0, object_of_interest=poi_mn)
+            temp_fund_g = aggregate_leaves(
+                temp_fund_g, "Misc Donors", 0, object_of_interest=poi_mn
+            )
             reductions.add("aggregate_fund_leaves")
             tot_nodes -= nn_f
             nn_f = nx.number_of_nodes(temp_fund_g)
