@@ -7,6 +7,7 @@ import Loading from '../../components/Loading'
 import { useWindowSize } from '@react-hook/window-size'
 import { Icon } from '@blueprintjs/core'
 import AsyncSelect from 'react-select/async'
+import useDarkMode from '../../hooks/useDarkMode'
 
 async function getSampleGraph() {
   return axios.get<graphDataType[]>('/forcegraph/sample').then((res) => res.data)
@@ -50,6 +51,7 @@ function ForceGraph() {
   const [width, height] = useWindowSize()
   const [graphData, setGraphData] = useState(null)
   const [graphType, setGraphType] = useState('2D')
+  const [darkMode] = useDarkMode()
 
   const {
     status: sampleStatus,
@@ -123,7 +125,7 @@ function ForceGraph() {
           width={width - 100}
           cooldownTicks={100}
           nodeAutoColorBy='id'
-          backgroundColor='white'
+          backgroundColor={darkMode ? '#334155' : 'white'}
           linkDirectionalParticles='value'
           linkCurvature='curvature'
           onEngineStop={() => fgRef.current.zoomToFit(400)}
