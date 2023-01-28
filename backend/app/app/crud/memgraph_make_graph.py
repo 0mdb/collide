@@ -437,7 +437,6 @@ def create_tot_graph(m_g, f_g, c_g):
 
 def memgraph_query_and_aggregate(
     poi_mn: str,
-    is_person: bool,
     fund_depth: int,
     membership_depth: int,
     communication_depth: int,
@@ -453,8 +452,6 @@ def memgraph_query_and_aggregate(
     ----------
     poi_mn: str
             person (or org) of interest match name.  This is the starting point for the graph search
-    is_person: bool
-            flag denoting whether the poi_mn is from a person or an org
     fund_depth: int
             this is the number of hops to traverse the graph with respect to funding.  The initial hop only considers
             the FUNDING relationship, and the subsequent hops consider FUNDING and MEMBERSHIP, to try and capture the
@@ -493,10 +490,6 @@ def memgraph_query_and_aggregate(
     poi_type = poi_type[0]["n"]._label
     type_tag = poi_type.replace("MG", "")
 
-    # if is_person:
-    #     type_tag = "Person"
-    # else:
-    #     type_tag = "Organization"
 
     # pr.enable()
 
