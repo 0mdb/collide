@@ -797,6 +797,64 @@ def get_person_id(session, name):
     return results[0]
 
 
+def get_orgtype_id(session, name):
+    match_str = create_match_name(name)
+
+    stat = select(OrganizationType.id).where(
+        OrganizationType.match_name == match_str
+    )
+    results = session.exec(stat).all()
+
+    if len(results) > 1:
+        raise RuntimeError("Too many OrganizationType identified")
+
+    if len(results) == 0:
+        raise RuntimeError("No matching OrganizationType identified")
+
+    return results[0]
+
+
+def get_org_id(session, name):
+    match_str = create_match_name(name)
+
+    stat = select(Organization.id).where(
+        Organization.match_name == match_str
+    )
+    results = session.exec(stat).all()
+
+    if len(results) > 1:
+        raise RuntimeError("Too many Organization identified")
+
+    if len(results) == 0:
+        raise RuntimeError("No matching Organization identified")
+
+    return results[0]
+
+
+def get_sectorindustry_id(session, sector_name, industry_name=None):
+    match_str = create_match_name(sector_name)
+
+    if industry_name is None:
+        stat = select(SectorIndustry.id).where(
+            SectorIndustry.sector_match_name == match_str
+        )
+    else:
+        stat = select(SectorIndustry.id).where(
+            SectorIndustry.sector_match_name == match_str
+        ).where(
+            SectorIndustry.industry_match_name == create_match_name(industry_name)
+        )
+    results = session.exec(stat).all()
+
+    if len(results) > 1:
+        raise RuntimeError("Too many sectorindustries identified")
+
+    if len(results) == 0:
+        raise RuntimeError("No matching sectorindustries identified")
+
+    return results[0]
+
+
 def add_bills(session, bill_lst):
     bill_obj_lst = []
     for each_dict in bill_lst:
