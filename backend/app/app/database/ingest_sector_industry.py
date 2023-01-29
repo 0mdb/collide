@@ -7,7 +7,7 @@ from DirectoryHandler import DirectoryHandler
 # No source/no meta loading
 
 
-def insert_sector_industry_from_tsx_listing():
+def insert_sector_industry_from_tsx_listing(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -22,7 +22,7 @@ def insert_sector_industry_from_tsx_listing():
     sectors = df["section"].to_list()
     industries = df["industry"].to_list()
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
 
     # Insert tsx source although nothing currently uses id
     dh.load_meta_file()

@@ -2,7 +2,7 @@ from datetime import date
 import common_func as cf
 
 
-def insert_entries_for_fresh_db():
+def insert_entries_for_fresh_db(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -15,7 +15,7 @@ def insert_entries_for_fresh_db():
 
     """
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
 
     # Add initial Source entry
     src_objs = cf.add_sources(session, [{"data_source": "initial inserts",

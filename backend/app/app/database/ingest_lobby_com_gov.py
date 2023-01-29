@@ -5,7 +5,7 @@ import common_func as cf
 from DirectoryHandler import DirectoryHandler
 
 
-def insert_gov_lobbycomm_people_orgs_memberships():
+def insert_gov_lobbycomm_people_orgs_memberships(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -31,7 +31,7 @@ def insert_gov_lobbycomm_people_orgs_memberships():
     org_name_lst = df_dpoh["merged_institution"].to_list()
     date_lst = df_dpoh["COMM_DATE"].to_list()
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
 
     # Grab sources (Monthly Communication Reports)
     dh_comms.load_meta_file()

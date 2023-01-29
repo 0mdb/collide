@@ -83,7 +83,7 @@ class ElxCsv:
         self.transactions = tsn
 
 
-def insert_election_contributions():
+def insert_election_contributions(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -101,7 +101,7 @@ def insert_election_contributions():
     threshold_amt = 500.0
     tsn_above_threshold = [x for x in election_csv.transactions if x.amt >= threshold_amt]
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
 
     dh_contrib.load_meta_file()
     src_objs = cf.add_sources(session, [{"data_source": dh_contrib.source_name,

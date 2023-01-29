@@ -5,7 +5,7 @@ import json
 from DirectoryHandler import DirectoryHandler
 
 
-def insert_bills():
+def insert_bills(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -18,7 +18,7 @@ def insert_bills():
     if len(bills_json) > 1:
         raise RuntimeError("More than one json detected.")
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
     src_obj = cf.add_sources(session, [{"data_source": dh_bills.source_name,
                                         "date_obtained": dh_bills.source_age,
                                         "misc_data": dh_bills.source_misc}])[0]

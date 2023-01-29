@@ -32,7 +32,7 @@ def get_all_para_marginalnotes_xml(xml_elem):
     return mini_mess
 
 
-def insert_billdiffs():
+def insert_billdiffs(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -43,7 +43,7 @@ def insert_billdiffs():
     dh_diffs = DirectoryHandler("bills diffs")
     diff_dir = dh_diffs.path_of_interest
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
 
     # Grab sources (bill details)
     dh_detail.load_meta_file()
