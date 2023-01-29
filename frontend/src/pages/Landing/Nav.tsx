@@ -17,12 +17,12 @@ const Navbar = () => {
         {/* <Link to='/'>
           <li className='p-4'>Home</li>
         </Link> */}
-        <Link to='/login'>
+        {/* <Link to='/login'>
           <li className='p-4'>Login</li>
         </Link>
         <Link to='/register'>
           <li className='p-4'>Signup</li>
-        </Link>
+        </Link> */}
       </ul>
       <ThemeButton />
       <div onClick={handleNav} className='block md:hidden'>

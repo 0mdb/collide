@@ -1,9 +1,9 @@
 /* import React, { lazy, Suspense } from 'react' */
 import React from 'react'
 import jsonserverprovider from 'ra-data-json-server'
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Admin, Resource, ListGuesser } from 'react-admin'
-import PersistLogin from './components/PersistLogin'
+/* import PersistLogin from './components/PersistLogin' */
 import Home from './pages/Home'
 import Landing from './pages/Landing'
 import Layout from './pages/Layout'
