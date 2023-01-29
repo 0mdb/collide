@@ -10,18 +10,18 @@ import AsyncSelect from 'react-select/async'
 import useDarkMode from '../../hooks/useDarkMode'
 
 async function getSampleGraph() {
-  return axios.get<graphDataType[]>('/forcegraph/sample').then((res) => res.data)
+  return await axios.get<graphDataType>('/forcegraph/sample').then((res) => res.data)
 }
 
 async function getOptions(query: string) {
   const SEARCH_URL = 'forcegraph/search_options?query='
   const match_name = query.toLowerCase().split(' ').join('')
-  return axios.post(SEARCH_URL + match_name).then((res) => res.data)
+  return await axios.post(SEARCH_URL + match_name).then((res) => res.data)
 }
 
 export async function getGraph(query: string) {
   console.log('getGraph', query)
-  return axios.post('forcegraph/search/' + query).then((res) => res.data)
+  return await axios.post('forcegraph/search/' + query).then((res) => res.data)
 }
 
 function GraphTypeButton({ graphType, setGraphType }) {
@@ -69,11 +69,11 @@ function ForceGraph() {
    *   error: optionError,
    *   data: optionData,
    * } = useQuery({
-   *   queryKey: ['getOptions'],
-   *   queryFn: () => getOptions(''),
+   *   queryKey: ['getOptions', inputValue],
+   *   queryFn: () => getOptions(inputValue),
    *   refetchOnWindowFocus: false,
-   * }) */
-
+   * })
+   */
   const {
     status: graphStatus,
     error: graphError,
@@ -85,9 +85,9 @@ function ForceGraph() {
     enabled: !!searchSelection,
   })
 
-  if (graphStatus === 'loading' && searchSelection) return <div>Loading</div>
+  if (graphStatus === 'loading' && searchSelection) return <Loading />
   if (graphError === 'error' && searchSelection) return <div>Error</div>
-  if (sampleStatus === 'loading') return <div>Loading</div>
+  if (sampleStatus === 'loading') return <Loading />
   if (sampleError === 'error') return <div>Error</div>
   {
     /* if (optionStatus === 'loading') return <div>Loading</div> */
@@ -117,45 +117,49 @@ function ForceGraph() {
 
   return (
     <>
-      {graphType === '2D' ? (
-        <ForceGraph2D
-          ref={fgRef}
-          graphData={newGraphData ? newGraphData : sampleData}
-          height={height}
-          width={width - 100}
-          cooldownTicks={100}
-          nodeAutoColorBy='id'
-          linkDirectionalParticles='value'
-          linkCurvature='curvature'
-          onEngineStop={() => fgRef.current.zoomToFit(400)}
-        />
+      {isFetching ? (
+        <Loading />
       ) : (
-        <ForceGraph3D
-          ref={fgRef}
-          graphData={newGraphData ? newGraphData : sampleData}
-          height={height}
-          width={width - 100}
-          cooldownTicks={100}
-          nodeAutoColorBy='id'
-          backgroundColor={darkMode ? '#334155' : 'white'}
-          linkDirectionalParticles='value'
-          linkCurvature='curvature'
-          onEngineStop={() => fgRef.current.zoomToFit(400)}
-        />
+        <>
+          {graphType === '2D' ? (
+            <ForceGraph2D
+              ref={fgRef}
+              graphData={newGraphData ? newGraphData : sampleData}
+              height={height}
+              width={width - 100}
+              cooldownTicks={100}
+              nodeAutoColorBy='id'
+              linkDirectionalParticles='value'
+              linkCurvature='curvature'
+              onEngineStop={() => fgRef.current.zoomToFit(400)}
+            />
+          ) : (
+            <ForceGraph3D
+              ref={fgRef}
+              graphData={newGraphData ? newGraphData : sampleData}
+              height={height}
+              width={width - 100}
+              cooldownTicks={100}
+              nodeAutoColorBy='id'
+              backgroundColor={darkMode ? '#334155' : 'white'}
+              linkDirectionalParticles='value'
+              linkCurvature='curvature'
+              onEngineStop={() => fgRef.current.zoomToFit(400)}
+            />
+          )}
+        </>
       )}
-      <>
-        <div className='fixed top-4 left-24 flex h-12 flex-row items-center justify-center'>
-          <SearchIcon />
-          <AsyncSelect
-            unstyled={true}
-            isClearable={true}
-            className='dark: w-64 rounded-md border-2 border-gray-200 border-gray-800 shadow-sm focus:outline-none focus:ring-primary'
-            loadOptions={loadOptions}
-            onChange={handleChange}
-          />
-          <GraphTypeButton graphType={graphType} setGraphType={setGraphType} />
-        </div>
-      </>
+      <div className='fixed top-4 left-24 flex h-12 flex-row items-center justify-center'>
+        <SearchIcon />
+        <AsyncSelect
+          unstyled={true}
+          isClearable={true}
+          className='dark: w-64 rounded-md border-2 border-gray-200 border-gray-800 shadow-sm focus:outline-none focus:ring-primary'
+          loadOptions={loadOptions}
+          onChange={handleChange}
+        />
+        <GraphTypeButton graphType={graphType} setGraphType={setGraphType} />
+      </div>
     </>
   )
 }
