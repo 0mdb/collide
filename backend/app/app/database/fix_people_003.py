@@ -9,7 +9,7 @@ from schema_creation.sqlmodel_build import (
 )
 from sqlmodel import create_engine, select, Session, col, or_
 
-from parse_injest.utils import create_match_name
+from common_func import create_match_name
 
 from fix_people_000_common import first_name_synonyms, most_proper
 
