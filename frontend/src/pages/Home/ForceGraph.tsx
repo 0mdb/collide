@@ -51,6 +51,7 @@ function ForceGraph() {
   const [width, height] = useWindowSize()
   const [graphData, setGraphData] = useState(null)
   const [graphType, setGraphType] = useState('2D')
+  const [searchSelection, setSearchSelection] = useState(null)
   const [darkMode] = useDarkMode()
 
   const {
@@ -63,46 +64,55 @@ function ForceGraph() {
     refetchOnWindowFocus: false,
   })
 
+  /* const {
+   *   status: optionStatus,
+   *   error: optionError,
+   *   data: optionData,
+   * } = useQuery({
+   *   queryKey: ['getOptions'],
+   *   queryFn: () => getOptions(''),
+   *   refetchOnWindowFocus: false,
+   * }) */
+
   const {
-    status: optionStatus,
-    error: optionError,
-    data: optionData,
+    status: graphStatus,
+    error: graphError,
+    data: newGraphData,
+    isFetching,
   } = useQuery({
-    queryKey: ['getOptions'],
-    queryFn: () => getOptions(''),
-    refetchOnWindowFocus: false,
+    queryKey: ['getGraph', searchSelection],
+    queryFn: () => getGraph(searchSelection),
+    enabled: !!searchSelection,
   })
 
-  // const {
-  //   status: graphStatus,
-  //   error: graphError,
-  //   data: newGraphData,
-  // } = useQuery({
-  //   queryKey: ['getGraph'],
-  //   queryFn: () => getGraph(''),
-  // })
-
-  // if (graphStatus === 'loading') return <div>Loading</div>
-  // if (graphError === 'error') return <div>Error</div>
+  if (graphStatus === 'loading' && searchSelection) return <div>Loading</div>
+  if (graphError === 'error' && searchSelection) return <div>Error</div>
   if (sampleStatus === 'loading') return <div>Loading</div>
   if (sampleError === 'error') return <div>Error</div>
-  if (optionStatus === 'loading') return <div>Loading</div>
-  if (optionError === 'error') return <div>Error</div>
-
-  const handleChange = async (selectedOption) => {
-    await getGraph(selectedOption.value).then((response) => {
-      setGraphData(response)
-      console.log(`selectedOption`, selectedOption, 'response', graphData)
-    })
+  {
+    /* if (optionStatus === 'loading') return <div>Loading</div> */
+  }
+  {
+    /* if (optionError === 'error') return <div>Error</div> */
   }
 
-  const loadOptions = async (inputValue: string, callback) => {
+  const handleChange = async (selectedOption) => {
+    {
+      setSearchSelection(selectedOption.value)
+    }
+    console.log('selected Search is :', searchSelection)
+  }
+
+  const loadOptions = (inputValue: string, callback) => {
     console.log('inputValue', inputValue)
 
-    const filteredOptions = await optionData.filter((option) =>
-      option.label.toLowerCase().includes(inputValue.toLowerCase()),
-    )
-    callback(filteredOptions)
+    getOptions(inputValue).then(async (options) => {
+      const filteredOptions = await options.filter((option) =>
+        option.label.toLowerCase().includes(inputValue.toLowerCase()),
+      )
+      console.log('loadOptions', inputValue, filteredOptions)
+      callback(filteredOptions)
+    })
   }
 
   return (
@@ -110,7 +120,7 @@ function ForceGraph() {
       {graphType === '2D' ? (
         <ForceGraph2D
           ref={fgRef}
-          graphData={graphData ? graphData : sampleData}
+          graphData={newGraphData ? newGraphData : sampleData}
           height={height}
           width={width - 100}
           cooldownTicks={100}
@@ -122,7 +132,7 @@ function ForceGraph() {
       ) : (
         <ForceGraph3D
           ref={fgRef}
-          graphData={graphData ? graphData : sampleData}
+          graphData={newGraphData ? newGraphData : sampleData}
           height={height}
           width={width - 100}
           cooldownTicks={100}
