@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Icon } from '@blueprintjs/core'
 import useLogout from '../../hooks/useLogout'
 import { useNavigate } from 'react-router-dom'
-import ThemeIcon from '../../components/ThemeButton'
+import ThemeIcon, { ThemeButton } from '../../components/ThemeButton'
 
 const SignOutButton = () => {
   const navigate = useNavigate()
@@ -51,13 +51,14 @@ const SideBar = () => {
         />
       </Link>
       <Divider />
-      <Link to='/home/settings'>
+      <SideBarIcon icon={<ThemeButton />} text='Theme'></SideBarIcon>
+      {/* <Link to='/home/settings'>
         <SideBarIcon
           icon={<Icon icon='cog' size={28} className='dark:fill-muted' />}
           text={'Settings'}
-        />
-      </Link>
-      <SignOutButton />
+        /> */}
+      {/* </Link> */}
+      {/* <SignOutButton /> */}
     </div>
   )
 }
