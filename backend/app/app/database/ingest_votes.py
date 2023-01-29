@@ -5,7 +5,7 @@ import common_func as cf
 from DirectoryHandler import DirectoryHandler
 
 
-def insert_vote_voteindividual():
+def insert_vote_voteindividual(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
     # TODO: compare yea/nay/pair sums from completed VoteIndividual table vs Vote table totals when complete
@@ -25,7 +25,7 @@ def insert_vote_voteindividual():
     # sum_file_lst_base = [os.path.basename(x) for x in sum_file_lst]
     # det_file_lst_base = [os.path.basename(x) for x in det_file_lst]
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
 
     # Grab sources (vote summary)
     dh_votes.load_meta_file()

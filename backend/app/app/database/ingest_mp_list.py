@@ -4,7 +4,7 @@ from DirectoryHandler import DirectoryHandler
 import common_func as cf
 
 
-def insert_mp_people_orgs_memberships():
+def insert_mp_people_orgs_memberships(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -14,7 +14,7 @@ def insert_mp_people_orgs_memberships():
     # glob the filenames
     file_list = glob.glob(dh_member_xml.path_of_interest + "/*.xml")
 
-    sess = cf.create_session(debug=True)
+    sess = cf.create_session(debug=debug_status)
 
     # Grab sources (XML Ourcommons)
     dh_member_xml.load_meta_file()

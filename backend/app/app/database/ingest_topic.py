@@ -4,7 +4,7 @@ import common_func as cf
 from DirectoryHandler import DirectoryHandler
 
 
-def insert_topics_from_lobby_regs_comms():
+def insert_topics_from_lobby_regs_comms(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -20,7 +20,7 @@ def insert_topics_from_lobby_regs_comms():
     if len(sub_csv) > 2 or len(sub_csv) < 2:
         raise RuntimeError("Incorrect number of csv detected.")
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
 
     # Add sources
     dh_reg.load_meta_file()

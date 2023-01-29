@@ -5,7 +5,7 @@ from DirectoryHandler import DirectoryHandler
 import common_func as cf
 
 
-def insert_lobbycomm_communications():
+def insert_lobbycomm_communications(debug_status):
     # TODO: Test on fresh db 0/1
     # TODO: Test on populated db 1/1
 
@@ -40,7 +40,7 @@ def insert_lobbycomm_communications():
     topic_lst = df_dpoh["merged_topic"].to_list()
     date_lst = df_dpoh["COMM_DATE"].to_list()
 
-    session = cf.create_session(debug=True)
+    session = cf.create_session(debug=debug_status)
 
     # Grab sources (Monthly Communication Reports)
     dh_comms.load_meta_file()
