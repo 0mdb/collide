@@ -1,8 +1,10 @@
 import logging
 
-from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 from sqlalchemy import create_engine
+from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
+
 from app.core.config import settings
+from app.crud.memgraph_make_graph import gdb
 
 # use sync engine for checking db is awake
 # TODO move to settings
@@ -16,6 +18,17 @@ max_tries = 60 * 5  # 5 minutes
 wait_seconds = 1
 
 
+def check_postgres() -> None:
+        logger.info("Checking DB is awake")
+        con = engine.connect()
+        con.execute("SELECT 1")
+        logger.info("DB is awake")
+
+def check_memgraph() -> None:
+        logger.info("Checking Memgraph is awake")
+        gdb.execute_and_fetch('SELECT 1')
+        logger.info("Memgraph is awake")
+
 @retry(
     stop=stop_after_attempt(max_tries),
     wait=wait_fixed(wait_seconds),
@@ -24,10 +37,8 @@ wait_seconds = 1
 )
 def init() -> None:
     try:
-        logger.info("Checking DB is awake")
-        con = engine.connect()
-        con.execute("SELECT 1")
-        logger.info("DB is awake")
+        check_postgres()
+        check_memgraph()
     except Exception as e:
         logger.error(e)
         raise e
