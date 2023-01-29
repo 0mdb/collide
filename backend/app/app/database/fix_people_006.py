@@ -5,7 +5,7 @@ sometimes creeps in from other fixes
 from schema_creation.sqlmodel_build import Person
 from sqlmodel import create_engine, select, Session
 
-from parse_injest.utils import create_match_name
+from common_func import create_match_name
 
 db_host = "192.168.0.10"
 db_name = "collide"
