@@ -1,30 +1,31 @@
 from datetime import date
 from typing import Optional
-from app import schemas
+
 import networkx as nx
 from gqlalchemy import Field, Memgraph, Node, Relationship
 
+from app import schemas
 from app.core.config import settings
 
 gdb = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
 
 
-class MGPerson(Node, index=True, db=gdb):
-    id: Optional[int] = Field(index=True, exists=True, unique=True, db=gdb)
-    display_name: Optional[str] = Field(unique=True)
-    match_name: Optional[str] = Field(index=True, unique=True)
-    source: Optional[int] = Field(exists=True)
+# class MGPerson(Node, index=True, db=gdb):
+#     id: Optional[int] = Field(index=True, exists=True, unique=True, db=gdb)
+#     display_name: Optional[str] = Field(unique=True)
+#     match_name: Optional[str] = Field(index=True, unique=True)
+#     source: Optional[int] = Field(exists=True)
 
 
-class MGOrganization(Node, index=True, db=gdb):
-    id: Optional[int] = Field(index=True, unique=True, exists=True)
-    display_name: Optional[str] = Field(unique=True)
-    match_name: Optional[str] = Field(index=True, unique=True)
-    organization_type: Optional[str] = Field(exists=True)
-    sector: Optional[str]
-    industry: Optional[str]
-    source: Optional[int] = Field()
-    misc_data: Optional[str] = Field()
+# class MGOrganization(Node, index=True, db=gdb):
+#     id: Optional[int] = Field(index=True, unique=True, exists=True)
+#     display_name: Optional[str] = Field(unique=True)
+#     match_name: Optional[str] = Field(index=True, unique=True)
+#     organization_type: Optional[str] = Field(exists=True)
+#     sector: Optional[str]
+#     industry: Optional[str]
+#     source: Optional[int] = Field()
+#     misc_data: Optional[str] = Field()
 
 
 # class MGMembership(Relationship, type="MEMBERSHIP"):

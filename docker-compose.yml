@@ -143,6 +143,7 @@ services:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     depends_on:
       - db
+      - memgraph-platform
     env_file:
       - .env
     environment:
@@ -182,6 +183,8 @@ services:
   
   frontend:
     image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
+    depends_on:
+      - backend
     build:
       context: ./frontend
       args:
