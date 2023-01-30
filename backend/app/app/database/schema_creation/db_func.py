@@ -7,9 +7,9 @@ def create_everything():
     db_name = "lq_test"
     db_user = "test_user"
     db_pw = "changethis"
-    schema_name = "lf_mockup"
+    # schema_name = "lf_mockup"
 
-    engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@localhost/{db_name}", echo=True)
+    engine = create_engine(f"postgresql+psycopg2://{db_user}:{db_pw}@{db_host}/{db_name}", echo=True)
     meta.create_all(engine)
 
 
@@ -36,8 +36,8 @@ def add_tables(debug=True):
     # FundingPersonPerson.__table__.create(session.bind)
     # FundingPersonOrg.__table__.create(session.bind)
 
-    Bill.__table__.create(session.bind)
-    Vote.__table__.create(session.bind)
-    VoteIndividual.__table__.create(session.bind)
-    LegStage.__table__.create(session.bind)
-    BillDiff.__table__.create(session.bind)
+    # Bill.__table__.create(session.bind)
+    # Vote.__table__.create(session.bind)
+    # VoteIndividual.__table__.create(session.bind)
+    # LegStage.__table__.create(session.bind)
+    # BillDiff.__table__.create(session.bind)
