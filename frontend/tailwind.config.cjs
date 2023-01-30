@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -28,7 +31,8 @@ module.exports = {
         'primary-text': '#ffffff',  // white
         'secondary-text': '#ffffff',  // white
         'analogous1': '#8d38ca',  // magenta
-        'analogous2': '#38b4ca'  // teal
+        'analogous2': '#38b4ca',  // teal
+        'blue-gray': colors.blueGray,
       },
       // spacing: {
       //   88: '22rem',
@@ -37,7 +41,7 @@ module.exports = {
   },
     plugins: [
       // require('@tailwindcss/typography'),
-      // require('@tailwindcss/forms'),
+      require('@tailwindcss/forms'),
       // require('@tailwindcss/line-clamp'),
       // require('@tailwindcss/aspect-ratio'),
   ],

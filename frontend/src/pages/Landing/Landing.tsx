@@ -4,14 +4,16 @@ import Footer from './Footer'
 import Hero from './Hero'
 import Navbar from './Nav'
 import Newsletter from './Newsletter'
+import Stats from './Stats'
 
 function Landing() {
   return (
     <div className='bg-gray-400 dark:bg-gray-700'>
       <Navbar />
       <Hero />
-      <Analytics />
-      <Newsletter />
+      <Stats />
+      {/* <Analytics /> */}
+      {/* <Newsletter /> */}
       {/* <Cards /> */}
       <Footer />
     </div>
