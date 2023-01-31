@@ -2,7 +2,7 @@ import os
 import shutil
 import pathlib
 import pandas as pd
-import datetime
+import json
 
 
 class DirectoryHandler:
@@ -69,7 +69,7 @@ class DirectoryHandler:
         # self.source_age = datetime.datetime.fromisoformat(meta_df["date_scraped"].to_list()[0]).date()
         self.source_age = meta_df["date_scraped"].to_list()[0]  # string
         self.source_name = meta_df["source_name"].to_list()[0]
-        self.source_misc = meta_df["misc_data"].to_list()[0]
+        self.source_misc = json.loads(meta_df["misc_data"].to_list()[0])
 
     def file_existing(self):
         str_age = self.source_age.strftime('%Y%m%d')

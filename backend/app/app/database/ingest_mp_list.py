@@ -5,9 +5,6 @@ import common_func as cf
 
 
 def insert_mp_people_orgs_memberships(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     # Preamble, folder locations
     dh_member_xml = DirectoryHandler("members_xml member_xml")
 
@@ -137,7 +134,6 @@ def insert_mp_people_orgs_memberships(debug_status):
                                                  "org_parent_str": "Federal Government of Canada",
                                                  "org_sector_str": "government",
                                                  "org_source_id": src_id,
-                                                 "misc": {}
                                                  }])[0].id
 
         rid_mem = cf.add_memberships(sess, [{"person_id": person_id,
@@ -154,7 +150,6 @@ def insert_mp_people_orgs_memberships(debug_status):
                                                    "org_type_str": "Political Party",
                                                    "org_sector_str": "government",
                                                    "org_source_id": src_id,
-                                                   "misc": {}
                                                    }])[0].id
 
             sd = c["FromDateTime"]  # str in isoformat
