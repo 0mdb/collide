@@ -16,7 +16,7 @@ def insert_entries_for_fresh_db(debug_status):
 
     # Add initial Source entry
     src_objs = cf.add_sources(session, [{"data_source": "initial inserts",
-                                        "date_obtained": date.today()}])
+                                        "date_obtained": date.today().strftime('%Y-%m-%d')}])
     src_id = src_objs[0].id
 
     # Add OrganizationType entries
@@ -41,8 +41,7 @@ def insert_entries_for_fresh_db(debug_status):
     org_list = [{"name": "Federal Government of Canada",
                  "org_type_str": "Government",
                  "org_sector_str": "Government",
-                 "org_source_id": src_id,
-                 "misc": {}}]
+                 "org_source_id": src_id}]
 
     org_objs = cf.add_organizations(session, org_list)
 
