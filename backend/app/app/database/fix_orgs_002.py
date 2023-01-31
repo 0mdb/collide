@@ -21,12 +21,12 @@ def get_org_summary(org: Organization):
     return s
 
 
-if __name__ == "__main__":
-    sess = create_session(db_name="collide", db_host="192.168.0.10")
+def fix_orgs_002(debug_status):
+    sess = create_session(debug_status)
+    actually_do_it = True
 
     chnglist = {}
 
-    actually_do_it = False
     do_ltd_swap = True
     do_inc_swap = True
     num_changes = 0
