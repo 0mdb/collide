@@ -63,5 +63,5 @@ def insert_entries_for_fresh_db(debug_status):
         }])
 
     session.close()
-    print("END")
+
 
