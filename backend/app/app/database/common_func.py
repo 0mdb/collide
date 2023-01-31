@@ -21,6 +21,7 @@ import numpy as np
 import gzip
 from unidecode import unidecode
 import string
+import json
 
 
 def create_match_name(name_in):
@@ -134,10 +135,11 @@ def add_sources(session, src_lst):
             )
         else:
             # Check if it already exists with same name and timestamp
+            # datetime.fromisoformat(each_dict.get("start_date")).date()
             stat = (
                 select(Source)
                 .where(Source.data_source == each_dict.get("data_source"))
-                .where(Source.date_obtained == each_dict.get("date_obtained"))
+                .where(Source.date_obtained == datetime.fromisoformat(each_dict.get("date_obtained")).date())
             )
         res = session.exec(stat).all()
 
@@ -146,13 +148,13 @@ def add_sources(session, src_lst):
             if "misc_data" in each_dict.keys():
                 ot = Source(
                     data_source=each_dict.get("data_source"),
-                    date_obtained=each_dict.get("date_obtained"),
+                    date_obtained=datetime.fromisoformat(each_dict.get("date_obtained")).date(),
                     misc_data=each_dict.get("misc_data"),
                 )
             else:  # no misc_data
                 ot = Source(
                     data_source=each_dict.get("data_source"),
-                    date_obtained=each_dict.get("date_obtained"),
+                    date_obtained=datetime.fromisoformat(each_dict.get("date_obtained")).date(),
                 )
             session.add(ot)
             session.commit()
@@ -309,7 +311,7 @@ def add_organizations(session, org_lst):
     #     "org_sector_str": "abc", (OPTIONAL)
     #     "org_industry_str": "abc", (OPTIONAL)
     #     "org_source_id": int,
-    #     "misc": {}
+    #     "misc": str
     # }
 
     org_obj_lst = []
@@ -368,15 +370,25 @@ def add_organizations(session, org_lst):
             else:
                 res_sector_id = [None]
 
-            ot = Organization(
-                display_name=each_dict.get("name"),
-                match_name=create_match_name(each_dict.get("name")),
-                organization_type=res_org_type_id[0],
-                parent_organization=res_parent_id[0],
-                source=each_dict.get("org_source_id"),
-                sector=res_sector_id[0],
-                misc_data={},
-            )
+            if "misc" in each_dict.keys():
+                ot = Organization(
+                    display_name=each_dict.get("name"),
+                    match_name=create_match_name(each_dict.get("name")),
+                    organization_type=res_org_type_id[0],
+                    parent_organization=res_parent_id[0],
+                    source=each_dict.get("org_source_id"),
+                    sector=res_sector_id[0],
+                    misc_data=json.loads(each_dict.get("misc")),
+                )
+            else:
+                ot = Organization(
+                    display_name=each_dict.get("name"),
+                    match_name=create_match_name(each_dict.get("name")),
+                    organization_type=res_org_type_id[0],
+                    parent_organization=res_parent_id[0],
+                    source=each_dict.get("org_source_id"),
+                    sector=res_sector_id[0],
+                )
             session.add(ot)
             session.commit()
             org_obj_lst.append(ot)
