@@ -3,9 +3,6 @@ import common_func as cf
 
 
 def insert_entries_for_fresh_db(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     """
     Run after tables have been created but no entries exist.
     Includes Source, OrganizationType, SectorIndustry, Organization, LegStage entries.
