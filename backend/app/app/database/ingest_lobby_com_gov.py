@@ -6,9 +6,6 @@ from DirectoryHandler import DirectoryHandler
 
 
 def insert_gov_lobbycomm_people_orgs_memberships(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     # Preamble, folder locations
     dh_comms = DirectoryHandler("lobby_comms")
 
@@ -82,5 +79,5 @@ def insert_gov_lobbycomm_people_orgs_memberships(debug_status):
                                                          "source_id": comms_source_id}])
 
     session.close()
-    print("END")
+
 

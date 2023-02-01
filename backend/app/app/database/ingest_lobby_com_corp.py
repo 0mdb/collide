@@ -6,9 +6,6 @@ from DirectoryHandler import DirectoryHandler
 
 
 def insert_corp_lobbycomm_people_orgs_memberships(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     # Preamble, folder locations
     dh_comms = DirectoryHandler("lobby_comms")
     prim_csv = glob.glob(dh_comms.path_of_interest + "/*PrimaryExport.csv")
@@ -63,4 +60,4 @@ def insert_corp_lobbycomm_people_orgs_memberships(debug_status):
                                                          "end_date": dt,
                                                          "source_id": comms_source_id}])
     session.close()
-    print("END")
+

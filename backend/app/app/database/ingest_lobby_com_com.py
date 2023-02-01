@@ -6,9 +6,6 @@ import common_func as cf
 
 
 def insert_lobbycomm_communications(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     # Preamble, folder locations
     dh_comms = DirectoryHandler("lobby_comms")
 
