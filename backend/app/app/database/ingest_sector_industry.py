@@ -8,9 +8,6 @@ from DirectoryHandler import DirectoryHandler
 
 
 def insert_sector_industry_from_tsx_listing(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     # Preamble, folder locations
     dh = DirectoryHandler("wiki_tsx")
     tsx_csv = glob.glob(dh.path_of_interest + "/*comp_index_tsx.csv")
