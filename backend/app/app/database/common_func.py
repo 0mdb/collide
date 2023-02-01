@@ -311,7 +311,7 @@ def add_organizations(session, org_lst):
     #     "org_sector_str": "abc", (OPTIONAL)
     #     "org_industry_str": "abc", (OPTIONAL)
     #     "org_source_id": int,
-    #     "misc": str
+    #     "misc": str or dict
     # }
 
     org_obj_lst = []
@@ -371,6 +371,11 @@ def add_organizations(session, org_lst):
                 res_sector_id = [None]
 
             if "misc" in each_dict.keys():
+                if isinstance(each_dict.get("misc"), str):
+                    misc_data = json.loads(each_dict.get("misc"))
+                else:
+                    misc_data = each_dict.get("misc")
+
                 ot = Organization(
                     display_name=each_dict.get("name"),
                     match_name=create_match_name(each_dict.get("name")),
@@ -378,7 +383,7 @@ def add_organizations(session, org_lst):
                     parent_organization=res_parent_id[0],
                     source=each_dict.get("org_source_id"),
                     sector=res_sector_id[0],
-                    misc_data=json.loads(each_dict.get("misc")),
+                    misc_data=misc_data,
                 )
             else:
                 ot = Organization(
