@@ -84,9 +84,6 @@ class ElxCsv:
 
 
 def insert_election_contributions(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     # Preamble, folder locations
     dh_contrib = DirectoryHandler("ecanada_contrib")
     contrib_csv = glob.glob(dh_contrib.path_of_interest + "/*.csv")
