@@ -5,9 +5,6 @@ from DirectoryHandler import DirectoryHandler
 
 
 def insert_topics_from_lobby_regs_comms(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     # Preamble, folder locations
     dh_reg = DirectoryHandler("lobby_regs")
     sub_csv_1 = glob.glob(dh_reg.path_of_interest + "/*SubjectMattersExport.csv")
