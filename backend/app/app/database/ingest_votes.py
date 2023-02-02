@@ -100,7 +100,7 @@ def insert_vote_voteindividual(debug_status):
                              "pair_bool": pair_bool[idx],
                              "source_id": detail_src_obj.id})
 
-    ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst[0:3])
+    ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst)
 
     session.close()
 
