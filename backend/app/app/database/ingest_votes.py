@@ -6,10 +6,6 @@ from DirectoryHandler import DirectoryHandler
 
 
 def insert_vote_voteindividual(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-    # TODO: compare yea/nay/pair sums from completed VoteIndividual table vs Vote table totals when complete
-
     # Preamble, folder locations
     dh_votes = DirectoryHandler("votes summary")
     dh_votes.load_meta_file()
@@ -104,7 +100,7 @@ def insert_vote_voteindividual(debug_status):
                              "pair_bool": pair_bool[idx],
                              "source_id": detail_src_obj.id})
 
-    ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst)
+    ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst[0:3])
 
     session.close()
 
