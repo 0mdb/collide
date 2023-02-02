@@ -6,9 +6,6 @@ from DirectoryHandler import DirectoryHandler
 
 
 def insert_bills(debug_status):
-    # TODO: Test on fresh db 0/1
-    # TODO: Test on populated db 1/1
-
     # Preamble, folder locations
     dh_bills = DirectoryHandler("bills summary")
     dh_bills.load_meta_file()
