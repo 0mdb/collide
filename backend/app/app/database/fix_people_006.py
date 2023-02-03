@@ -1,13 +1,21 @@
-"""
-This script looks for the problem of a match name and a display name not following from one another.  This
-sometimes creeps in from other fixes
-"""
 from schema_creation.sqlmodel_build import Person
 from sqlmodel import select
 from common_func import create_match_name, create_session
 
 
 def fix_people_006(debug_status):
+    """This script looks for the problem of a match name and a display name not following from one another.  This
+    sometimes creeps in from other fixes.
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
     actually_do_it = True
     sess = create_session(debug_status)
 
