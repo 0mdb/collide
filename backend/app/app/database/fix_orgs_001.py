@@ -6,6 +6,17 @@ from common_func import create_session
 
 
 def fix_orgs_001(debug_status):
+    """Strips organization entry display_name (remove leading and trailing whitespaces).
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
     sess = create_session(debug_status)
     actually_do_it = True
 
