@@ -1,6 +1,3 @@
-"""
-This script looks for different orgs that have limited/ltd and incorporated/inc names and merges them
-"""
 import json
 from sqlmodel import select
 from schema_creation.sqlmodel_build import Organization
@@ -22,6 +19,17 @@ def get_org_summary(org: Organization):
 
 
 def fix_orgs_002(debug_status):
+    """This script looks for different orgs that have limited/ltd and incorporated/inc names and merges them.
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
     sess = create_session(debug_status)
     actually_do_it = True
 

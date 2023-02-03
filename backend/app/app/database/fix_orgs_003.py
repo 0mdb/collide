@@ -6,6 +6,18 @@ import fix_funcs
 
 
 def fix_orgs_003(debug_status):
+    """This script moves alternate party names to single preferred name as outlined in fix_funcs.
+    It also sets parent org to the federal gov of canada and the org type to politicalparty.
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
     sess = cf.create_session(debug_status)
     actually_do_it = True
 
