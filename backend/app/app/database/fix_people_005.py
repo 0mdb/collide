@@ -1,7 +1,3 @@
-"""
-This script looks for cases where the persons name has been entered in some datasource as LASTNAME FIRSTNAME and looks
-for the instance that has the most communications, memberships, fundings associated with it and merges the two entries
-"""
 from schema_creation.sqlmodel_build import (
     Person,
     OrganizationMembership,
@@ -12,9 +8,23 @@ from schema_creation.sqlmodel_build import (
 )
 from sqlmodel import select, or_
 from common_func import create_match_name, create_session
+import fix_funcs
 
 
 def fix_people_005(debug_status):
+    """This script looks for cases where the persons name has been entered in some datasource as LASTNAME FIRSTNAME and looks
+    for the instance that has the most communications, memberships, fundings associated with it and merges the two entries
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
+
     actually_do_it = True
     sess = create_session(debug_status)
 
@@ -135,89 +145,12 @@ def fix_people_005(debug_status):
                 id_to_keep = res.id
                 id_to_axe = person.id
 
-            sql_query = select(OrganizationMembership).where(
-                OrganizationMembership.person == id_to_axe
+            # Reroute here
+            fix_funcs.replace_person(
+                old_id=id_to_axe,
+                new_id=id_to_keep,
+                sess=sess,
+                actually_do_it=actually_do_it
             )
-            memberships_to_update = sess.exec(sql_query).all()
-            if len(memberships_to_update) > 0:
-                print("\t\tthe following memberships should be updated:")
-                for mem in memberships_to_update:
-                    print(f"\t\t\t{mem}")
-                    if actually_do_it:
-                        mem.person = id_to_keep
-                        sess.add(mem)
-                if actually_do_it:
-                    sess.commit()
-
-            sql_query = select(Communications).where(
-                or_(
-                    Communications.party_1 == id_to_axe, Communications.party_2 == id_to_axe
-                )
-            )
-            communications_to_update = sess.exec(sql_query).all()
-            if len(communications_to_update) > 0:
-                print("\t\tthe following communications should be updated:")
-                for com in communications_to_update:
-                    print(f"\t\t\t{com}")
-                    if com.party_1 == id_to_axe:
-                        com.party_1 = id_to_keep
-                    elif com.party_2 == id_to_axe:
-                        com.party_2 = id_to_keep
-                    sess.add(com)
-                sess.commit()
-            sql_query = select(CommunicationsPersonOrg).where(
-                CommunicationsPersonOrg.person == id_to_axe
-            )
-            communications_to_update = sess.exec(sql_query).all()
-            if len(communications_to_update) > 0:
-                print(
-                    f"\t\tthe following communications should be updated (person to org):"
-                )
-                for com in communications_to_update:
-                    print(f"\t\t\t{com}")
-                    if actually_do_it:
-                        com.person = id_to_keep
-                        sess.add(com)
-                if actually_do_it:
-                    sess.commit()
-
-            sql_query = select(FundingPersonOrg).where(FundingPersonOrg.person == id_to_axe)
-            fundings_to_update = sess.exec(sql_query).all()
-            if len(fundings_to_update) > 0:
-                print(f"\t\tthe following fundings should be updated (person-org):")
-                for fun in fundings_to_update:
-                    print(f"\t\t\t{fun}")
-                    if actually_do_it:
-                        fun.person = id_to_keep
-                        sess.add(fun)
-                if actually_do_it:
-                    sess.commit()
-
-            sql_query = select(FundingPersonPerson).where(
-                or_(
-                    FundingPersonPerson.party_1 == id_to_axe,
-                    FundingPersonPerson.party_2 == id_to_axe,
-                )
-            )
-            fundings_to_update = sess.exec(sql_query).all()
-            if len(fundings_to_update) > 0:
-                print(f"\t\tthe following fundings should be updated (person-person):")
-                for fun in fundings_to_update:
-                    print(f"\t\t\t{fun}")
-                    if actually_do_it:
-                        if fun.party_1 == id_to_axe:
-                            fun.party_1 = id_to_keep
-                        else:
-                            fun.party_2 = id_to_keep
-                        sess.add(fun)
-                if actually_do_it:
-                    sess.commit()
-
-            if actually_do_it:
-                finally_delete = sess.exec(
-                    select(Person).where(Person.id == id_to_axe)
-                ).first()
-                sess.delete(finally_delete)
-                sess.commit()
 
     sess.close()
