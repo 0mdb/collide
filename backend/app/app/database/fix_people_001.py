@@ -16,6 +16,17 @@ import common_func as cf
 
 
 def fix_people_001(debug_status):
+    """Amends Person table entries, stripping common prefix/suffixes (e.g. PhD, Mr., etc.)
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
     actually_do_it = True
     sess = cf.create_session(debug_status)
 
