@@ -4,15 +4,25 @@ This script is looking for shortened versions of first names, e.g. James vs Jim 
 """
 from schema_creation.sqlmodel_build import (
     Person,
-    OrganizationMembership,
-    Communications,
 )
-from sqlmodel import select, or_
+from sqlmodel import select
 from common_func import create_match_name, create_session
 from fix_people_000_common import first_name_synonyms, most_proper
+import fix_funcs
 
 
 def fix_people_003(debug_status):
+    """Amends Person table entries, substituting common first name synonyms (e.g. Will, William).
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
     actually_do_it = True
     sess = create_session(debug_status)
 
@@ -73,52 +83,12 @@ def fix_people_003(debug_status):
                                 print(
                                     f"\twe are going to get rid of {res.display_name} (id {res.id})"
                                 )
-
-                                sql_query = select(OrganizationMembership).where(
-                                    OrganizationMembership.person == res.id
+                                fix_funcs.replace_person(
+                                    old_id=res.id,
+                                    new_id=keep_person.id,
+                                    sess=sess,
+                                    actually_do_it=actually_do_it
                                 )
-                                memberships_to_update = sess.exec(sql_query).all()
-                                if len(memberships_to_update) > 0:
-                                    print(
-                                        "\t\t\t\tthe following memberships should be updated:"
-                                    )
-                                    for mem in memberships_to_update:
-                                        print(f"\t\t\t\t\t{mem}")
-                                        if actually_do_it:
-                                            mem.person = keep_person.id
-                                            sess.add(mem)
-                                    if actually_do_it:
-                                        sess.commit()
-
-                                sql_query = select(Communications).where(
-                                    or_(
-                                        Communications.party_1 == res.id,
-                                        Communications.party_2 == res.id,
-                                    )
-                                )
-                                communications_to_update = sess.exec(sql_query).all()
-                                if len(communications_to_update) > 0:
-                                    print(
-                                        "\t\t\t\tthe following communications should be updated:"
-                                    )
-                                    for com in communications_to_update:
-                                        print(f"\t\t\t\t\t{com}")
-                                        if actually_do_it:
-                                            if com.party_1 == res.id:
-                                                com.party_1 = keep_person.id
-                                            elif com.party_2 == res.id:
-                                                com.party_2 = keep_person.id
-                                            sess.add(com)
-
-                                    if actually_do_it:
-                                        sess.commit()
-
-                                if actually_do_it:
-                                    finally_delete = sess.exec(
-                                        select(Person).where(Person.id == res.id)
-                                    ).first()
-                                    sess.delete(finally_delete)
-                                    sess.commit()
 
     sess.close()
 
