@@ -1,6 +1,3 @@
-"""
-This script aims to fix the capitalization of the names, but doesn't do a great job with van and von name bits
-"""
 import titlecase
 from schema_creation.sqlmodel_build import (
     Person,
@@ -11,6 +8,17 @@ from fix_people_000_common import shit_list_combined
 
 
 def fix_people_002(debug_status):
+    """Amends Person table entries, fixing the capitalization of the names, but doesn't do a great job with van and von name bits
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
     actually_do_it = True
     sess = create_session(debug_status)
 
