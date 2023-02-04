@@ -197,7 +197,7 @@ def replace_person(old_id, new_id, sess, actually_do_it):
             if actually_do_it:
                 if com.party_1 == old_id:
                     com.party_1 = new_id
-                elif com.party_2 == old_id:
+                if com.party_2 == old_id:
                     com.party_2 = new_id
                 sess.add(com)
 
@@ -221,7 +221,7 @@ def replace_person(old_id, new_id, sess, actually_do_it):
             if actually_do_it:
                 if fp2p.party_1 == old_id:
                     fp2p.party_1 = new_id
-                elif fp2p.party_2 == old_id:
+                if fp2p.party_2 == old_id:
                     fp2p.party_2 = new_id
                 sess.add(fp2p)
         if actually_do_it:
