@@ -45,6 +45,9 @@ def fix_people_003(debug_status):
         nt = [x[:-1] if x.endswith(",") else x for x in nt]
 
         if nt[0] in first_name_synonyms.keys():
+            print(
+                f"Name synonyms exist for {p.display_name}"
+            )
 
             potential_names = []
             for name in first_name_synonyms[nt[0]]:
@@ -67,28 +70,33 @@ def fix_people_003(debug_status):
                         )
                         keep_person = sess.exec(sql_query).first()
 
-                        print(
-                            f"we are going to keep {keep_person.display_name} (id {keep_person.id})"
-                        )
-
-                        for alt_first_name in first_name_synonyms[
-                            most_proper_first_name[0]
-                        ]:
-                            other_name = " ".join([alt_first_name] + nt[1:])
-                            sql_query = select(Person).where(
-                                Person.match_name == create_match_name(other_name)
+                        if keep_person is None:
+                            print(
+                                f"no entries in preferred name {create_match_name(name_to_go_with)}, skipping"
                             )
-                            res = sess.exec(sql_query).first()
-                            if res is not None:
-                                print(
-                                    f"\twe are going to get rid of {res.display_name} (id {res.id})"
+                        else:
+                            print(
+                                f"we are going to keep {keep_person.display_name} (id {keep_person.id})"
+                            )
+
+                            for alt_first_name in first_name_synonyms[
+                                most_proper_first_name[0]
+                            ]:
+                                other_name = " ".join([alt_first_name] + nt[1:])
+                                sql_query = select(Person).where(
+                                    Person.match_name == create_match_name(other_name)
                                 )
-                                fix_funcs.replace_person(
-                                    old_id=res.id,
-                                    new_id=keep_person.id,
-                                    sess=sess,
-                                    actually_do_it=actually_do_it
-                                )
+                                res = sess.exec(sql_query).first()
+                                if res is not None:
+                                    print(
+                                        f"\twe are going to get rid of {res.display_name} (id {res.id})"
+                                    )
+                                    fix_funcs.replace_person(
+                                        old_id=res.id,
+                                        new_id=keep_person.id,
+                                        sess=sess,
+                                        actually_do_it=actually_do_it
+                                    )
 
     sess.close()
 
