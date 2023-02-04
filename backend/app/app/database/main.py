@@ -1,0 +1,80 @@
+from ingest_initial import insert_entries_for_fresh_db
+from ingest_mp_list import insert_mp_people_orgs_memberships
+from ingest_bills import insert_bills
+from ingest_contrib import insert_election_contributions
+from ingest_corp_info import insert_corp_people_orgs_memberships
+from ingest_lobby_com_com import insert_lobbycomm_communications
+from ingest_lobby_com_gov import insert_gov_lobbycomm_people_orgs_memberships
+from ingest_lobby_com_corp import insert_corp_lobbycomm_people_orgs_memberships
+from ingest_sector_industry import insert_sector_industry_from_tsx_listing
+from ingest_topic import insert_topics_from_lobby_regs_comms
+from ingest_votes import insert_vote_voteindividual
+from ingest_bill_diffs import insert_billdiffs
+from fix_people_001 import fix_people_001
+from fix_people_002 import fix_people_002
+from fix_people_003 import fix_people_003
+from fix_people_005 import fix_people_005
+from fix_people_006 import fix_people_006
+from fix_orgs_001 import fix_orgs_001
+from fix_orgs_002 import fix_orgs_002
+from fix_orgs_003 import fix_orgs_003
+from fix_duplicates import fix_duplicates
+from fix_memberships_001 import fix_memberships_001
+
+debug_status = True
+
+# ALL INGESTION SCRIPTS
+print("START")
+insert_entries_for_fresh_db(debug_status)
+print("\tcompleted initial inserts")
+
+insert_mp_people_orgs_memberships(debug_status)
+print("\tcompleted mps")
+
+insert_sector_industry_from_tsx_listing(debug_status)
+print("\tcompleted tsx sector")
+
+insert_topics_from_lobby_regs_comms(debug_status)
+print("\tcompleted topics")
+
+insert_corp_people_orgs_memberships(debug_status)
+print("\tcompleted corp boards")
+
+insert_gov_lobbycomm_people_orgs_memberships(debug_status)
+print("\tcompleted lobbycom gov")
+
+insert_corp_lobbycomm_people_orgs_memberships(debug_status)
+print("\tcompleted lobbycom corp")
+
+insert_lobbycomm_communications(debug_status)
+print("\tcompleted lobbycom comms")
+
+insert_election_contributions(debug_status)
+print("\tcompleted election funds")
+
+insert_bills(debug_status)
+print("\tcompleted bills")
+
+insert_billdiffs(debug_status)
+print("\tcompleted bill diffs")
+
+insert_vote_voteindividual(debug_status)
+print("\tcompleted bill votes")
+
+
+# ALL FIXING/TIDYING DB SCRIPTS
+fix_people_001(debug_status)
+fix_people_002(debug_status)
+fix_people_003(debug_status)
+
+# fix_people_004  # obsolete
+# fix_people_004_3  # in development
+fix_people_005(debug_status)
+fix_people_006(debug_status)
+
+fix_orgs_001(debug_status)
+fix_orgs_002(debug_status)
+fix_orgs_003(debug_status)
+
+fix_memberships_001(debug_status)
+fix_duplicates(debug_status)
