@@ -20,7 +20,7 @@ def fix_memberships_001(debug_status):
             .where(OrganizationMembership.person == m.person)
             .where(OrganizationMembership.organization == m.organization)
             .where(OrganizationMembership.id != m.id)
-            .where(OrganizationMembership.source != 7)
+            # .where(OrganizationMembership.source != 7)
         )
         memberships_to_merge = sess.exec(sql_query).all()
         if len(memberships_to_merge) > 0:
