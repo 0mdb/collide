@@ -1,7 +1,3 @@
-"""
-This script is looking for shortened versions of first names, e.g. James vs Jim and merge the entries using the
-'more proper' version
-"""
 from schema_creation.sqlmodel_build import (
     Person,
 )
