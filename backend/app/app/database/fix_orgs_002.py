@@ -1,6 +1,6 @@
 import json
 from sqlmodel import select
-from schema_creation.sqlmodel_build import Organization
+from schema_creation.sqlmodel_build import Organization, OrganizationType
 from common_func import create_session
 from fix_funcs import replace_organization
 
@@ -32,6 +32,12 @@ def fix_orgs_002(debug_status):
     """
     sess = create_session(debug_status)
     actually_do_it = True
+
+    # Grab unclassified org type id
+    sq = select(OrganizationType.id).where(
+        OrganizationType.match_name == "unclassified"
+    )
+    unclassified_id = sess.exec(sq).first()
 
     chnglist = {}
 
@@ -91,7 +97,7 @@ def fix_orgs_002(debug_status):
 
         move_org_type = False
         best_org_type = first["organization_type"]
-        if first["organization_type"] == 6 and second["organization_type"] != 6:
+        if first["organization_type"] == unclassified_id and second["organization_type"] != unclassified_id:
             best_org_type = second["organization_type"]
             move_org_type = True
 
