@@ -22,16 +22,16 @@ interface SearchQuery {
 }
 
 export async function getSampleGraph() {
-  return axios.get<graphDataType[]>('/forcegraph/sample').then((res) => res.data)
+  return await axios.get<graphDataType>('/forcegraph/sample').then((res) => res.data)
 }
 
 export async function getOptions(query: string) {
   const SEARCH_URL = 'forcegraph/search_options?query='
   const match_name = query.toLowerCase().split(' ').join('')
-  return axios.post(SEARCH_URL + match_name).then((res) => res.data)
+  return await axios.post(SEARCH_URL + match_name).then((res) => res.data)
 }
 
 export async function getGraph(query: string) {
-console.log('getGraph', query)
-return axios.post('forcegraph/search/' + query).then((res) => res.data)
+  console.log('getGraph', query)
+  return await axios.post('forcegraph/search/' + query).then((res) => res.data)
 }
