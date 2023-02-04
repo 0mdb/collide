@@ -1,34 +1,9 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { Link, Outlet } from 'react-router-dom'
 import { Icon } from '@blueprintjs/core'
-import {
-  Bars3BottomLeftIcon,
-  BellIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import ForceGraph from './ForceGraph'
+import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import ForceGraph from '../Home/ForceGraph2'
 
 function ForceIcon() {
   return <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
@@ -42,10 +17,32 @@ function MoneyIcon() {
   return <Icon icon='dollar' size={20} className='fill-morp pr-2' />
 }
 
+const MagnifyingGlassIcon = () => (
+  <Icon icon='search' size={20} className='mx-2 dark:fill-muted dark:shadow-lg' />
+)
+
+function GraphTypeButton({ graphType, setGraphType }) {
+  const changeGraphType = () => {
+    if (graphType === '2D') {
+      setGraphType('3D')
+    } else {
+      setGraphType('2D')
+    }
+  }
+  return (
+    <button
+      className='hover:bg-primary-dark flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg'
+      onClick={changeGraphType}
+    >
+      {graphType === '2D' ? '3D' : '2D'}
+    </button>
+  )
+}
+
 const navigation = [
   { name: 'Networks', href: '/home2/force', icon: ForceIcon, current: true },
-  { name: 'Bills Bills Bills', href: '/home2/law', icon: SankeyIcon, current: false },
-  { name: 'Follow the Money', href: '/home2/money', icon: MoneyIcon, current: false },
+  /* { name: 'Bills Bills Bills', href: '/home2/law', icon: SankeyIcon, current: false }, */
+  /* { name: 'Follow the Money', href: '/home2/money', icon: MoneyIcon, current: false }, */
   // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
   // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
   // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
@@ -234,13 +231,14 @@ export default function Home2() {
                 {/* Profile dropdown */}
                 <Menu as='div' className='relative ml-3'>
                   <div>
+                    <GraphTypeButton />
                     <Menu.Button className='flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
                       <span className='sr-only'>Open user menu</span>
-                      <img
+                      {/* <img
                         className='h-8 w-8 rounded-full'
                         src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                         alt=''
-                      />
+                      /> */}
                     </Menu.Button>
                   </div>
                   <Transition
@@ -276,15 +274,17 @@ export default function Home2() {
           </div>
 
           <main>
-            <div className='py-6'>
-              <div className='mx-auto max-w-7xl px-4 sm:px-6 md:px-8'>
+            <div className='py-6 overflow-x-clip'>
+              <div className='max-w-7xl px-4 sm:px-6 md:px-8'>
                 <h1 className='text-2xl font-semibold text-gray-900'>Dashboard</h1>
               </div>
               <div className='mx-auto max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
                 <div className='py-4'>
-                  <Outlet />
-                  <div className='h-96 rounded-lg border-4 border-dashed border-gray-200' />
+                  {/* <Outlet /> */}
+                  <div className='h-96 rounded-lg border-4 border-dashed border-gray-200'>
+                    <ForceGraph />
+                  </div>
                 </div>
                 {/* /End replace */}
               </div>
