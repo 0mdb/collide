@@ -84,8 +84,8 @@ function ForceGraph() {
         <ForceGraph2D
           ref={fgRef}
           graphData={newGraphData ? newGraphData : sampleData}
-          height={height - 200}
-          width={width - 300}
+          height={height - height / 4}
+          width={width - width / 4}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           linkDirectionalParticles='value'
@@ -98,8 +98,8 @@ function ForceGraph() {
         <ForceGraph3D
           ref={fgRef}
           graphData={newGraphData ? newGraphData : sampleData}
-          height={height - 200}
-          width={width - 200}
+          height={height - height / 4}
+          width={width - width / 4}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           backgroundColor={darkMode ? '#334155' : 'white'}
