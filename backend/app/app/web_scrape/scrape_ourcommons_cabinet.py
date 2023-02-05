@@ -1,32 +1,42 @@
 import requests
 import os
-import pathlib
+from DirectoryHandler import DirectoryHandler
+import datetime
 
-project_name = "lobby-force"
-data_dir = "data"
-save_dir = "data/cabinet_xml"
-precedence_start = 77
-precedence_end = 96
 
-curr_dir_name = os.path.dirname(__file__)
+def scrape_cabinet_members(precedence_start, precedence_end):
+    """Retrieves members of cabinet for each specified precedence (new precedence = cabinet shuffle).
+    Only includes Trudeau government at the moment.
 
-absolute_project_path = None
-for i in pathlib.Path(curr_dir_name).parents:
-    if i.name == project_name:
-        absolute_project_path = i.absolute()
-        break
+    Parameters
+    ----------
+    precedence_start: int
+    precedence_end: int
 
-if not os.path.exists(os.path.join(absolute_project_path, data_dir)):
-    os.mkdir(os.path.join(absolute_project_path, data_dir))
+    Returns
+    -------
+    Nothing
 
-if not os.path.exists(os.path.join(absolute_project_path, save_dir)):
-    os.mkdir(os.path.join(absolute_project_path, save_dir))
+    """
+    dh_cabinet = DirectoryHandler("cabinet_xml")
+    dh_cabinet.load_meta_file()
+    dh_cabinet.file_existing()
+    output_list = []
+    save_dir = dh_cabinet.path_of_interest
 
-save_dir = os.path.join(absolute_project_path, save_dir)
+    for p in range(precedence_start, precedence_end + 1):
+        url = f"https://www.ourcommons.ca/Members/en/ministries/xml?ministry=29&precedenceReview={p}&province=all&gender=all"
 
-for p in range(precedence_start, precedence_end + 1):
-    url = f"https://www.ourcommons.ca/Members/en/ministries/xml?ministry=29&precedenceReview={p}&province=all&gender=all"
+        response = requests.get(url)
+        with open(os.path.join(save_dir, f"cabinet_{p}.xml"), 'wb') as file:
+            file.write(response.content)
+        output_list.append(f"cabinet_{p}.xml")
 
-    response = requests.get(url)
-    with open(os.path.join(save_dir, f"cabinet_{p}.xml"), 'wb') as file:
-        file.write(response.content)
+    dh_cabinet.create_meta_file(
+        source_date=datetime.datetime.now(),
+        source_name="House of Commons Canada",
+        source_dict={
+            "url": "https://www.ourcommons.ca/members/en",
+            "filenames": output_list
+        }
+    )

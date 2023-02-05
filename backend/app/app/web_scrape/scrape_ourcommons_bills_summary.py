@@ -1,79 +1,70 @@
 import os
-import pathlib
+import datetime
 from selenium import webdriver
 import requests
 import time
-import pandas as pd
+from DirectoryHandler import DirectoryHandler
 
-# https://www.parl.ca/LegisInfo/en/bills/json?advancedview=true&parlsession=all
 
-base_url = r"https://www.parl.ca/LegisInfo/en/bills/json?advancedview=true&parlsession=all"
+def scrape_bill_list():
+    """Retrieves high-level list of bills (all parliamentary sessions).
 
-################################################################################################################
+    Returns
+    -------
+    Nothing
 
-# Preamble, folder locations
-project_name = "app"  # collide\backend\app\app
-data_dir = "data"
-save_dir_bills = "bills"
-save_dir_bills_summary = "summary"
+    """
+    # https://www.parl.ca/LegisInfo/en/bills/json?advancedview=true&parlsession=all
+    base_url = r"https://www.parl.ca/LegisInfo/en/bills/json?advancedview=true&parlsession=all"
 
-# Folder creation, directories
-curr_dir_name = os.path.dirname(__file__)
+    # Preamble, folder locations
+    dh_bill_summary = DirectoryHandler("bills summary")
+    dh_bill_summary.load_meta_file()
+    dh_bill_summary.file_existing()
 
-absolute_project_path = None
-for i in pathlib.Path(curr_dir_name).parents:
-    if i.name == project_name:
-        absolute_project_path = i.absolute()
-        break
+    save_dir_bills_summary = dh_bill_summary.path_of_interest
 
-save_dir_bills = os.path.join(absolute_project_path, data_dir, save_dir_bills)
-if not os.path.exists(save_dir_bills):
-    os.mkdir(save_dir_bills)
+    # open browser
+    try:
+        driver = webdriver.Chrome()
+    except:
+        raise RuntimeError("failed to initialize driver")
 
-if not os.path.exists(os.path.join(absolute_project_path, data_dir, save_dir_bills, save_dir_bills_summary)):
-    os.mkdir(os.path.join(absolute_project_path, data_dir, save_dir_bills, save_dir_bills_summary))
-save_dir_bills_summary = os.path.join(absolute_project_path, data_dir, save_dir_bills, save_dir_bills_summary)
+    # Retrieve bill summary files
+    json_link = base_url
 
-################################################################################################################
+    # get a filename from parl session
+    fn = f"all_bills.json"
+    fp = os.path.join(save_dir_bills_summary, fn)
+    print(fp)
 
-# open browser
-try:
-    driver = webdriver.Chrome()
-except:
-    raise RuntimeError("failed to initialize driver")
+    status_code = None
+    max_tries = 10
+    cur_try = 0
 
-# Retrieve bill summary files
-json_link = base_url
+    while cur_try < max_tries and status_code != requests.codes.ok:
+        response = requests.get(json_link)
+        status_code = response.status_code
+        cur_try += 1
+        time.sleep(5)
+        print(f"{json_link}\ttry {cur_try}\tcode {response.status_code}")
 
-# get a filename from parl session
-fn = f"all_bills.json"
-fp = os.path.join(save_dir_bills_summary, fn)
-print(fp)
+    if response.status_code == requests.codes.ok:
+        with open(fp, 'wb') as handle:
+            handle.write(response.content)
+    else:
+        raise RuntimeWarning(f"couldn't get {json_link}")
 
-status_code = None
-max_tries = 10
-cur_try = 0
+    driver.close()
 
-while cur_try < max_tries and status_code != requests.codes.ok:
-    response = requests.get(json_link)
-    status_code = response.status_code
-    cur_try += 1
-    time.sleep(5)
-    print(f"{json_link}\ttry {cur_try}\tcode {response.status_code}")
+    dh_bill_summary.create_meta_file(
+        source_date=datetime.datetime.now(),
+        source_name="LegisInfo Bills Summary",
+        source_dict={
+            "url": base_url,
+            "filenames": [fn]
+        }
+    )
 
-if response.status_code == requests.codes.ok:
-    with open(fp, 'wb') as handle:
-        handle.write(response.content)
-else:
-    raise RuntimeWarning(f"couldn't get {json_link}")
-
-driver.close()
-
-meta_df = pd.DataFrame.from_dict({
-    "date_scraped": ["2022-12-30T00:00:00+00:00"],
-    "source_name": ["LegisInfo Bills Summary"],
-    "source_url": [base_url]
-})
-meta_df.to_csv(os.path.join(save_dir_bills_summary, "meta.csv"))
 
 
