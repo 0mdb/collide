@@ -72,13 +72,24 @@ class DirectoryHandler:
         self.source_misc = json.loads(meta_df["misc_data"].to_list()[0])
 
     def file_existing(self):
-        str_age = self.source_age.strftime('%Y%m%d')
+        str_age = self.source_age.split('T')[0].replace('-', '')
         target_dir = os.path.join(self.path_of_interest, str_age)
 
         if not os.path.exists(target_dir):
             os.makedirs(target_dir)
 
-        file_names = os.listdir(self.path_of_interest)
+        file_n_dir_names = os.listdir(self.path_of_interest)
+        file_names = [f for f in file_n_dir_names if os.path.isfile(os.path.join(self.path_of_interest, f))]
 
         for each_file in file_names:
-            shutil.move(os.path.join(self.path_of_interest, each_file), target_dir)
+            shutil.move(os.path.join(self.path_of_interest, each_file), os.path.join(target_dir, each_file))
+
+    def create_meta_file(self, source_date, source_name, source_dict):
+        meta_filename = "meta.csv"
+        meta_path = os.path.join(self.path_of_interest, meta_filename)
+        meta_df = pd.DataFrame().from_dict({
+            "date_scraped": [source_date],
+            "source_name": [source_name],
+            "misc_data": [source_dict]
+        })
+        meta_df.to_csv(meta_path)
