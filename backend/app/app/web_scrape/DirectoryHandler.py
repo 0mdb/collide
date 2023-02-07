@@ -88,7 +88,7 @@ class DirectoryHandler:
         meta_filename = "meta.csv"
         meta_path = os.path.join(self.path_of_interest, meta_filename)
         meta_df = pd.DataFrame().from_dict({
-            "date_scraped": [source_date],
+            "date_scraped": [source_date.isoformat()],
             "source_name": [source_name],
             "misc_data": [source_dict]
         })
