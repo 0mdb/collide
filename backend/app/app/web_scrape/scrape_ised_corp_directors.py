@@ -48,7 +48,7 @@ def scrape_corp_directors(auth_key):
 
     output_list = []
     for each_corp_number in corp_listing:
-        print(f"Looping: {x} of {len(corp_listing)}")
+        print(f"\t\tLooping: {x} of {len(corp_listing)}")
         url_request = f"https://corporations-ised-isde.api.canada.ca/api/v2/corporations/{each_corp_number}/directors"
 
         time.sleep(5)
