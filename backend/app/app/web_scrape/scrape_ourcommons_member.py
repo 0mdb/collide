@@ -56,7 +56,7 @@ def scrape_member_links(parliament_start, parliament_end):
         except TimeoutException:
             print("timed out")
 
-        t_element = driver.find_elements_by_class_name(name='ce-mip-mp-tile')
+        t_element = driver.find_elements(By.CLASS_NAME, "ce-mip-mp-tile")
 
         links = []
         for t in t_element:
