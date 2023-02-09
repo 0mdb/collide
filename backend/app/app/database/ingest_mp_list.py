@@ -2,9 +2,10 @@ import glob
 import xml.etree.ElementTree as et
 from DirectoryHandler import DirectoryHandler
 import common_func as cf
+import datetime
 
 
-def insert_mp_people_orgs_memberships(debug_status):
+def insert_mp_people_orgs_memberships(debug_status, cutoff_dt):
     # Preamble, folder locations
     dh_member_xml = DirectoryHandler("members_xml member_xml")
 
@@ -136,11 +137,12 @@ def insert_mp_people_orgs_memberships(debug_status):
                                                  "org_source_id": src_id,
                                                  }])[0].id
 
-        rid_mem = cf.add_memberships(sess, [{"person_id": person_id,
-                                             "org_id": riding_id,
-                                             "start_date": start_date,
-                                             "end_date": end_date,
-                                             "source_id": src_id}])
+        if datetime.datetime.fromisoformat(end_date) > cutoff_dt:
+            rid_mem = cf.add_memberships(sess, [{"person_id": person_id,
+                                                 "org_id": riding_id,
+                                                 "start_date": start_date,
+                                                 "end_date": end_date,
+                                                 "source_id": src_id}])
 
         # caucus membership
         for c in caucus_roles:
@@ -158,13 +160,14 @@ def insert_mp_people_orgs_memberships(debug_status):
             else:
                 ed = src_date_obtained
 
-            cauc_mem = cf.add_memberships(sess, [{
-                "person_id": person_id,
-                "org_id": cauc_id,
-                "start_date": sd,
-                "end_date": ed,
-                "source_id": src_id
-            }])[0]
+            if datetime.datetime.fromisoformat(ed) > cutoff_dt:
+                cauc_mem = cf.add_memberships(sess, [{
+                    "person_id": person_id,
+                    "org_id": cauc_id,
+                    "start_date": sd,
+                    "end_date": ed,
+                    "source_id": src_id
+                }])[0]
 
         # parliamentary positions
         for p in parliamentary_positions:
@@ -226,13 +229,14 @@ def insert_mp_people_orgs_memberships(debug_status):
                     else:
                         ed = src_date_obtained
 
-                    pp_mem = cf.add_memberships(sess, [{
-                        "person_id": person_id,
-                        "org_id": pp_id,
-                        "start_date": sd,
-                        "end_date": ed,
-                        "source_id": src_id
-                    }])[0]
+                    if datetime.datetime.fromisoformat(ed) > cutoff_dt:
+                        pp_mem = cf.add_memberships(sess, [{
+                            "person_id": person_id,
+                            "org_id": pp_id,
+                            "start_date": sd,
+                            "end_date": ed,
+                            "source_id": src_id
+                        }])[0]
 
             except Exception as e:
                 print(e)
@@ -256,13 +260,14 @@ def insert_mp_people_orgs_memberships(debug_status):
             else:
                 ed = src_date_obtained
 
-            committee_membership = cf.add_memberships(sess, [{
-                "person_id": person_id,
-                "org_id": committee_id,
-                "start_date": sd,
-                "end_date": ed,
-                "source_id": src_id
-            }])[0]
+            if datetime.datetime.fromisoformat(ed) > cutoff_dt:
+                committee_membership = cf.add_memberships(sess, [{
+                    "person_id": person_id,
+                    "org_id": committee_id,
+                    "start_date": sd,
+                    "end_date": ed,
+                    "source_id": src_id
+                }])[0]
 
         # associations
         for a in association_and_group_roles:
@@ -274,11 +279,12 @@ def insert_mp_people_orgs_memberships(debug_status):
                 "org_source_id": src_id,
             }])[0].id
 
-            assoc_membership = cf.add_memberships(sess, [{"person_id": person_id,
-                                                          "org_id": association_id,
-                                                          "start_date": src_date_obtained,
-                                                          "end_date": src_date_obtained,
-                                                          "source_id": src_id}])
+            if datetime.datetime.fromisoformat(src_date_obtained) > cutoff_dt:
+                assoc_membership = cf.add_memberships(sess, [{"person_id": person_id,
+                                                              "org_id": association_id,
+                                                              "start_date": src_date_obtained,
+                                                              "end_date": src_date_obtained,
+                                                              "source_id": src_id}])
 
     sess.close()
     print("\tcompleted mps")

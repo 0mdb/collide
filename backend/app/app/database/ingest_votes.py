@@ -3,9 +3,10 @@ import os
 import pandas as pd
 import common_func as cf
 from DirectoryHandler import DirectoryHandler
+import datetime
 
 
-def insert_vote_voteindividual(debug_status):
+def insert_vote_voteindividual(debug_status, cutoff_dt):
     # Preamble, folder locations
     dh_votes = DirectoryHandler("votes summary")
     dh_votes.load_meta_file()
@@ -54,20 +55,21 @@ def insert_vote_voteindividual(debug_status):
     vote_ensemble = []
     print(f"Number of votes to ingest: {len(vote_no)}")
     for idx, each_vote_no in enumerate(vote_no):
-        vote_ensemble.append({
-            "parliament": parl[idx],
-            "parliament_session": parl_session[idx],
-            "date_held": dates[idx],
-            "vote_number": each_vote_no,
-            "description": desc[idx],
-            "yeas": yeas[idx],
-            "nays": nays[idx],
-            "paired": pairs[idx],
-            "result": vote_res[idx],
-            "bill_name": bill_no[idx],
-            "source_id": summary_src_obj.id
-        })
-
+        if datetime.datetime.fromisoformat(dates[idx]) > cutoff_dt:
+            vote_ensemble.append({
+                "parliament": parl[idx],
+                "parliament_session": parl_session[idx],
+                "date_held": dates[idx],
+                "vote_number": each_vote_no,
+                "description": desc[idx],
+                "yeas": yeas[idx],
+                "nays": nays[idx],
+                "paired": pairs[idx],
+                "result": vote_res[idx],
+                "bill_name": bill_no[idx],
+                "source_id": summary_src_obj.id
+            })
+    print(f"Number of votes meeting threshold: {len(vote_ensemble)}")
     vote_objs = cf.add_votes(session, vote_ensemble)
 
     # Construct list of VoteIndividual entries
@@ -84,22 +86,25 @@ def insert_vote_voteindividual(debug_status):
     yes_bool = individual_votes_df["IsVoteYea"].to_list()
     no_bool = individual_votes_df["IsVoteNay"].to_list()
     pair_bool = individual_votes_df["IsVotePaired"].to_list()
+    event_date = individual_votes_df["DecisionEventDateTime"].to_list()
 
     print(f"Expected IndVote entry count: {len(parl)}")
 
     ind_vote_lst = []
     for idx, parl_entry in enumerate(parl):
         print(f"Loop: {idx} of {len(parl)}")
-        ind_vote_lst.append({"parliament": parl[idx],
-                             "parliament_session": parl_session[idx],
-                             "vote_no": vote_no[idx],
-                             "first_name": first_name[idx],
-                             "last_name": last_name[idx],
-                             "yes_bool": yes_bool[idx],
-                             "no_bool": no_bool[idx],
-                             "pair_bool": pair_bool[idx],
-                             "source_id": detail_src_obj.id})
+        if datetime.datetime.fromisoformat(event_date[idx]) > cutoff_dt:
+            ind_vote_lst.append({"parliament": parl[idx],
+                                 "parliament_session": parl_session[idx],
+                                 "vote_no": vote_no[idx],
+                                 "first_name": first_name[idx],
+                                 "last_name": last_name[idx],
+                                 "yes_bool": yes_bool[idx],
+                                 "no_bool": no_bool[idx],
+                                 "pair_bool": pair_bool[idx],
+                                 "source_id": detail_src_obj.id})
 
+    print(f"IndVote meeting threshold: {len(ind_vote_lst)}")
     ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst)
 
     session.close()

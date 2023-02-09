@@ -3,9 +3,10 @@ import pandas as pd
 import glob
 import common_func as cf
 from DirectoryHandler import DirectoryHandler
+import datetime
 
 
-def insert_corp_lobbycomm_people_orgs_memberships(debug_status):
+def insert_corp_lobbycomm_people_orgs_memberships(debug_status, cutoff_dt):
     # Preamble, folder locations
     dh_comms = DirectoryHandler("lobby_comms")
     prim_csv = glob.glob(dh_comms.path_of_interest + "/*PrimaryExport.csv")
@@ -54,11 +55,12 @@ def insert_corp_lobbycomm_people_orgs_memberships(debug_status):
         person_id = ppl_objs[0].id
 
         # Populate memberships of people in RGSTRNT
-        memberships_objs = cf.add_memberships(session, [{"person_id": person_id,
-                                                         "org_id": organization_id,
-                                                         "start_date": dt,
-                                                         "end_date": dt,
-                                                         "source_id": comms_source_id}])
+        if datetime.datetime.fromisoformat(dt) > cutoff_dt:
+            memberships_objs = cf.add_memberships(session, [{"person_id": person_id,
+                                                             "org_id": organization_id,
+                                                             "start_date": dt,
+                                                             "end_date": dt,
+                                                             "source_id": comms_source_id}])
     session.close()
     print("\tcompleted lobbycom corp")
 

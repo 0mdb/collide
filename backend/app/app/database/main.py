@@ -20,23 +20,25 @@ from fix_orgs_002 import fix_orgs_002
 from fix_orgs_003 import fix_orgs_003
 from fix_duplicates import fix_duplicates
 from fix_memberships_001 import fix_memberships_001
+import datetime
 
 debug_status = True
+cutoff_dt = datetime.datetime.now() - datetime.timedelta(days=730)
 
 # ALL INGESTION SCRIPTS
 print("START")
 insert_entries_for_fresh_db(debug_status)
-insert_mp_people_orgs_memberships(debug_status)
+insert_mp_people_orgs_memberships(debug_status=debug_status, cutoff_dt=cutoff_dt)
 insert_sector_industry_from_tsx_listing(debug_status)
 insert_topics_from_lobby_regs_comms(debug_status)
-insert_corp_people_orgs_memberships(debug_status)
-insert_gov_lobbycomm_people_orgs_memberships(debug_status)
-insert_corp_lobbycomm_people_orgs_memberships(debug_status)
-insert_lobbycomm_communications(debug_status)
-insert_election_contributions(debug_status)
+insert_corp_people_orgs_memberships(debug_status=debug_status, cutoff_dt=cutoff_dt)
+insert_gov_lobbycomm_people_orgs_memberships(debug_status=debug_status, cutoff_dt=cutoff_dt)
+insert_corp_lobbycomm_people_orgs_memberships(debug_status=debug_status, cutoff_dt=cutoff_dt)
+insert_lobbycomm_communications(debug_status=debug_status, cutoff_dt=cutoff_dt)
+insert_election_contributions(debug_status=debug_status, cutoff_dt=cutoff_dt)
 insert_bills(debug_status)
 insert_billdiffs(debug_status)
-insert_vote_voteindividual(debug_status)
+insert_vote_voteindividual(debug_status=debug_status, cutoff_dt=cutoff_dt)
 
 # ALL FIXING/TIDYING DB SCRIPTS
 fix_people_001(debug_status)
