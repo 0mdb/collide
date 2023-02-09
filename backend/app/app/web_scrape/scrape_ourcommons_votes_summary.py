@@ -46,7 +46,7 @@ def scrape_vote_list(parl_sessions):
         print(fp)
 
         status_code = None
-        max_tries = 10
+        max_tries = 5
         cur_try = 0
 
         while cur_try < max_tries and status_code != requests.codes.ok:
@@ -61,7 +61,7 @@ def scrape_vote_list(parl_sessions):
                 handle.write(response.content)
             output_list.append(fn)
         else:
-            raise RuntimeWarning(f"couldn't get {csv_link}")
+            print(f"couldn't get {csv_link}")
 
     driver.close()
 
