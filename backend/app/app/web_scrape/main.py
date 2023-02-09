@@ -7,11 +7,16 @@ from scrape_ourcommons_votes_detailed import scrape_vote_details
 from scrape_ourcommons_member import scrape_member_links
 from scrape_ourcommons_members_xml_fetch import scrape_member_details
 from scrape_ourcommons_cabinet import scrape_cabinet_members
+from scrape_elections_funding import scrape_election_funding
+from scrape_lobby_reg_comms import scrape_lobby_records
 
+print("START")
+
+# Reminder to check TSX table update in wikipedia
+print("CHECK https://en.wikipedia.org/wiki/S%26P/TSX_Composite_Index for updates")
 
 # Pulls corp name from TSX file -> retrieves corp numbers
 # May not need to be updated often if TSX file is not changing
-print("START")
 print("\tstarting corp numbers")
 scrape_corp_numbers()
 print("\tcompleted corp numbers")
@@ -33,6 +38,7 @@ scrape_bill_text()
 print("\tcompleted bill text")
 
 # Grab list of votes (historically 1 to 7 sessions per parliament)
+# 2023-02-09 session 44-1 was latest
 print("\tstarting vote list")
 scrape_vote_list(parl_sessions=["38-1",
                                 "39-1", "39-2",
@@ -40,7 +46,7 @@ scrape_vote_list(parl_sessions=["38-1",
                                 "41-1", "41-2",
                                 "42-1",
                                 "43-1", "43-2",
-                                "44-1", "44-2", "44-3"])
+                                "44-1", "44-2"])
 print("\tcompleted vote list")
 
 # Iterates over vote listing to retrieve individual voting records
@@ -63,3 +69,15 @@ print("\tcompleted member xml")
 print("\tstarting cabinet info")
 scrape_cabinet_members(precedence_start=77, precedence_end=96)
 print("\tcompleted cabinet info")
+
+# Grab election funding files
+print("\tstarting election funding")
+scrape_election_funding()
+print("\tcompleted election funding")
+
+# Grab lobby comms abd registration files
+print("\tstarting lobby records")
+scrape_lobby_records()
+print("\tcompleted lobby records")
+
+print("END")
