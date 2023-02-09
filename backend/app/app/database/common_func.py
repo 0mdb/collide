@@ -440,7 +440,7 @@ def add_memberships(session, mem_lst):
             mem_obj_lst.append(new_membership)
 
         elif len(res_membership) == 1:
-            # Existing membership, update end_date, start_end
+            # Existing membership, update end_date, start_end, source id
             existing_membership = res_membership[0]
 
             if (
@@ -450,6 +450,7 @@ def add_memberships(session, mem_lst):
                 existing_membership.end_date = datetime.fromisoformat(
                     each_dict.get("end_date")
                 ).date()
+                existing_membership.source = each_dict.get("source_id")
                 session.add(existing_membership)
                 session.commit()
 
@@ -460,6 +461,7 @@ def add_memberships(session, mem_lst):
                 existing_membership.start_date = datetime.fromisoformat(
                     each_dict.get("start_date")
                 ).date()
+                existing_membership.source = each_dict.get("source_id")
                 session.add(existing_membership)
                 session.commit()
 
@@ -527,6 +529,7 @@ def add_memberships(session, mem_lst):
                     existing_membership.end_date = datetime.fromisoformat(
                         each_dict.get("end_date")
                     ).date()
+                    existing_membership.source = each_dict.get("source_id")
                     session.add(existing_membership)
                     session.commit()
 
@@ -537,6 +540,7 @@ def add_memberships(session, mem_lst):
                     existing_membership.start_date = datetime.fromisoformat(
                         each_dict.get("start_date")
                     ).date()
+                    existing_membership.source = each_dict.get("source_id")
                     session.add(existing_membership)
                     session.commit()
 
@@ -984,7 +988,7 @@ def add_bills(session, bill_lst):
             bill_obj_lst.append(ot)
         elif len(res) == 1:
             # Existing entry
-            # Update read_date and bools
+            # Update read_date and bools, source id
             existing_bill = res[0]
 
             if (
@@ -994,6 +998,7 @@ def add_bills(session, bill_lst):
                 # Update
                 existing_bill.is_read_first_house = True
                 existing_bill.first_house_read_date = first_house_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if (
                     not existing_bill.is_read_second_house
@@ -1002,6 +1007,7 @@ def add_bills(session, bill_lst):
                 # Update
                 existing_bill.is_read_second_house = True
                 existing_bill.second_house_read_date = second_house_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if (
                     not existing_bill.is_read_third_house
@@ -1010,11 +1016,13 @@ def add_bills(session, bill_lst):
                 # Update
                 existing_bill.is_read_third_house = True
                 existing_bill.third_house_read_date = third_house_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if not existing_bill.is_read_first_senate and first_sen_read_dt is not None:
                 # Update
                 existing_bill.is_read_first_senate = True
                 existing_bill.first_senate_read_date = first_sen_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if (
                     not existing_bill.is_read_second_senate
@@ -1023,16 +1031,19 @@ def add_bills(session, bill_lst):
                 # Update
                 existing_bill.is_read_second_senate = True
                 existing_bill.second_senate_read_date = second_sen_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if not existing_bill.is_read_third_senate and third_sen_read_dt is not None:
                 # Update
                 existing_bill.is_read_third_senate = True
                 existing_bill.third_senate_read_date = third_sen_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if not existing_bill.is_passed_royal_assent and royal_assent_dt is not None:
                 # Update
                 existing_bill.is_passed_royal_assent = True
                 existing_bill.royal_assent_date = royal_assent_dt
+                existing_bill.source = each_dict.get("source_id")
 
             session.add(existing_bill)
             session.commit()
