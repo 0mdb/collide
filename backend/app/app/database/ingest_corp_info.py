@@ -3,9 +3,10 @@ import glob
 from common_func import create_match_name
 from DirectoryHandler import DirectoryHandler
 import common_func as cf
+import datetime
 
 
-def insert_corp_people_orgs_memberships(debug_status):
+def insert_corp_people_orgs_memberships(debug_status, cutoff_dt):
     # Preamble, folder locations
     dh_board = DirectoryHandler("corp_board")
     dh_no = DirectoryHandler("corp_no")
@@ -99,11 +100,12 @@ def insert_corp_people_orgs_memberships(debug_status):
             person_id = person_objs[0].id
 
             # MEMBERSHIP TABLE
-            membership_objs = cf.add_memberships(session, [{"person_id": person_id,
-                                                            "org_id": organization_id,
-                                                            "start_date": dh_board.source_age,
-                                                            "end_date": dh_board.source_age,
-                                                            "source_id": corp_board_source_objs[0].id}])
+            if datetime.datetime.fromisoformat(dh_board.source_age) > cutoff_dt:
+                membership_objs = cf.add_memberships(session, [{"person_id": person_id,
+                                                                "org_id": organization_id,
+                                                                "start_date": dh_board.source_age,
+                                                                "end_date": dh_board.source_age,
+                                                                "source_id": corp_board_source_objs[0].id}])
 
     session.close()
     print("\tcompleted corp boards")

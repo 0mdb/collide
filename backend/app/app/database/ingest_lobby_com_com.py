@@ -3,9 +3,10 @@ import numpy as np
 import glob
 from DirectoryHandler import DirectoryHandler
 import common_func as cf
+import datetime
 
 
-def insert_lobbycomm_communications(debug_status):
+def insert_lobbycomm_communications(debug_status, cutoff_dt):
     # Preamble, folder locations
     dh_comms = DirectoryHandler("lobby_comms")
 
@@ -61,13 +62,14 @@ def insert_lobbycomm_communications(debug_status):
         corp_person_id = cf.get_person_id(session, corp_party)
 
         # COMM TABLE
-        comms_obj = cf.add_communication(session, [{
-            "party_1": gov_person_id,
-            "party_2": corp_person_id,
-            "com_date": dt,
-            "topic": topic,
-            "source_id": comms_source_id
-        }])
+        if datetime.datetime.fromisoformat(dt) > cutoff_dt:
+            comms_obj = cf.add_communication(session, [{
+                "party_1": gov_person_id,
+                "party_2": corp_person_id,
+                "com_date": dt,
+                "topic": topic,
+                "source_id": comms_source_id
+            }])
 
     session.close()
     print("\tcompleted lobbycom comms")

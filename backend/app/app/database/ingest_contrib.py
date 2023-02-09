@@ -2,6 +2,7 @@ import glob
 import pandas as pd
 import common_func as cf
 from DirectoryHandler import DirectoryHandler
+import datetime
 
 
 class Transaction:
@@ -83,7 +84,7 @@ class ElxCsv:
         self.transactions = tsn
 
 
-def insert_election_contributions(debug_status):
+def insert_election_contributions(debug_status, cutoff_dt):
     # Preamble, folder locations
     dh_contrib = DirectoryHandler("ecanada_contrib")
     contrib_csv = glob.glob(dh_contrib.path_of_interest + "/*.csv")
@@ -139,24 +140,25 @@ def insert_election_contributions(debug_status):
 
         }])
 
-        # Add membership of recipient to organization
-        recip_mem_obj = cf.add_memberships(session, [{
-            "person_id": recip_obj[0].id,
-            "org_id": recip_org_obj[0].id,
-            "start_date": each_tsn.fiscal_date,
-            "end_date": each_tsn.fiscal_date,
-            "source_id": src_objs[0].id,
-        }])
+        if datetime.datetime.fromisoformat(each_tsn.fiscal_date) > cutoff_dt:
+            # Add membership of recipient to organization
+            recip_mem_obj = cf.add_memberships(session, [{
+                "person_id": recip_obj[0].id,
+                "org_id": recip_org_obj[0].id,
+                "start_date": each_tsn.fiscal_date,
+                "end_date": each_tsn.fiscal_date,
+                "source_id": src_objs[0].id,
+            }])
 
-        # party_1 = contributor; party_2 = recipient, positive AMT
-        funds_obj = cf.add_funding_p2p(session, [{
-            "party_1": contrib_obj[0].id,
-            "party_2": recip_obj[0].id,
-            "amount": each_tsn.amt,
-            "start_date": each_tsn.fiscal_date,
-            "end_date": each_tsn.fiscal_date,
-            "source_id": src_objs[0].id
-        }])
+            # party_1 = contributor; party_2 = recipient, positive AMT
+            funds_obj = cf.add_funding_p2p(session, [{
+                "party_1": contrib_obj[0].id,
+                "party_2": recip_obj[0].id,
+                "amount": each_tsn.amt,
+                "start_date": each_tsn.fiscal_date,
+                "end_date": each_tsn.fiscal_date,
+                "source_id": src_objs[0].id
+            }])
 
     # Insert org to people fund transfers
     # From Contributor type = contrib_corp, _union, _assoc, _gov, _bus --> Recipient type = recip_ent_ppl (filter)
@@ -194,24 +196,25 @@ def insert_election_contributions(debug_status):
             "misc": {}
         }])
 
-        recip_mem_obj = cf.add_memberships(session, [{
-            "person_id": recip_obj[0].id,
-            "org_id": recip_org_obj[0].id,
-            "start_date": each_tsn.fiscal_date,
-            "end_date": each_tsn.fiscal_date,
-            "source_id": src_objs[0].id,
-        }])
+        if datetime.datetime.fromisoformat(each_tsn.fiscal_date) > cutoff_dt:
+            recip_mem_obj = cf.add_memberships(session, [{
+                "person_id": recip_obj[0].id,
+                "org_id": recip_org_obj[0].id,
+                "start_date": each_tsn.fiscal_date,
+                "end_date": each_tsn.fiscal_date,
+                "source_id": src_objs[0].id,
+            }])
 
-        # Enter FundingPersonOrg record
-        # org = contributor; people = recipient, negative AMT
-        funds_obj = cf.add_funding_p2o(session, [{
-            "organization": contrib_org_obj[0].id,
-            "person": recip_obj[0].id,
-            "amount": -1 * each_tsn.amt,
-            "start_date": each_tsn.fiscal_date,
-            "end_date": each_tsn.fiscal_date,
-            "source_id": src_objs[0].id
-        }])
+            # Enter FundingPersonOrg record
+            # org = contributor; people = recipient, negative AMT
+            funds_obj = cf.add_funding_p2o(session, [{
+                "organization": contrib_org_obj[0].id,
+                "person": recip_obj[0].id,
+                "amount": -1 * each_tsn.amt,
+                "start_date": each_tsn.fiscal_date,
+                "end_date": each_tsn.fiscal_date,
+                "source_id": src_objs[0].id
+            }])
 
     # From Contributor type = contrib_ppl --> Recipient type = recip_ent_parties (filter)
     tsn_p2o = [x for x in tsn_above_threshold if (x.con_type.lower() in election_csv.contrib_ppl) and (x.pol_ent.lower() in election_csv.recip_ent_parties)]
@@ -246,16 +249,17 @@ def insert_election_contributions(debug_status):
             "misc": {}
         }])
 
-        # Enter FundingPersonOrg record
-        # people = contributor; org = recipient, positive AMT
-        funds_obj = cf.add_funding_p2o(session, [{
-            "organization": recip_org_obj[0].id,
-            "person": contrib_obj[0].id,
-            "amount": each_tsn.amt,
-            "start_date": each_tsn.fiscal_date,
-            "end_date": each_tsn.fiscal_date,
-            "source_id": src_objs[0].id
-        }])
+        if datetime.datetime.fromisoformat(each_tsn.fiscal_date) > cutoff_dt:
+            # Enter FundingPersonOrg record
+            # people = contributor; org = recipient, positive AMT
+            funds_obj = cf.add_funding_p2o(session, [{
+                "organization": recip_org_obj[0].id,
+                "person": contrib_obj[0].id,
+                "amount": each_tsn.amt,
+                "start_date": each_tsn.fiscal_date,
+                "end_date": each_tsn.fiscal_date,
+                "source_id": src_objs[0].id
+            }])
 
     # Insert org to org fund transfers
     # From Contributor type = contrib_corp, _union, _assoc, _gov, _bus --> Recipient type = recip_ent_parties (filter)
@@ -295,16 +299,17 @@ def insert_election_contributions(debug_status):
             "misc": {}
         }])
 
-        # Enter Funding record (org to org)
-        # party_1 = contributor; party_2 = recipient, positive AMT
-        funds_obj = cf.add_funding_o2o(session, [{
-            "party_1": contrib_org_obj[0].id,
-            "party_2": recip_org_obj[0].id,
-            "amount": each_tsn.amt,
-            "start_date": each_tsn.fiscal_date,
-            "end_date": each_tsn.fiscal_date,
-            "source_id": src_objs[0].id
-        }])
+        if datetime.datetime.fromisoformat(each_tsn.fiscal_date) > cutoff_dt:
+            # Enter Funding record (org to org)
+            # party_1 = contributor; party_2 = recipient, positive AMT
+            funds_obj = cf.add_funding_o2o(session, [{
+                "party_1": contrib_org_obj[0].id,
+                "party_2": recip_org_obj[0].id,
+                "amount": each_tsn.amt,
+                "start_date": each_tsn.fiscal_date,
+                "end_date": each_tsn.fiscal_date,
+                "source_id": src_objs[0].id
+            }])
 
     session.close()
     print("\tcompleted election funds")
