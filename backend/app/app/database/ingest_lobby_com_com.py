@@ -70,3 +70,4 @@ def insert_lobbycomm_communications(debug_status):
         }])
 
     session.close()
+    print("\tcompleted lobbycom comms")

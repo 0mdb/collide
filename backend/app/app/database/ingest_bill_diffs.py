@@ -212,3 +212,4 @@ def insert_billdiffs(debug_status):
     objs = cf.add_diffs(session, diffs_lst)
 
     session.close()
+    print("\tcompleted bill diffs")

@@ -60,4 +60,5 @@ def insert_corp_lobbycomm_people_orgs_memberships(debug_status):
                                                          "end_date": dt,
                                                          "source_id": comms_source_id}])
     session.close()
+    print("\tcompleted lobbycom corp")
 

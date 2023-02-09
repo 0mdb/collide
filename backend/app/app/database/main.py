@@ -26,41 +26,17 @@ debug_status = True
 # ALL INGESTION SCRIPTS
 print("START")
 insert_entries_for_fresh_db(debug_status)
-print("\tcompleted initial inserts")
-
 insert_mp_people_orgs_memberships(debug_status)
-print("\tcompleted mps")
-
 insert_sector_industry_from_tsx_listing(debug_status)
-print("\tcompleted tsx sector")
-
 insert_topics_from_lobby_regs_comms(debug_status)
-print("\tcompleted topics")
-
 insert_corp_people_orgs_memberships(debug_status)
-print("\tcompleted corp boards")
-
 insert_gov_lobbycomm_people_orgs_memberships(debug_status)
-print("\tcompleted lobbycom gov")
-
 insert_corp_lobbycomm_people_orgs_memberships(debug_status)
-print("\tcompleted lobbycom corp")
-
 insert_lobbycomm_communications(debug_status)
-print("\tcompleted lobbycom comms")
-
 insert_election_contributions(debug_status)
-print("\tcompleted election funds")
-
 insert_bills(debug_status)
-print("\tcompleted bills")
-
 insert_billdiffs(debug_status)
-print("\tcompleted bill diffs")
-
 insert_vote_voteindividual(debug_status)
-print("\tcompleted bill votes")
-
 
 # ALL FIXING/TIDYING DB SCRIPTS
 fix_people_001(debug_status)
@@ -78,3 +54,4 @@ fix_orgs_003(debug_status)
 
 fix_memberships_001(debug_status)
 fix_duplicates(debug_status)
+print("END")

@@ -49,4 +49,5 @@ def insert_topics_from_lobby_regs_comms(debug_status):
             i = i + 1
 
     session.close()
+    print("\tcompleted topics")
 
