@@ -79,5 +79,5 @@ def insert_gov_lobbycomm_people_orgs_memberships(debug_status):
                                                          "source_id": comms_source_id}])
 
     session.close()
-
+    print("\tcompleted lobbycom gov")
 

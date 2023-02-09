@@ -307,4 +307,4 @@ def insert_election_contributions(debug_status):
         }])
 
     session.close()
-    print("DONE")
+    print("\tcompleted election funds")

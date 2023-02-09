@@ -32,3 +32,4 @@ def insert_sector_industry_from_tsx_listing(debug_status):
                                              "industry_name": industries[idx]}])
 
     session.close()
+    print("\tcompleted tsx sector")

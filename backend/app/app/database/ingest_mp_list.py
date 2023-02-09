@@ -280,4 +280,5 @@ def insert_mp_people_orgs_memberships(debug_status):
                                                           "end_date": src_date_obtained,
                                                           "source_id": src_id}])
 
-        sess.close()
+    sess.close()
+    print("\tcompleted mps")

@@ -63,3 +63,4 @@ def insert_bills(debug_status):
     bills_objs = cf.add_bills(session, bill_lst)
 
     session.close()
+    print("\tcompleted bills")

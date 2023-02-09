@@ -106,3 +106,4 @@ def insert_corp_people_orgs_memberships(debug_status):
                                                             "source_id": corp_board_source_objs[0].id}])
 
     session.close()
+    print("\tcompleted corp boards")

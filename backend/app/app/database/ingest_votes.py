@@ -103,4 +103,5 @@ def insert_vote_voteindividual(debug_status):
     ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst)
 
     session.close()
+    print("\tcompleted bill votes")
 
