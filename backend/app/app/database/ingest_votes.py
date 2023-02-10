@@ -7,6 +7,8 @@ import datetime
 
 
 def insert_vote_voteindividual(debug_status, cutoff_dt):
+    print("\tstarted bill votes")
+
     # Preamble, folder locations
     dh_votes = DirectoryHandler("votes summary")
     dh_votes.load_meta_file()
@@ -17,7 +19,8 @@ def insert_vote_voteindividual(debug_status, cutoff_dt):
     sum_file_lst = glob.glob(dh_votes.path_of_interest + "/*.csv")
     sum_file_lst = [x for x in sum_file_lst if os.path.basename(x) != "meta.csv"]
 
-    det_file_lst = glob.glob(dh_votesindividual.path_of_interest + "/*.xml")
+    det_file_lst_raw = glob.glob(dh_votesindividual.path_of_interest + "/*.xml")
+    det_file_lst = [x for x in det_file_lst_raw if os.path.getsize(x) > 5000]
 
     # sum_file_lst_base = [os.path.basename(x) for x in sum_file_lst]
     # det_file_lst_base = [os.path.basename(x) for x in det_file_lst]
@@ -44,7 +47,7 @@ def insert_vote_voteindividual(debug_status, cutoff_dt):
     parl = df["Parliament"].to_list()
     parl_session = df["Session"].to_list()
     vote_no = df["Vote Number"].to_list()
-    dates = df["Date"].to_list()
+    dates = df["Date"].to_list()  # not isoformat
     desc = df["Vote Subject"].to_list()
     vote_res = df["Vote Result"].to_list()
     yeas = df["Yeas"].to_list()
@@ -53,9 +56,9 @@ def insert_vote_voteindividual(debug_status, cutoff_dt):
     bill_no = df["Bill Number"].to_list()
 
     vote_ensemble = []
-    print(f"Number of votes to ingest: {len(vote_no)}")
+    print(f"\tNumber of votes to ingest: {len(vote_no)}")
     for idx, each_vote_no in enumerate(vote_no):
-        if datetime.datetime.fromisoformat(dates[idx]) > cutoff_dt:
+        if datetime.datetime.fromisoformat(dates[idx].split()[0]) > cutoff_dt:
             vote_ensemble.append({
                 "parliament": parl[idx],
                 "parliament_session": parl_session[idx],
@@ -69,11 +72,12 @@ def insert_vote_voteindividual(debug_status, cutoff_dt):
                 "bill_name": bill_no[idx],
                 "source_id": summary_src_obj.id
             })
-    print(f"Number of votes meeting threshold: {len(vote_ensemble)}")
+    print(f"\tNumber of votes meeting threshold: {len(vote_ensemble)}")
     vote_objs = cf.add_votes(session, vote_ensemble)
 
     # Construct list of VoteIndividual entries
     # Call cf.add_vote_individual
+    print(f"\tStarted xml concatenation (slow)")
     individual_votes_df = pd.DataFrame()
     for each_xml in det_file_lst:
         individual_votes_df = pd.concat([individual_votes_df, pd.read_xml(each_xml)], axis=0, ignore_index=True)
@@ -88,11 +92,11 @@ def insert_vote_voteindividual(debug_status, cutoff_dt):
     pair_bool = individual_votes_df["IsVotePaired"].to_list()
     event_date = individual_votes_df["DecisionEventDateTime"].to_list()
 
-    print(f"Expected IndVote entry count: {len(parl)}")
+    print(f"\tExpected IndVote entry count: {len(parl)}")
 
     ind_vote_lst = []
     for idx, parl_entry in enumerate(parl):
-        print(f"Loop: {idx} of {len(parl)}")
+        print(f"\t\tLoop: {idx} of {len(parl)}")
         if datetime.datetime.fromisoformat(event_date[idx]) > cutoff_dt:
             ind_vote_lst.append({"parliament": parl[idx],
                                  "parliament_session": parl_session[idx],
@@ -104,7 +108,7 @@ def insert_vote_voteindividual(debug_status, cutoff_dt):
                                  "pair_bool": pair_bool[idx],
                                  "source_id": detail_src_obj.id})
 
-    print(f"IndVote meeting threshold: {len(ind_vote_lst)}")
+    print(f"\tIndVote meeting threshold: {len(ind_vote_lst)}")
     ind_vote_objs = cf.add_individual_votes(session, ind_vote_lst)
 
     session.close()
