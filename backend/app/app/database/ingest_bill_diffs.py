@@ -33,6 +33,8 @@ def get_all_para_marginalnotes_xml(xml_elem):
 
 
 def insert_billdiffs(debug_status):
+    print("\tstarted bill diffs")
+
     # Preamble, folder locations
     dh_detail = DirectoryHandler("bills detail")
     detail_dir = dh_detail.path_of_interest

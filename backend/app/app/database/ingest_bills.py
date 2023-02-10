@@ -6,6 +6,7 @@ from DirectoryHandler import DirectoryHandler
 
 
 def insert_bills(debug_status):
+    print("\tstarted bills")
     # Preamble, folder locations
     dh_bills = DirectoryHandler("bills summary")
     dh_bills.load_meta_file()
@@ -41,7 +42,7 @@ def insert_bills(debug_status):
     third_senate_read_date = bills_df["PassedSenateThirdReadingDateTime"].to_list()
     royal_assent_date = bills_df["ReceivedRoyalAssentDateTime"].to_list()
 
-    print(f"Expected entry count: {len(bill_name)}")
+    print(f"\tExpected entry count: {len(bill_name)}")
 
     bill_lst = []
     for idx, every_bill in enumerate(bill_name):
