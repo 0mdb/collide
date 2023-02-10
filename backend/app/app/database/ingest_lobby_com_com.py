@@ -7,6 +7,8 @@ import datetime
 
 
 def insert_lobbycomm_communications(debug_status, cutoff_dt):
+    print("\tstarted lobbycom comms")
+
     # Preamble, folder locations
     dh_comms = DirectoryHandler("lobby_comms")
 
@@ -48,11 +50,13 @@ def insert_lobbycomm_communications(debug_status, cutoff_dt):
     comms_source_id = comms_source_objs[0].id
 
     # Populate organizations of people in DPOH
+    print(f"\t{len(gov_first_name_lst)} communications to traverse")
+    loop_count = 0
     for gov_f, gov_l, corp_f, corp_l, topic, dt in zip(gov_first_name_lst, gov_last_name_lst,
                                                        corp_first_name_lst, corp_last_name_lst,
                                                        topic_lst, date_lst):
-        # if datetime.fromisoformat(dt).date() > date(2022, 6, 14):
-        #     continue
+        print(f"\t\t{loop_count} of {len(gov_first_name_lst)}")
+        loop_count = loop_count + 1
 
         # Gov and corp names should already be populated in table
         gov_party = f"{gov_f} {gov_l}"
