@@ -85,6 +85,8 @@ class ElxCsv:
 
 
 def insert_election_contributions(debug_status, cutoff_dt):
+    print("\tstarted election funds")
+
     # Preamble, folder locations
     dh_contrib = DirectoryHandler("ecanada_contrib")
     contrib_csv = glob.glob(dh_contrib.path_of_interest + "/*.csv")
@@ -111,6 +113,7 @@ def insert_election_contributions(debug_status, cutoff_dt):
     tsn_p2p = [x for x in tsn_above_threshold if (x.con_type.lower() in election_csv.contrib_ppl) and (x.pol_ent.lower() in election_csv.recip_ent_ppl)]
 
     for each_tsn in tsn_p2p:
+        print("\t\tstarted tsn_p2p")
         # CONTRIBUTOR: Retrieve id from People (exists) or create People entry w/ no memberships (new)
         contrib_obj = cf.add_people(session, [{
                 "name": f"{each_tsn.con_f} {each_tsn.con_l}",
@@ -124,7 +127,6 @@ def insert_election_contributions(debug_status, cutoff_dt):
             "name": f"{each_tsn.recip_f} {each_tsn.recip_l}",
             "ppl_source_id": src_objs[0].id
         }])
-        print("person added")
 
         # Add organization that recipient is a member of (political party)
         recip_party_name = each_tsn.recip_party
@@ -166,6 +168,7 @@ def insert_election_contributions(debug_status, cutoff_dt):
     tsn_o2p = [x for x in tsn_above_threshold if (x.con_type.lower() in contrib_org_list) and (x.pol_ent.lower() in election_csv.recip_ent_ppl)]
 
     for each_tsn in tsn_o2p:
+        print("\t\tstarted tsn_o2p")
         # CONTRIBUTOR: Retrieve id from Organization (exists) or create Organization entry (new)
         con_org_type = cf.match_ecanada_contrib_org_type(each_tsn.con_type)
 
@@ -220,6 +223,7 @@ def insert_election_contributions(debug_status, cutoff_dt):
     tsn_p2o = [x for x in tsn_above_threshold if (x.con_type.lower() in election_csv.contrib_ppl) and (x.pol_ent.lower() in election_csv.recip_ent_parties)]
 
     for each_tsn in tsn_p2o:
+        print("\t\tstarted tsn_p2o")
         # CONTRIBUTOR: Retrieve id from People (exists) or create People entry w/ no memberships (new)
         contrib_obj = cf.add_people(session, [{
             "name": f"{each_tsn.con_f} {each_tsn.con_l}",
@@ -266,6 +270,7 @@ def insert_election_contributions(debug_status, cutoff_dt):
     tsn_o2o = [x for x in tsn_above_threshold if (x.con_type.lower() in contrib_org_list) and (x.pol_ent.lower() in election_csv.recip_ent_parties)]
 
     for each_tsn in tsn_o2o:
+        print("\t\tstarted tsn_o2o")
         # CONTRIBUTOR: Retrieve id from Organization (exists) or create Organization entry (new)
         con_org_type = cf.match_ecanada_contrib_org_type(each_tsn.con_type)
 
