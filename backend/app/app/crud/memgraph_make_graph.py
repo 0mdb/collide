@@ -1,57 +1,28 @@
 from datetime import date
-from typing import Optional
-
-import networkx as nx
-from gqlalchemy import Field, Memgraph, Node, Relationship
-
 from app import schemas
+import networkx as nx
+import cProfile, pstats, io
+from pstats import SortKey
+import mgclient
+
 from app.core.config import settings
 
-gdb = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
+conn = mgclient.connect(host="memgraph-platform", port=7687)
 
 
-# class MGPerson(Node, index=True, db=gdb):
-#     id: Optional[int] = Field(index=True, exists=True, unique=True, db=gdb)
-#     display_name: Optional[str] = Field(unique=True)
-#     match_name: Optional[str] = Field(index=True, unique=True)
-#     source: Optional[int] = Field(exists=True)
+def fetch_and_map(inputs):
+    tag = inputs[0]
+    poi_mn = inputs[1]
+    query = inputs[2]
+    connection = inputs[3]
 
-
-# class MGOrganization(Node, index=True, db=gdb):
-#     id: Optional[int] = Field(index=True, unique=True, exists=True)
-#     display_name: Optional[str] = Field(unique=True)
-#     match_name: Optional[str] = Field(index=True, unique=True)
-#     organization_type: Optional[str] = Field(exists=True)
-#     sector: Optional[str]
-#     industry: Optional[str]
-#     source: Optional[int] = Field()
-#     misc_data: Optional[str] = Field()
-
-
-# class MGMembership(Relationship, type="MEMBERSHIP"):
-#     id: Optional[int] = Field(unique=True)
-#     start_date: Optional[date] = Field()
-#     end_date: Optional[date] = Field()
-#     source: Optional[int] = Field(exists=True)
-
-
-# class MGCommunications(Relationship, type="COMMUNICATION"):
-#     id: Optional[int] = Field(exists=True, unique=True)
-#     party_1: Optional[int] = Field(exists=True)
-#     party_2: Optional[int] = Field(exists=True)
-#     com_date: Optional[date] = Field(exists=True)
-#     topic: Optional[str] = Field()
-#     source: Optional[int] = Field(exists=True)
-
-
-# class MGFunding(Relationship, type="FUNDS"):
-#     id: Optional[int] = Field(exists=True)
-#     party_1: Optional[int] = Field(exists=True)
-#     party_2: Optional[int] = Field(exists=True)
-#     amount: Optional[int] = Field(exist=True)
-#     start_date: Optional[date] = Field(exists=True)
-#     end_date: Optional[date] = Field()
-#     source: Optional[int] = Field(exists=True)
+    cursor = connection.cursor()
+    cursor.execute(query, {"poi_mn": poi_mn})
+    res = cursor.fetchall()
+    cursor.close()
+    res = list(res)[0][0]
+    graph_out = mapped_memgraph_to_nx(res)
+    return tag, graph_out
 
 
 def mapped_memgraph_to_nx(res_dict):
@@ -249,7 +220,7 @@ def aggregate_parallel_edges(g):
     return g
 
 
-def aggregate_leaves(g, label, threshold, object_of_interest=None):
+def aggregate_leaves(g, label, threshold, edge_type, object_of_interest=None):
     fund_degrees = nx.degree(g)
     # get all of the people that just fund
     if object_of_interest is None:
@@ -262,8 +233,6 @@ def aggregate_leaves(g, label, threshold, object_of_interest=None):
 
     funding_totals = {}
     leaf_agg_count = {}
-    early_date = date(2100, 1, 1)
-    late_date = date(1900, 1, 1)
     for (
         leaf
     ) in funding_leaves:  # these are leaves, so they will only ever have one target
@@ -279,6 +248,8 @@ def aggregate_leaves(g, label, threshold, object_of_interest=None):
         if len(edges) != 1:
             raise RuntimeError("working on a node that isn't actually a leaf")
         edges = edges[0]
+        if edges["type"] != edge_type:
+            continue
 
         e_type = edges["type"]
         dash = edges["dash"]
@@ -341,7 +312,7 @@ def aggregate_same_edges(g, label, threshold, **kwargs):
     # each sublist should contain the nodes that have all the same edges, type shouldn't really factor in here, else we
     # will have to handle splitting out nodes wrt one type and aggregating them in another
     # this operation should be run after all of the different subgraphs have been combined
-    edges = {}
+    non_empty_sets = {}
 
     object_of_interest = kwargs.pop("object_of_interest_mn", None)
     node_type = kwargs.pop("node_type", "Person")
@@ -355,68 +326,68 @@ def aggregate_same_edges(g, label, threshold, **kwargs):
         node_list.discard(object_of_interest)  # never aggregate the object of interest
 
     tg = nx.to_undirected(g)
+    unique_combinations = set()
+    binned_nodes = {}
     for n in node_list:
         if g.nodes[n]["type"] == node_type:
-            edges[n] = adj_edge_summary(tg.adj[n])
+            es = adj_edge_summary(tg.adj[n])
+            if len(es) > 0:
+                non_empty_sets[n] = es
+                unique_combinations.add(es)
+                if es in binned_nodes.keys():
+                    binned_nodes[es]["nodes"].append(n)
+                    binned_nodes[es]["count"] += 1
+                else:
+                    binned_nodes[es] = {"nodes": [n], "count": 1}
 
-    non_empty_sets = {n: s for n, s in edges.items() if len(s) > 0}
-    unique_combinations = list(set([s for n, s in non_empty_sets.items()]))
+    binned_nodes = {n: x for n, x in binned_nodes.items() if x["count"] > threshold}
 
-    binned_nodes = {
-        i: [n for n, s in non_empty_sets.items() if s == uc]
-        for i, uc in enumerate(unique_combinations)
-    }
-    binned_nodes = {i: s for i, s in binned_nodes.items() if len(s) > threshold}
+    for uc, j in binned_nodes.items():
 
-    for i, j in binned_nodes.items():
+        targets_and_types = uc
 
-        if len(j) > threshold:
-            # merge these nodes
+        new_mn = f"{hash(targets_and_types)}_agg"
+        new_dn = f"{label} ({len(j)})"
+        g.add_node(new_mn, display_name=new_dn, type=node_type, value=n_val)
 
-            targets_and_types = unique_combinations[i]
+        for tt in targets_and_types:
+            trg = tt[0]
+            e_type = tt[1]
+            early_date = date(2100, 1, 1)
+            late_date = date(1900, 1, 1)
+            amount = 0
+            dash = None
+            color = None
 
-            new_mn = f"{hash(targets_and_types)}_agg"
-            new_dn = f"{label} ({len(j)})"
-            g.add_node(new_mn, display_name=new_dn, type=node_type, value=n_val)
+            for src in j["nodes"]:
+                try:
+                    fish = g.adj[src][trg]
+                except KeyError:
+                    fish = g.pred[src][trg]
+                fish = filter_edge_by_type(fish, e_type)
 
-            for tt in targets_and_types:
-                trg = tt[0]
-                e_type = tt[1]
-                early_date = date(2100, 1, 1)
-                late_date = date(1900, 1, 1)
-                amount = 0
-                dash = None
-                color = None
+                for q in fish.keys():
 
-                for src in j:
-                    try:
-                        fish = g.adj[src][trg]
-                    except KeyError:
-                        fish = g.pred[src][trg]
-                    fish = filter_edge_by_type(fish, e_type)
+                    if fish[q]["start_date"] < early_date:
+                        early_date = fish[q]["start_date"]
+                    if fish[q]["end_date"] > late_date:
+                        late_date = fish[q]["end_date"]
+                    dash = fish[q]["dash"]
+                    color = fish[q]["color"]
+                    amount += fish[q]["amount"]
 
-                    for q in fish.keys():
-
-                        if fish[q]["start_date"] < early_date:
-                            early_date = fish[q]["start_date"]
-                        if fish[q]["end_date"] > late_date:
-                            late_date = fish[q]["end_date"]
-                        dash = fish[q]["dash"]
-                        color = fish[q]["color"]
-                        amount += fish[q]["amount"]
-
-                summ = {
-                    "start_date": early_date,
-                    "end_date": late_date,
-                    "type": e_type,
-                    "dash": dash,
-                    "color": color,
-                    "amount": amount,
-                }
-                g.add_edge(new_mn, f"{trg}", **summ)
-                # remov nodes
-            for src in j:
-                g.remove_node(src)
+            summ = {
+                "start_date": early_date,
+                "end_date": late_date,
+                "type": e_type,
+                "dash": dash,
+                "color": color,
+                "amount": amount,
+            }
+            g.add_edge(new_mn, f"{trg}", **summ)
+            # remov nodes
+        for src in j["nodes"]:
+            g.remove_node(src)
 
     return g
 
@@ -438,7 +409,6 @@ def create_tot_graph(m_g, f_g, c_g):
 
 def memgraph_query_and_aggregate(
     poi_mn: str,
-    is_person: bool,
     fund_depth: int,
     membership_depth: int,
     communication_depth: int,
@@ -446,6 +416,7 @@ def memgraph_query_and_aggregate(
     start_agg_threshold: int = 80,
     aggregation_threshold_step: int = 5,
     verbose=False,
+    profile=False,
     # log_file=None,
 ) -> dict:
     """
@@ -454,8 +425,6 @@ def memgraph_query_and_aggregate(
     ----------
     poi_mn: str
             person (or org) of interest match name.  This is the starting point for the graph search
-    is_person: bool
-            flag denoting whether the poi_mn is from a person or an org
     fund_depth: int
             this is the number of hops to traverse the graph with respect to funding.  The initial hop only considers
             the FUNDING relationship, and the subsequent hops consider FUNDING and MEMBERSHIP, to try and capture the
@@ -474,7 +443,7 @@ def memgraph_query_and_aggregate(
             this is the amount that start_agg_threshold is reduced by during successive aggregation steps.  Higher
             values will make the process go faster, but may end up overdoing the aggregation
     verbose: bool
-            whether or not to print things to stdout or not
+            whether to print things to stdout or not
     log_file: filepath or None
             if not none, write logs to a file
     Returns
@@ -487,29 +456,29 @@ def memgraph_query_and_aggregate(
 
     some_letters = ("r", "s", "t", "u", "v", "w", "x", "y", "z")
 
-    gql = f"""MATCH (n) WHERE n.match_name = '{poi_mn}'
+    cursor = conn.cursor()
+    gql = f"""MATCH (n) WHERE n.match_name = $poi_mn
                     RETURN n"""
-    poi_type = gdb.execute_and_fetch(gql)
-    poi_type = list(poi_type)
-    poi_type = poi_type[0]["n"]._label
+    cursor.execute(gql, {"poi_mn": poi_mn})
+    poi_type = cursor.fetchone()
+    poi_type = poi_type[0].labels.pop()
     type_tag = poi_type.replace("MG", "")
 
-    # if is_person:
-    #     type_tag = "Person"
-    # else:
-    #     type_tag = "Organization"
-
-    # pr.enable()
+    if profile:
+        pr = cProfile.Profile()
+        pr.enable()
 
     json_file_name = f"generated_json/{poi_mn}_m{membership_depth}_c{communication_depth}_f{fund_depth}.json"
     if verbose:
         print(json_file_name)
 
     query_funds_line_1 = (
-        f'MATCH p=(n: MG{type_tag} {{match_name: "{poi_mn}"}}) - [l:FUNDS *..1] - (m)'
+        f"MATCH p=(n: MG{type_tag} {{match_name: $poi_mn}}) - [l:FUNDS *..1] - (m)"
     )
-    query_membership_line_1 = f'MATCH p=(n: MG{type_tag} {{match_name: "{poi_mn}"}}) - [l:MEMBERSHIP *..1] - (m)'
-    query_communications_line_1 = f'MATCH p=(n: MG{type_tag} {{match_name: "{poi_mn}"}}) - [l:COMMUNICATION *..1] - (m)'
+    query_membership_line_1 = (
+        f"MATCH p=(n: MG{type_tag} {{match_name: $poi_mn}}) - [l:MEMBERSHIP *..1] - (m)"
+    )
+    query_communications_line_1 = f"MATCH p=(n: MG{type_tag} {{match_name: $poi_mn}}) - [l:COMMUNICATION *..1] - (m)"
 
     query_last_lines = ["with project(p) as f", "return f"]
 
@@ -528,91 +497,105 @@ def memgraph_query_and_aggregate(
     query_communication = "\n".join([query_communications_line_1] + query_last_lines)
     query_membership = "\n".join([query_membership_line_1] + query_last_lines)
 
+    concurrent_inputs = []
+    all_graphs = {}
     if fund_depth > 0:
-        funding_res = gdb.execute_and_fetch(query_funds)
-        funding_res = list(funding_res)[0]["f"]
-        fund_g = mapped_memgraph_to_nx(funding_res)
+        concurrent_inputs.append(("fund_g", poi_mn, query_funds, conn))
     else:
-        fund_g = nx.MultiDiGraph()
+        all_graphs["fund_g"] = nx.MultiDiGraph()
 
     if membership_depth > 0:
-        membership_res = gdb.execute_and_fetch(query_membership)
-        membership_res = list(membership_res)[0]["f"]
-        membership_g = mapped_memgraph_to_nx(membership_res)
+        concurrent_inputs.append(("membership_g", poi_mn, query_membership, conn))
     else:
-        membership_g = nx.MultiDiGraph()
+        all_graphs["membership_g"] = nx.MultiDiGraph()
 
     if communication_depth > 0:
-        communication_res = gdb.execute_and_fetch(query_communication)
-        communication_res = list(communication_res)[0]["f"]
-        communication_g = mapped_memgraph_to_nx(communication_res)
+        concurrent_inputs.append(("communication_g", poi_mn, query_communication, conn))
     else:
-        communication_g = nx.MultiDiGraph()
+        all_graphs["communication_g"] = nx.MultiDiGraph()
+
+    cursor.close()
+
+    # doing this concurrently seems to just make things slower
+    # with concurrent.futures.ThreadPoolExecutor() as executor:
+    #    for t, g in executor.map(fetch_and_map, concurrent_inputs):
+    for i in concurrent_inputs:
+        t, g = fetch_and_map(i)
+        all_graphs[t] = g
+
+    # unpack
+    fund_g = all_graphs["fund_g"]
+    membership_g = all_graphs["membership_g"]
+    communication_g = all_graphs["communication_g"]
 
     # these two reductions just make more sense, so always do them
     fund_g = aggregate_parallel_edges(fund_g)
     communication_g = aggregate_parallel_edges(communication_g)
 
-    # just ignore any overlap between these subgraphs for now
-    nn_f = nx.number_of_nodes(fund_g)
-    nn_m = nx.number_of_nodes(membership_g)
-    nn_c = nx.number_of_nodes(communication_g)
-    tot_nodes = nn_f + nn_m + nn_c
-
-    temp_tot_graph = create_tot_graph(membership_g, fund_g, communication_g)
+    tot_graph = create_tot_graph(membership_g, fund_g, communication_g)
+    tot_nodes = nx.number_of_nodes(tot_graph)
+    tot_edges = nx.number_of_edges(tot_graph)
     if verbose:
-        print(f"total nodes in {nx.number_of_nodes(temp_tot_graph)}")
-        print(f"total edges in {nx.number_of_edges(temp_tot_graph)}")
+        print(f"total nodes in {tot_nodes}")
+        print(f"total edges in {tot_edges}")
 
     reductions = set()
     brk = False
 
-    temp_fund_g = fund_g.copy(as_view=False)
-    temp_membership_g = membership_g.copy(as_view=False)
-    temp_communication_g = communication_g.copy(as_view=False)
     agg_threshold = start_agg_threshold
+
+    temp_tot_graph = tot_graph.copy(as_view=False)
 
     while tot_nodes > target_max_nodes and not brk:
 
-        if "aggregate_fund_leaves" not in reductions:
-            temp_fund_g = aggregate_leaves(
-                temp_fund_g, "Misc Donors", 0, object_of_interest=poi_mn
+        if ("aggregate_fund_leaves", agg_threshold) not in reductions:
+            temp_tot_graph = aggregate_leaves(
+                temp_tot_graph,
+                "Misc Donors",
+                agg_threshold,
+                edge_type="FUNDS",
+                object_of_interest=poi_mn,
             )
-            reductions.add("aggregate_fund_leaves")
-            tot_nodes -= nn_f
-            nn_f = nx.number_of_nodes(temp_fund_g)
-            tot_nodes += nn_f
+            reductions.add(("aggregate_fund_leaves", agg_threshold))
+            tot_nodes = nx.number_of_nodes(temp_tot_graph)
+            if verbose:
+                print(f'{("aggregate_fund_leaves", agg_threshold)}:')
+                print(f"\ttot nodes: {tot_nodes}")
             continue
 
         if ("aggregate_membership_leaves", agg_threshold) not in reductions:
-            temp_membership_g = membership_g.copy(as_view=False)
-            temp_membership_g = aggregate_leaves(
-                temp_membership_g, "Other Members", agg_threshold
+            temp_tot_graph = aggregate_leaves(
+                temp_tot_graph,
+                "Other Members",
+                agg_threshold,
+                edge_type="MEMBERSHIP",
+                object_of_interest=poi_mn,
             )
             reductions.add(("aggregate_membership_leaves", agg_threshold))
-            tot_nodes -= nn_m
-            nn_m = nx.number_of_nodes(temp_membership_g)
-            tot_nodes += nn_m
+            tot_nodes = nx.number_of_nodes(temp_tot_graph)
+            if verbose:
+                print(f'{("aggregate_membership_leaves", agg_threshold)}:')
+                print(f"\ttot nodes: {tot_nodes}")
             continue
 
         if ("aggregate_communication_leaves", agg_threshold) not in reductions:
-            temp_communication_g = communication_g.copy(as_view=False)
-            temp_communication_g = aggregate_leaves(
-                temp_communication_g, "Other Parties", agg_threshold
+            temp_tot_graph = aggregate_leaves(
+                temp_tot_graph,
+                "Other Parties",
+                agg_threshold,
+                edge_type="COMMUNICATION",
+                object_of_interest=poi_mn,
             )
             reductions.add(("aggregate_communication_leaves", agg_threshold))
-            tot_nodes -= nn_c
-            nn_c = nx.number_of_nodes(temp_communication_g)
-            tot_nodes += nn_c
+            tot_nodes = nx.number_of_nodes(temp_tot_graph)
+            if verbose:
+                print(f'{("aggregate_communication_leaves", agg_threshold)}:')
+                print(f"\ttot nodes: {tot_nodes}")
             continue
 
         if ("aggregate_same_edges", agg_threshold) not in reductions:
 
             if ("aggregate_same_edges_person", agg_threshold) not in reductions:
-                temp_tot_graph = create_tot_graph(
-                    temp_membership_g, temp_fund_g, temp_communication_g
-                )
-
                 temp_tot_graph = aggregate_same_edges(
                     temp_tot_graph,
                     "Other Parties",
@@ -622,6 +605,9 @@ def memgraph_query_and_aggregate(
                 )
                 tot_nodes = nx.number_of_nodes(temp_tot_graph)
                 reductions.add(("aggregate_same_edges_person", agg_threshold))
+                if verbose:
+                    print(f'{("aggregate_same_edges_person", agg_threshold)}:')
+                    print(f"\ttot nodes: {tot_nodes}")
                 continue
 
             if (
@@ -637,12 +623,20 @@ def memgraph_query_and_aggregate(
                 )
                 tot_nodes = nx.number_of_nodes(temp_tot_graph)
                 reductions.add(("aggregate_same_edges_organizations", agg_threshold))
+                if verbose:
+                    print(f'{("aggregate_same_edges_organizations", agg_threshold)}:')
+                    print(f"\ttot nodes: {tot_nodes}")
                 continue
             reductions.add(("aggregate_same_edges", agg_threshold))
 
-        agg_threshold -= aggregation_threshold_step
+        if agg_threshold > 1 and (agg_threshold - aggregation_threshold_step) <= 0:
+            agg_threshold = 1
+        else:
+            agg_threshold -= aggregation_threshold_step
         if agg_threshold <= 1:
             brk = True
+        else:
+            temp_tot_graph = tot_graph.copy(as_view=False)
 
     tot_graph = temp_tot_graph
 
@@ -652,11 +646,14 @@ def memgraph_query_and_aggregate(
         print(f"total nodes out {nx.number_of_nodes(tot_graph)}")
         print(f"total edges out {nx.number_of_edges(tot_graph)}")
 
-    # with open(json_file_name, "w") as h:
-    #     json.dump(graph_json, h, indent=4)
-
-    # with open("sample_graph4.json", "w") as h:
-    #     json.dump(graph_json, h, indent=4)
+    if profile:
+        pr.disable()
+        s = io.StringIO()
+        sortby = SortKey.CUMULATIVE
+        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        ps.print_stats()
+        print(poi_mn)
+        print(s.getvalue())
 
     if verbose:
         print("done")
@@ -671,15 +668,17 @@ def graph_search_options(search: str) -> list[schemas.GraphSearchOptions]:
 
     # limit responses to 50
     query = f"""
-    MATCH (n) WHERE (n:MGPerson OR n:MGOrganization) AND n.match_name CONTAINS toLower("{search}") RETURN n.display_name, n.match_name LIMIT 50;
+    MATCH (n) WHERE (n:MGPerson OR n:MGOrganization) AND n.match_name CONTAINS toLower($search) RETURN n.display_name, n.match_name LIMIT 50;
     """
-    res = gdb.execute_and_fetch(query)
+    cursor = conn.cursor()
+    cursor.execute(query, {"search": search})
+    res = cursor.fetchall()
 
     for person_or_org in res:
         options = {
             # TODO remove value and build it in the front end
-            "value": person_or_org["n.match_name"],
-            "label": person_or_org["n.display_name"],
+            "value": person_or_org[1],
+            "label": person_or_org[0],
         }
 
         peeps_and_orgs.append(options)
