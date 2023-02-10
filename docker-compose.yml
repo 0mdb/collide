@@ -153,7 +153,7 @@ services:
       - SMTP_HOST=${SMTP_HOST}
     build:
       context: ./backend
-      dockerfile: backend.dockerfile
+      dockerfile: pypybackend.dockerfile
       args:
         INSTALL_DEV: ${INSTALL_DEV-false}
     deploy:
@@ -195,6 +195,8 @@ services:
         - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
         - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
         - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=80
+    extra_hosts:
+      - "registry.npmjs.org:104.16.19.35"
 
   memgraph-platform:
     image: "memgraph/memgraph-platform"
