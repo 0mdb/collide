@@ -9,7 +9,7 @@ from sqlmodel import create_engine, select, Session, or_
 import pickle
 import json
 
-from parse_injest.utils import create_match_name
+from common_func import create_match_name
 
 db_host = "localhost"
 db_name = "lq_test"

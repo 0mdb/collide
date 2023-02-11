@@ -1,12 +1,15 @@
 import common_func as cf
 from sqlmodel import Session, create_engine, select, or_
 from schema_creation.sqlmodel_build import (
-    Bill, Vote, VoteIndividual, Communications, LegStage, Person
+    Bill, Vote, VoteIndividual, Communications, LegStage, Person, OrganizationMembership, Organization
 )
 import json
 import datetime
 
 bill_lookup = "40_2_c-50"
+
+# TODO: TURN INTO FUNCTION
+# TODO: RUN/CHECK RESULTS N=1
 
 session = cf.create_session(debug=False)
 stat = select(Bill).where(
@@ -49,6 +52,7 @@ node_color_vote = {"yea": 'green',
                    "nay": 'red',
                    "paired": 'grey'}
 node_color_outsider = 'purple'
+node_color_membership = 'orange'
 
 stage_dates = {}
 stage_listing = []
@@ -288,9 +292,9 @@ for each_stage_hash in stage_listing:
         stat = select(VoteIndividual).where(
             VoteIndividual.vote == res[0].id
         )
-        res = session.exec(stat).all()
+        voteind_res = session.exec(stat).all()
 
-        for each_individual_vote in res:
+        for each_individual_vote in voteind_res:
             person_id = each_individual_vote.person
             if each_individual_vote.is_yea:
                 person_vote = "yea"
@@ -371,6 +375,39 @@ for each_stage_hash in stage_listing:
                     "linkDirectionalArrowRelPos": 0,
                     "linkWidth": 1
                 })
+
+                stat_2 = select(OrganizationMembership).where(
+                    OrganizationMembership.person == other_person_id
+                )
+                res_2 = session.exec(stat_2).all()
+
+                for each_membership in res_2:
+                    stat_3 = select(Organization).where(
+                        Organization.id == each_membership.organization
+                    )
+                    res_3 = session.exec(stat_3).all()
+
+                    membership_hash = hash((res_3[0].match_name, each_communication.com_date))
+
+                    if membership_hash not in node_id_lst:
+                        nodes_links_dict["nodes"].append({
+                            "id": membership_hash,
+                            "legstage_id": -1,
+                            "name": res_3[0].display_name,  # display name
+                            "nodeColor": node_color_membership,
+                            "nodeVal": 2
+                        })
+                        node_id_lst.append(membership_hash)
+
+                    # Links membership -> other_person
+                    nodes_links_dict["links"].append({
+                        "source": membership_hash,
+                        "target": other_person_hash,
+                        "linkColor": node_color_membership,
+                        "linkDirectionalArrowLength": 0,  # 0 removes
+                        "linkDirectionalArrowRelPos": 0,
+                        "linkWidth": 1
+                    })
 
 print(nodes_links_dict)
 with open("testing.json", 'w') as f:

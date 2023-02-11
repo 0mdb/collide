@@ -13,7 +13,7 @@ import pickle
 
 import concurrent.futures
 
-from parse_injest.utils import create_match_name
+from common_func import create_match_name
 
 
 def fuzz_helper(it):

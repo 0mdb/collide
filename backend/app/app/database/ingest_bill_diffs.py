@@ -1,0 +1,217 @@
+import glob
+import os
+import common_func as cf
+import xml.etree.ElementTree as et
+from sqlmodel import select
+from unidecode import unidecode
+import difflib
+import gzip
+from DirectoryHandler import DirectoryHandler
+from app.database.diff import myers_kickoff
+from schema_creation.sqlmodel_build import (Bill, LegStage)
+
+
+def get_all_para_marginalnotes_xml(xml_elem):
+    mini_mess = []
+    for c in xml_elem:
+        # if c.tag == "Block":
+        #     mini_mess += get_all_para_marginalnotes_xml(c)
+        # else:
+        if c.tag == "ExplanatoryNote" or c.tag == "HistoricalNote":
+            continue
+
+        # if c.tag == "Para" or c.tag == "MarginalNote":
+        if c.text is not None:
+            mini_mess = mini_mess + [c.text.strip()]
+
+        mini_mess += get_all_para_marginalnotes_xml(c)
+
+        if c.tail is not None:
+            mini_mess = mini_mess + [c.tail.strip()]
+
+    return mini_mess
+
+
+def insert_billdiffs(debug_status):
+    print("\tstarted bill diffs")
+
+    # Preamble, folder locations
+    dh_detail = DirectoryHandler("bills detail")
+    detail_dir = dh_detail.path_of_interest
+
+    dh_diffs = DirectoryHandler("bills diffs")
+    diff_dir = dh_diffs.path_of_interest
+
+    session = cf.create_session(debug=debug_status)
+
+    # Grab sources (bill details)
+    dh_detail.load_meta_file()
+    detail_src_obj = cf.add_sources(session, [{"data_source": dh_detail.source_name,
+                                               "date_obtained": dh_detail.source_age,
+                                               "misc_data": dh_detail.source_misc}])[0]
+
+    # bill_txt_df = pd.DataFrame()
+    # for each_xml in det_file_lst[0:2]:
+    #     bill_txt_df = pd.concat([bill_txt_df, pd.read_xml(each_xml)], axis=0, ignore_index=True)
+    bill_dict = {}
+    xml_reading_map = {
+        "first-reading-senate": 1,
+        "first-reading-house": 1,
+        "second-reading-senate": 2,
+        "second-reading-house": 2,
+        "report-house": 2,
+        "third-reading-senate": 3,
+        "third-reading-house": 3,
+        "assented-to": 4
+    }
+
+    stat = select(LegStage)
+    all_stages = session.exec(stat).all()
+    legstage_map = {}
+    for each_leg_stage in all_stages:
+        if each_leg_stage.match_name == "housereadingfirst":
+            legstage_map["first-reading-house"] = each_leg_stage.id
+        if each_leg_stage.match_name == "housereadingsecond":
+            legstage_map["second-reading-house"] = each_leg_stage.id
+            legstage_map["report-house"] = each_leg_stage.id
+        if each_leg_stage.match_name == "housereadingthird":
+            legstage_map["third-reading-house"] = each_leg_stage.id
+        if each_leg_stage.match_name == "senatereadingfirst":
+            legstage_map["first-reading-senate"] = each_leg_stage.id
+        if each_leg_stage.match_name == "senatereadingsecond":
+            legstage_map["second-reading-senate"] = each_leg_stage.id
+        if each_leg_stage.match_name == "senatereadingthird":
+            legstage_map["third-reading-senate"] = each_leg_stage.id
+        if each_leg_stage.match_name == "royalassent":
+            legstage_map["assented-to"] = each_leg_stage.id
+
+    stat = select(Bill)
+    all_bills = session.exec(stat).all()
+
+    for idx, each_bill in enumerate(all_bills):
+        print(f"Bill loop {idx} of {len(all_bills)}")
+        match_id = each_bill.id
+        uc_match_name = each_bill.match_name.upper()
+        match_file_lst = glob.glob(detail_dir + f"/{uc_match_name}_*.xml")
+
+        if len(match_file_lst) > 0:
+            bill_dict[match_id] = {}
+
+        for jdx, each_xml in enumerate(match_file_lst):
+            print(f"XML loop {jdx} of {len(match_file_lst)}")
+            # print(file)
+            file_str_mess = []
+
+            tree = et.parse(each_xml)
+            root = tree.getroot()
+            bill_name = root.attrib.get("Bill_No")
+            bill_reading = root.attrib.get("Stage_Name")
+            # print(root.tag)
+
+            file_name_info = os.path.basename(each_xml).split("_")
+            expected_parl = int(file_name_info[0])
+            expected_parl_session = int(file_name_info[1])
+            expected_bill_name = file_name_info[2]
+            expected_reading = int(file_name_info[3].split(".")[0])
+
+            for child in root:
+                # print(child.tag)
+                # Cover, InsideCover, MainText,
+                if child.tag == "Identification":
+                    for g_c in child:
+                        if g_c.tag == "BillNumber":
+                            bill_name = g_c.text
+                        if g_c.tag == "BillHistory":
+                            for g_g_c in g_c:
+                                if g_g_c.tag == "Stages":
+                                    bill_reading = g_g_c.attrib.get("stage")
+                xml_part = child.attrib.get("Part_Type")
+                if xml_part == "MainText" or child.tag == "Body":
+                    file_str_mess += get_all_para_marginalnotes_xml(child)
+
+            file_str_mess = ' '.join(file_str_mess)
+            print(file_str_mess)
+
+            # sanity check filename vs file contents
+            if bill_name.lower() == expected_bill_name.lower():
+                if xml_reading_map.get(bill_reading.lower()) == expected_reading:
+                    bill_dict[match_id][legstage_map.get(bill_reading.lower())] = file_str_mess
+                else:
+                    raise AssertionError("Reading number does not match")
+            else:
+                raise AssertionError("Bill number does not match")
+
+    # Compute diffs for every combination
+    diffs_lst = []
+    for each_bill_id in bill_dict.keys():
+        readings_available = sorted(list(bill_dict[each_bill_id].keys()))
+        for idx, each_reading_id in enumerate(readings_available[0:-1]):
+            start_id = each_reading_id
+            end_id = readings_available[idx+1]
+
+            start_text = bill_dict[each_bill_id][start_id]
+            end_text = bill_dict[each_bill_id][end_id]
+
+            start_text = unidecode(start_text, errors='replace')
+            start_text = start_text.replace('  ', ' ')
+            start_text = start_text.replace(' ,', ',')
+            start_text = start_text.replace(' .', '.')
+            start_text = start_text.replace(' :', ':')
+            start_text = start_text.replace(' ;', ';')
+            start_text = start_text.replace(':', ':\n')
+            start_text = start_text.replace(';', ';\n')
+            #
+            end_text = unidecode(end_text, errors='replace')
+            end_text = end_text.replace('  ', ' ')
+            end_text = end_text.replace(' ,', ',')
+            end_text = end_text.replace(' .', '.')
+            end_text = end_text.replace(' :', ':')
+            end_text = end_text.replace(' ;', ';')
+            end_text = end_text.replace(':', ':\n')
+            end_text = end_text.replace(';', ';\n')
+
+            # TODO: Consider improving html ingestion script to join on ' ' or '/n' depending on
+            #  child.tag matches (e.g. Para) and remove string .replace mess
+
+            # diffs_a_to_b = myers_kickoff(start_text, end_text)
+            html_diff = difflib.HtmlDiff()
+            diffs_a_to_b_html = html_diff.make_file(fromlines=start_text.split('\n'),
+                                                    tolines=end_text.split('\n'),
+                                                    fromdesc=f"Bill.id {each_bill_id}, stage.id {start_id}",
+                                                    todesc=f"Bill.id {each_bill_id}, stage.id {end_id}",
+                                                    context=True,
+                                                    numlines=2)
+
+            # with open(os.path.join(diff_dir, f"{each_bill_id}_{start_id}_{end_id}.html"), "w") as text_file:
+            #     text_file.write(diffs_a_to_b_html)
+
+            compressed_value = gzip.compress(bytes(diffs_a_to_b_html, 'utf-8'))
+            # plain_string_again = gzip.decompress(compressed_value).decode('utf-8')
+
+            # diffs_a_to_b_str = difflib.context_diff(start_text.split('\n'),
+            #                                         end_text.split('\n'),
+            #                                         fromfile='Bill Reading',
+            #                                         tofile='Next Avail Bill Reading',
+            #                                         fromfiledate='',
+            #                                         tofiledate='',
+            #                                         n=2,
+            #                                         lineterm='\n')
+            #
+            # diffs_a_to_b_str = [x for x in diffs_a_to_b_str]
+            # if len(diffs_a_to_b_str) > 0:
+            #     diffs_a_to_b_str = "".join(diffs_a_to_b_str)
+            # else:
+            #     diffs_a_to_b_str = "No detected difference"
+
+            diffs_lst.append({
+                "bill_id": each_bill_id,
+                "stage_1_id": start_id,
+                "stage_2_id": end_id,
+                "txt_diff": compressed_value,
+                # "source_id":
+            })
+
+    objs = cf.add_diffs(session, diffs_lst)
+
+    session.close()
+    print("\tcompleted bill diffs")

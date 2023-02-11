@@ -15,10 +15,38 @@ from schema_creation.sqlmodel_build import (
     VoteIndividual,
     BillDiff,
     LegStage,
+    CommsTopic, Communications
 )
-from parse_injest.utils import create_match_name
 import numpy as np
 import gzip
+from unidecode import unidecode
+import string
+import json
+
+
+def create_match_name(name_in):
+    if not type(name_in) == str:
+        name_in = str(name_in)
+    # remove any accented characters
+    new = unidecode(name_in)
+    # remove punctuation, since it may or may not always be present (e.g. Inc. vs Inc)
+    new = new.translate(str.maketrans('', '', string.punctuation))
+    # strip out all the whitespace, since there may be one space or two, etc
+    new = new.translate(str.maketrans('', '', string.whitespace))
+    # convert to lower case
+    new = new.lower()
+    return new
+
+
+# if __name__ == "__main__":
+#
+#     test_list = ['Canadian Turkey Marketing Agency C.O.B. as Turkey Farmers of Canada',
+#                  'Petro-Canada',
+#                  'Fédération des communautés Francophones et Acadienne du Canada',
+#                  ]
+#
+#     for s in test_list:
+#         print(create_match_name(s))
 
 
 def backup_postgres(host, user, passw, db_name, schema_name, pg_dump_command="pg_dump"):
@@ -99,21 +127,35 @@ def create_session(debug=True, **kwargs):
 def add_sources(session, src_lst):
     src_obj_lst = []
     for each_dict in src_lst:
-        # Check if it already exists with same timestamp
-        stat = (
-            select(Source)
-            .where(Source.data_source == each_dict.get("data_source"))
-            .where(Source.date_obtained == each_dict.get("date_obtained"))
-        )
+        if each_dict.get("data_source") == "initial inserts":
+            # Check if it already exists with same name
+            stat = (
+                select(Source)
+                .where(Source.data_source == each_dict.get("data_source"))
+            )
+        else:
+            # Check if it already exists with same name and timestamp
+            # datetime.fromisoformat(each_dict.get("start_date")).date()
+            stat = (
+                select(Source)
+                .where(Source.data_source == each_dict.get("data_source"))
+                .where(Source.date_obtained == datetime.fromisoformat(each_dict.get("date_obtained")).date())
+            )
         res = session.exec(stat).all()
 
         if len(res) == 0:
             # New entry
-            ot = Source(
-                data_source=each_dict.get("data_source"),
-                date_obtained=each_dict.get("date_obtained"),
-                misc_data=each_dict.get("misc_data"),
-            )
+            if "misc_data" in each_dict.keys():
+                ot = Source(
+                    data_source=each_dict.get("data_source"),
+                    date_obtained=datetime.fromisoformat(each_dict.get("date_obtained")).date(),
+                    misc_data=each_dict.get("misc_data"),
+                )
+            else:  # no misc_data
+                ot = Source(
+                    data_source=each_dict.get("data_source"),
+                    date_obtained=datetime.fromisoformat(each_dict.get("date_obtained")).date(),
+                )
             session.add(ot)
             session.commit()
             src_obj_lst.append(ot)
@@ -125,7 +167,116 @@ def add_sources(session, src_lst):
     return src_obj_lst
 
 
+def add_organization_types(session, type_lst):
+    # {
+    #     "name": "abc",
+    # }
+
+    type_obj_lst = []
+    for each_dict in type_lst:
+        # Check if it already exists with same match_name
+        stat = select(OrganizationType).where(
+            OrganizationType.match_name == create_match_name(each_dict.get("name"))
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New entry
+            ot = OrganizationType(
+                display_name=each_dict.get("name"),
+                match_name=create_match_name(each_dict.get("name")),
+            )
+            session.add(ot)
+            session.commit()
+            type_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            type_obj_lst.append(res[0])
+        else:
+            raise RuntimeError("Non unique org type detected")
+    return type_obj_lst
+
+
+def add_sectors(session, sector_lst):
+    # {
+    #     "sector_name": "abc",
+    #     "industry_name": "def" (OPT)
+    # }
+
+    sector_obj_lst = []
+    for each_dict in sector_lst:
+        if "industry_name" not in each_dict.keys():
+            industry_name = None
+            industry_match_name = None
+        else:
+            industry_name = each_dict.get("industry_name")
+            industry_match_name = create_match_name(industry_name)
+
+        # Check if it already exists with same sector_match_name AND industry_match_name
+        stat = select(SectorIndustry).where(
+            SectorIndustry.sector_match_name == create_match_name(each_dict.get("sector_name"))
+        ).where(
+            SectorIndustry.industry_match_name == industry_match_name
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New entry
+            ot = SectorIndustry(
+                sector_display_name=each_dict.get("sector_name"),
+                sector_match_name=create_match_name(each_dict.get("sector_name")),
+                industry_display_name=industry_name,
+                industry_match_name=industry_match_name,
+            )
+
+            session.add(ot)
+            session.commit()
+            sector_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            sector_obj_lst.append(res[0])
+        else:
+            raise RuntimeError("Non unique sector detected")
+    return sector_obj_lst
+
+
+def add_commstopic(session, topic_lst):
+    # {
+    #     "topic_display_name": "abc"
+    # }
+
+    topic_obj_lst = []
+    for each_dict in topic_lst:
+        # Check if it already exists with same match_name
+        stat = select(CommsTopic).where(
+            CommsTopic.match_name == create_match_name(each_dict.get("topic_display_name"))
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            # New entry
+            ot = CommsTopic(
+                display_name=each_dict.get("topic_display_name"),
+                match_name=create_match_name(each_dict.get("topic_display_name")),
+            )
+
+            session.add(ot)
+            session.commit()
+            topic_obj_lst.append(ot)
+        elif len(res) == 1:
+            # Existing entry
+            topic_obj_lst.append(res[0])
+        else:
+            raise RuntimeError("Non unique commstopic detected")
+    return topic_obj_lst
+
+
 def add_people(session, ppl_lst):
+    # {
+    #     "name": "display name",
+    #     "ppl_source_id": int
+    # }
+
     ppl_obj_lst = []
     for each_dict in ppl_lst:
         # Check if it already exists with same match_name
@@ -156,10 +307,11 @@ def add_organizations(session, org_lst):
     # {
     #     "name": "abc",
     #     "org_type_str": "abc",
-    #     "org_parent_str": "abc",
-    #     "org_sector_str": "abc",
+    #     "org_parent_str": "abc", (OPTIONAL)
+    #     "org_sector_str": "abc", (OPTIONAL)
+    #     "org_industry_str": "abc", (OPTIONAL)
     #     "org_source_id": int,
-    #     "misc": {}
+    #     "misc": str or dict
     # }
 
     org_obj_lst = []
@@ -197,7 +349,15 @@ def add_organizations(session, org_lst):
                 res_parent_id = [None]
 
             # Retrieve section id from string name if key in dict
-            if "org_sector_str" in each_dict.keys():
+            if "org_industry_str" in each_dict.keys():
+                stat = select(SectorIndustry.id).where(
+                    SectorIndustry.sector_match_name
+                    == create_match_name(each_dict.get("org_sector_str"))
+                ).where(
+                    SectorIndustry.industry_match_name == create_match_name(each_dict.get("org_industry_str"))
+                )
+                res_sector_id = session.exec(stat).all()
+            elif "org_sector_str" in each_dict.keys():
                 stat = select(SectorIndustry.id).where(
                     SectorIndustry.sector_match_name
                     == create_match_name(each_dict.get("org_sector_str"))
@@ -206,18 +366,34 @@ def add_organizations(session, org_lst):
 
                 if len(res_sector_id) > 1:
                     raise RuntimeError("Too many sectors identified")
+
             else:
                 res_sector_id = [None]
 
-            ot = Organization(
-                display_name=each_dict.get("name"),
-                match_name=create_match_name(each_dict.get("name")),
-                organization_type=res_org_type_id[0],
-                parent_organization=res_parent_id[0],
-                source=each_dict.get("org_source_id"),
-                sector=res_sector_id[0],
-                misc_data={},
-            )
+            if "misc" in each_dict.keys():
+                if isinstance(each_dict.get("misc"), str):
+                    misc_data = json.loads(each_dict.get("misc"))
+                else:
+                    misc_data = each_dict.get("misc")
+
+                ot = Organization(
+                    display_name=each_dict.get("name"),
+                    match_name=create_match_name(each_dict.get("name")),
+                    organization_type=res_org_type_id[0],
+                    parent_organization=res_parent_id[0],
+                    source=each_dict.get("org_source_id"),
+                    sector=res_sector_id[0],
+                    misc_data=misc_data,
+                )
+            else:
+                ot = Organization(
+                    display_name=each_dict.get("name"),
+                    match_name=create_match_name(each_dict.get("name")),
+                    organization_type=res_org_type_id[0],
+                    parent_organization=res_parent_id[0],
+                    source=each_dict.get("org_source_id"),
+                    sector=res_sector_id[0],
+                )
             session.add(ot)
             session.commit()
             org_obj_lst.append(ot)
@@ -264,7 +440,7 @@ def add_memberships(session, mem_lst):
             mem_obj_lst.append(new_membership)
 
         elif len(res_membership) == 1:
-            # Existing membership, update end_date
+            # Existing membership, update end_date, start_end, source id
             existing_membership = res_membership[0]
 
             if (
@@ -274,6 +450,7 @@ def add_memberships(session, mem_lst):
                 existing_membership.end_date = datetime.fromisoformat(
                     each_dict.get("end_date")
                 ).date()
+                existing_membership.source = each_dict.get("source_id")
                 session.add(existing_membership)
                 session.commit()
 
@@ -284,13 +461,93 @@ def add_memberships(session, mem_lst):
                 existing_membership.start_date = datetime.fromisoformat(
                     each_dict.get("start_date")
                 ).date()
+                existing_membership.source = each_dict.get("source_id")
                 session.add(existing_membership)
                 session.commit()
 
             mem_obj_lst.append(existing_membership)
 
         else:
-            raise RuntimeError("Too many memberships identified")
+            # Multiple memberships to the same organization
+            person_id = each_dict.get("person_id")
+            org_id = each_dict.get("org_id")
+            print(f"\tMultiple memberships for {person_id} to {org_id} identified")
+
+            # Merge existing
+            base_membership = res_membership.pop()
+            earliest_start_date = base_membership.start_date
+            latest_end_date = base_membership.end_date
+            ids_to_remove = []
+
+            for each_membership in res_membership:
+                print(f"\t{each_membership}")
+                ids_to_remove.append(each_membership.id)
+
+                if each_membership.start_date < earliest_start_date:
+                    earliest_start_date = each_membership.start_date
+                if each_membership.end_date > latest_end_date:
+                    latest_end_date = each_membership.end_date
+
+                if base_membership.start_date != earliest_start_date or base_membership.end_date != latest_end_date:
+                    print(f"\t\texpanding out the dates")
+                else:
+                    print(f"\t\tdates encompass other entry")
+
+                base_membership.start_date = earliest_start_date
+                base_membership.end_date = latest_end_date
+
+                session.add(base_membership)
+
+                for i in ids_to_remove:
+                    finally_delete = session.exec(
+                        select(OrganizationMembership).where(OrganizationMembership.id == i)
+                    ).first()
+                    if finally_delete is not None:
+                        session.delete(finally_delete)
+
+                session.commit()
+
+            # Requery
+            stat = (
+                select(OrganizationMembership)
+                .where(OrganizationMembership.person == each_dict.get("person_id"))
+                .where(OrganizationMembership.organization == each_dict.get("org_id"))
+            )
+            res_round2 = session.exec(stat).all()
+
+            if len(res_round2) == 0:
+                raise AssertionError("\t\tMerging memberships resulted in loss of all memberships")
+
+            elif len(res_round2) == 1:
+                # Existing membership, update end_date, start_end
+                existing_membership = res_round2[0]
+
+                if (
+                        existing_membership.end_date
+                        < datetime.fromisoformat(each_dict.get("end_date")).date()
+                ):
+                    existing_membership.end_date = datetime.fromisoformat(
+                        each_dict.get("end_date")
+                    ).date()
+                    existing_membership.source = each_dict.get("source_id")
+                    session.add(existing_membership)
+                    session.commit()
+
+                if (
+                        existing_membership.start_date
+                        > datetime.fromisoformat(each_dict.get("start_date")).date()
+                ):
+                    existing_membership.start_date = datetime.fromisoformat(
+                        each_dict.get("start_date")
+                    ).date()
+                    existing_membership.source = each_dict.get("source_id")
+                    session.add(existing_membership)
+                    session.commit()
+
+                mem_obj_lst.append(existing_membership)
+
+            else:
+                raise AssertionError("\t\tMerging memberships resulted in more than one membership")
 
     return mem_obj_lst
 
@@ -338,12 +595,33 @@ def add_funding_p2p(session, funding_lst):
 
         elif len(res) == 1:
             # Existing
-            existing_membership = res[0]
-            fund_obj_lst.append(existing_membership)
+            existing_funding = res[0]
+            fund_obj_lst.append(existing_funding)
 
         else:
-            raise RuntimeError("Too many transfers identified")
+            p1 = each_dict.get("party_1")
+            p2 = each_dict.get("party_2")
+            amt = each_dict.get("amount")
+            date = each_dict.get("start_date")
+            print(f"\tMultiple transfers for {p1} to {p2} on {date} of amt {amt}")
+            print(f"\tduplicate was likely created by name merging")
 
+            # Remove duplicates
+            base_transfer = res.pop()
+            ids_to_remove = []
+            print(f"\tbase_transfer {base_transfer}")
+
+            for other_trx in res:
+                print(f"\tother_transfer {other_trx}")
+                ids_to_remove.append(other_trx.id)
+
+            for i in ids_to_remove:
+                finally_delete = session.exec(
+                    select(FundingPersonPerson).where(FundingPersonPerson.id == i)
+                ).first()
+                if finally_delete is not None:
+                    session.delete(finally_delete)
+                    print(f"\t\tduplicate transfer, id {i} deleted")
     return fund_obj_lst
 
 
@@ -451,6 +729,179 @@ def add_funding_o2o(session, funding_lst):
     return fund_obj_lst
 
 
+def add_communication(session, comms_lst):
+    # {
+    #     "party_1": int,
+    #     "party_2": int,
+    #     "com_date": str,
+    #     "topic": str,
+    #     "source_id": int,
+    # }
+
+    comms_obj_lst = []
+    for each_dict in comms_lst:
+        # Communications TABLE
+        # check if entry unique (same parties, same date)
+        stat = select(Communications).where(
+            Communications.party_1 == each_dict.get("party_1")
+        ).where(
+            Communications.party_2 == each_dict.get("party_2")
+        ).where(
+            Communications.com_date == datetime.fromisoformat(each_dict.get("com_date")).date()
+        )
+        res1 = session.exec(stat).all()
+
+        stat = select(Communications).where(
+            Communications.party_1 == each_dict.get("party_2")
+        ).where(
+            Communications.party_2 == each_dict.get("party_1")
+        ).where(
+            Communications.com_date == datetime.fromisoformat(each_dict.get("com_date")).date()
+        )
+        res2 = session.exec(stat).all()
+
+        if (len(res1) + len(res2)) == 0:
+            # New communication
+            stat = select(CommsTopic.id).where(
+                CommsTopic.match_name == create_match_name(each_dict.get("topic"))
+            )
+            res_topic = session.exec(stat).all()
+
+            if len(res_topic) > 1:
+                raise RuntimeError("Too many topics identified")
+
+            new = Communications(
+                party_1=each_dict.get("party_1"),
+                party_2=each_dict.get("party_2"),
+                com_date=datetime.fromisoformat(each_dict.get("com_date")).date(),
+                topic=res_topic[0],
+                source=each_dict.get("source_id"),
+            )
+
+            session.add(new)
+            session.commit()
+            comms_obj_lst.append(new)
+
+        elif len(res1) == 1:
+            # Existing
+            existing_membership = res1[0]
+            comms_obj_lst.append(existing_membership)
+
+        elif len(res2) == 1:
+            # Existing
+            existing_membership = res2[0]
+            comms_obj_lst.append(existing_membership)
+        else:
+            raise RuntimeError("Too many comms identified")
+
+    return comms_obj_lst
+
+
+def add_legstages(session, legstage_lst):
+    # {
+    #     "display_name": str
+    # }
+
+    legstage_objs = []
+    for each_dict in legstage_lst:
+        each_stage = each_dict.get("display_name")
+
+        # Check if it already exists
+        stat = select(LegStage).where(
+            LegStage.match_name == create_match_name(each_stage)
+        )
+        res = session.exec(stat).all()
+
+        if len(res) == 0:
+            new_stage = LegStage(display_name=each_stage,
+                                 match_name=create_match_name(each_stage))
+
+            session.add(new_stage)
+            session.commit()
+            legstage_objs.append(new_stage)
+        elif len(res) == 1:
+            legstage_objs.append(res[0])
+        else:
+            raise AssertionError("impossible number of legstages found")
+
+    return legstage_objs
+
+
+def get_person_id(session, name):
+    match_str = create_match_name(name)
+
+    stat = select(Person.id).where(
+        Person.match_name == match_str
+    )
+    results = session.exec(stat).all()
+
+    if len(results) > 1:
+        raise RuntimeError("Too many people identified")
+
+    if len(results) == 0:
+        raise RuntimeError("No matching person identified")
+
+    return results[0]
+
+
+def get_orgtype_id(session, name):
+    match_str = create_match_name(name)
+
+    stat = select(OrganizationType.id).where(
+        OrganizationType.match_name == match_str
+    )
+    results = session.exec(stat).all()
+
+    if len(results) > 1:
+        raise RuntimeError("Too many OrganizationType identified")
+
+    if len(results) == 0:
+        raise RuntimeError("No matching OrganizationType identified")
+
+    return results[0]
+
+
+def get_org_id(session, name):
+    match_str = create_match_name(name)
+
+    stat = select(Organization.id).where(
+        Organization.match_name == match_str
+    )
+    results = session.exec(stat).all()
+
+    if len(results) > 1:
+        raise RuntimeError("Too many Organization identified")
+
+    if len(results) == 0:
+        raise RuntimeError("No matching Organization identified")
+
+    return results[0]
+
+
+def get_sectorindustry_id(session, sector_name, industry_name=None):
+    match_str = create_match_name(sector_name)
+
+    if industry_name is None:
+        stat = select(SectorIndustry.id).where(
+            SectorIndustry.sector_match_name == match_str
+        )
+    else:
+        stat = select(SectorIndustry.id).where(
+            SectorIndustry.sector_match_name == match_str
+        ).where(
+            SectorIndustry.industry_match_name == create_match_name(industry_name)
+        )
+    results = session.exec(stat).all()
+
+    if len(results) > 1:
+        raise RuntimeError("Too many sectorindustries identified")
+
+    if len(results) == 0:
+        raise RuntimeError("No matching sectorindustries identified")
+
+    return results[0]
+
+
 def add_bills(session, bill_lst):
     bill_obj_lst = []
     for each_dict in bill_lst:
@@ -537,7 +988,7 @@ def add_bills(session, bill_lst):
             bill_obj_lst.append(ot)
         elif len(res) == 1:
             # Existing entry
-            # Update read_date and bools
+            # Update read_date and bools, source id
             existing_bill = res[0]
 
             if (
@@ -547,6 +998,7 @@ def add_bills(session, bill_lst):
                 # Update
                 existing_bill.is_read_first_house = True
                 existing_bill.first_house_read_date = first_house_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if (
                     not existing_bill.is_read_second_house
@@ -555,6 +1007,7 @@ def add_bills(session, bill_lst):
                 # Update
                 existing_bill.is_read_second_house = True
                 existing_bill.second_house_read_date = second_house_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if (
                     not existing_bill.is_read_third_house
@@ -563,11 +1016,13 @@ def add_bills(session, bill_lst):
                 # Update
                 existing_bill.is_read_third_house = True
                 existing_bill.third_house_read_date = third_house_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if not existing_bill.is_read_first_senate and first_sen_read_dt is not None:
                 # Update
                 existing_bill.is_read_first_senate = True
                 existing_bill.first_senate_read_date = first_sen_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if (
                     not existing_bill.is_read_second_senate
@@ -576,16 +1031,19 @@ def add_bills(session, bill_lst):
                 # Update
                 existing_bill.is_read_second_senate = True
                 existing_bill.second_senate_read_date = second_sen_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if not existing_bill.is_read_third_senate and third_sen_read_dt is not None:
                 # Update
                 existing_bill.is_read_third_senate = True
                 existing_bill.third_senate_read_date = third_sen_read_dt
+                existing_bill.source = each_dict.get("source_id")
 
             if not existing_bill.is_passed_royal_assent and royal_assent_dt is not None:
                 # Update
                 existing_bill.is_passed_royal_assent = True
                 existing_bill.royal_assent_date = royal_assent_dt
+                existing_bill.source = each_dict.get("source_id")
 
             session.add(existing_bill)
             session.commit()

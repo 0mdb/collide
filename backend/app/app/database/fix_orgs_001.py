@@ -4,10 +4,22 @@ from schema_creation.sqlmodel_build import (
 )
 from common_func import create_session
 
-if __name__ == "__main__":
-    sess = create_session(db_name='collide', db_host='192.168.0.10')
 
+def fix_orgs_001(debug_status):
+    """Strips organization entry display_name (remove leading and trailing whitespaces).
+
+    Parameters
+    ----------
+    debug_status
+
+    Returns
+    -------
+    Nothing
+
+    """
+    sess = create_session(debug_status)
     actually_do_it = True
+
     num_changes = 0
 
     sq = select(Organization)
