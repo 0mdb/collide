@@ -117,6 +117,8 @@ function ForceGraph() {
   }
 
   function GetGraph() {
+    const [darkMode] = useDarkMode()
+
     if (graphType === '2D') {
       return (
         <ForceGraph2D
@@ -150,21 +152,27 @@ function ForceGraph() {
   }
 
   return (
-    <div className='bg-white dark:bg-slate-700'>
-      {isFetching ? <Loading /> : <GetGraph />}
-      <div className='fixed top-4 left-24 flex h-12 flex-row items-center justify-center'>
-        <SearchIcon />
-        <AsyncSelect
-          unstyled={true}
-          isClearable={true}
-          className='dark: w-64 rounded-md border-2 border-gray-200 border-gray-800 shadow-sm focus:outline-none focus:ring-primary'
-          loadOptions={loadOptions}
-          onChange={handleChange}
-        />
-        <GraphTypeButton graphType={graphType} setGraphType={setGraphType} />
+    <>
+      <div>
+        <div className='top-6 flex h-12 flex-row items-center justify-center'>
+          <SearchIcon />
+          <AsyncSelect
+            // unstyled={true}
+            isClearable={true}
+            className='dark:text-black w-64 rounded-md border-gray-200 dark:border-gray-800 shadow-sm focus:outline-none focus:ring-primary'
+            loadOptions={loadOptions}
+            onChange={handleChange}
+          />
+          <GraphTypeButton graphType={graphType} setGraphType={setGraphType} />
+        </div>
       </div>
-    </div>
+      <div className='bg-white dark:bg-slate-700'></div>
+      <div className='flex flex-row m-6 justify-center'>
+        {isFetching ? <Loading /> : <GetGraph />}
+      </div>
+    </>
   )
 }
 
 export default ForceGraph
+AbortController
