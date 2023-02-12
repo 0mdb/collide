@@ -4,6 +4,7 @@ from datetime import date
 import json
 import mgclient
 from unidecode import unidecode
+
 from schema_creation.sqlmodel_build import (
     Person,
     OrganizationMembership,
@@ -20,7 +21,9 @@ from schema_creation.sqlmodel_build import (
 )
 from sqlmodel import create_engine, select, Session
 from sqlalchemy.sql.operators import is_, is_not
+
 from buffered_logger import BufferedLogger
+
 import progressbar
 
 input_people = True
@@ -34,8 +37,9 @@ input_person_person_funding = True
 input_person_org_funding = True
 input_org_org_funding = True
 
-db_host = "localhost"  # "192.168.0.10"
-db_name = "lq_test"  # "collide"
+
+db_host = "192.168.0.10"
+db_name = "collide"
 db_user = "test_user"
 db_pw = "change_this"
 
@@ -44,7 +48,8 @@ engine = create_engine(
 )
 sess = Session(engine)
 
-db = Memgraph(host="localhost", port=7687)
+
+db = Memgraph(host="192.168.0.10", port=7687)
 
 
 class MGSource(Node, db=db):
@@ -86,6 +91,7 @@ class MGOrganization(Node, index=True, db=db):
     misc_data: Optional[str] = Field()
 
 
+
 # class MGBill(Node, db=db):
 
 
@@ -119,6 +125,7 @@ class MGFunding(Relationship, type="FUNDS"):
     start_date: Optional[date] = Field(exists=True)
     end_date: Optional[date] = Field()
     source: Optional[int] = Field(exists=True)
+
 
 
 if __name__ == "__main__":
@@ -492,3 +499,4 @@ if __name__ == "__main__":
         blogger("skipping org/org funding")
 
     sess.close()
+
