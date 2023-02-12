@@ -47,7 +47,6 @@ const SearchIcon = () => (
 )
 
 function ForceGraph() {
-  const fgRef = useRef()
   const [width, height] = useWindowSize()
   const [graphData, setGraphData] = useState(null)
   const [graphType, setGraphType] = useState('2D')
@@ -117,6 +116,7 @@ function ForceGraph() {
   }
 
   function GetGraph() {
+    const fgRef = useRef()
     const [darkMode] = useDarkMode()
 
     if (graphType === '2D') {
@@ -125,7 +125,7 @@ function ForceGraph() {
           ref={fgRef}
           graphData={newGraphData ? newGraphData : sampleData}
           height={height}
-          width={width - 100}
+          width={width - 200}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           linkDirectionalParticles='value'
@@ -139,7 +139,7 @@ function ForceGraph() {
           ref={fgRef}
           graphData={newGraphData ? newGraphData : sampleData}
           height={height}
-          width={width - 100}
+          width={width - 200}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           backgroundColor={darkMode ? '#334155' : 'white'}
