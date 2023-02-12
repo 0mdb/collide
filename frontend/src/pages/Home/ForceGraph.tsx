@@ -83,6 +83,7 @@ function ForceGraph() {
     queryKey: ['getGraph', searchSelection],
     queryFn: () => getGraph(searchSelection),
     enabled: !!searchSelection,
+    refetchOnWindowFocus: false,
   })
 
   if (graphStatus === 'loading' && searchSelection) return <Loading />
