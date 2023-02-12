@@ -21,7 +21,8 @@ const MagnifyingGlassIcon = () => (
   <Icon icon='search' size={20} className='mx-2 dark:fill-muted dark:shadow-lg' />
 )
 
-function GraphTypeButton({ graphType, setGraphType }) {
+function GraphTypeButton({}) {
+  const [graphType, setGraphType] = useState('2D')
   const changeGraphType = () => {
     if (graphType === '2D') {
       setGraphType('3D')
@@ -31,7 +32,7 @@ function GraphTypeButton({ graphType, setGraphType }) {
   }
   return (
     <button
-      className='hover:bg-primary-dark flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg'
+      className='hover:bg-primary-dark font-bold flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg'
       onClick={changeGraphType}
     >
       {graphType === '2D' ? '3D' : '2D'}
@@ -274,20 +275,19 @@ export default function Home2() {
           </div>
 
           <main>
-            <div className='py-6 overflow-x-clip'>
+            <div className='py-8 overflow-x-clip'>
               <div className='max-w-7xl px-4 sm:px-6 md:px-8'>
-                <h1 className='text-2xl font-semibold text-gray-900'>Dashboard</h1>
+                {/* <h1 className='text-2xl font-semibold text-gray-900'>Dashboard</h1> */}
               </div>
               <div className='mx-auto max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
-                <div className='py-4'>
-                  {/* <Outlet /> */}
-                  <div className='h-96 rounded-lg border-4 border-dashed border-gray-200'>
-                    <ForceGraph />
-                  </div>
-                </div>
-                {/* /End replace */}
+                {/* <div className='py-4'> */}
+                {/* <div className='h-96 rounded-lg border-4 border-dashed border-gray-200'> */}
+                <ForceGraph />
               </div>
+              {/* </div> */}
+              {/* /End replace */}
+              {/* </div> */}
             </div>
           </main>
         </div>
