@@ -115,40 +115,42 @@ function ForceGraph() {
     })
   }
 
+  function GetGraph() {
+    if (graphType === '2D') {
+      return (
+        <ForceGraph2D
+          ref={fgRef}
+          graphData={newGraphData ? newGraphData : sampleData}
+          height={height}
+          width={width - 100}
+          cooldownTicks={100}
+          nodeAutoColorBy='id'
+          linkDirectionalParticles='value'
+          linkCurvature='curvature'
+          onEngineStop={() => fgRef.current.zoomToFit(400)}
+        />
+      )
+    } else {
+      return (
+        <ForceGraph3D
+          ref={fgRef}
+          graphData={newGraphData ? newGraphData : sampleData}
+          height={height}
+          width={width - 100}
+          cooldownTicks={100}
+          nodeAutoColorBy='id'
+          backgroundColor={darkMode ? '#334155' : 'white'}
+          linkDirectionalParticles='value'
+          linkCurvature='curvature'
+          onEngineStop={() => fgRef.current.zoomToFit(400)}
+        />
+      )
+    }
+  }
+
   return (
-    <>
-      {isFetching ? (
-        <Loading />
-      ) : (
-        <>
-          {graphType === '2D' ? (
-            <ForceGraph2D
-              ref={fgRef}
-              graphData={newGraphData ? newGraphData : sampleData}
-              height={height}
-              width={width - 100}
-              cooldownTicks={100}
-              nodeAutoColorBy='id'
-              linkDirectionalParticles='value'
-              linkCurvature='curvature'
-              onEngineStop={() => fgRef.current.zoomToFit(400)}
-            />
-          ) : (
-            <ForceGraph3D
-              ref={fgRef}
-              graphData={newGraphData ? newGraphData : sampleData}
-              height={height}
-              width={width - 100}
-              cooldownTicks={100}
-              nodeAutoColorBy='id'
-              backgroundColor={darkMode ? '#334155' : 'white'}
-              linkDirectionalParticles='value'
-              linkCurvature='curvature'
-              onEngineStop={() => fgRef.current.zoomToFit(400)}
-            />
-          )}
-        </>
-      )}
+    <div className='bg-white dark:bg-slate-700'>
+      {isFetching ? <Loading /> : <GetGraph />}
       <div className='fixed top-4 left-24 flex h-12 flex-row items-center justify-center'>
         <SearchIcon />
         <AsyncSelect
@@ -160,7 +162,7 @@ function ForceGraph() {
         />
         <GraphTypeButton graphType={graphType} setGraphType={setGraphType} />
       </div>
-    </>
+    </div>
   )
 }
 
