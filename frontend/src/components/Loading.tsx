@@ -1,11 +1,10 @@
 import React from 'react'
-
 const Loading: React.FC = () => {
   return (
-    <div role='status'>
+    <div className='flex justify-center items-center h-screen'>
       <svg
         aria-hidden='true'
-        className='mr-2 h-8 w-8 animate-spin fill-primary text-gray-200 dark:text-gray-600'
+        className='mr-2 h-16 w-16 animate-spin fill-primary text-gray-200 dark:text-gray-600'
         viewBox='0 0 100 101'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
