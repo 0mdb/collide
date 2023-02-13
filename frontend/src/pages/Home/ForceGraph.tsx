@@ -1,5 +1,5 @@
 import axios from '../../api/axios'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { ForceGraph2D } from 'react-force-graph'
 import { ForceGraph3D } from 'react-force-graph'
 import { useQuery } from '@tanstack/react-query'
@@ -131,6 +131,11 @@ function ForceGraph() {
           linkDirectionalParticles='value'
           linkCurvature='curvature'
           onEngineStop={() => fgRef.current.zoomToFit(400)}
+          // on clicking node add to search and combine graphs and highlight selected node
+          onNodeClick={(node) => {
+            console.log('node', node)
+            setSearchSelection(node.id)
+          }}
         />
       )
     } else {
