@@ -8,6 +8,7 @@ import { useWindowSize } from '@react-hook/window-size'
 import { Icon } from '@blueprintjs/core'
 import AsyncSelect from 'react-select/async'
 import useDarkMode from '../../hooks/useDarkMode'
+import useGraphType from '../../hooks/useGraphType'
 
 async function getSampleGraph() {
   return await axios.get<graphDataType>('/forcegraph/sample').then((res) => res.data)
@@ -24,34 +25,14 @@ export async function getGraph(query: string) {
   return await axios.post('forcegraph/search/' + query).then((res) => res.data)
 }
 
-function GraphTypeButton({ graphType, setGraphType }) {
-  const changeGraphType = () => {
-    if (graphType === '2D') {
-      setGraphType('3D')
-    } else {
-      setGraphType('2D')
-    }
-  }
-  return (
-    <button
-      className='hover:bg-primary-dark flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg'
-      onClick={changeGraphType}
-    >
-      {graphType === '2D' ? '3D' : '2D'}
-    </button>
-  )
-}
-
 const SearchIcon = () => (
   <Icon icon='search' size={28} className='mx-2 dark:fill-muted dark:shadow-lg' />
 )
 
 function ForceGraph() {
   const [width, height] = useWindowSize()
-  const [graphData, setGraphData] = useState(null)
-  const [graphType, setGraphType] = useState('2D')
+
   const [searchSelection, setSearchSelection] = useState(null)
-  const [darkMode] = useDarkMode()
 
   const {
     status: sampleStatus,
@@ -89,12 +70,6 @@ function ForceGraph() {
   if (graphError === 'error' && searchSelection) return <div>Error</div>
   if (sampleStatus === 'loading') return <Loading />
   if (sampleError === 'error') return <div>Error</div>
-  {
-    /* if (optionStatus === 'loading') return <div>Loading</div> */
-  }
-  {
-    /* if (optionError === 'error') return <div>Error</div> */
-  }
 
   const handleChange = async (selectedOption) => {
     {
@@ -117,6 +92,8 @@ function ForceGraph() {
 
   function GetGraph() {
     const fgRef = useRef()
+
+    const { graphType } = useGraphType()
     const [darkMode] = useDarkMode()
 
     if (graphType === '2D') {
@@ -124,7 +101,7 @@ function ForceGraph() {
         <ForceGraph2D
           ref={fgRef}
           graphData={newGraphData ? newGraphData : sampleData}
-          height={height}
+          height={height - 100}
           width={width - 200}
           cooldownTicks={100}
           nodeAutoColorBy='id'
@@ -136,6 +113,7 @@ function ForceGraph() {
             console.log('node', node)
             setSearchSelection(node.id)
           }}
+          // makes the currently selected node more visible
         />
       )
     } else {
@@ -168,10 +146,9 @@ function ForceGraph() {
             loadOptions={loadOptions}
             onChange={handleChange}
           />
-          <GraphTypeButton graphType={graphType} setGraphType={setGraphType} />
         </div>
       </div>
-      <div className='bg-white dark:bg-slate-700'></div>
+      {/* <div className='bg-white dark:bg-slate-700'></div> */}
       <div className='flex flex-row m-6 justify-center'>
         {isFetching ? <Loading /> : <GetGraph />}
       </div>
