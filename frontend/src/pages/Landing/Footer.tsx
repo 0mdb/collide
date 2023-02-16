@@ -11,10 +11,10 @@ const Footer = () => {
   return (
     <div className='mx-auto grid max-w-[1240px] gap-8 py-16 px-4 lg:grid-cols-3'>
       <div>
-        <h1 className='w-full text-3xl font-bold'>collide.io</h1>
+        <h1 className='w-full text-3xl font-bold'>LobbyRadar</h1>
         <p className='py-4'>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id odit ullam iste repellat
-          consequatur libero reiciendis, blanditiis accusantium.
+          Easily navigate through vast amounts of lobbying data with LobbyRadar's powerful analytics
+          dashboard, powered by force graphs and AI.
         </p>
         <div className='my-6 flex justify-between md:w-[75%]'>
           <FaFacebookSquare size={30} />
@@ -28,10 +28,8 @@ const Footer = () => {
         <div>
           <h6 className='font-medium'>Solutions</h6>
           <ul>
-            <li className='py-2 text-sm'>Analytics</li>
-            <li className='py-2 text-sm'>Marketing</li>
-            <li className='py-2 text-sm'>Commerce</li>
-            <li className='py-2 text-sm'>Insights</li>
+            <li className='py-2 text-sm'>API</li>
+            <li className='py-2 text-sm'>Consulting</li>
           </ul>
         </div>
         <div>
@@ -49,8 +47,8 @@ const Footer = () => {
             <li className='py-2 text-sm'>About</li>
             <li className='py-2 text-sm'>Blog</li>
             <li className='py-2 text-sm'>Jobs</li>
-            <li className='py-2 text-sm'>Press</li>
-            <li className='py-2 text-sm'>Careers</li>
+            {/* <li className='py-2 text-sm'>Press</li> */}
+            <li className='py-2 text-sm'>Join the Team</li>
           </ul>
         </div>
         <div>
