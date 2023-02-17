@@ -3,22 +3,12 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { Link, Outlet } from 'react-router-dom'
 import { Icon } from '@blueprintjs/core'
 import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import ForceGraph from '../Home/ForceGraph2'
+import ForceGraph from '../Home/fg'
+import SearchForm from '../Home/Search'
+import DarkModeSwitch from '../../components/DarkModeSwitch'
 
-function ForceIcon() {
-  return <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
-}
-
-function SankeyIcon() {
-  return <Icon icon='take-action' size={20} className='fill-morp pr-2' />
-}
-
-function MoneyIcon() {
-  return <Icon icon='dollar' size={20} className='fill-morp pr-2' />
-}
-
-const MagnifyingGlassIcon = () => (
-  <Icon icon='search' size={20} className='mx-2 dark:fill-muted dark:shadow-lg' />
+const ForceIcon = () => (
+  <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
 )
 
 function GraphTypeButton({}) {
@@ -60,6 +50,7 @@ function classNames(...classes) {
 
 export default function Home2() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchSelection, setSearchSelection] = useState('')
 
   return (
     <>
@@ -123,6 +114,9 @@ export default function Home2() {
                       src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300'
                       alt='Your Company'
                     />
+                    <div className='ml-16 h-6 w-6 flex-shrink-0 text-indigo-300'>
+                      <DarkModeSwitch />
+                    </div>
                   </div>
                   <div className='mt-5 h-0 flex-1 overflow-y-auto'>
                     <nav className='space-y-1 px-2'>
@@ -163,8 +157,11 @@ export default function Home2() {
               <img
                 className='h-8 w-auto'
                 src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300'
-                alt='Your Company'
+                alt='LobbyRadar'
               />
+              <div className='ml-4 h-6 w-6 flex-shrink-0 text-indigo-300'>
+                <DarkModeSwitch />
+              </div>
             </div>
             <div className='mt-5 flex flex-1 flex-col'>
               <nav className='flex-1 space-y-1 px-2 pb-4'>
@@ -202,23 +199,7 @@ export default function Home2() {
             </button>
             <div className='flex flex-1 justify-between px-4'>
               <div className='flex flex-1'>
-                <form className='flex w-full md:ml-0' action='#' method='GET'>
-                  <label htmlFor='search-field' className='sr-only'>
-                    Search
-                  </label>
-                  <div className='relative w-full text-gray-400 focus-within:text-gray-600'>
-                    <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center'>
-                      <MagnifyingGlassIcon className='h-5 w-5' aria-hidden='true' />
-                    </div>
-                    <input
-                      id='search-field'
-                      className='block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm'
-                      placeholder='Search'
-                      type='search'
-                      name='search'
-                    />
-                  </div>
-                </form>
+                <SearchForm />
               </div>
               <div className='ml-4 flex items-center md:ml-6'>
                 <button
@@ -276,18 +257,15 @@ export default function Home2() {
 
           <main>
             <div className='py-8 overflow-x-clip'>
-              <div className='max-w-7xl px-4 sm:px-6 md:px-8'>
-                {/* <h1 className='text-2xl font-semibold text-gray-900'>Dashboard</h1> */}
-              </div>
+              <div className='max-w-7xl px-4 sm:px-6 md:px-8'></div>
               <div className='mx-auto max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
-                {/* <div className='py-4'> */}
-                {/* <div className='h-96 rounded-lg border-4 border-dashed border-gray-200'> */}
-                <ForceGraph />
+                <div className='py-4'>
+                  {/* <div className='h-96 rounded-lg border-4 border-dashed border-gray-200'> */}
+                  <ForceGraph />
+                </div>
               </div>
-              {/* </div> */}
               {/* /End replace */}
-              {/* </div> */}
             </div>
           </main>
         </div>
