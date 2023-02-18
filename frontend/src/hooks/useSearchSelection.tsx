@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 
 function useSearchSelection() {
-  const [selectedSearch, setSelectedSearch] = useState('bradleygrant')
+  const [selectedSearch, setSelectedSearch] = useState('')
   console.log('selected search set to ', selectedSearch)
   return [selectedSearch, setSelectedSearch]
 }
