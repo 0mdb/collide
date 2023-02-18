@@ -15,7 +15,7 @@ const CheckIcon = () => (
 
 function SearchForm(props) {
   const MagnifyingGlassIcon = () => (
-    <Icon icon='search' size={20} className='mx-2 dark:fill-muted dark:shadow-lg' />
+    <Icon icon='search' size={20} className='mx-2 fill-muted dark:shadow-lg' />
   )
   const [searchInput, setSearchInput] = useState('')
   const [debouncedSearchInput] = useDebounce(searchInput, 500)
@@ -55,6 +55,7 @@ function SearchForm(props) {
           placeholder='Search'
           name='search'
           value={searchInput}
+          autoFocus='true'
           onChange={(event) => {
             setSearchInput(event.target.value)
           }}
