@@ -29,8 +29,17 @@ function SearchForm(props) {
     },
   )
 
+  const handleSelect = async (selectedOption) => {
+    {
+      console.log(selectedOption)
+      props.setSelected(selectedOption)
+      setSearchInput('')
+    }
+    console.log('selected Search is :', props.selected)
+  }
+
   return (
-    <Combobox onChange={props.setSelected} className='flex w-full md:ml-0' as='div'>
+    <Combobox onChange={handleSelect} className='flex w-full md:ml-0' as='div'>
       <label htmlFor='search-field' className='sr-only'>
         Search
       </label>
@@ -47,9 +56,6 @@ function SearchForm(props) {
           onChange={(event) => {
             setSearchInput(event.target.value)
           }}
-          onClick={() => {
-            setSearchInput('')
-          }}
         />
       </div>
       <Combobox.Options className='mt-2 py-2 px-4 bg-white rounded-md shadow-md'>
@@ -60,7 +66,9 @@ function SearchForm(props) {
             className={({ active }) =>
               classNames(
                 'relative cursor-default select-none py-2 pl-3 pr-9',
-                active ? 'bg-indigo-600 text-white' : 'text-gray-900',
+                active
+                  ? 'bg-indigo-600 text-white'
+                  : 'text-gray-900 dark:bg-gray-500 dark:text-gray-100',
               )
             }
           >
