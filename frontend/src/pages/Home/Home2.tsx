@@ -6,6 +6,8 @@ import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/ou
 import ForceGraph from '../Home/fg'
 import SearchForm from '../Home/Search'
 import DarkModeSwitch from '../../components/DarkModeSwitch'
+import EmptyGraph from '../../components/EmptyGraph'
+import useSearchSelection from '../../hooks/useSearchSelection'
 
 const ForceIcon = () => (
   <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
@@ -50,7 +52,7 @@ function classNames(...classes) {
 
 export default function Home2() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [searchSelection, setSearchSelection] = useState('')
+  const [searchSelection, setSearchSelection] = useSearchSelection()
 
   return (
     <>
@@ -74,7 +76,7 @@ export default function Home2() {
               leaveFrom='opacity-100'
               leaveTo='opacity-0'
             >
-              <div className='fixed inset-0 bg-gray-600 bg-opacity-75' />
+              <div className='fixed inset-0 bg-opacity-75 bg-gray-300 duration-500 ease-in-out dark:bg-gray-800' />
             </Transition.Child>
 
             <div className='fixed inset-0 z-40 flex'>
@@ -87,7 +89,7 @@ export default function Home2() {
                 leaveFrom='translate-x-0'
                 leaveTo='-translate-x-full'
               >
-                <Dialog.Panel className='relative flex w-full max-w-xs flex-1 flex-col bg-indigo-700 pt-5 pb-4'>
+                <Dialog.Panel className='bg-gray-300 duration-500 ease-in-out dark:bg-gray-700 relative flex w-full max-w-xs flex-1 flex-col pt-5 pb-4'>
                   <Transition.Child
                     as={Fragment}
                     enter='ease-in-out duration-300'
@@ -127,7 +129,7 @@ export default function Home2() {
                           className={classNames(
                             item.current
                               ? 'bg-indigo-800 text-white'
-                              : 'text-indigo-100 hover:bg-indigo-600',
+                              : 'text-indigo-100 hover:bg-primary',
                             'group flex items-center rounded-md px-2 py-2 text-base font-medium',
                           )}
                         >
@@ -150,9 +152,9 @@ export default function Home2() {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col'>
+        <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col dark:bg-gray-800'>
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className='flex flex-grow flex-col overflow-y-auto bg-indigo-700 pt-5'>
+          <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
             <div className='flex flex-shrink-0 items-center px-4'>
               <img
                 className='h-8 w-auto'
@@ -256,14 +258,12 @@ export default function Home2() {
           </div>
 
           <main>
-            <div className='py-8 overflow-x-clip'>
-              <div className='max-w-7xl px-4 sm:px-6 md:px-8'></div>
-              <div className='mx-auto max-w-7xl px-4 sm:px-6 md:px-8'>
+            <div className='py-6'>
+              <div className='mx-auto my-auto max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
-                <div className='py-4'>
-                  {/* <div className='h-96 rounded-lg border-4 border-dashed border-gray-200'> */}
-                  <ForceGraph />
-                </div>
+
+                {searchSelection != '' ? <ForceGraph /> : <EmptyGraph />}
+                {/* /End replace */}
               </div>
               {/* /End replace */}
             </div>
