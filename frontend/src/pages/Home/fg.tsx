@@ -34,8 +34,7 @@ function ForceGraph() {
   }
 
   return (
-    //<div className='flex flex-row m-6 justify-center'>
-    <>
+    <div className='flex flex-row m-6 justify-center'>
       {isFetching ? (
         <Loading />
       ) : (
@@ -55,8 +54,7 @@ function ForceGraph() {
           }}
         />
       )}
-    </>
-    //</div>
+    </div>
   )
 }
 
