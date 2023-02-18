@@ -145,7 +145,7 @@ export default function Home2() {
       </Transition.Root>
 
       {/* Static sidebar for desktop */}
-      <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col dark:bg-gray-800'>
+      <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col dark:bg-gray-800 bg-gray-300'>
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
           <div className='flex flex-shrink-0 items-center px-4'>
@@ -246,7 +246,7 @@ export default function Home2() {
             </div>
           </div>
         </div>
-        <main className='bg-gray-700'>
+        <main className='dark:bg-gray-700'>
           <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
             <div className='py-6'>
               <div className='mx-auto my-auto max-w-7xl px-4 sm:px-6 md:px-8 h-full'>
