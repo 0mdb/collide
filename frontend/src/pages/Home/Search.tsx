@@ -9,7 +9,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const CheckIcon = () => <Icon icon='tick' iconSize={16} className='h-5 w-5' aria-hidden='true' />
+const CheckIcon = () => (
+  <Icon icon='small-tick' iconSize={16} className='h-5 w-5' aria-hidden='true' />
+)
 
 function SearchForm() {
   const [selectedSearch, setSelectedSearch] = useSearchSelection()
