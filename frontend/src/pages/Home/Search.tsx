@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Icon } from '@blueprintjs/core'
 import { getSearchResults } from '../../api/graph'
 import { Combobox } from '@headlessui/react'
+import { useDebounce } from 'use-debounce'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -17,12 +18,13 @@ function SearchForm(props) {
     <Icon icon='search' size={20} className='mx-2 dark:fill-muted dark:shadow-lg' />
   )
   const [searchInput, setSearchInput] = useState('')
+  const [debouncedSearchInput] = useDebounce(searchInput, 500)
 
   const { data: searchResults = [], isLoading } = useQuery(
-    ['searchResults', searchInput],
+    ['searchResults', debouncedSearchInput],
     async () => {
-      if (searchInput) {
-        const results = await getSearchResults(searchInput)
+      if (debouncedSearchInput) {
+        const results = await getSearchResults(debouncedSearchInput)
         return results
       }
       return []
