@@ -47,7 +47,7 @@ function App() {
           <Route path='money' element={<Money />} />
           <Route path='settings' element={<UserSettings />} />
         </Route>
-        <Route path='/home' element={<Home />}>
+        <Route path='/home' element={<Home2 />}>
           <Route path='force' element={<ForceGraph />} />
           <Route path='law' element={<Law />} />
           <Route path='money' element={<Money />} />
