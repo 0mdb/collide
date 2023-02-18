@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <div className='mx-auto flex h-24 max-w-[1240px] items-center justify-between px-4 dark:text-muted'>
-      <h1 className='w-full text-3xl font-bold'>collide.io</h1>
+      <h1 className='w-full text-3xl font-bold'>LobbyRadar</h1>
       <ul className='hidden md:flex'>
         {/* <Link to='/'>
           <li className='p-4'>Home</li>

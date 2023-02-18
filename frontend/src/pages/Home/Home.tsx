@@ -4,7 +4,7 @@ import SideBar from './SideBar'
 
 function Home() {
   return (
-    <div>
+    <div className='flex flex-col'>
       <SideBar />
       <div className='ml-16'>
         <Outlet />

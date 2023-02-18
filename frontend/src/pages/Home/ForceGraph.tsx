@@ -1,5 +1,5 @@
 import axios from '../../api/axios'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { ForceGraph2D } from 'react-force-graph'
 import { ForceGraph3D } from 'react-force-graph'
 import { useQuery } from '@tanstack/react-query'
@@ -8,38 +8,21 @@ import { useWindowSize } from '@react-hook/window-size'
 import { Icon } from '@blueprintjs/core'
 import AsyncSelect from 'react-select/async'
 import useDarkMode from '../../hooks/useDarkMode'
+import useGraphType from '../../hooks/useGraphType'
 
 async function getSampleGraph() {
-  return axios.get<graphDataType[]>('/forcegraph/sample').then((res) => res.data)
+  return await axios.get<graphDataType>('/forcegraph/sample').then((res) => res.data)
 }
 
 async function getOptions(query: string) {
   const SEARCH_URL = 'forcegraph/search_options?query='
   const match_name = query.toLowerCase().split(' ').join('')
-  return axios.post(SEARCH_URL + match_name).then((res) => res.data)
+  return await axios.post(SEARCH_URL + match_name).then((res) => res.data)
 }
 
 export async function getGraph(query: string) {
   console.log('getGraph', query)
-  return axios.post('forcegraph/search/' + query).then((res) => res.data)
-}
-
-function GraphTypeButton({ graphType, setGraphType }) {
-  const changeGraphType = () => {
-    if (graphType === '2D') {
-      setGraphType('3D')
-    } else {
-      setGraphType('2D')
-    }
-  }
-  return (
-    <button
-      className='hover:bg-primary-dark flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg'
-      onClick={changeGraphType}
-    >
-      {graphType === '2D' ? '3D' : '2D'}
-    </button>
-  )
+  return await axios.post('forcegraph/search/' + query).then((res) => res.data)
 }
 
 const SearchIcon = () => (
@@ -47,12 +30,9 @@ const SearchIcon = () => (
 )
 
 function ForceGraph() {
-  const fgRef = useRef()
   const [width, height] = useWindowSize()
-  const [graphData, setGraphData] = useState(null)
-  const [graphType, setGraphType] = useState('2D')
+
   const [searchSelection, setSearchSelection] = useState(null)
-  const [darkMode] = useDarkMode()
 
   const {
     status: sampleStatus,
@@ -69,11 +49,11 @@ function ForceGraph() {
    *   error: optionError,
    *   data: optionData,
    * } = useQuery({
-   *   queryKey: ['getOptions'],
-   *   queryFn: () => getOptions(''),
+   *   queryKey: ['getOptions', inputValue],
+   *   queryFn: () => getOptions(inputValue),
    *   refetchOnWindowFocus: false,
-   * }) */
-
+   * })
+   */
   const {
     status: graphStatus,
     error: graphError,
@@ -83,18 +63,13 @@ function ForceGraph() {
     queryKey: ['getGraph', searchSelection],
     queryFn: () => getGraph(searchSelection),
     enabled: !!searchSelection,
+    refetchOnWindowFocus: false,
   })
 
-  if (graphStatus === 'loading' && searchSelection) return <div>Loading</div>
+  if (graphStatus === 'loading' && searchSelection) return <Loading />
   if (graphError === 'error' && searchSelection) return <div>Error</div>
-  if (sampleStatus === 'loading') return <div>Loading</div>
+  if (sampleStatus === 'loading') return <Loading />
   if (sampleError === 'error') return <div>Error</div>
-  {
-    /* if (optionStatus === 'loading') return <div>Loading</div> */
-  }
-  {
-    /* if (optionError === 'error') return <div>Error</div> */
-  }
 
   const handleChange = async (selectedOption) => {
     {
@@ -115,26 +90,39 @@ function ForceGraph() {
     })
   }
 
-  return (
-    <>
-      {graphType === '2D' ? (
+  function GetGraph() {
+    const fgRef = useRef()
+
+    const { graphType } = useGraphType()
+    const [darkMode] = useDarkMode()
+
+    if (graphType === '2D') {
+      return (
         <ForceGraph2D
           ref={fgRef}
           graphData={newGraphData ? newGraphData : sampleData}
-          height={height}
-          width={width - 100}
+          height={height - 100}
+          width={width - 200}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           linkDirectionalParticles='value'
           linkCurvature='curvature'
           onEngineStop={() => fgRef.current.zoomToFit(400)}
+          // on clicking node add to search and combine graphs and highlight selected node
+          onNodeClick={(node) => {
+            console.log('node', node)
+            setSearchSelection(node.id)
+          }}
+          // makes the currently selected node more visible
         />
-      ) : (
+      )
+    } else {
+      return (
         <ForceGraph3D
           ref={fgRef}
           graphData={newGraphData ? newGraphData : sampleData}
           height={height}
-          width={width - 100}
+          width={width - 200}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           backgroundColor={darkMode ? '#334155' : 'white'}
@@ -142,22 +130,31 @@ function ForceGraph() {
           linkCurvature='curvature'
           onEngineStop={() => fgRef.current.zoomToFit(400)}
         />
-      )}
-      <>
-        <div className='fixed top-4 left-24 flex h-12 flex-row items-center justify-center'>
+      )
+    }
+  }
+
+  return (
+    <>
+      <div>
+        <div className='top-6 flex h-12 flex-row items-center justify-center'>
           <SearchIcon />
           <AsyncSelect
-            unstyled={true}
+            // unstyled={true}
             isClearable={true}
-            className='dark: w-64 rounded-md border-2 border-gray-200 border-gray-800 shadow-sm focus:outline-none focus:ring-primary'
+            className='dark:text-black w-64 rounded-md border-gray-200 dark:border-gray-800 shadow-sm focus:outline-none focus:ring-primary'
             loadOptions={loadOptions}
             onChange={handleChange}
           />
-          <GraphTypeButton graphType={graphType} setGraphType={setGraphType} />
         </div>
-      </>
+      </div>
+      {/* <div className='bg-white dark:bg-slate-700'></div> */}
+      <div className='flex flex-row m-6 justify-center'>
+        {isFetching ? <Loading /> : <GetGraph />}
+      </div>
     </>
   )
 }
 
 export default ForceGraph
+AbortController
