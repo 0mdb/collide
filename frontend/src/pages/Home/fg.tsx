@@ -4,10 +4,8 @@ import { useQuery } from '@tanstack/react-query'
 import Loading from '../../components/Loading'
 import { useWindowSize } from '@react-hook/window-size'
 import { getGraph } from '../../api/graph'
-import useSearchSelection from '../../hooks/useSearchSelection'
 
-function ForceGraph() {
-  const [selectedSearch, setSelectedSearch] = useSearchSelection()
+function ForceGraph(props) {
   const [width, height] = useWindowSize()
   const fgRef = useRef()
 
@@ -17,20 +15,20 @@ function ForceGraph() {
     data: graphData,
     isFetching,
   } = useQuery({
-    queryKey: ['getGraph', selectedSearch],
-    queryFn: () => getGraph(selectedSearch),
-    enabled: selectedSearch !== null,
+    queryKey: ['getGraph', props.selected],
+    queryFn: () => getGraph(props.selected),
+    enabled: !!props.selected,
     refetchOnWindowFocus: false,
   })
 
-  if (graphStatus === 'loading' && selectedSearch) return <Loading />
-  if (graphError === 'error' && selectedSearch) return <div>Error</div>
+  if (graphStatus === 'loading' && props.selected) return <Loading />
+  if (graphError === 'error' && props.selected) return <div>Error</div>
 
   const handleChange = async (selectedOption) => {
     {
-      setSelectedSearch(selectedOption)
+      props.setSelected(selectedOption)
     }
-    console.log('selected Search is :', selectedSearch)
+    console.log('selected Search is :', props.selected)
   }
 
   return (
@@ -50,7 +48,7 @@ function ForceGraph() {
           onEngineStop={() => fgRef.current.zoomToFit(400)}
           onNodeClick={(node) => {
             console.log('node', node)
-            setSelectedSearch(node.id)
+            props.setSelected(node.id)
           }}
         />
       )}
