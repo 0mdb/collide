@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import { Icon } from '@blueprintjs/core'
 import { getSearchResults } from '../../api/graph'
 import { Combobox } from '@headlessui/react'
-import useSearchSelection from '../../hooks/useSearchSelection'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -13,8 +12,7 @@ const CheckIcon = () => (
   <Icon icon='small-tick' iconSize={16} className='h-5 w-5' aria-hidden='true' />
 )
 
-function SearchForm() {
-  const [selectedSearch, setSelectedSearch] = useSearchSelection()
+function SearchForm(props) {
   const MagnifyingGlassIcon = () => (
     <Icon icon='search' size={20} className='mx-2 dark:fill-muted dark:shadow-lg' />
   )
@@ -32,7 +30,7 @@ function SearchForm() {
   )
 
   return (
-    <Combobox className='flex w-full md:ml-0' as='div'>
+    <Combobox onChange={props.setSelected} className='flex w-full md:ml-0' as='div'>
       <label htmlFor='search-field' className='sr-only'>
         Search
       </label>
