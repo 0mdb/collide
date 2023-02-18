@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '@blueprintjs/core'
 import useLogout from '../../hooks/useLogout'
+import useGraphType from '../../hooks/useGraphType'
 import { useNavigate } from 'react-router-dom'
-import ThemeIcon, { ThemeButton } from '../../components/ThemeButton'
+import { ThemeButton } from '../../components/ThemeButton'
 
 const SignOutButton = () => {
   const navigate = useNavigate()
@@ -20,45 +21,35 @@ const SignOutButton = () => {
   )
 }
 
+function GraphTypeButton() {
+  const { graphType, changeGraphType } = useGraphType('2D')
+  return (
+    <button className='dark:text-muted text-black font-bold' onClick={changeGraphType}>
+      {graphType === '2D' ? '3D' : '2D'}
+    </button>
+  )
+}
 const SideBar = () => {
   return (
     <div
       className='fixed top-0 left-0 flex h-screen w-16 flex-col
                   bg-white shadow-lg dark:bg-gray-900'
     >
-      {/* <Link to='/'>
+      <Link to='/'>
         <SideBarIcon
-          icon={<Icon icon='home' size={28} className='dark:fill-muted' />}
-          text={'Home'}
+          text='Home'
+          icon={<Icon icon='home' size={24} className='dark:fill-muted' />}
         />
-      </Link> */}
-      <Link to='/home/force'>
+      </Link>
+      {/* <Link to='/home/force'>
         <SideBarIcon
           icon={<Icon icon='layout-auto' size={28} className='dark:fill-muted' />}
           text={'Force'}
         />
-      </Link>
-      <Link to='/home/law'>
-        <SideBarIcon
-          icon={<Icon icon='take-action' size={28} className='dark:fill-muted' />}
-          text={'Bills'}
-        />
-      </Link>
-      <Link to='/home/money'>
-        <SideBarIcon
-          icon={<Icon icon='dollar' size={28} className='dark:fill-muted' />}
-          text={'Sankey2'}
-        />
-      </Link>
+      </Link> */}
+      <SideBarIcon icon={<GraphTypeButton />} text='Graph Type' />
       <Divider />
       <SideBarIcon icon={<ThemeButton />} text='Theme'></SideBarIcon>
-      {/* <Link to='/home/settings'>
-        <SideBarIcon
-          icon={<Icon icon='cog' size={28} className='dark:fill-muted' />}
-          text={'Settings'}
-        /> */}
-      {/* </Link> */}
-      {/* <SignOutButton /> */}
     </div>
   )
 }
@@ -72,7 +63,7 @@ const SideBarIcon = ({ icon, text = 'tooltip 💡' }) => (
     transition-all duration-300
     ease-linear hover:rounded-xl hover:bg-primary
     hover:fill-muted hover:text-white
-  
+               hover:dark:bg-primary-l
   dark:bg-gray-800'
   >
     {icon}
