@@ -17,7 +17,7 @@ function EmptyGraph() {
           </g>
         </svg>
 
-        <span className='mt-2 block text-sm font-medium text-gray-900 dark:text-morp'>
+        <span className='mt-2 block text-sm font-medium text-muted dark:text-morp'>
           Start Searching
         </span>
       </button>
