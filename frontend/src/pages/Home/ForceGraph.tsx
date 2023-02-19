@@ -39,8 +39,8 @@ function ForceGraph(props) {
         <ForceGraph2D
           ref={fgRef}
           graphData={graphData}
-          height={height}
-          width={width}
+          height={0.75 * height}
+          width={width * 0.75}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           linkDirectionalParticles='value'
