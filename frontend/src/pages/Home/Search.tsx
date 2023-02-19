@@ -10,22 +10,16 @@ function classNames(...classes) {
 }
 
 const CheckIcon = () => (
-  <Icon icon='small-tick' iconSize={16} className='h-5 w-5' aria-hidden='true' />
+  <Icon icon='small-tick' iconSize={16} className='h-5 w-5 fill-muted' aria-hidden='true' />
 )
 
 const ChevronIcon = () => (
-  <Icon
-    icon='expand-all'
-    iconSize={16}
-    className='h-5 w-5 fill-muted dark:shadow-lg'
-    aria-hidden='true'
-  />
+  <Icon icon='expand-all' iconSize={16} className='h-5 w-5 fill-muted' aria-hidden='true' />
 )
 
+const MagnifyingGlassIcon = () => <Icon icon='search' size={20} className='mx-2 fill-muted' />
+
 function SearchForm(props) {
-  const MagnifyingGlassIcon = () => (
-    <Icon icon='search' size={20} className='mx-2 fill-muted dark:shadow-lg' />
-  )
   const [searchInput, setSearchInput] = useState('')
   const [debouncedSearchInput] = useDebounce(searchInput, 500)
 
