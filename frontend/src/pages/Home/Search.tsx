@@ -13,6 +13,15 @@ const CheckIcon = () => (
   <Icon icon='small-tick' iconSize={16} className='h-5 w-5' aria-hidden='true' />
 )
 
+const ChevronIcon = () => (
+  <Icon
+    icon='expand-all'
+    iconSize={16}
+    className='h-5 w-5 fill-muted dark:shadow-lg'
+    aria-hidden='true'
+  />
+)
+
 function SearchForm(props) {
   const MagnifyingGlassIcon = () => (
     <Icon icon='search' size={20} className='mx-2 fill-muted dark:shadow-lg' />
@@ -54,12 +63,15 @@ function SearchForm(props) {
           className='block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm'
           placeholder='Search'
           name='search'
+          autoFocus={true}
           value={searchInput}
-          autoFocus='true'
           onChange={(event) => {
             setSearchInput(event.target.value)
           }}
         />
+        <Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2 text-gray-400 hover:text-gray-500'>
+          <ChevronIcon className='h-5 w-5' aria-hidden='true' />
+        </Combobox.Button>
       </div>
       <Combobox.Options className='mt-2 py-2 px-4 bg-white rounded-md shadow-md'>
         {searchResults.map((result) => (
