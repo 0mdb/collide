@@ -7,7 +7,7 @@ import { getGraph } from '../../api/graph'
 
 function ForceGraph(props) {
   const [width, height] = useWindowSize()
-  const fgRef = useRef()
+  const fgRef = useRef(null)
 
   const {
     status: graphStatus,
