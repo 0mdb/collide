@@ -32,7 +32,7 @@ function ForceGraph(props) {
   }
 
   return (
-    <div className='flex flex-row m-6 justify-center'>
+    <div className='m-4 flex h-full flex-row items-center justify-center overflow-clip'>
       {isFetching ? (
         <Loading />
       ) : (
