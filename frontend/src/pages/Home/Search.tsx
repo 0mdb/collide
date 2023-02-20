@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Icon } from '@blueprintjs/core'
 import { getSearchResults } from '../../api/graph'
-import { Combobox } from '@headlessui/react'
+import { Dialog, Combobox } from '@headlessui/react'
 import { useDebounce } from 'use-debounce'
 
 function classNames(...classes) {
@@ -10,24 +10,19 @@ function classNames(...classes) {
 }
 
 const CheckIcon = () => (
-  <Icon icon='small-tick' iconSize={16} className='h-5 w-5' aria-hidden='true' />
+  <Icon icon='small-tick' iconSize={16} className='h-5 w-5 fill-muted' aria-hidden='true' />
 )
 
 const ChevronIcon = () => (
-  <Icon
-    icon='expand-all'
-    iconSize={16}
-    className='h-5 w-5 fill-muted dark:shadow-lg'
-    aria-hidden='true'
-  />
+  <Icon icon='expand-all' iconSize={16} className='h-5 w-5 fill-muted' aria-hidden='true' />
 )
 
+const MagnifyingGlassIcon = () => <Icon icon='search' size={20} className='mx-2 fill-muted' />
+
 function SearchForm(props) {
-  const MagnifyingGlassIcon = () => (
-    <Icon icon='search' size={20} className='mx-2 fill-muted dark:shadow-lg' />
-  )
   const [searchInput, setSearchInput] = useState('')
   const [debouncedSearchInput] = useDebounce(searchInput, 500)
+  const [isOpen, setIsOpen] = useState(true)
 
   const { data: searchResults = [], isLoading } = useQuery(
     ['searchResults', debouncedSearchInput],
@@ -49,6 +44,13 @@ function SearchForm(props) {
     console.log('selected Search is :', props.selected)
   }
 
+  /* const filteredPeople =
+   *   searchInput === ''
+   *     ? people
+   *     : people.filter((person) => {
+   *         return person.toLowerCase().includes(searchInput.toLowerCase())
+   *       })
+   */
   return (
     <Combobox onChange={handleSelect} className='flex w-full md:ml-0' as='div'>
       <label htmlFor='search-field' className='sr-only'>
@@ -64,16 +66,16 @@ function SearchForm(props) {
           placeholder='Search'
           name='search'
           autoFocus={true}
-          value={searchInput}
+          autoComplete='off'
           onChange={(event) => {
             setSearchInput(event.target.value)
           }}
         />
-        <Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2 text-gray-400 hover:text-gray-500'>
+        <Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2 rounded-r-md px-2 focus:outline-none text-gray-400 hover:text-gray-500'>
           <ChevronIcon className='h-5 w-5' aria-hidden='true' />
         </Combobox.Button>
       </div>
-      <Combobox.Options className='mt-2 py-2 px-4 bg-white rounded-md shadow-md'>
+      <Combobox.Options className='absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-baase shadow-lg ring-1 dark:ring-primary ring-muted  ring-opaacity-5 focus:outline-none sm:text-sm px-4 bg-white rounded-md'>
         {searchResults.map((result) => (
           <Combobox.Option
             key={result.label}
@@ -81,28 +83,15 @@ function SearchForm(props) {
             className={({ active }) =>
               classNames(
                 'relative cursor-default select-none py-2 pl-3 pr-9',
-                active
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-900 dark:bg-gray-500 dark:text-gray-100',
+                active ? 'bg-indigo-600 text-white' : 'text-gray-900',
               )
             }
           >
             {({ active, selected }) => (
               <>
-                <div className='flex items-center'>
-                  <span
-                    className={classNames(
-                      'inline-block h-2 w-2 flex-shrink-0 rounded-full',
-                      result.value ? 'bg-green-400' : 'bg-gray-200',
-                    )}
-                    aria-hidden='true'
-                  />
-                  <span className={classNames('ml-3 truncate', selected && 'font-semibold')}>
-                    {result.label}
-
-                    <span className='sr-only'> is {result.value ? 'online' : 'offline'}</span>
-                  </span>
-                </div>
+                <span className={classNames('block truncate', selected && 'font-semibold')}>
+                  {result.label}
+                </span>
 
                 {selected && (
                   <span
@@ -111,7 +100,7 @@ function SearchForm(props) {
                       active ? 'text-white' : 'text-indigo-600',
                     )}
                   >
-                    <CheckIcon />
+                    <CheckIcon className='h-5 w-5' aria-hidden='true' />
                   </span>
                 )}
               </>
