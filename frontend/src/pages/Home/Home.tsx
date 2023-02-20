@@ -7,6 +7,7 @@ import ForceGraph from '../Home/ForceGraph'
 import SearchForm from '../Home/Search'
 import DarkModeSwitch from '../../components/DarkModeSwitch'
 import EmptyGraph from '../../components/EmptyGraph'
+import Search2 from './Search2'
 
 const ForceIcon = () => (
   <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
@@ -25,7 +26,7 @@ function GraphTypeButton({}) {
   }
   return (
     <button
-      className='hover:bg-primary-d font-bold flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg'
+      className='flex h-10 w-10 items-center justify-center rounded-full bg-primary font-bold text-white shadow-lg hover:bg-primary-d'
       onClick={changeGraphType}
     >
       {graphType === '2D' ? '3D' : '2D'}
@@ -54,6 +55,7 @@ function classNames(...classes) {
 export default function Home2() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selected, setSelected] = useState('')
+  const [open, setOpen] = useState(true)
 
   return (
     <div>
@@ -68,7 +70,7 @@ export default function Home2() {
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <div className='fixed inset-0 bg-opacity-75 bg-gray-300 duration-500 ease-in-out dark:bg-gray-800' />
+            <div className='fixed inset-0 bg-gray-300 bg-opacity-75 duration-500 ease-in-out dark:bg-gray-800' />
           </Transition.Child>
 
           <div className='fixed inset-0 z-40 flex'>
@@ -81,7 +83,7 @@ export default function Home2() {
               leaveFrom='translate-x-0'
               leaveTo='-translate-x-full'
             >
-              <Dialog.Panel className='bg-gray-300 duration-500 ease-in-out dark:bg-gray-700 relative flex w-full max-w-xs flex-1 flex-col pt-5 pb-4'>
+              <Dialog.Panel className='relative flex w-full max-w-xs flex-1 flex-col bg-gray-300 pt-5 pb-4 duration-500 ease-in-out dark:bg-gray-700'>
                 <Transition.Child
                   as={Fragment}
                   enter='ease-in-out duration-300'
@@ -145,7 +147,7 @@ export default function Home2() {
       </Transition.Root>
 
       {/* Static sidebar for desktop */}
-      <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col dark:bg-gray-800 bg-gray-300'>
+      <div className='hidden bg-gray-300 dark:bg-gray-800 md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col'>
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
           <div className='flex flex-shrink-0 items-center px-4'>
@@ -196,7 +198,20 @@ export default function Home2() {
           </button>
           <div className='flex flex-1 justify-between px-4'>
             <div className='flex flex-1'>
-              <SearchForm selected={selected} setSelected={setSelected} />
+              <button
+                type='button'
+                className='relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                onClick={() => setOpen(true)}
+              >
+                {/* <SearchForm selected={selected} setSelected={setSelected} /> */}
+                <Search2
+                  open={open}
+                  setOpen={setOpen}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              </button>
+              {/* <Search2 /> */}
             </div>
             <div className='ml-4 flex items-center md:ml-6'>
               <button
@@ -249,7 +264,7 @@ export default function Home2() {
         <main className='dark:bg-gray-700'>
           <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
             <div className='py-6'>
-              <div className='mx-auto my-auto max-w-7xl px-4 sm:px-6 md:px-8 h-full'>
+              <div className='mx-auto my-auto h-full max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
                 {!!selected ? (
                   <ForceGraph selected={selected} setSelected={setSelected} />
