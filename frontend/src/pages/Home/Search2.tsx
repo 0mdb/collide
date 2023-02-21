@@ -3,7 +3,6 @@ import React, { Fragment, useState } from 'react'
 import { getSearchResults } from '../../api/graph'
 import { useQuery } from '@tanstack/react-query'
 import { Combobox, Dialog, Transition } from '@headlessui/react'
-import { FolderIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
 import { useDebounce } from 'use-debounce'
@@ -150,7 +149,8 @@ export default function Search2(props) {
                           >
                             {({ active }) => (
                               <>
-                                <FolderIcon
+                                <Icon
+                                  icon='layout-auto'
                                   className={classNames(
                                     'h-6 w-6 flex-none text-gray-900 text-opacity-40',
                                     active && 'text-opacity-100',
@@ -208,7 +208,9 @@ export default function Search2(props) {
 
                 {query !== '' && filteredProjects.length === 0 && (
                   <div className='py-14 px-6 text-center sm:px-14'>
-                    <FolderIcon
+                    <Icon
+                      icon='layout-auto'
+                      size={48}
                       className='mx-auto h-6 w-6 text-gray-900 text-opacity-40'
                       aria-hidden='true'
                     />
