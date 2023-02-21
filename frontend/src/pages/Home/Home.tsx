@@ -63,7 +63,11 @@ export default function Home2() {
   return (
     <div>
       <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-40 md:hidden' onClose={setSidebarOpen}>
+        <Dialog
+          as='div'
+          className='overflow-y-hidden relative z-40 md:hidden'
+          onClose={setSidebarOpen}
+        >
           <Transition.Child
             as={Fragment}
             enter='transition-opacity ease-linear duration-300'
@@ -257,9 +261,9 @@ export default function Home2() {
           </div>
         </div>
         <main className='dark:bg-gray-700'>
-          <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
+          <div className='flex flex-grow flex-col pt-5'>
             <div className='py-4'>
-              <div className='mx-auto my-auto h-full max-w-7xl px-4 sm:px-6 md:px-8'>
+              <div className='mx-auto my-auto max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
                 {/* {selected} */}
                 {!!selected ? (
@@ -269,7 +273,10 @@ export default function Home2() {
                     <FabButton open={open} setOpen={setOpen} />
                   </>
                 ) : (
-                  <EmptyGraph open={open} setOpen={setOpen} />
+                  <>
+                    <EmptyGraph open={open} setOpen={setOpen} />
+                    <div className='h-screen'></div>
+                  </>
                 )}
               </div>
             </div>
