@@ -9,6 +9,7 @@ import DarkModeSwitch from '../../components/DarkModeSwitch'
 import FabButton from '../../components/FabButton'
 import EmptyGraph from '../../components/EmptyGraph'
 import Search2 from './Search2'
+import useDarkMode from '../../hooks/useDarkMode'
 
 const ForceIcon = () => (
   <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
@@ -57,6 +58,7 @@ export default function Home2() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selected, setSelected] = useState('')
   const [open, setOpen] = useState(true)
+  const darkMode = useDarkMode()
 
   return (
     <div>
@@ -264,13 +266,13 @@ export default function Home2() {
         </div>
         <main className='dark:bg-gray-700'>
           <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
-            <div className='py-6'>
+            <div className='py-4'>
               <div className='mx-auto my-auto h-full max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
                 <FabButton open={open} setOpen={setOpen} />
-                {selected}
+                {/* {selected} */}
                 {!!selected ? (
-                  <ForceGraph selected={selected} setSelected={setSelected} />
+                  <ForceGraph darkMode={darkMode} selected={selected} setSelected={setSelected} />
                 ) : (
                   <EmptyGraph />
                 )}
