@@ -6,6 +6,7 @@ import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/ou
 import ForceGraph from '../Home/ForceGraph'
 import SearchForm from '../Home/Search'
 import DarkModeSwitch from '../../components/DarkModeSwitch'
+import FabButton from '../../components/FabButton'
 import EmptyGraph from '../../components/EmptyGraph'
 import Search2 from './Search2'
 
@@ -266,6 +267,8 @@ export default function Home2() {
             <div className='py-6'>
               <div className='mx-auto my-auto h-full max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
+                <FabButton open={open} setOpen={setOpen} />
+                {selected}
                 {!!selected ? (
                   <ForceGraph selected={selected} setSelected={setSelected} />
                 ) : (
