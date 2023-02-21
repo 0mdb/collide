@@ -62,26 +62,11 @@ function ForceGraph(props) {
     setHighlightLinks(highlightLinks)
   }, [highlightNodes, highlightLinks])
 
-  const handleNodeHover = useCallback(
-    (node) => {
-      highlightNodes.clear()
-      highlightLinks.clear()
-      if (node) {
-        highlightNodes.add(node)
-        node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor))
-        node.links.forEach((link) => highlightLinks.add(link))
-      }
-      setHoverNode(node || null)
-    },
-    [highlightNodes, highlightLinks],
-  )
-
   const nodeCanvasObject = useCallback(
     (node, ctx, globalScale) => {
-      const { x, y, id, label } = node
+      const { x, y, id, name } = node
       const nodeRadius = 16
       const fontSize = id === props.selected ? 20 : 16
-      const fontColor = props.darkMode ? '#fff' : '#000'
       // Draw outer ring
       ctx.beginPath()
       ctx.arc(x, y, nodeRadius, 0, 2 * Math.PI, false)
@@ -101,9 +86,8 @@ function ForceGraph(props) {
         // Draw label
         ctx.font = `${fontSize / globalScale}px sans`
         ctx.textAlign = 'center'
-        ctx.fillStyle = fontColor
-        //ctx.fillStyle = '#000000'
-        ctx.fillText(node.name, x, y + nodeRadius + 12)
+        ctx.fillStyle = '#000000'
+        ctx.fillText(name, x, y + nodeRadius + 12)
       }
     },
     [highlightNodes, props.selected],
@@ -119,6 +103,20 @@ function ForceGraph(props) {
     [updateHighlight],
   )
 
+  const handleNodeHover = useCallback(
+    (node) => {
+      highlightNodes.clear()
+      highlightLinks.clear()
+      if (node) {
+        highlightNodes.add(node)
+        node.neighbors.forEach((neighbor) => highlightNodes.add(neighbor))
+        node.links.forEach((link) => highlightLinks.add(link))
+      }
+      setHoverNode(node || null)
+    },
+    [highlightNodes, highlightLinks],
+  )
+
   return (
     <div className='m-0 flex h-full w-full flex-row items-center justify-center overflow-clip'>
       {isFetching ? (
@@ -128,7 +126,7 @@ function ForceGraph(props) {
           ref={fgRef}
           graphData={graphData}
           height={height}
-          width={width}
+          width={width - 300}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           linkDirectionalParticles='value'
@@ -141,8 +139,7 @@ function ForceGraph(props) {
           }}
           nodeCanvasObjectMode={(node) => (highlightNodes.has(node) ? 'before' : undefined)}
           nodeCanvasObject={nodeCanvasObject}
-          //onNodeHover={handleNodeHover}
-          //onLinkHover={handleLinkHover}
+          // onLinkHover={handleLinkHover}
           /* style={{ height: '100%' }} */
         />
       )}
