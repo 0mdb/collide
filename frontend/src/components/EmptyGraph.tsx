@@ -1,9 +1,10 @@
-function EmptyGraph() {
+function EmptyGraph(props) {
   return (
     <div>
       <button
         type='button'
         className='relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+        onClick={() => props.setOpen(true)}
       >
         <svg
           className='flex-1 mx-auto h-12 w-12 dark:fill-morp text-gray-400 fill-gray-400'
