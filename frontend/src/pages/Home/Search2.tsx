@@ -1,28 +1,45 @@
-import { Fragment, useState } from 'react'
-import { Icon } from '@blueprintjs/core'
+import React, { Fragment, useState } from 'react'
 
 import { getSearchResults } from '../../api/graph'
 import { useQuery } from '@tanstack/react-query'
 import { Combobox, Dialog, Transition } from '@headlessui/react'
-import {
-  DocumentPlusIcon,
-  FolderPlusIcon,
-  FolderIcon,
-  HashtagIcon,
-  TagIcon,
-} from '@heroicons/react/24/outline'
+import { FolderIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
 import { useDebounce } from 'use-debounce'
+import { Icon } from '@blueprintjs/core'
+
+const GraphIcon = () => {
+  return (
+    <Icon
+      icon='layout-auto'
+      size={20}
+      className='fill-gray-400 dark:fill-muted w-5 h-5 text-gray-400'
+    />
+  )
+}
+
+const LawIcon = () => {
+  return (
+    <Icon
+      icon='take-action'
+      size={20}
+      className='fill-gray-400 dark:fill-muted w-5 h-5 text-gray-400'
+    />
+  )
+}
+
+const MoneyIcon = () => {
+  return (
+    <Icon icon='dollar' size={20} className='fill-gray-400 dark:fill-muted w-5 h-5 text-gray-400' />
+  )
+}
 
 const quickActions = [
-  { name: 'Add new file...', icon: DocumentPlusIcon, shortcut: 'N', url: '#' },
-  { name: 'Add new folder...', icon: FolderPlusIcon, shortcut: 'F', url: '#' },
-  { name: 'Add hashtag...', icon: HashtagIcon, shortcut: 'H', url: '#' },
-  { name: 'Add label...', icon: TagIcon, shortcut: 'L', url: '#' },
+  { name: 'Graph connections...', icon: GraphIcon, shortcut: 'N', url: '#' },
+  { name: 'Legal outcomes...', icon: LawIcon, shortcut: 'F', url: '#' },
+  { name: 'Donations...', icon: MoneyIcon, shortcut: 'H', url: '#' },
 ]
-
-/* const MagnifyingGlassIcon = () => <Icon icon='search' size={20} className='mx-2 fill-muted' /> */
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -53,11 +70,13 @@ export default function Search2(props) {
     }
     console.log('selected Search is :', props.selected)
   }
+
   const filteredProjects =
     query === ''
       ? []
       : searchResults.filter((result) => {
-          return result.value.includes(query.toLowerCase())
+          const valueWithoutSpaces = result.value.replace(/\s/g, '')
+          return valueWithoutSpaces.includes(query.toLowerCase().replace(/\s/g, ''))
         })
 
   return (
@@ -94,7 +113,6 @@ export default function Search2(props) {
             <Dialog.Panel className='mx-auto max-w-2xl transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all'>
               {/* <Combobox onChange={(item) => (window.location = item.url)}> */}
               <Combobox onChange={handleSelect}>
-                {/* <Combobox onChange={(item) => props.setSelected(item.value)}> */}
                 <div className='relative'>
                   <MagnifyingGlassIcon
                     className='pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-900 text-opacity-40'
@@ -175,8 +193,8 @@ export default function Search2(props) {
                                   />
                                   <span className='ml-3 flex-auto truncate'>{action.name}</span>
                                   <span className='ml-3 flex-none text-xs font-semibold text-gray-500'>
-                                    <kbd className='font-sans'>⌘</kbd>
-                                    <kbd className='font-sans'>{action.shortcut}</kbd>
+                                    {/* <kbd className='font-sans'>⌘</kbd> */}
+                                    {/* <kbd className='font-sans'>{action.shortcut}</kbd> */}
                                   </span>
                                 </>
                               )}
@@ -195,7 +213,7 @@ export default function Search2(props) {
                       aria-hidden='true'
                     />
                     <p className='mt-4 text-sm text-gray-900'>
-                      We couldn't find any projects with that term. Please try again.
+                      We couldn't find any infomation with that term. Please try again.
                     </p>
                   </div>
                 )}
