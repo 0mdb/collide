@@ -7,7 +7,7 @@ import { getGraph } from '../../api/graph'
 
 function ForceGraph(props) {
   const [width, height] = useWindowSize()
-  const fgRef = useRef()
+  const fgRef = useRef(null)
 
   const {
     status: graphStatus,
@@ -32,7 +32,7 @@ function ForceGraph(props) {
   }
 
   return (
-    <div className='flex flex-row m-6 justify-center'>
+    <div className='m-4 flex h-full flex-row items-center justify-center overflow-clip'>
       {isFetching ? (
         <Loading />
       ) : (
