@@ -8,10 +8,10 @@ import Stats from './Stats'
 
 function Landing() {
   return (
-    <div className='bg-gray-400 dark:bg-gray-700'>
+    <div className='bg-white dark:bg-secondary-d'>
       <Navbar />
       <HeroSection />
-      <Hero />
+      {/* <Hero /> */}
       <Stats />
       {/* <Analytics /> */}
       {/* <Newsletter /> */}
