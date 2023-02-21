@@ -34,6 +34,10 @@ module.exports = {
         'secondary-d': '#334155',  // slate-700
         'primary-text': '#ffffff',  // white
         'secondary-text': '#ffffff',  // white
+        'primary-d-text': '#ffffff',  // white
+        'secondary-d-text': '#ffffff',  // white
+        'primary-l-text': '#000000',  // black
+        'secondary-l-text': '#000000',  // black
         'analogous1': '#8d38ca',  // magenta
         'analogous2': '#38b4ca',  // teal
       },

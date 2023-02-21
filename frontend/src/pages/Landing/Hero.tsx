@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { HeroPurpose, HeroSolution, HeroDescription, HeroButton } from '../../assets/landing_strings.tsx'
 
 const Hero = () => {
   return (
@@ -37,33 +38,28 @@ const Hero = () => {
 
 export const HeroSection = () => {
   return (
-    <div className='w-full bg-white py-16 px-4 dark:bg-gray-600'>
+    <div className='w-full py-16 px-4'>
       <div className='mx-auto grid max-w-[1240px] md:grid-cols-2'>
         <div className='flex flex-col justify-center'>
-          <p className='font-bold text-primary dark:text-secondary-l dark:text-primary-d'>
-            EXPLORE CANADIAN LOBBYING ACTIVITIES
+          <p className='text-xl font-bold text-primary dark:text-primary-l'>
+            <HeroPurpose />
           </p>
-          <h1 className='py-2 text-2xl font-bold sm:text-3xl md:text-4xl'>
-            LobbyRadar - Your Comprehensive Lobbying Information Resource
+          <h1 className='py-2 text-2xl font-bold sm:text-3xl md:text-4xl text-secondary-l-text dark:text-secondary-d-text'>
+            <HeroSolution />
           </h1>
-          <p>
-            At LobbyRadar, we provide a powerful data analytics dashboard to help you easily
-            navigate through vast amounts of government data related to lobbying activities. Our
-            cutting-edge technology combines the power of force graphs and AI to give you a new way
-            to understand and interact with government data. Whether you're a researcher, student,
-            or just curious about lobbying, our website is the perfect tool for you. Sign up today
-            and start exploring!
+          <p className='py-2 text-lg sm:text-lg md:text-lg text-secondary-l-text dark:text-secondary-d-text'>
+            <HeroDescription />
           </p>
 
           <Link to='/home'>
             <button
-              className='my-6 mx-auto w-[200px] border-2 border-primary bg-primary
-                         hover:bg-primary-l hover: text-primary hover:border-primary-l
-                         hover:shadow-md rounded-md py-3 font-medium text-morp
-                         dark:bg-primary-d dark:text-white
-                             rounded-md bg-primary dark:bg-primary-d py-3 font-medium text-morp'
+              className='my-6 mx-auto w-[200px] border-2 py-3 font-medium
+              border-primary bg-primary text-secondary-d-text rounded-md
+              hover:border-primary-l hover:bg-primary-l hover:text-secondary-d-text hover:shadow-md
+              dark:border-primary-l dark:bg-primary-l dark:text-secondary-d-text
+              dark:md:hover:border-primary-d dark:md:hover:bg-primary-d'
             >
-              Get Started
+              <HeroButton />
             </button>
           </Link>
         </div>
