@@ -3,12 +3,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { Link, Outlet } from 'react-router-dom'
 import { Icon } from '@blueprintjs/core'
 import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import ForceGraph from '../Home/ForceGraph'
-import SearchForm from '../Home/Search'
-import DarkModeSwitch from '../../components/DarkModeSwitch'
-import FabButton from '../../components/FabButton'
-import EmptyGraph from '../../components/EmptyGraph'
-import Search2 from './Search2'
+import Search from '../Home/Search'
 import useDarkMode from '../../hooks/useDarkMode'
 
 const ForceIcon = () => (
@@ -17,36 +12,12 @@ const ForceIcon = () => (
 
 const UserIcon = () => <Icon icon='user' size={20} className='fill-muted pr-2 dark:fill-muted' />
 
-function GraphTypeButton({}) {
-  const [graphType, setGraphType] = useState('2D')
-  const changeGraphType = () => {
-    if (graphType === '2D') {
-      setGraphType('3D')
-    } else {
-      setGraphType('2D')
-    }
-  }
-  return (
-    <button
-      className='flex h-10 w-10 items-center justify-center rounded-full bg-primary font-bold text-white shadow-lg hover:bg-primary-d'
-      onClick={changeGraphType}
-    >
-      {graphType === '2D' ? '3D' : '2D'}
-    </button>
-  )
-}
-
 const navigation = [
   { name: 'Networks', href: '/home2/force', icon: ForceIcon, current: true },
   /* { name: 'Bills Bills Bills', href: '/home2/law', icon: SankeyIcon, current: false }, */
-  /* { name: 'Follow the Money', href: '/home2/money', icon: MoneyIcon, current: false }, */
-  // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
+  { name: 'Settings', href: '/home/settings' },
   { name: 'Sign out', href: '#' },
 ]
 
@@ -54,10 +25,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Home2() {
+export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selected, setSelected] = useState('')
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const darkMode = useDarkMode()
 
   return (
@@ -117,9 +88,6 @@ export default function Home2() {
                     src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300'
                     alt='Your Company'
                   />
-                  <div className='ml-16 h-6 w-6 flex-shrink-0 text-indigo-300'>
-                    <DarkModeSwitch />
-                  </div>
                 </div>
                 <div className='mt-5 h-0 flex-1 overflow-y-auto'>
                   <nav className='space-y-1 px-2'>
@@ -142,7 +110,6 @@ export default function Home2() {
                       </Link>
                     ))}
                   </nav>
-                  <GraphTypeButton />
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -163,9 +130,6 @@ export default function Home2() {
               src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300'
               alt='LobbyRadar'
             />
-            <div className='ml-4 h-6 w-6 flex-shrink-0 text-indigo-300'>
-              <DarkModeSwitch />
-            </div>
           </div>
           <div className='mt-5 flex flex-1 flex-col'>
             <nav className='flex-1 space-y-1 px-2 pb-4'>
@@ -187,8 +151,6 @@ export default function Home2() {
                   {item.name}
                 </Link>
               ))}
-
-              <GraphTypeButton />
             </nav>
           </div>
         </div>
@@ -205,12 +167,7 @@ export default function Home2() {
           </button>
           <div className='flex flex-1 justify-between px-4'>
             <div className='flex flex-1'>
-              <Search2
-                open={open}
-                setOpen={setOpen}
-                selected={selected}
-                setSelected={setSelected}
-              />
+              <Search open={open} setOpen={setOpen} selected={selected} setSelected={setSelected} />
             </div>
             <div className='ml-4 flex items-center md:ml-6'>
               <button
@@ -265,19 +222,7 @@ export default function Home2() {
             <div className='py-4'>
               <div className='mx-auto my-auto max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
-                {/* {selected} */}
-                {!!selected ? (
-                  <>
-                    <ForceGraph darkMode={darkMode} selected={selected} setSelected={setSelected} />
-
-                    <FabButton open={open} setOpen={setOpen} />
-                  </>
-                ) : (
-                  <>
-                    <EmptyGraph open={open} setOpen={setOpen} />
-                    <div className='h-screen'></div>
-                  </>
-                )}
+                <Outlet context={[darkMode, selected, setSelected, open, setOpen]} />
               </div>
             </div>
             <div className='flex-1 bg-gray-700'></div>
