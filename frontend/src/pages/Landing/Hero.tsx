@@ -1,6 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { HeroPurpose, HeroSolution, HeroDescription, HeroButton } from '../../assets/landing_strings.tsx'
+import {
+  HeroPurpose,
+  HeroSolution,
+  HeroDescription,
+  HeroButton,
+} from '../../assets/landing_strings.tsx'
 
 const Hero = () => {
   return (
@@ -22,10 +27,9 @@ const Hero = () => {
         </p>
         <Link to='/home'>
           <button
-            className='my-6 mx-auto w-[200px] border-2 border-primary bg-primary
-                         hover:bg-primary-l hover: text-primary hover:border-primary-l
-                         hover:shadow-md rounded-md py-3 font-medium text-morp
-                         dark:bg-primary-d dark:text-white
+            className='my-6 mx-auto w-[200px] border-2 border-primary-l bg-primary
+                         hover:bg-primary-l hover: text-white hover:border-primary-l
+                         hover:shadow-md rounded-md py-3 font-medium dark:bg-primary-d dark:text-white
                              rounded-md bg-primary dark:bg-primary-d py-3 font-medium text-morp'
           >
             Get Started
