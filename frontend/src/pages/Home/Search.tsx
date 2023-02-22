@@ -1,28 +1,52 @@
-import React, { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { Icon } from '@blueprintjs/core'
+import React, { Fragment, useState } from 'react'
+
 import { getSearchResults } from '../../api/graph'
-import { Dialog, Combobox } from '@headlessui/react'
+import { useQuery } from '@tanstack/react-query'
+import { Combobox, Dialog, Transition } from '@headlessui/react'
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+
 import { useDebounce } from 'use-debounce'
+import { Icon } from '@blueprintjs/core'
+
+const GraphIcon = () => {
+  return (
+    <Icon
+      icon='layout-auto'
+      size={20}
+      className='fill-gray-400 dark:fill-muted w-5 h-5 text-gray-400'
+    />
+  )
+}
+
+const LawIcon = () => {
+  return (
+    <Icon
+      icon='take-action'
+      size={20}
+      className='fill-gray-400 dark:fill-muted w-5 h-5 text-gray-400'
+    />
+  )
+}
+
+const MoneyIcon = () => {
+  return (
+    <Icon icon='dollar' size={20} className='fill-gray-400 dark:fill-muted w-5 h-5 text-gray-400' />
+  )
+}
+
+const quickActions = [
+  { name: 'Graph connections...', icon: GraphIcon, shortcut: 'N', url: '#' },
+  { name: 'Legal outcomes...', icon: LawIcon, shortcut: 'F', url: '#' },
+  { name: 'Donations...', icon: MoneyIcon, shortcut: 'H', url: '#' },
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const CheckIcon = () => (
-  <Icon icon='small-tick' iconSize={16} className='h-5 w-5 fill-muted' aria-hidden='true' />
-)
-
-const ChevronIcon = () => (
-  <Icon icon='expand-all' iconSize={16} className='h-5 w-5 fill-muted' aria-hidden='true' />
-)
-
-const MagnifyingGlassIcon = () => <Icon icon='search' size={20} className='mx-2 fill-muted' />
-
-function SearchForm(props) {
-  const [searchInput, setSearchInput] = useState('')
-  const [debouncedSearchInput] = useDebounce(searchInput, 500)
-  const [isOpen, setIsOpen] = useState(true)
+export default function Search(props) {
+  const [query, setQuery] = useState('')
+  const [debouncedSearchInput] = useDebounce(query, 500)
 
   const { data: searchResults = [], isLoading } = useQuery(
     ['searchResults', debouncedSearchInput],
@@ -37,79 +61,169 @@ function SearchForm(props) {
 
   const handleSelect = async (selectedOption) => {
     {
-      console.log(selectedOption)
       props.setSelected(selectedOption)
-      setSearchInput('')
+
+      console.log('handleSelect: ', selectedOption)
+      setQuery('')
+      props.setOpen(false)
     }
     console.log('selected Search is :', props.selected)
   }
 
-  /* const filteredPeople =
-   *   searchInput === ''
-   *     ? people
-   *     : people.filter((person) => {
-   *         return person.toLowerCase().includes(searchInput.toLowerCase())
-   *       })
-   */
-  return (
-    <Combobox onChange={handleSelect} className='flex w-full md:ml-0' as='div'>
-      <label htmlFor='search-field' className='sr-only'>
-        Search
-      </label>
-      <div className='relative w-full text-gray-400 focus-within:text-gray-600'>
-        <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center'>
-          <MagnifyingGlassIcon className='h-5 w-5' aria-hidden='true' />
-        </div>
-        <Combobox.Input
-          id='search-field'
-          className='block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm'
-          placeholder='Search'
-          name='search'
-          autoFocus={true}
-          autoComplete='off'
-          onChange={(event) => {
-            setSearchInput(event.target.value)
-          }}
-        />
-        <Combobox.Button className='absolute inset-y-0 right-0 flex items-center pr-2 rounded-r-md px-2 focus:outline-none text-gray-400 hover:text-gray-500'>
-          <ChevronIcon className='h-5 w-5' aria-hidden='true' />
-        </Combobox.Button>
-      </div>
-      <Combobox.Options className='absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-baase shadow-lg ring-1 dark:ring-primary ring-muted  ring-opaacity-5 focus:outline-none sm:text-sm px-4 bg-white rounded-md'>
-        {searchResults.map((result) => (
-          <Combobox.Option
-            key={result.label}
-            value={result.value}
-            className={({ active }) =>
-              classNames(
-                'relative cursor-default select-none py-2 pl-3 pr-9',
-                active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-              )
-            }
-          >
-            {({ active, selected }) => (
-              <>
-                <span className={classNames('block truncate', selected && 'font-semibold')}>
-                  {result.label}
-                </span>
+  const filteredProjects =
+    query === ''
+      ? []
+      : searchResults.filter((result) => {
+          const valueWithoutSpaces = result.value.replace(/\s/g, '')
+          return valueWithoutSpaces.includes(query.toLowerCase().replace(/\s/g, ''))
+        })
 
-                {selected && (
-                  <span
-                    className={classNames(
-                      'absolute inset-y-0 right-0 flex items-center pr-4',
-                      active ? 'text-white' : 'text-indigo-600',
-                    )}
+  return (
+    <Transition.Root
+      show={props.open}
+      onClick={() => props.setOpen(true)}
+      as={Fragment}
+      afterLeave={() => setQuery('')}
+      appear
+    >
+      <Dialog as='div' className='relative z-10' onClose={props.setOpen}>
+        <Transition.Child
+          as={Fragment}
+          enter='ease-out duration-300'
+          enterFrom='opacity-0'
+          enterTo='opacity-100'
+          leave='ease-in duration-200'
+          leaveFrom='opacity-100'
+          leaveTo='opacity-0'
+        >
+          <div className='fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity' />
+        </Transition.Child>
+
+        <div className='fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20'>
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-300'
+            enterFrom='opacity-0 scale-95'
+            enterTo='opacity-100 scale-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100 scale-100'
+            leaveTo='opacity-0 scale-95'
+          >
+            <Dialog.Panel className='mx-auto max-w-2xl transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-80 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all'>
+              {/* <Combobox onChange={(item) => (window.location = item.url)}> */}
+              <Combobox onChange={handleSelect}>
+                <div className='relative'>
+                  <MagnifyingGlassIcon
+                    className='pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-900 text-opacity-40'
+                    aria-hidden='true'
+                  />
+                  <Combobox.Input
+                    className='h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm'
+                    placeholder='Search...'
+                    onChange={(event) => setQuery(event.target.value)}
+                  />
+                </div>
+
+                {(query === '' || filteredProjects.length > 0) && (
+                  <Combobox.Options
+                    static
+                    className='max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-10 overflow-y-auto'
                   >
-                    <CheckIcon className='h-5 w-5' aria-hidden='true' />
-                  </span>
+                    <li className='p-2'>
+                      {query === '' && (
+                        <h2 className='mt-4 mb-2 px-3 text-xs font-semibold text-gray-900'>
+                          Recent searches
+                        </h2>
+                      )}
+                      <ul className='text-sm text-gray-700'>
+                        {(query === '' ? searchResults : filteredProjects).map((result) => (
+                          <Combobox.Option
+                            key={result.label}
+                            value={result.value}
+                            className={({ active }) =>
+                              classNames(
+                                'flex cursor-default select-none items-center rounded-md px-3 py-2',
+                                active && 'bg-gray-900 bg-opacity-5 text-gray-900',
+                              )
+                            }
+                          >
+                            {({ active }) => (
+                              <>
+                                <Icon
+                                  icon='layout-auto'
+                                  className={classNames(
+                                    'h-6 w-6 flex-none text-gray-900 text-opacity-40',
+                                    active && 'text-opacity-100',
+                                  )}
+                                  aria-hidden='true'
+                                />
+                                <span className='ml-3 flex-auto truncate'>{result.label}</span>
+                                {active && (
+                                  <span className='ml-3 flex-none text-gray-500'>Jump to...</span>
+                                )}
+                              </>
+                            )}
+                          </Combobox.Option>
+                        ))}
+                      </ul>
+                    </li>
+                    {query === '' && (
+                      <li className='p-2'>
+                        <h2 className='sr-only'>Quick actions</h2>
+                        <ul className='text-sm text-gray-700'>
+                          {quickActions.map((action) => (
+                            <Combobox.Option
+                              key={action.shortcut}
+                              value={action}
+                              className={({ active }) =>
+                                classNames(
+                                  'flex cursor-default select-none items-center rounded-md px-3 py-2',
+                                  active && 'bg-gray-900 bg-opacity-5 text-gray-900',
+                                )
+                              }
+                            >
+                              {({ active }) => (
+                                <>
+                                  <action.icon
+                                    className={classNames(
+                                      'h-6 w-6 flex-none text-gray-900 text-opacity-40',
+                                      active && 'text-opacity-100',
+                                    )}
+                                    aria-hidden='true'
+                                  />
+                                  <span className='ml-3 flex-auto truncate'>{action.name}</span>
+                                  <span className='ml-3 flex-none text-xs font-semibold text-gray-500'>
+                                    {/* <kbd className='font-sans'>⌘</kbd> */}
+                                    {/* <kbd className='font-sans'>{action.shortcut}</kbd> */}
+                                  </span>
+                                </>
+                              )}
+                            </Combobox.Option>
+                          ))}
+                        </ul>
+                      </li>
+                    )}
+                  </Combobox.Options>
                 )}
-              </>
-            )}
-          </Combobox.Option>
-        ))}
-      </Combobox.Options>
-    </Combobox>
+
+                {query !== '' && filteredProjects.length === 0 && (
+                  <div className='py-14 px-6 text-center sm:px-14'>
+                    <Icon
+                      icon='layout-auto'
+                      size={48}
+                      className='mx-auto h-6 w-6 text-gray-900 text-opacity-40'
+                      aria-hidden='true'
+                    />
+                    <p className='mt-4 text-sm text-gray-900'>
+                      We couldn't find any infomation with that term. Please try again.
+                    </p>
+                  </div>
+                )}
+              </Combobox>
+            </Dialog.Panel>
+          </Transition.Child>
+        </div>
+      </Dialog>
+    </Transition.Root>
   )
 }
-
-export default SearchForm
