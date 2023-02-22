@@ -44,8 +44,10 @@ const Footer = () => {
         <div>
           <h6 className='font-medium'>Company</h6>
           <ul>
-            <li className='py-2 text-sm'>About</li>
-            <li className='py-2 text-sm'>Blog</li>
+            <Link to='/about'>
+              <li className='py-2 text-sm'>About</li>
+            </Link>
+            <li className='py-2 text-sm text-gray-400'>Blog</li>
           </ul>
         </div>
         <div>

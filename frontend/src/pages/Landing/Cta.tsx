@@ -18,10 +18,14 @@ export default function CallToAction() {
             >
               Get started
             </a>
-            <a href='#' className='text-base font-semibold leading-7 text-gray-900'>
-              Learn more <span aria-hidden='true'>→</span>
-            </a>
           </Link>
+          <>
+            <Link to='/faq'>
+              <a href='#' className='text-base font-semibold leading-7 text-gray-900'>
+                Learn more <span aria-hidden='true'>→</span>
+              </a>
+            </Link>
+          </>
         </div>
       </div>
     </div>
