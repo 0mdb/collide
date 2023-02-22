@@ -1,11 +1,6 @@
 import React from 'react'
-import {
-  FaDribbbleSquare,
-  FaFacebookSquare,
-  FaGithubSquare,
-  FaInstagram,
-  FaTwitterSquare,
-} from 'react-icons/fa'
+import { Link } from 'react-router-dom'
+import { FaFacebookSquare, FaGithubSquare, FaInstagram, FaTwitterSquare } from 'react-icons/fa'
 
 const Footer = () => {
   return (
@@ -21,24 +16,29 @@ const Footer = () => {
           <FaInstagram size={30} />
           <FaTwitterSquare size={30} />
           <FaGithubSquare size={30} />
-          <FaDribbbleSquare size={30} />
         </div>
       </div>
       <div className='mt-6 flex justify-between lg:col-span-2'>
         <div>
           <h6 className='font-medium'>Solutions</h6>
           <ul>
-            <li className='py-2 text-sm'>API</li>
-            <li className='py-2 text-sm'>Consulting</li>
+            <Link to='/'>
+              <li className='py-2'>Home</li>
+            </Link>
+            <Link to='/apinotify'>
+              <li className='py-2 text-sm'>API</li>
+            </Link>
           </ul>
         </div>
         <div>
           <h6 className='font-medium'>Support</h6>
           <ul>
-            <li className='py-2 text-sm'>Pricing</li>
-            <li className='py-2 text-sm'>Documentation</li>
-            <li className='py-2 text-sm'>Guides</li>
-            <li className='py-2 text-sm'>API Status</li>
+            <Link to='/faq'>
+              <li className='py-2 text-sm'>FAQ</li>
+            </Link>
+            <Link to='/contact'>
+              <li className='py-2 text-sm'>Contact</li>
+            </Link>
           </ul>
         </div>
         <div>
@@ -46,17 +46,14 @@ const Footer = () => {
           <ul>
             <li className='py-2 text-sm'>About</li>
             <li className='py-2 text-sm'>Blog</li>
-            <li className='py-2 text-sm'>Jobs</li>
-            {/* <li className='py-2 text-sm'>Press</li> */}
-            <li className='py-2 text-sm'>Join the Team</li>
           </ul>
         </div>
         <div>
           <h6 className='font-medium'>Legal</h6>
           <ul>
-            <li className='py-2 text-sm'>Claim</li>
-            <li className='py-2 text-sm'>Policy</li>
-            <li className='py-2 text-sm'>Terms</li>
+            <Link to='/legal'>
+              <li className='py-2 text-sm'>Policy</li>
+            </Link>
           </ul>
         </div>
       </div>
