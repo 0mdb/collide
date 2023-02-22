@@ -9,10 +9,12 @@ import Landing from './pages/Landing'
 import APILanding from './pages/Landing/APINotify'
 import FAQLanding from './pages/Landing/FAQ'
 import About from './pages/Landing/About'
+import Contact from './pages/Landing/Contact'
 import Legal from './pages/Landing/Legal'
 import Layout from './pages/Layout'
 import GraphDisplay from './pages/Home/ForceGraph'
 import Login from './pages/Login'
+import Login2 from './pages/Login/Login2'
 import Unauthorized from './components/Unauthorized'
 import RequireAuth from './components/RequireAuth'
 import Register from './pages/Register'
@@ -44,8 +46,11 @@ function App() {
         <Route path='landing ' element={<Landing />} />
         <Route path='api' element={<APILanding />} />
         <Route path='legal' element={<Legal />} />
+        <Route path='contact' element={<Contact />} />
         <Route path='faq' element={<FAQLanding />} />
+        <Route path='about' element={<About />} />
         <Route path='login' element={<Login />} />
+        <Route path='login2' element={<Login2 />} />
         <Route path='register' element={<Register />} />
         <Route path='unauthorized' element={<Unauthorized />} />
         <Route path='apinotify' element={<APINotify />} />
