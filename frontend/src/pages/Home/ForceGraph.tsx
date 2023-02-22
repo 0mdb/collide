@@ -4,7 +4,10 @@ import { useQuery } from '@tanstack/react-query'
 import Loading from '../../components/Loading'
 import { useWindowSize } from '@react-hook/window-size'
 import { getGraph } from '../../api/graph'
-import useDarkMode from '../../hooks/useDarkMode'
+import { useOutletContext } from 'react-router-dom'
+
+import FabButton from '../../components/FabButton'
+import EmptyGraph from '../../components/EmptyGraph'
 
 function ForceGraph(props) {
   const [width, height] = useWindowSize()
@@ -125,8 +128,8 @@ function ForceGraph(props) {
         <ForceGraph2D
           ref={fgRef}
           graphData={graphData}
-          height={height}
-          width={width - 300}
+          height={height * 0.75}
+          width={width * 0.75}
           cooldownTicks={100}
           nodeAutoColorBy='id'
           linkDirectionalParticles='value'
@@ -147,4 +150,24 @@ function ForceGraph(props) {
   )
 }
 
-export default ForceGraph
+function GraphDisplay() {
+  const [darkMode, selected, setSelected, open, setOpen] = useOutletContext()
+  return (
+    <div>
+      {!!selected ? (
+        <>
+          <ForceGraph darkMode={darkMode} selected={selected} setSelected={setSelected} />
+
+          <FabButton open={open} setOpen={setOpen} />
+        </>
+      ) : (
+        <>
+          <EmptyGraph open={open} setOpen={setOpen} />
+          <div className='h-screen'></div>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default GraphDisplay
