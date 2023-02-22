@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Icon } from '@blueprintjs/core'
-import { ThemeButton } from '../../components/ThemeButton.tsx'
 import { Link } from 'react-router-dom'
+import DarkModeSwitch from '../../components/DarkModeSwitch'
 import { ProjectName, WebsiteName, LoginStr, SignUpStr } from '../../assets/landing_strings.tsx'
 
 const Navbar = () => {
@@ -14,20 +14,23 @@ const Navbar = () => {
   return (
     <div className='mx-auto flex h-24 max-w-[1240px] items-center justify-between px-4 text-secondary-l-text dark:text-secondary-d-text'>
       <h1 className='w-full text-3xl font-bold'>
-          <ProjectName />
+        <ProjectName />
       </h1>
       <ul className='hidden md:flex'>
+        <li className='p-4'>
+          <DarkModeSwitch />
+        </li>
+
         {/* <Link to='/'>
           <li className='p-4'>Home</li>
         </Link> */}
-        {/* <Link to='/login'>
+        <Link to='/login'>
           <li className='p-4'>Login</li>
         </Link>
         <Link to='/register'>
           <li className='p-4'>Signup</li>
-        </Link> */}
+        </Link>
       </ul>
-      <ThemeButton />
       <div onClick={handleNav} className='block md:hidden'>
         {nav ? (
           <Icon icon='cross' className='dark:fill-secondary-d-text' size={20} />
@@ -43,10 +46,11 @@ const Navbar = () => {
         }
       >
         <h1 className='m-4 w-full text-3xl font-bold'>
-            <WebsiteName />
+          <WebsiteName />
         </h1>
+
         <Link to='login'>
-          <li className='border-b border-secondary p-4 text-xl'>
+          <li className='p-4 text-xl'>
             <LoginStr />
           </li>
         </Link>
@@ -55,6 +59,9 @@ const Navbar = () => {
             <SignUpStr />
           </li>
         </Link>
+        <li className='text-xl mr-4 p-4'>
+          <DarkModeSwitch />
+        </li>
       </ul>
     </div>
   )
