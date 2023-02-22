@@ -13,7 +13,6 @@ function classNames(...classes) {
 export default function UserSettings() {
   const [availableToHire, setAvailableToHire] = useState(true)
   const [privateAccount, setPrivateAccount] = useState(false)
-  const [allowCommenting, setAllowCommenting] = useState(true)
   const [allowMentions, setAllowMentions] = useState(true)
 
   return (
@@ -65,7 +64,7 @@ export default function UserSettings() {
                           htmlFor='organization'
                           className='block text-sm font-medium text-blue-gray-900'
                         >
-                          Organization
+                          Company
                         </label>
                         <input
                           type='text'
