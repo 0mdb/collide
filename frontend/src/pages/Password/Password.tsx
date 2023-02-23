@@ -1,7 +1,13 @@
 import { forgotPassword } from '../../api/authApi'
+import { useState } from 'react'
 
+import { Icon } from '@blueprintjs/core'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
+
+const ExclamIcon = () => (
+  <Icon icon='high-priority' size={20} className='fill-morp pr-2 dark:fill-muted' />
+)
 
 const useRecoverPassword = () => {
   const { mutate, isLoading, error } = useMutation(forgotPassword, {
@@ -18,6 +24,7 @@ const useRecoverPassword = () => {
 
 function ForgotPassword() {
   const { mutate, isLoading, error } = useRecoverPassword()
+  const [err, setErr] = useState(null)
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -30,8 +37,8 @@ function ForgotPassword() {
 
     if (!emailRegex.test(email)) {
       // If the email is not valid, alert the user
-      alert('Please enter a valid email address')
-      /* ; <Alert title='Please enter a valid email address' /> */
+      /* alert('Please enter a valid email address') */
+      setErr('Please enter a valid email address')
       return
     }
 
@@ -80,12 +87,13 @@ function ForgotPassword() {
                     autoComplete='email'
                     className='block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                   />
+                  <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'></div>
                 </div>
               </div>
 
               <div className='flex items-center justify-between'>
                 <div className='flex items-center'>
-                  {error && <p className='text-red-500 text-xs italic'>{error.message}</p>}
+                  {err && <p className='text-red-500 text-xs italic'>{err}</p>}
                 </div>
 
                 <div className='text-sm'>
@@ -100,6 +108,7 @@ function ForgotPassword() {
               <div>
                 <button
                   type='submit'
+                  disabled={isLoading}
                   onClick={handleSubmit}
                   className='flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
