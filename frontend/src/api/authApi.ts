@@ -26,8 +26,15 @@ export interface ApiUser {
   is_verified: string
 }
 
-export const login = async (username: string, password: string) => {
-  const response = await axios.post('auth/jwt/login', { username, password })
+export interface LoginAuth {
+  access_token: string
+  token_type: string
+}
+
+export const loginUser = async (formData) => {
+  const response = await axios.post<LoginAuth>('auth/jwt/login/', formData, {
+    withCredentials: true,
+  })
   return response.data
 }
 
@@ -46,8 +53,7 @@ export const resetPassword = async (token: string, password: string) => {
   return response.data
 }
 
-export const getUser = async (token: string) => {
-  const response = await axios.post<ApiUser>('auth/verify', { token })
-
+export const getMe = async () => {
+  const response = await axios.get('users/me/', { withCredentials: true })
   return response.data
 }
