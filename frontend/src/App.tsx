@@ -14,7 +14,6 @@ import Legal from './pages/Landing/Legal'
 import Layout from './pages/Layout'
 import GraphDisplay from './pages/Home/ForceGraph'
 import Login from './pages/Login'
-import Login2 from './pages/Login/Login2'
 import Unauthorized from './components/Unauthorized'
 import RequireAuth from './components/RequireAuth'
 import Register from './pages/Register'
@@ -51,7 +50,6 @@ function App() {
         <Route path='forgotpass' element={<PasswordReset />} />
         <Route path='about' element={<About />} />
         <Route path='login' element={<Login />} />
-        <Route path='login2' element={<Login2 />} />
         <Route path='register' element={<Register />} />
         <Route path='unauthorized' element={<Unauthorized />} />
         <Route path='apinotify' element={<APINotify />} />
