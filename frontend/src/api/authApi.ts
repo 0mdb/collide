@@ -37,7 +37,7 @@ export const registerUser = async (email: string, password: string) => {
 }
 
 export const forgotPassword = async (email: string) => {
-  const response = await axios.post('auth/forgot-password/', { email })
+  const response = await axios.post('auth/forgot-password/', email)
   return response.data
 }
 

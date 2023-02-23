@@ -1,5 +1,6 @@
 import { registerUser } from '../../api/authApi'
 
+import { Link } from 'react-router-dom'
 import { useQuery, useMutation } from '@tanstack/react-query'
 
 const useRegisterUser = () => {
@@ -115,9 +116,11 @@ function Register() {
                 </div>
 
                 <div className='text-sm'>
-                  <a href='#' className='font-medium text-indigo-600 hover:text-indigo-500'>
-                    Forgot your password?
-                  </a>
+                  <Link to='/forgotpass'>
+                    <p className='font-medium text-indigo-600 hover:text-indigo-500'>
+                      Forgot your password?
+                    </p>
+                  </Link>
                 </div>
               </div>
 

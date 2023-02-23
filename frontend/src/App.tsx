@@ -18,7 +18,7 @@ import Login2 from './pages/Login/Login2'
 import Unauthorized from './components/Unauthorized'
 import RequireAuth from './components/RequireAuth'
 import Register from './pages/Register'
-import LostPassword from './pages/Password'
+import PasswordReset from './pages/Password'
 import PageNotFound from './components/PageNotFound'
 import { UserSettings } from './pages/Home'
 import APINotify from './pages/Landing/APINotify'
@@ -48,6 +48,7 @@ function App() {
         <Route path='legal' element={<Legal />} />
         <Route path='contact' element={<Contact />} />
         <Route path='faq' element={<FAQLanding />} />
+        <Route path='forgotpass' element={<PasswordReset />} />
         <Route path='about' element={<About />} />
         <Route path='login' element={<Login />} />
         <Route path='login2' element={<Login2 />} />
@@ -59,7 +60,6 @@ function App() {
           <Route path='force' element={<GraphDisplay />} />
           <Route path='settings' element={<UserSettings />} />
         </Route>
-        <Route path='password' element={<LostPassword />} />
         {/* protected routes */}
         {/* <Route element={<PersistLogin />}> */}
         {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}>
