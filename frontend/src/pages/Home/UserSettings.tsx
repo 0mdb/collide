@@ -1,6 +1,8 @@
 import React from 'react'
-import { useSettings } from '../../hooks'
 
+import { loginUser, getMe } from '../../api/authApi'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import useAuth from '../../hooks/useAuth'
 import DarkModeSwitch from '../../components/DarkModeSwitch'
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
@@ -11,20 +13,38 @@ function classNames(...classes) {
 }
 
 export default function UserSettings() {
-  const [availableToHire, setAvailableToHire] = useState(true)
+  const [email, setEmail] = useState(true)
+  const [preferDark, setPreferDark] = useState(false)
   const [privateAccount, setPrivateAccount] = useState(false)
   const [allowMentions, setAllowMentions] = useState(true)
 
+  const [isActive, setIsActive] = useState(false)
+  const [isVerified, setIsVerified] = useState(false)
+  const [isSuperuser, setIsSuperuser] = useState(false)
+
+  const { user, setUser } = useAuth()
+
+  const {
+    data: me,
+    isLoading: meLoading,
+    error: meError,
+  } = useQuery({
+    queryKey: 'me',
+    queryFn: getMe,
+    config: {
+      enabled: !!user,
+    },
+
+    onSuccess: (data) => {
+      console.log(data)
+      setIsActive(data.is_active)
+      setIsVerified(data.is_verified)
+      setIsSuperuser(data.is_superuser)
+    },
+  })
+
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-blue-gray-50">
-        <body class="h-full overflow-hidden">
-        ```
-      */}
       <div className='flex h-full'>
         <main className='flex flex-1 overflow-hidden'>
           <div className='flex flex-1 flex-col overflow-y-auto xl:overflow-hidden'>
@@ -117,6 +137,9 @@ export default function UserSettings() {
                         <input
                           type='text'
                           name='email-address'
+                          value={
+                            me?.email ? me.email : 'You need to login to see your email address'
+                          }
                           id='email-address'
                           autoComplete='email'
                           className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
@@ -138,6 +161,24 @@ export default function UserSettings() {
                           className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                         />
                       </div>
+
+                      <div className='sm:col-span-3'>
+                        <label
+                          htmlFor='email-address'
+                          className='block text-sm font-medium text-blue-gray-900'
+                        >
+                          id
+                        </label>
+                        <input
+                          type='text'
+                          name='user-id'
+                          value={me ? me.id : 'You need to login to see your email address'}
+                          id='user-'
+                          className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
+                        />
+                      </div>
+
+                      <div className='sm:col-span-3'></div>
 
                       <div className='sm:col-span-3'>
                         <label
@@ -203,12 +244,74 @@ export default function UserSettings() {
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                availableToHire ? 'translate-x-5' : 'translate-x-0',
+                                preferDark ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
                           </DarkModeSwitch>
                           {/* </Switch> */}
+                        </Switch.Group>
+
+                        <Switch.Group as='li' className='flex items-center justify-between py-4'>
+                          <div className='flex flex-col'>
+                            <Switch.Label
+                              as='p'
+                              className='text-sm font-medium text-gray-900'
+                              passive
+                            >
+                              Is active
+                            </Switch.Label>
+                            <Switch.Description className='text-sm text-gray-500'>
+                              Is active
+                            </Switch.Description>
+                          </div>
+                          <Switch
+                            checked={isActive}
+                            onChange={setIsActive}
+                            className={classNames(
+                              isActive ? 'bg-teal-500' : 'bg-gray-200',
+                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
+                            )}
+                          >
+                            <span
+                              aria-hidden='true'
+                              className={classNames(
+                                isActive ? 'translate-x-5' : 'translate-x-0',
+                                'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                              )}
+                            />
+                          </Switch>
+                        </Switch.Group>
+
+                        <Switch.Group as='li' className='flex items-center justify-between py-4'>
+                          <div className='flex flex-col'>
+                            <Switch.Label
+                              as='p'
+                              className='text-sm font-medium text-gray-900'
+                              passive
+                            >
+                              Is Super User
+                            </Switch.Label>
+                            <Switch.Description className='text-sm text-gray-500'>
+                              Is Super User
+                            </Switch.Description>
+                          </div>
+                          <Switch
+                            checked={isSuperuser}
+                            onChange={setIsSuperuser}
+                            className={classNames(
+                              isSuperuser ? 'bg-teal-500' : 'bg-gray-200',
+                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
+                            )}
+                          >
+                            <span
+                              aria-hidden='true'
+                              className={classNames(
+                                isSuperuser ? 'translate-x-5' : 'translate-x-0',
+                                'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                              )}
+                            />
+                          </Switch>
                         </Switch.Group>
                         <Switch.Group as='li' className='flex items-center justify-between py-4'>
                           <div className='flex flex-col'>
@@ -217,24 +320,24 @@ export default function UserSettings() {
                               className='text-sm font-medium text-gray-900'
                               passive
                             >
-                              Do other thing
+                              Is verified
                             </Switch.Label>
                             <Switch.Description className='text-sm text-gray-500'>
-                              Pharetra morbi dui mi mattis tellus sollicitudin cursus pharetra.
+                              Is verified
                             </Switch.Description>
                           </div>
                           <Switch
-                            checked={privateAccount}
-                            onChange={setPrivateAccount}
+                            checked={isVerified}
+                            onChange={setIsVerified}
                             className={classNames(
-                              privateAccount ? 'bg-teal-500' : 'bg-gray-200',
+                              isVerified ? 'bg-teal-500' : 'bg-gray-200',
                               'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
                             )}
                           >
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                privateAccount ? 'translate-x-5' : 'translate-x-0',
+                                isVerified ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
