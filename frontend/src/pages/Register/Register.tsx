@@ -1,8 +1,8 @@
 import { registerUser } from '../../api/authApi'
 
-import { Link } from 'react-router-dom'
-import { useQuery, useMutation } from '@tanstack/react-query'
-
+import { useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { Link, useNavigate } from 'react-router-dom'
 const useRegisterUser = () => {
   const { mutate, isLoading, error } = useMutation(registerUser, {
     onSuccess: (data) => {
@@ -19,6 +19,9 @@ const useRegisterUser = () => {
 function Register() {
   const { mutate, isLoading, error } = useRegisterUser()
 
+  const [err, setErr] = useState(null)
+
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault()
     /* const {email} = e.target.form.elements.email.value */
@@ -27,8 +30,30 @@ function Register() {
     console.log('password', e.target.form.elements.password.value)
     const email = e.target.form.elements.email.value
     const password = e.target.form.elements.password.value
+    const cPassword = e.target.form.elements.cPassword.value
+
+    // Regular expression to check for a valid email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    if (!emailRegex.test(email)) {
+      // If the email is not valid, alert the user
+      console.log('invalid email')
+      setErr('Please enter a valid email address')
+      return
+    }
+
+    // check passwords match
+    if (password !== cPassword) {
+      console.log('passwords do not match')
+      setErr('Please enter a valid email address')
+      return
+    }
 
     mutate({ email, password })
+
+    alert('Please check your email for a verification link')
+
+    navigate('/login')
   }
 
   return (
@@ -79,8 +104,8 @@ function Register() {
                     id='password'
                     name='password'
                     type='password'
-                    autoComplete='current-password'
-                    required
+                    autoComplete='none'
+                    required={true}
                     className='block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                   />
                 </div>
@@ -92,8 +117,8 @@ function Register() {
                 </label>
                 <div className='mt-1'>
                   <input
-                    id='password-again'
-                    name='password-again'
+                    id='cPassword'
+                    name='cPassword'
                     type='password'
                     autoComplete='none'
                     required
@@ -127,6 +152,7 @@ function Register() {
               <div>
                 <button
                   type='submit'
+                  disabled={isLoading}
                   onClick={handleSubmit}
                   className='flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
