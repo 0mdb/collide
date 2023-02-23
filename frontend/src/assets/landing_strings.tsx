@@ -16,20 +16,56 @@ export const SignUpStr = () => {
 }
 
 // HERO
+
+export const HeroAccent = () => {
+  return 'Curious by nature?'
+}
+
 export const HeroPurpose = () => {
   return 'EXPLORE CANADIAN LOBBYING ACTIVITIES'
 }
 
-export const HeroSolution = () => {
-  return 'LobbyRadar - Your Comprehensive Lobbying Information Resource'
+export const HeroDescription = () => {
+  return 'Improving access to Government lobbying data in Canada for - '
 }
 
-export const HeroDescription = () => {
-  return "At LobbyRadar, we provide a powerful data analytics dashboard to help you easily navigate through vast amounts of government data related to lobbying activities. Our cutting-edge technology combines the power of force graphs and AI to give you a new way to understand and interact with government data. Whether you're a researcher, student, or just curious about lobbying, our website is the perfect tool for you. Sign up today and start exploring!"
+export const HeroTarget = () => {
+  return 'Researchers, journalists, and the public'
 }
 
 export const HeroButton = () => {
   return 'Get Started'
+}
+
+// HERO SECTION
+export const HeroSectionPurpose = () => {
+  return 'EXPLORE CANADIAN LOBBYING ACTIVITIES'
+}
+
+export const HeroSectionSolution = () => {
+  return 'LobbyRadar - Your Comprehensive Lobbying Information Resource'
+}
+
+export const HeroSectionDescription = () => {
+  return "At LobbyRadar, we provide a powerful data analytics dashboard to help you easily navigate through vast amounts of government data related to lobbying activities. We combine the power of sound fundamentals, dynamic aggregations and stunning force-directed graphs to give you a new way to understand and interact with government data. Whether you're a researcher, student or just curious, our website is the perfect tool for you. Sign up today and start exploring!"
+}
+
+export const HeroSectionButton = () => {
+  return 'Get Started'
+}
+
+// CALL TO ACTION
+export const CtaPunchline1 = () => {
+  return 'Explore the power of lobbying data analytics.'
+}
+export const CtaPunchline2 = () => {
+  return 'Start tracking today with LobbyRadar.'
+}
+export const CtaButton = () => {
+  return 'Get Started'
+}
+export const CtaLearnMore = () => {
+  return 'Learn more'
 }
 
 // STATS
