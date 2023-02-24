@@ -2,6 +2,7 @@ import React from 'react'
 import Footer from './Footer'
 import Navbar from './Nav'
 import { ForceGraphLicense } from '../../assets/license_forcegraph.tsx'
+import { OurCommonsLicense, ISEDLicense, LEGISinfoLicense, ElxCanadaLicense, LobbyingCommissionerLicense } from '../../assets/license_gov.tsx'
 
 /*
   This example requires some changes to your config:
@@ -109,6 +110,21 @@ function OpenSourceLayout() {
         </div>
       </div>
       <div className='relative px-6 lg:px-8'>
+        <div className='prose prose-lg prose-indigo mx-auto mt-6 text-secondary-l-text dark:text-secondary-text'>
+          <OurCommonsLicense />
+        </div>
+        <div className='prose prose-lg prose-indigo mx-auto mt-6 text-secondary-l-text dark:text-secondary-text'>
+          <ISEDLicense />
+        </div>
+        <div className='prose prose-lg prose-indigo mx-auto mt-6 text-secondary-l-text dark:text-secondary-text'>
+          <LEGISinfoLicense />
+        </div>
+        <div className='prose prose-lg prose-indigo mx-auto mt-6 text-secondary-l-text dark:text-secondary-text'>
+          <ElxCanadaLicense />
+        </div>
+        <div className='prose prose-lg prose-indigo mx-auto mt-6 text-secondary-l-text dark:text-secondary-text'>
+          <LobbyingCommissionerLicense />
+        </div>
         <div className='prose prose-lg prose-indigo mx-auto mt-6 text-secondary-l-text dark:text-secondary-text'>
           <ForceGraphLicense />
         </div>
