@@ -9,7 +9,7 @@ import Hero, { HeroSection } from './Hero'
 
 function Landing() {
   return (
-    <div className='bg-gray-400 dark:bg-gray-700'>
+    <div className='bg-secondary dark:bg-secondary-d'>
       <Navbar />
       <Hero />
       <CallToAction />
