@@ -53,8 +53,14 @@ const Footer = () => {
         <div>
           <h6 className='font-medium'>Legal</h6>
           <ul>
-            <Link to='/legal'>
-              <li className='py-2 text-sm'>Policy</li>
+            <Link to='/privacypolicy'>
+              <li className='py-2 text-sm'>Privacy Policy</li>
+            </Link>
+            <Link to='/termsofuse'>
+              <li className='py-2 text-sm'>Terms of Use</li>
+            </Link>
+            <Link to='/opensource'>
+              <li className='py-2 text-sm'>Open Source</li>
             </Link>
           </ul>
         </div>
