@@ -1,10 +1,13 @@
 import logging
 
+from psycopg2cffi import compat
+compat.register()
+
 from sqlalchemy import create_engine
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
 from app.core.config import settings
-from app.crud.memgraph_make_graph import gdb
+from app.crud.memgraph_make_graph import conn
 
 # use sync engine for checking db is awake
 # TODO move to settings
@@ -23,10 +26,14 @@ def check_postgres() -> None:
         con = engine.connect()
         con.execute("SELECT 1")
         logger.info("DB is awake")
+        con.close()
 
 def check_memgraph() -> None:
+        cursor = conn.cursor()
         logger.info("Checking Memgraph is awake")
-        gdb.execute_and_fetch('SELECT 1')
+        cursor.execute('MATCH (n: MGPerson {match_name: "waynewouters"}) RETURN n')
+        val = cursor.fetchone()
+        cursor.close()
         logger.info("Memgraph is awake")
 
 @retry(
