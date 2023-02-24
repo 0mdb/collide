@@ -24,6 +24,13 @@ export interface ApiUser {
   is_active: string
   is_superuser: string
   is_verified: string
+  org: string
+  darkmkode: false
+  country: string
+  province: string
+  language: string
+  timezone: string
+  search: [string]
 }
 
 export interface LoginAuth {
@@ -55,5 +62,10 @@ export const resetPassword = async (token: string, password: string) => {
 
 export const getMe = async () => {
   const response = await axios.get('users/me/', { withCredentials: true })
+  return response.data
+}
+
+export const updateCurrentUser = async (data: ApiUser) => {
+  const response = await axios.patch('users/me/', data, { withCredentials: true })
   return response.data
 }
