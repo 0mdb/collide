@@ -3,7 +3,7 @@ import useAuth from '../../hooks/useAuth'
 import { loginUser, getMe } from '../../api/authApi'
 
 import { useState } from 'react'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
@@ -52,8 +52,8 @@ const Login = () => {
     formData.append('username', email)
     formData.append('password', password)
     login(formData)
-    getUserInfo()
-    console.log('auth', user.data)
+    const user = getUserInfo()
+    setUser(user)
     navigate('/home')
   }
 
