@@ -1,28 +1,19 @@
 import React from 'react'
 
-import { loginUser, getMe } from '../../api/authApi'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import useAuth from '../../hooks/useAuth'
+import { getMe, updateCurrentUser } from '../../api/authApi'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import DarkModeSwitch from '../../components/DarkModeSwitch'
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
 import { ChevronLeftIcon } from '@heroicons/react/20/solid'
+import useDarkMode from '../../hooks/useDarkMode'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function UserSettings() {
-  const [email, setEmail] = useState(true)
-  const [preferDark, setPreferDark] = useState(false)
-  const [privateAccount, setPrivateAccount] = useState(false)
-  const [allowMentions, setAllowMentions] = useState(true)
-
-  const [isActive, setIsActive] = useState(false)
-  const [isVerified, setIsVerified] = useState(false)
-  const [isSuperuser, setIsSuperuser] = useState(false)
-
-  const { user, setUser } = useAuth()
+  const [darkMode] = useDarkMode()
 
   const {
     data: me,
@@ -31,17 +22,36 @@ export default function UserSettings() {
   } = useQuery({
     queryKey: 'me',
     queryFn: getMe,
-    config: {
-      enabled: !!user,
-    },
-
-    onSuccess: (data) => {
-      console.log(data)
-      setIsActive(data.is_active)
-      setIsVerified(data.is_verified)
-      setIsSuperuser(data.is_superuser)
-    },
   })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const org = e.target.elements.organization.value
+    const province = e.target.elements.province.value
+    const country = e.target.elements.country.value
+    const language = e.target.elements.language.value
+
+    const data = {
+      id: me.id,
+      org: org,
+      darkmode: darkMode,
+      country: country,
+      province: province,
+      language: language,
+    }
+
+    const darkModeData = {
+      id: me.id,
+      email: me.email,
+      is_superuser: me.is_superuser,
+
+      darkmode: darkMode,
+    }
+    console.log(darkModeData)
+
+    updateCurrentUser(darkModeData)
+  }
 
   return (
     <>
@@ -70,12 +80,15 @@ export default function UserSettings() {
                 <div className='mx-auto max-w-3xl py-10 px-4 sm:px-6 lg:py-12 lg:px-8'>
                   <h1 className='text-3xl font-bold tracking-tight text-blue-gray-900'>Settings</h1>
 
-                  <form className='divide-y-blue-gray-200 mt-6 space-y-8 divide-y'>
+                  <form
+                    onSubmit={handleSubmit}
+                    className='divide-y-blue-gray-200 mt-6 space-y-8 divide-y'
+                  >
                     <div className='grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6'>
                       <div className='sm:col-span-6'>
                         <h2 className='text-xl font-medium text-blue-gray-900'>Profile</h2>
                         <p className='mt-1 text-sm text-blue-gray-500'>
-                          This information will be displayed publicly so be careful what you share.
+                          Adjust your profile settings.
                         </p>
                       </div>
 
@@ -90,42 +103,32 @@ export default function UserSettings() {
                           type='text'
                           name='organization'
                           id='organization'
+                          value={me ? me?.org : 'You need to login to see your email address'}
                           autoComplete='organization'
                           className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                         />
                       </div>
 
                       <div className='sm:col-span-3'></div>
-                      <div className='sm:col-span-3'>
-                        <label
-                          htmlFor='first-name'
-                          className='block text-sm font-medium text-blue-gray-900'
-                        >
-                          First name
-                        </label>
-                        <input
-                          type='text'
-                          name='first-name'
-                          id='first-name'
-                          autoComplete='given-name'
-                          className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
-                        />
-                      </div>
 
                       <div className='sm:col-span-3'>
                         <label
-                          htmlFor='last-name'
+                          htmlFor='province'
                           className='block text-sm font-medium text-blue-gray-900'
                         >
-                          Last name
+                          Province
                         </label>
-                        <input
-                          type='text'
-                          name='last-name'
-                          id='last-name'
-                          autoComplete='family-name'
+                        <select
+                          id='province'
+                          name='province'
+                          autoComplete='address-level11'
                           className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
-                        />
+                        >
+                          <option />
+                          <option>United States</option>
+                          <option>Canada</option>
+                          <option>Mexico</option>
+                        </select>
                       </div>
                       <div className='sm:col-span-3'>
                         <label
@@ -142,22 +145,6 @@ export default function UserSettings() {
                           }
                           id='email-address'
                           autoComplete='email'
-                          className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
-                        />
-                      </div>
-
-                      <div className='sm:col-span-3'>
-                        <label
-                          htmlFor='phone-number'
-                          className='block text-sm font-medium text-blue-gray-900'
-                        >
-                          Phone number
-                        </label>
-                        <input
-                          type='text'
-                          name='phone-number'
-                          id='phone-number'
-                          autoComplete='tel'
                           className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                         />
                       </div>
@@ -244,7 +231,7 @@ export default function UserSettings() {
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                preferDark ? 'translate-x-5' : 'translate-x-0',
+                                darkMode ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
@@ -266,17 +253,16 @@ export default function UserSettings() {
                             </Switch.Description>
                           </div>
                           <Switch
-                            checked={isActive}
-                            onChange={setIsActive}
+                            checked={me?.is_active}
                             className={classNames(
-                              isActive ? 'bg-teal-500' : 'bg-gray-200',
+                              me?.is_active ? 'bg-teal-500' : 'bg-gray-200',
                               'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
                             )}
                           >
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                isActive ? 'translate-x-5' : 'translate-x-0',
+                                me?.is_active ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
@@ -297,17 +283,16 @@ export default function UserSettings() {
                             </Switch.Description>
                           </div>
                           <Switch
-                            checked={isSuperuser}
-                            onChange={setIsSuperuser}
+                            checked={me?.is_superuser}
                             className={classNames(
-                              isSuperuser ? 'bg-teal-500' : 'bg-gray-200',
+                              me?.is_superuser ? 'bg-teal-500' : 'bg-gray-200',
                               'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
                             )}
                           >
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                isSuperuser ? 'translate-x-5' : 'translate-x-0',
+                                me?.is_superuser ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
@@ -327,47 +312,16 @@ export default function UserSettings() {
                             </Switch.Description>
                           </div>
                           <Switch
-                            checked={isVerified}
-                            onChange={setIsVerified}
+                            checked={me?.is_verified}
                             className={classNames(
-                              isVerified ? 'bg-teal-500' : 'bg-gray-200',
+                              me?.is_verified ? 'bg-teal-500' : 'bg-gray-200',
                               'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
                             )}
                           >
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                isVerified ? 'translate-x-5' : 'translate-x-0',
-                                'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
-                              )}
-                            />
-                          </Switch>
-                        </Switch.Group>
-                        <Switch.Group as='li' className='flex items-center justify-between py-4'>
-                          <div className='flex flex-col'>
-                            <Switch.Label
-                              as='p'
-                              className='text-sm font-medium text-gray-900'
-                              passive
-                            >
-                              Automatic timezone
-                            </Switch.Label>
-                            <Switch.Description className='text-sm text-gray-500'>
-                              Use your location to determine your timezone.
-                            </Switch.Description>
-                          </div>
-                          <Switch
-                            checked={allowMentions}
-                            onChange={setAllowMentions}
-                            className={classNames(
-                              allowMentions ? 'bg-teal-500' : 'bg-gray-200',
-                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
-                            )}
-                          >
-                            <span
-                              aria-hidden='true'
-                              className={classNames(
-                                allowMentions ? 'translate-x-5' : 'translate-x-0',
+                                me?.is_verified ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
