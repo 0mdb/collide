@@ -1,7 +1,7 @@
 export const ForceGraphLicense = () => {
   return (
   <div>
-  <h2>Licenses</h2>
+  <h2>LICENSES</h2>
   <h3>
   <a href="https://github.com/vasturiano/force-graph" class="font-medium text-primary dark:text-primary-d hover:underline">
   force-graph
