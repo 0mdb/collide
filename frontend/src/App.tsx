@@ -10,7 +10,9 @@ import APILanding from './pages/Landing/APINotify'
 import FAQLanding from './pages/Landing/FAQ'
 import About from './pages/Landing/About'
 import Contact from './pages/Landing/Contact'
-import Legal from './pages/Landing/Legal'
+import PrivacyPolicy from './pages/Landing/PrivacyPolicy'
+import TermsOfUse from './pages/Landing/TermsOfUse'
+import OpenSource from './pages/Landing/OpenSource'
 import Layout from './pages/Layout'
 import GraphDisplay from './pages/Home/ForceGraph'
 import Login from './pages/Login'
@@ -44,7 +46,9 @@ function App() {
         <Route index element={<Landing />} />
         <Route path='landing ' element={<Landing />} />
         <Route path='api' element={<APILanding />} />
-        <Route path='legal' element={<Legal />} />
+        <Route path='privacypolicy' element={<PrivacyPolicy />} />
+        <Route path='termsofuse' element={<TermsOfUse />} />
+        <Route path='opensource' element={<OpenSource />} />
         <Route path='contact' element={<Contact />} />
         <Route path='faq' element={<FAQLanding />} />
         <Route path='forgotpass' element={<PasswordReset />} />
