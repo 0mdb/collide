@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 const colors = require('tailwindcss/colors')
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   content: [
@@ -9,6 +10,9 @@ module.exports = {
   darkMode: 'class', // class, 'media' or boolean
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
       colors: {
         gray: {  // slate
           900: '#0f172a',
@@ -30,9 +34,12 @@ module.exports = {
         'secondary-d': '#334155',  // slate-700
         'primary-text': '#ffffff',  // white
         'secondary-text': '#ffffff',  // white
+        'primary-d-text': '#ffffff',  // white
+        'secondary-d-text': '#ffffff',  // white
+        'primary-l-text': '#000000',  // black
+        'secondary-l-text': '#000000',  // black
         'analogous1': '#8d38ca',  // magenta
         'analogous2': '#38b4ca',  // teal
-        'blue-gray': colors.blueGray,
       },
       // spacing: {
       //   88: '22rem',
@@ -40,7 +47,7 @@ module.exports = {
     },
   },
     plugins: [
-      // require('@tailwindcss/typography'),
+      require('@tailwindcss/typography'),
       require('@tailwindcss/forms'),
       // require('@tailwindcss/line-clamp'),
       // require('@tailwindcss/aspect-ratio'),

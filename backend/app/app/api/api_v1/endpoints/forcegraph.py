@@ -10,6 +10,7 @@ from app.crud.memgraph_make_graph import (
     memgraph_query_and_aggregate,
 )
 
+
 router = APIRouter()
 
 
@@ -55,6 +56,7 @@ async def search_id(id: str) -> Any:
         fund_depth=2,
         membership_depth=2,
         communication_depth=2,
+        aggregation_threshold_step=20,
     )
 
 
