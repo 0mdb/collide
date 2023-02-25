@@ -7,6 +7,7 @@ from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import (
     AuthenticationBackend,
     BearerTransport,
+    CookieTransport,
     JWTStrategy,
 )
 from fastapi_users.authentication.strategy.db import (
@@ -61,8 +62,8 @@ async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db
     yield UserManager(user_db)
 
 
-bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
-# cookie_transport = CookieTransport(cookie_max_age=3600, cookie_httponly=True)
+# bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+cookie_transport = CookieTransport(cookie_max_age=3600, cookie_httponly=True)
 
 
 def get_jwt_strategy() -> JWTStrategy:
@@ -79,7 +80,7 @@ def get_database_strategy(
 
 auth_backend = AuthenticationBackend(
     name="jwt",
-    transport=bearer_transport,
+    transport=cookie_transport,
     get_strategy=get_database_strategy,
 )
 

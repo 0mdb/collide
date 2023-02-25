@@ -1,14 +1,7 @@
 import secrets
 from typing import Any, Dict, List, Optional, Union
 
-from pydantic import (
-    AnyHttpUrl,
-    BaseSettings,
-    EmailStr,
-    HttpUrl,
-    PostgresDsn,
-    validator,
-)
+from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
 
 
 class Settings(BaseSettings):
@@ -16,8 +9,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str = secrets.token_urlsafe(32)
     # 60 minutes * 60 seconds = 1 hour
     ACCESS_TOKEN_EXPIRE_SECONDS: int = 60 * 60
-    SERVER_NAME: str
-    SERVER_HOST: AnyHttpUrl
+    SERVER_NAME: str = "example"
+    SERVER_HOST: AnyHttpUrl = "http://localhost"
     # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
     # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
     # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
@@ -31,8 +24,8 @@ class Settings(BaseSettings):
             return v
         raise ValueError(v)
 
-    PROJECT_NAME: str
-    SENTRY_DSN: Optional[HttpUrl] = None
+    PROJECT_NAME: str = "collide"
+    SENTRY_DSN: Optional[HttpUrl] = "http://0.0.0.0"
 
     @validator("SENTRY_DSN", pre=True)
     def sentry_dsn_can_be_blank(cls, v: str) -> Optional[str]:
@@ -40,10 +33,10 @@ class Settings(BaseSettings):
             return None
         return v
 
-    POSTGRES_SERVER: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
+    POSTGRES_SERVER: str = "localhost"
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "1212"
+    POSTGRES_DB: str = "testdb"
     SQLALCHEMY_DATABASE_URI: Optional[PostgresDsn] = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
@@ -84,9 +77,9 @@ class Settings(BaseSettings):
             and values.get("EMAILS_FROM_EMAIL")
         )
 
-    EMAIL_TEST_USER: EmailStr = "test@example.com"  # type: ignore
-    FIRST_SUPERUSER: EmailStr
-    FIRST_SUPERUSER_PASSWORD: str
+    EMAIL_TEST_USER: EmailStr = "test@example.com"
+    FIRST_SUPERUSER: EmailStr # type: ignore
+    FIRST_SUPERUSER_PASSWORD: str # See .env file
     USERS_OPEN_REGISTRATION: bool = False
 
     MEMGRAPH_HOST: str

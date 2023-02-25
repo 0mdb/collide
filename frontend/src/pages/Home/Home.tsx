@@ -3,10 +3,8 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { Link, Outlet } from 'react-router-dom'
 import { Icon } from '@blueprintjs/core'
 import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import ForceGraph from '../Home/ForceGraph'
-import SearchForm from '../Home/Search'
-import DarkModeSwitch from '../../components/DarkModeSwitch'
-import EmptyGraph from '../../components/EmptyGraph'
+import Search from '../Home/Search'
+import useDarkMode from '../../hooks/useDarkMode'
 
 const ForceIcon = () => (
   <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
@@ -14,36 +12,12 @@ const ForceIcon = () => (
 
 const UserIcon = () => <Icon icon='user' size={20} className='fill-muted pr-2 dark:fill-muted' />
 
-function GraphTypeButton({}) {
-  const [graphType, setGraphType] = useState('2D')
-  const changeGraphType = () => {
-    if (graphType === '2D') {
-      setGraphType('3D')
-    } else {
-      setGraphType('2D')
-    }
-  }
-  return (
-    <button
-      className='hover:bg-primary-d font-bold flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white shadow-lg'
-      onClick={changeGraphType}
-    >
-      {graphType === '2D' ? '3D' : '2D'}
-    </button>
-  )
-}
-
 const navigation = [
   { name: 'Networks', href: '/home2/force', icon: ForceIcon, current: true },
   /* { name: 'Bills Bills Bills', href: '/home2/law', icon: SankeyIcon, current: false }, */
-  /* { name: 'Follow the Money', href: '/home2/money', icon: MoneyIcon, current: false }, */
-  // { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
+  { name: 'Settings', href: '/home/settings' },
   { name: 'Sign out', href: '#' },
 ]
 
@@ -51,14 +25,20 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Home2() {
+export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selected, setSelected] = useState('')
+  const [open, setOpen] = useState(false)
+  const darkMode = useDarkMode()
 
   return (
     <div>
       <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-40 md:hidden' onClose={setSidebarOpen}>
+        <Dialog
+          as='div'
+          className='overflow-y-hidden relative z-40 md:hidden'
+          onClose={setSidebarOpen}
+        >
           <Transition.Child
             as={Fragment}
             enter='transition-opacity ease-linear duration-300'
@@ -68,7 +48,7 @@ export default function Home2() {
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <div className='fixed inset-0 bg-opacity-75 bg-gray-300 duration-500 ease-in-out dark:bg-gray-800' />
+            <div className='fixed inset-0 bg-gray-300 bg-opacity-75 duration-500 ease-in-out dark:bg-gray-800' />
           </Transition.Child>
 
           <div className='fixed inset-0 z-40 flex'>
@@ -81,7 +61,7 @@ export default function Home2() {
               leaveFrom='translate-x-0'
               leaveTo='-translate-x-full'
             >
-              <Dialog.Panel className='bg-gray-300 duration-500 ease-in-out dark:bg-gray-700 relative flex w-full max-w-xs flex-1 flex-col pt-5 pb-4'>
+              <Dialog.Panel className='relative flex w-full max-w-xs flex-1 flex-col bg-gray-300 pt-5 pb-4 duration-500 ease-in-out dark:bg-gray-700'>
                 <Transition.Child
                   as={Fragment}
                   enter='ease-in-out duration-300'
@@ -108,9 +88,6 @@ export default function Home2() {
                     src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300'
                     alt='Your Company'
                   />
-                  <div className='ml-16 h-6 w-6 flex-shrink-0 text-indigo-300'>
-                    <DarkModeSwitch />
-                  </div>
                 </div>
                 <div className='mt-5 h-0 flex-1 overflow-y-auto'>
                   <nav className='space-y-1 px-2'>
@@ -133,7 +110,6 @@ export default function Home2() {
                       </Link>
                     ))}
                   </nav>
-                  <GraphTypeButton />
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -145,7 +121,7 @@ export default function Home2() {
       </Transition.Root>
 
       {/* Static sidebar for desktop */}
-      <div className='hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col dark:bg-gray-800 bg-gray-300'>
+      <div className='hidden bg-gray-300 dark:bg-gray-800 md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col'>
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
           <div className='flex flex-shrink-0 items-center px-4'>
@@ -154,9 +130,6 @@ export default function Home2() {
               src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300'
               alt='LobbyRadar'
             />
-            <div className='ml-4 h-6 w-6 flex-shrink-0 text-indigo-300'>
-              <DarkModeSwitch />
-            </div>
           </div>
           <div className='mt-5 flex flex-1 flex-col'>
             <nav className='flex-1 space-y-1 px-2 pb-4'>
@@ -178,8 +151,6 @@ export default function Home2() {
                   {item.name}
                 </Link>
               ))}
-
-              <GraphTypeButton />
             </nav>
           </div>
         </div>
@@ -196,7 +167,7 @@ export default function Home2() {
           </button>
           <div className='flex flex-1 justify-between px-4'>
             <div className='flex flex-1'>
-              <SearchForm selected={selected} setSelected={setSelected} />
+              <Search open={open} setOpen={setOpen} selected={selected} setSelected={setSelected} />
             </div>
             <div className='ml-4 flex items-center md:ml-6'>
               <button
@@ -247,15 +218,11 @@ export default function Home2() {
           </div>
         </div>
         <main className='dark:bg-gray-700'>
-          <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
-            <div className='py-6'>
-              <div className='mx-auto my-auto max-w-7xl px-4 sm:px-6 md:px-8 h-full'>
+          <div className='flex flex-grow flex-col pt-5'>
+            <div className='py-4'>
+              <div className='mx-auto my-auto max-w-7xl px-4 sm:px-6 md:px-8'>
                 {/* Replace with your content */}
-                {!!selected ? (
-                  <ForceGraph selected={selected} setSelected={setSelected} />
-                ) : (
-                  <EmptyGraph />
-                )}
+                <Outlet context={[darkMode, selected, setSelected, open, setOpen]} />
               </div>
             </div>
             <div className='flex-1 bg-gray-700'></div>

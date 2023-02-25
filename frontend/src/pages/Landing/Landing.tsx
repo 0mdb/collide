@@ -1,23 +1,20 @@
 import React from 'react'
-import Analytics, { LobbyRadar } from './Analytics'
-import CallToAction from './Cta'
 import Footer from './Footer'
-import Hero, { HeroSection } from './Hero'
 import Navbar from './Nav'
-import Newsletter from './Newsletter'
+
+import CallToAction from './Cta'
+
 import Stats from './Stats'
+import Hero, { HeroSection } from './Hero'
 
 function Landing() {
   return (
-    <div className='bg-gray-400 dark:bg-gray-700'>
+    <div className='bg-secondary dark:bg-secondary-d'>
       <Navbar />
+      <Hero />
       <CallToAction />
-      {/* <HeroSection /> */}
-      {/* <Hero /> */}
-      {/* <Stats /> */}
-      {/* <Analytics /> */}
-      {/* <Newsletter /> */}
-      {/* <Cards /> */}
+      <HeroSection />
+      <Stats />
       <Footer />
     </div>
   )

@@ -1,10 +1,12 @@
+
 from typing import AsyncGenerator, Generator
 
 from fastapi import Depends
 from fastapi_users.db import SQLAlchemyUserDatabase
 from fastapi_users_db_sqlalchemy.access_token import SQLAlchemyAccessTokenDatabase
+from sqlalchemy.engine import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
 from app.db.base import Base
@@ -34,14 +36,3 @@ async def get_access_token_db(
 ):
     yield SQLAlchemyAccessTokenDatabase(session, AccessToken)
 
-
-# def get_gdb() -> Generator:
-#     try:
-#         db = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
-#         yield db
-#     finally:
-#         pass
-
-
-# gdb = Memgraph(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
-#     db.close()

@@ -8,7 +8,7 @@ export const ThemeButton = () => {
   return (
     <span onClick={handleMode}>
       {darkTheme ? (
-        <Icon icon='flash' size={28} className='fill-muted' />
+        <Icon icon='flash' size={28} className='fill-secondary-l' />
       ) : (
         <Icon icon='moon' size={28} />
       )}
