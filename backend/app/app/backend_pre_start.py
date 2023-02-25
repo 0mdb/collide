@@ -1,8 +1,5 @@
 import logging
 
-from psycopg2cffi import compat
-compat.register()
-
 from sqlalchemy import create_engine
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
@@ -27,6 +24,7 @@ def check_postgres() -> None:
         con.execute("SELECT 1")
         logger.info("DB is awake")
         con.close()
+
 
 def check_memgraph() -> None:
         cursor = conn.cursor()
