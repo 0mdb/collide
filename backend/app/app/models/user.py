@@ -1,7 +1,8 @@
-from fastapi_users.db import SQLAlchemyBaseUserTableUUID
-
-from sqlalchemy.orm import relationship
 from typing import TYPE_CHECKING
+
+from fastapi_users.db import SQLAlchemyBaseUserTableUUID
+from sqlalchemy.orm import relationship
+
 from app.db.base_class import Base
 
 if TYPE_CHECKING:
@@ -9,5 +10,4 @@ if TYPE_CHECKING:
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    pass
-    # items = relationship("Item", back_populates="owner")
+    items = relationship("Item", back_populates="owner")
