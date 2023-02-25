@@ -1,9 +1,6 @@
 from fastapi import APIRouter
 
-# from app.api.api_v1.endpoints import items
-from app.api.api_v1.endpoints import resfresh
-from app.api.api_v1.endpoints import forcegraph
-
+from app.api.api_v1.endpoints import forcegraph, items, resfresh
 from app.core.users import auth_backend, fastapi_users
 from app.schemas.user import UserCreate, UserRead, UserUpdate
 
@@ -35,3 +32,5 @@ api_router.include_router(
 )
 
 api_router.include_router(forcegraph.router, prefix="/forcegraph", tags=["forcegraph"])
+
+api_router.include_router(items.router, prefix="/items", tags=["items"])
