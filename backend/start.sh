@@ -31,4 +31,4 @@ else
 fi
 
 # Start Gunicorn
-exec pypy3 -m gunicorn -k "$WORKER_CLASS" -c "$GUNICORN_CONF" "$APP_MODULE"
+exec gunicorn -k "$WORKER_CLASS" -c "$GUNICORN_CONF" "$APP_MODULE"
