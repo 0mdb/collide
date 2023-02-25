@@ -7,4 +7,4 @@ pypy3 /app/app/backend_pre_start.py
 # alembic upgrade head
 
 # Create initial data in DB
-#pypy3 /app/app/initial_data.py
+pypy3 /app/app/initial_data.py
