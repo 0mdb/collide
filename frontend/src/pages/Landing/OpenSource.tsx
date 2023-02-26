@@ -2,22 +2,14 @@ import React from 'react'
 import Footer from './Footer'
 import Navbar from './Nav'
 import { ForceGraphLicense } from '../../assets/license_forcegraph.tsx'
-import { OurCommonsLicense, ISEDLicense, LEGISinfoLicense, ElxCanadaLicense, LobbyingCommissionerLicense } from '../../assets/license_gov.tsx'
+import {
+  OurCommonsLicense,
+  ISEDLicense,
+  LEGISinfoLicense,
+  ElxCanadaLicense,
+  LobbyingCommissionerLicense,
+} from '../../assets/license_gov.tsx'
 
-/*
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/typography'),
-    ],
-  }
-  ```
-*/
 function OpenSourceLayout() {
   return (
     <div className='relative overflow-hidden bg-white dark:bg-secondary py-16'>
@@ -136,9 +128,7 @@ function OpenSourceLayout() {
 function OpenSource() {
   return (
     <div>
-      <Navbar />
       <OpenSourceLayout />
-      <Footer />
     </div>
   )
 }
