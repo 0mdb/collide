@@ -1,6 +1,4 @@
 import React from 'react'
-import Footer from './Footer'
-import Navbar from './Nav'
 
 function AboutLayout() {
   return (
@@ -135,9 +133,7 @@ function AboutLayout() {
 function About() {
   return (
     <div>
-      <Navbar />
       <AboutLayout />
-      <Footer />
     </div>
   )
 }

@@ -1,5 +1,7 @@
-# from .crud_item import item
-from .memgraph_make_graph import graph_search_options, memgraph_query_and_aggregate
+from .crud_item import item
+from .crud_user import user
+
+# from .memgraph_make_graph import graph_search_options, memgraph_query_and_aggregate
 
 # For a new basic set of CRUD operations you could just do
 

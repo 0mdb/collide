@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Switch } from '@headlessui/react'
+import { Link } from 'react-router-dom'
 
 import React from 'react'
-import Footer from './Footer'
-import Navbar from './Nav'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -162,9 +161,9 @@ function ContactLanding() {
             </div>
             <Switch.Label className='text-sm leading-6 text-gray-600'>
               By selecting this, you agree to our{' '}
-              <a href='#' className='font-semibold text-indigo-600'>
+              <Link to='/privacypolicy' className='font-semibold text-indigo-600'>
                 privacy&nbsp;policy
-              </a>
+              </Link>
               .
             </Switch.Label>
           </Switch.Group>
@@ -185,9 +184,7 @@ function ContactLanding() {
 function Contact() {
   return (
     <div>
-      <Navbar />
       <ContactLanding />
-      <Footer />
     </div>
   )
 }
