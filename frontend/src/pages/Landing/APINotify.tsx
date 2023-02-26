@@ -1,7 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Footer from './Footer'
-import Navbar from './Nav'
 
 const APINotify = () => {
   return (
@@ -36,9 +34,7 @@ const APINotify = () => {
 function APILanding() {
   return (
     <div>
-      <Navbar />
       <APINotify />
-      <Footer />
     </div>
   )
 }

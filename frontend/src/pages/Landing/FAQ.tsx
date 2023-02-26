@@ -1,44 +1,50 @@
 import React from 'react'
 import Footer from './Footer'
 import Navbar from './Nav'
-import { FaqHeader, FaqQ1, FaqA1, FaqQ2, FaqA2, FaqQ3, FaqA3, FaqQ4, FaqA4, FaqQ5, FaqA5} from '../../assets/landing_faq.tsx'
+import {
+  FaqHeader,
+  FaqQ1,
+  FaqA1,
+  FaqQ2,
+  FaqA2,
+  FaqQ3,
+  FaqA3,
+  FaqQ4,
+  FaqA4,
+  FaqQ5,
+  FaqA5,
+} from '../../assets/landing_faq.tsx'
 
 const faqs = [
   {
     id: 1,
     question: <FaqQ1 />,
-    answer:
-      <FaqA1 />,
+    answer: <FaqA1 />,
   },
 
   {
     id: 2,
     question: <FaqQ2 />,
-    answer:
-      <FaqA2 />,
+    answer: <FaqA2 />,
   },
 
-    {
+  {
     id: 3,
     question: <FaqQ3 />,
-    answer:
-      <FaqA3 />,
+    answer: <FaqA3 />,
   },
 
-    {
+  {
     id: 4,
     question: <FaqQ4 />,
-    answer:
-      <FaqA4 />,
+    answer: <FaqA4 />,
   },
 
-    {
+  {
     id: 5,
     question: <FaqQ5 />,
-    answer:
-      <FaqA5 />,
+    answer: <FaqA5 />,
   },
-
 ]
 
 function FAQ() {
@@ -55,7 +61,9 @@ function FAQ() {
                 {faq.question}
               </dt>
               <dd className='mt-4 lg:col-span-7 lg:mt-0'>
-                <p className='text-base leading-7 text-gray-600 dark:text-secondary-text'>{faq.answer}</p>
+                <p className='text-base leading-7 text-gray-600 dark:text-secondary-text'>
+                  {faq.answer}
+                </p>
               </dd>
             </div>
           ))}
@@ -68,9 +76,7 @@ function FAQ() {
 function FAQLanding() {
   return (
     <div className='bg-secondary dark:bg-secondary-d'>
-      <Navbar />
       <FAQ />
-      <Footer />
     </div>
   )
 }
