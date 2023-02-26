@@ -44,10 +44,9 @@ function App() {
     <ScrollToTop>
       <Routes>
         {/* <Suspense fallback={<H1>Loading...</H1>}> */}
-        <Route path='' element={<Layout />}>
+        <Route path='/' element={<Layout />}>
           {/* public routes */}
-          <Route index element={<Landing />} />
-          <Route path='' element={<Landing />}>
+          <Route path='/' element={<Landing />}>
             <Route index element={<Welcome />} />
             <Route path='api' element={<APILanding />} />
             <Route path='privacypolicy' element={<PrivacyPolicy />} />
