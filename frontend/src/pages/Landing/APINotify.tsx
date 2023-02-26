@@ -21,7 +21,7 @@ const APINotify = () => {
             Join the waiting list
           </button>
         </div>
-        <Link to='/legal'>
+        <Link to='/privacypolicy'>
           <p className='text-center'>
             By signing up, you agree to our <span className='text-muted'>Privacy Policy</span>.
           </p>
