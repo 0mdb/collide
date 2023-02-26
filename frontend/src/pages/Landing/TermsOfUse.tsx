@@ -3,20 +3,6 @@ import Footer from './Footer'
 import Navbar from './Nav'
 import { TermsLicense } from '../../assets/license_terms.tsx'
 
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/typography'),
-    ],
-  }
-  ```
-*/
 function TermsOfUseLayout() {
   return (
     <div className='relative overflow-hidden bg-white dark:bg-secondary py-16'>
@@ -120,9 +106,7 @@ function TermsOfUseLayout() {
 function TermsOfUse() {
   return (
     <div>
-      <Navbar />
       <TermsOfUseLayout />
-      <Footer />
     </div>
   )
 }

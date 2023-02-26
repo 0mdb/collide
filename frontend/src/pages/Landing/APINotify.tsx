@@ -1,7 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Footer from './Footer'
-import Navbar from './Nav'
 
 const APINotify = () => {
   return (
@@ -23,7 +21,7 @@ const APINotify = () => {
             Join the waiting list
           </button>
         </div>
-        <Link to='/legal'>
+        <Link to='/privacypolicy'>
           <p className='text-center'>
             By signing up, you agree to our <span className='text-muted'>Privacy Policy</span>.
           </p>
@@ -36,9 +34,7 @@ const APINotify = () => {
 function APILanding() {
   return (
     <div>
-      <Navbar />
       <APINotify />
-      <Footer />
     </div>
   )
 }
