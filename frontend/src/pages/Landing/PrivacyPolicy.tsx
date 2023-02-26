@@ -1,22 +1,6 @@
 import React from 'react'
-import Footer from './Footer'
-import Navbar from './Nav'
 import { PrivacyLicense } from '../../assets/license_privacy.tsx'
 
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/typography'),
-    ],
-  }
-  ```
-*/
 function PrivacyPolicyLayout() {
   return (
     <div className='relative overflow-hidden bg-white dark:bg-secondary py-16'>
@@ -120,9 +104,7 @@ function PrivacyPolicyLayout() {
 function PrivacyPolicy() {
   return (
     <div>
-      <Navbar />
       <PrivacyPolicyLayout />
-      <Footer />
     </div>
   )
 }

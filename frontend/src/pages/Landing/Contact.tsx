@@ -4,8 +4,6 @@ import { Switch } from '@headlessui/react'
 import { Link } from 'react-router-dom'
 
 import React from 'react'
-import Footer from './Footer'
-import Navbar from './Nav'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -186,9 +184,7 @@ function ContactLanding() {
 function Contact() {
   return (
     <div>
-      <Navbar />
       <ContactLanding />
-      <Footer />
     </div>
   )
 }
