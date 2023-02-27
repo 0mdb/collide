@@ -125,10 +125,7 @@ export default function Search(props) {
                 </div>
 
                 {(query === '' || filteredProjects.length > 0) && (
-                  <Combobox.Options
-                    static
-                    className='max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-10 overflow-y-auto'
-                  >
+                  <Combobox.Options className='max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-10 overflow-y-auto'>
                     <li className='p-2'>
                       {query === '' && (
                         <h2 className='mt-4 mb-2 px-3 text-xs font-semibold text-gray-900'>
