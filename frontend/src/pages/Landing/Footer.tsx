@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FaFacebookSquare, FaGithubSquare, FaInstagram, FaTwitterSquare } from 'react-icons/fa'
+import { FaFacebookSquare, FaGithubSquare, FaTwitterSquare } from 'react-icons/fa'
 
 const Footer = () => {
   return (
@@ -13,7 +13,6 @@ const Footer = () => {
         </p>
         <div className='my-6 flex justify-between md:w-[75%]'>
           <FaFacebookSquare size={30} />
-          <FaInstagram size={30} />
           <FaTwitterSquare size={30} />
           <FaGithubSquare size={30} />
         </div>
