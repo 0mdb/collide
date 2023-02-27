@@ -1,8 +1,7 @@
-import React from 'react'
 import useAuth from '../../hooks/useAuth'
 import { loginUser, getMe } from '../../api/authApi'
 
-import { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -12,7 +11,12 @@ const Login = () => {
   const { auth, setAuth, user, setUser } = useAuth()
   const navigate = useNavigate()
   const [err, setErr] = useState(null)
+  const errRef = useRef()
+  const userRef = useRef<HTMLHeadingElement>()
 
+  useEffect(() => {
+    userRef.current.focus()
+  }, [])
   const { mutate: login, isLoading: isLoggingIn } = useMutation(loginUser, {
     onError: (err) => {
       setErr(err.response.data.message || 'Something went wrong. Please try again.')
@@ -64,13 +68,16 @@ const Login = () => {
       <div className='flex min-h-full w-full flex-col justify-center items-center text-center py-12 sm:px-6 lg:px-8'>
         <div className='mx-auto w-full'>
           <div className='mx-auto w-14 h-14'>
-           <IconSvg />
+            <IconSvg />
           </div>
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-secondary-l-text dark:text-secondary-d-text'>
             Sign in to your account
           </h2>
           <p className='mt-2 text-center text-sm text-secondary-text dark:text-secondary-d-text'>
-            <Link to='/register' className='font-medium text-primary-d dark:text-primary-l hover:text-primary'>
+            <Link
+              to='/register'
+              className='font-medium text-primary-d dark:text-primary-l hover:text-primary'
+            >
               Or make a free early access account
             </Link>
           </p>
@@ -91,6 +98,7 @@ const Login = () => {
                     id='email'
                     name='email'
                     type='email'
+                    ref={userRef}
                     autoComplete='email'
                     required={true}
                     className='block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'

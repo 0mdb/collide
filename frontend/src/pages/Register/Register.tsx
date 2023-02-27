@@ -1,6 +1,6 @@
 import { registerUser } from '../../api/authApi'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 const useRegisterUser = () => {
@@ -21,6 +21,11 @@ function Register() {
 
   const [err, setErr] = useState(null)
 
+  const userRef = useRef<HTMLHeadingElement>()
+
+  useEffect(() => {
+    userRef.current.focus()
+  }, [])
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -86,6 +91,7 @@ function Register() {
                 <div className='mt-1'>
                   <input
                     id='email'
+                    ref={userRef}
                     name='email'
                     type='email'
                     autoComplete='email'
