@@ -1,14 +1,12 @@
 import React from 'react'
-import Footer from './Footer'
-import Navbar from './Nav'
-import { ForceGraphLicense } from '../../assets/license_forcegraph.tsx'
+import { ForceGraphLicense } from '../../assets/license_forcegraph'
 import {
   OurCommonsLicense,
   ISEDLicense,
   LEGISinfoLicense,
   ElxCanadaLicense,
   LobbyingCommissionerLicense,
-} from '../../assets/license_gov.tsx'
+} from '../../assets/license_gov'
 
 function OpenSourceLayout() {
   return (
