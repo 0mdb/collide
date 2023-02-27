@@ -131,8 +131,12 @@ function ForceGraph(props) {
           height={height * 0.75}
           width={width * 0.75}
           cooldownTicks={100}
-          nodeAutoColorBy='id'
-          linkDirectionalParticles='value'
+          nodeColor='nodeColor'
+          val='value'
+          linkColor='linkColor'
+          linkDirectionalArrowLength='linkDirectionalArrowLength'
+          linkDirectionalArrowRelPos='linkDirectionalArrowRelPos'
+          linkWidth='linkWidth'
           linkCurvature='curvature'
           //onEngineStop={() => fgRef.current.zoomToFit(200)}
           onEngineStop={handleOnEngineStop}
