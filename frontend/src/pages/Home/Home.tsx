@@ -5,6 +5,7 @@ import { Icon } from '@blueprintjs/core'
 import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Search from '../Home/Search'
 import useDarkMode from '../../hooks/useDarkMode'
+import useLogout from '../../hooks/useLogout'
 
 const ForceIcon = () => (
   <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
@@ -13,7 +14,7 @@ const ForceIcon = () => (
 const UserIcon = () => <Icon icon='user' size={20} className='fill-muted pr-2 dark:fill-muted' />
 
 const navigation = [
-  { name: 'Networks', href: '/home2/force', icon: ForceIcon, current: true },
+  { name: 'Networks', href: '/home', icon: ForceIcon, current: true },
   /* { name: 'Bills Bills Bills', href: '/home2/law', icon: SankeyIcon, current: false }, */
 ]
 const userNavigation = [
