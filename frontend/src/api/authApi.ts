@@ -1,5 +1,4 @@
 import axios from './axios'
-import { useQuery, useMutation } from '@tanstack/react-query'
 
 export interface graphDataType {
   nodes: {
@@ -45,6 +44,13 @@ export const loginUser = async (formData) => {
   return response.data
 }
 
+export const logoutUser = async (formData) => {
+  const response = await axios.post<LoginAuth>('auth/jwt/logout/', formData, {
+    withCredentials: true,
+  })
+  return response.data
+}
+
 export const registerUser = async (email: string, password: string) => {
   const response = await axios.post('auth/register/', email, password)
   return response.data
@@ -60,8 +66,16 @@ export const resetPassword = async (token: string, password: string) => {
   return response.data
 }
 
-export const getMe = async () => {
-  const response = await axios.get('users/me/', { withCredentials: true })
+export const getMe = async (token: string) => {
+  const bearer_token = 'Bearer ' + token
+
+  const response = await axios.get('users/me', {
+    withCredentials: true,
+    headers: {
+      accept: 'application/json',
+      Authorization: bearer_token,
+    },
+  })
   return response.data
 }
 
