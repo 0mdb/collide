@@ -6,18 +6,18 @@ type AuthProviderProps = {
   children: React.ReactNode
 }
 
-type Persist = {
-  auth: {
-    token: string
-    user: {
-      id: string
-      name: string
-      email: string
-      avatar: string
-    }
-  }
-}
-
+/* type Persist = {
+ *   auth: {
+ *     token: string
+ *     user: {
+ *       id: string
+ *       name: string
+ *       email: string
+ *       avatar: string
+ *     }
+ *   }
+ * }
+ *  */
 type User = {
   id: string
   email: string
@@ -27,25 +27,22 @@ type User = {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null)
-  const [token, setToken] = useState<string | null>(null)
+  const [auth, setAuth] = useState('')
+  const [user, setUser] = useState('')
+  const [persist, setPersist] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
-  const [auth, setAuth] = useState<Persist | null>(null)
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        setUser,
-        token,
-        setToken,
-        loading,
-        setLoading,
-        error,
-        setError,
         auth,
         setAuth,
+        user,
+        setUser,
+        persist,
+        setPersist,
+        loading,
+        setLoading,
       }}
     >
       {children}
