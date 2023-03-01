@@ -77,13 +77,13 @@ const Login = () => {
         </div>
 
         <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
-          <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
+          <div className='bg-secondary-l dark:bg-secondary py-8 px-4 shadow sm:rounded-lg sm:px-10'>
             <form onSubmit={handleSubmit} className='space-y-6'>
               <div className='flex items-center'>
                 {err && <p className='text-red-500 text-xs italic'>{err}</p>}
               </div>
               <div>
-                <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
+                <label htmlFor='email' className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'>
                   Email address
                 </label>
                 <div className='mt-1'>
@@ -93,13 +93,15 @@ const Login = () => {
                     type='email'
                     autoComplete='email'
                     required={true}
-                    className='block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                    className='block w-full appearance-none rounded-md
+                    border border-secondary dark:md:border-secondary-d
+                    px-3 py-2 placeholder-secondary shadow-sm focus:border-primary focus:outline-none focus:ring-primary sm:text-sm'
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor='password' className='block text-sm font-medium text-gray-700'>
+                <label htmlFor='password' className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'>
                   Password
                 </label>
                 <div className='mt-1'>
@@ -109,7 +111,9 @@ const Login = () => {
                     type='password'
                     autoComplete='current-password'
                     required={true}
-                    className='block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
+                    className='block w-full appearance-none rounded-md
+                    border border-secondary dark:md:border-secondary-d
+                    px-3 py-2 placeholder-secondary shadow-sm focus:border-primary focus:outline-none focus:ring-primary sm:text-sm'
                   />
                 </div>
               </div>
@@ -120,16 +124,16 @@ const Login = () => {
                     id='remember-me'
                     name='remember-me'
                     type='checkbox'
-                    className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                    className='h-4 w-4 rounded border-secondary text-primary focus:ring-primary'
                   />
-                  <label htmlFor='remember-me' className='ml-2 block text-sm text-gray-900'>
+                  <label htmlFor='remember-me' className='ml-2 block text-sm text-secondary-l-text dark:text-secondary-text'>
                     Remember me
                   </label>
                 </div>
 
                 <div className='text-sm'>
                   <Link to='/forgotpass'>
-                    <a className='font-medium text-indigo-600 hover:text-indigo-500'>
+                    <a className='font-medium text-primary dark:text-primary-d hover:text-primary-d dark:md:hover:text-primary'>
                       Forgot your password?
                     </a>
                   </Link>
@@ -140,7 +144,16 @@ const Login = () => {
                 <button
                   type='submit'
                   disabled={isLoggingIn}
-                  className='flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                  className='flex w-full justify-center rounded-md
+                  border border-primary
+                  bg-primary
+                  py-2 px-4 text-sm
+                  font-medium text-secondary-d-text
+                  shadow-sm
+                  hover:border-primary-d hover:bg-primary-d hover:text-secondary-d-text hover:shadow-md
+                  dark:border-primary-d dark:bg-primary-d dark:text-secondary-d-text
+                  dark:md:hover:border-primary dark:md:hover:bg-primary
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
                   Sign in
                 </button>
@@ -150,10 +163,10 @@ const Login = () => {
             <div className='mt-6'>
               <div className='relative'>
                 <div className='absolute inset-0 flex items-center'>
-                  <div className='w-full border-t border-gray-300' />
+                  <div className='w-full border-t border-secondary dark:border-secondary-d' />
                 </div>
                 <div className='relative flex justify-center text-sm'>
-                  <span className='bg-white px-2 text-gray-500'>Or continue with</span>
+                  <span className='bg-secondary-l dark:bg-secondary px-2 text-secondary-l-text dark:text-secondary-text'>Or continue with</span>
                 </div>
               </div>
 
@@ -161,7 +174,12 @@ const Login = () => {
                 <div>
                   <a
                     href='#'
-                    className='inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50'
+                    className='inline-flex w-full justify-center rounded-md border
+                    border-secondary
+                    bg-white
+                    py-2 px-4 text-sm
+                    font-medium
+                    text-secondary-l-text shadow-sm hover:bg-primary-l dark:md:hover:bg-primary-d'
                   >
                     <span className='sr-only'>Sign in with Facebook</span>
                     <svg
@@ -182,7 +200,12 @@ const Login = () => {
                 <div>
                   <a
                     href='#'
-                    className='inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50'
+                    className='inline-flex w-full justify-center rounded-md border
+                    border-secondary
+                    bg-white
+                    py-2 px-4 text-sm
+                    font-medium
+                    text-secondary-l-text shadow-sm hover:bg-primary-l dark:md:hover:bg-primary-d'
                   >
                     <span className='sr-only'>Sign in with Twitter</span>
                     <svg
@@ -199,7 +222,12 @@ const Login = () => {
                 <div>
                   <a
                     href='#'
-                    className='inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50'
+                    className='inline-flex w-full justify-center rounded-md
+                    border border-secondary
+                    bg-white
+                    py-2 px-4 text-sm
+                    font-medium
+                    text-secondary-l-text shadow-sm hover:bg-primary-l dark:md:hover:bg-primary-d'
                   >
                     <span className='sr-only'>Sign in with GitHub</span>
                     <svg

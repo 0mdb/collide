@@ -27,7 +27,7 @@ module.exports = {
         'morp': '#f6f7f9',  // nearly white
         'muted': '#abb3bf',  // light gray
         'primary': '#4338ca',  // indigo-700
-        'primary-l': '#6366f1',  // indigo-500
+        'primary-l': '#818cf8',  // indigo-400
         'primary-d': '#312e81',  // indigo-900
         'secondary': '#64748b',  // slate-500
         'secondary-l': '#cbd5e1',  // slate-300
