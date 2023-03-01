@@ -3,7 +3,7 @@ import React from 'react'
 import jsonserverprovider from 'ra-data-json-server'
 import { Route, Routes } from 'react-router-dom'
 import { Admin, Resource, ListGuesser } from 'react-admin'
-/* import PersistLogin from './components/PersistLogin' */
+import PersistLogin from './components/PersistLogin'
 import Home from './pages/Home'
 import Landing from './pages/Landing'
 import Welcome from './pages/Landing/Welcome'
@@ -36,7 +36,8 @@ const dataProvider = jsonserverprovider('http://jsonplaceholder.typicode.com')
 
 const ROLES = {
   User: 'user',
-  Admin: 'admin',
+  Admin: 'superuser',
+  Verified: 'verified',
 }
 
 function App() {
@@ -62,27 +63,28 @@ function App() {
             <Route path='apinotify' element={<APINotify />} />
           </Route>
 
-          <Route path='home' element={<Home />}>
-            <Route index element={<GraphDisplay />} />
-            <Route path='force' element={<GraphDisplay />} />
-            <Route path='settings' element={<UserSettings />} />
+          <Route element={<PersistLogin />}>
+            <Route path='home' element={<Home />}>
+              <Route index element={<GraphDisplay />} />
+              <Route path='force' element={<GraphDisplay />} />
+              <Route path='settings' element={<UserSettings />} />
+            </Route>
+            {/* protected routes */}
+            {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}> */}
+            <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+              <Route path='home' element={<Home />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+              <Route
+                path='admin/*'
+                element={
+                  <Admin dataProvider={dataProvider} basename='/admin'>
+                    <Resource name='users' list={ListGuesser} />
+                  </Admin>
+                }
+              />
+            </Route>
           </Route>
-          {/* protected routes */}
-          {/* <Route element={<PersistLogin />}> */}
-          {/* <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}>
-          <Route path='home' element={<Home />} />
-        </Route> */}
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-            <Route
-              path='admin/*'
-              element={
-                <Admin dataProvider={dataProvider} basename='/admin'>
-                  <Resource name='users' list={ListGuesser} />
-                </Admin>
-              }
-            />
-          </Route>
-          {/* </Route> */}
           {/* catch all */}
           <Route path='*' element={<PageNotFound />} />
         </Route>

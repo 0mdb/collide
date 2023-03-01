@@ -1,5 +1,5 @@
 import { forgotPassword } from '../../api/authApi'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import { Icon } from '@blueprintjs/core'
 import { Link, useNavigate } from 'react-router-dom'
@@ -26,6 +26,12 @@ function ForgotPassword() {
   const { mutate, isLoading, error } = useRecoverPassword()
   const [err, setErr] = useState(null)
   const navigate = useNavigate()
+
+  const userRef = useRef<HTMLHeadingElement>()
+
+  useEffect(() => {
+    userRef.current.focus()
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -82,6 +88,7 @@ function ForgotPassword() {
                   <input
                     id='email'
                     name='email'
+                    ref={userRef}
                     required={true}
                     type='email'
                     autoComplete='email'

@@ -7,7 +7,7 @@ const useLogout = () => {
   const axios = useAxiosPrivate()
 
   const logout = async () => {
-    // setAuth({}) // clear auth
+    setAuth({}) // clear auth
     try {
       await axios.post('auth/jwt/logout', null, {
         headers: {
