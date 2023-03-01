@@ -1,28 +1,50 @@
-import React from 'react'
 import useAuth from '../../hooks/useAuth'
 import { loginUser, getMe } from '../../api/authApi'
 
-import { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 import { IconSvg } from '../../components/IconSvg'
 
 const Login = () => {
-  const { auth, setAuth, user, setUser } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [err, setErr] = useState(null)
+  const errRef = useRef()
+  const userRef = useRef<HTMLHeadingElement>()
+  const { auth, setAuth, setUser, persist, setPersist } = useAuth()
+  const from = location.state?.from?.pathname || '/home'
+  useEffect(() => {
+    userRef.current.focus()
+  }, [])
 
   const { mutate: login, isLoading: isLoggingIn } = useMutation(loginUser, {
     onError: (err) => {
       setErr(err.response.data.message || 'Something went wrong. Please try again.')
       console.log('err', err.response.status)
     },
+    onSuccess: (data) => {
+      console.log('login data', data?.access_token)
+      const token = data?.access_token
+      setAuth(token)
+      currentUser(token)
+
+      if (persist) {
+        localStorage.setItem('token', token)
+      } else {
+        sessionStorage.setItem('token', token)
+      }
+    },
   })
 
-  const { mutate: getUserInfo, isLoading: isGettingUserInfo } = useMutation(getMe, {
+  const { mutate: currentUser, isLoading: isGettingUser } = useMutation(getMe, {
+    onError: (err) => {
+      setErr(err.response.data.message || 'Something went wrong. Please try again.')
+      console.log('err', err.response.status)
+    },
     onSuccess: (data) => {
-      console.log('getUserInfo data', data)
+      console.log('current user data', data)
       setUser(data)
     },
   })
@@ -30,7 +52,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    console.log('password', e.target.elements)
     const email = e.target.elements.email.value
     const password = e.target.elements.password.value
     // Regular expression to check for a valid email
@@ -54,23 +75,33 @@ const Login = () => {
     formData.append('username', email)
     formData.append('password', password)
     login(formData)
-    const user = getUserInfo()
-    setUser(user)
-    navigate('/home')
+    // check auth is not null before setting current user
+    currentUser(auth)
+    navigate(from, { replace: true })
   }
+
+  const togglePersist = () => {
+    setPersist(!persist)
+  }
+  useEffect(() => {
+    localStorage.setItem('persist', persist)
+  }, [persist])
 
   return (
     <>
       <div className='flex min-h-full w-full flex-col justify-center items-center text-center py-12 sm:px-6 lg:px-8'>
         <div className='mx-auto w-full'>
           <div className='mx-auto w-14 h-14'>
-           <IconSvg />
+            <IconSvg />
           </div>
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-secondary-l-text dark:text-secondary-d-text'>
             Sign in to your account
           </h2>
           <p className='mt-2 text-center text-sm text-secondary-text dark:text-secondary-d-text'>
-            <Link to='/register' className='font-medium text-primary-d dark:text-primary-l hover:text-primary'>
+            <Link
+              to='/register'
+              className='font-medium text-primary-d dark:text-primary-l hover:text-primary'
+            >
               Or make a free early access account
             </Link>
           </p>
@@ -91,6 +122,7 @@ const Login = () => {
                     id='email'
                     name='email'
                     type='email'
+                    ref={userRef}
                     autoComplete='email'
                     required={true}
                     className='block w-full appearance-none rounded-md
@@ -123,6 +155,8 @@ const Login = () => {
                   <input
                     id='remember-me'
                     name='remember-me'
+                    onChange={togglePersist}
+                    checked={persist}
                     type='checkbox'
                     className='h-4 w-4 rounded border-secondary text-primary focus:ring-primary'
                   />

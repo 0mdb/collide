@@ -21,9 +21,10 @@ from app.models import User
 from app.models.token import AccessToken
 from app.utils import send_new_account_email, send_reset_password_email
 
+from .config import settings
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-from .config import settings
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
@@ -62,8 +63,8 @@ async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db
     yield UserManager(user_db)
 
 
-# bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
-cookie_transport = CookieTransport(cookie_max_age=3600, cookie_httponly=True)
+bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+# cookie_transport = CookieTransport(cookie_max_age=3600, cookie_httponly=True)
 
 
 def get_jwt_strategy() -> JWTStrategy:
@@ -80,7 +81,7 @@ def get_database_strategy(
 
 auth_backend = AuthenticationBackend(
     name="jwt",
-    transport=cookie_transport,
+    transport=bearer_transport,
     get_strategy=get_database_strategy,
 )
 

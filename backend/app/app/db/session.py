@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
 from app.db.base import Base
-from app.models import AccessToken, User
+from app.models import AccessToken, OAuthAccount, User
 
 # Postgres instance
 engine = create_async_engine(settings.SQLALCHEMY_DATABASE_URI, pool_pre_ping=True)
@@ -28,7 +28,7 @@ async def create_db_and_tables():
 
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
-    yield SQLAlchemyUserDatabase(session, User)
+    yield SQLAlchemyUserDatabase(session, User, OAuthAccount)
 
 
 async def get_access_token_db(
