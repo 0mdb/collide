@@ -4,7 +4,6 @@ import { loginUser, getMe } from '../../api/authApi'
 import React, { useState, useEffect, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-
 import { IconSvg } from '../../components/IconSvg'
 
 const Login = () => {
@@ -89,7 +88,7 @@ const Login = () => {
 
   return (
     <>
-      <div className='flex min-h-full w-full flex-col justify-center items-center text-center py-12 sm:px-6 lg:px-8'>
+      <div className='flex min-h-full w-full flex-col justify-center items-center py-12 sm:px-6 lg:px-8'>
         <div className='mx-auto w-full'>
           <div className='mx-auto w-14 h-14'>
             <IconSvg />
@@ -100,7 +99,7 @@ const Login = () => {
           <p className='mt-2 text-center text-sm text-secondary-text dark:text-secondary-d-text'>
             <Link
               to='/register'
-              className='font-medium text-primary-d dark:text-primary-l hover:text-primary'
+              className='font-medium text-secondary-accent dark:text-secondary-d-accent hover:text-secondary-accent-hov dark:hover:text-secondary-d-accent-hov'
             >
               Or make a free early access account
             </Link>
@@ -126,8 +125,10 @@ const Login = () => {
                     autoComplete='email'
                     required={true}
                     className='block w-full appearance-none rounded-md
-                    border border-secondary dark:md:border-secondary-d
-                    px-3 py-2 placeholder-secondary shadow-sm focus:border-primary focus:outline-none focus:ring-primary sm:text-sm'
+                    border border-secondary dark:border-secondary-d
+                    px-3 py-2 placeholder-secondary shadow-sm
+                    focus:border-primary focus:outline-none focus:ring-primary
+                    sm:text-sm'
                   />
                 </div>
               </div>
@@ -144,8 +145,10 @@ const Login = () => {
                     autoComplete='current-password'
                     required={true}
                     className='block w-full appearance-none rounded-md
-                    border border-secondary dark:md:border-secondary-d
-                    px-3 py-2 placeholder-secondary shadow-sm focus:border-primary focus:outline-none focus:ring-primary sm:text-sm'
+                    border border-secondary dark:border-secondary-d
+                    px-3 py-2 placeholder-secondary shadow-sm
+                    focus:border-primary focus:outline-none focus:ring-primary
+                    sm:text-sm'
                   />
                 </div>
               </div>
@@ -167,7 +170,7 @@ const Login = () => {
 
                 <div className='text-sm'>
                   <Link to='/forgotpass'>
-                    <a className='font-medium text-primary dark:text-primary-d hover:text-primary-d dark:md:hover:text-primary'>
+                    <a className='font-medium text-secondary-l-accent dark:secondary-accent hover:text-secondary-l-accent-hov hover:dark:secondary-accent-hov'>
                       Forgot your password?
                     </a>
                   </Link>
@@ -186,7 +189,7 @@ const Login = () => {
                   shadow-sm
                   hover:border-primary-d hover:bg-primary-d hover:text-secondary-d-text hover:shadow-md
                   dark:border-primary-d dark:bg-primary-d dark:text-secondary-d-text
-                  dark:md:hover:border-primary dark:md:hover:bg-primary
+                  dark:hover:border-primary dark:hover:bg-primary
                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
                   Sign in
@@ -213,7 +216,8 @@ const Login = () => {
                     bg-white
                     py-2 px-4 text-sm
                     font-medium
-                    text-secondary-l-text shadow-sm hover:bg-primary-l dark:md:hover:bg-primary-d'
+                    text-secondary-l-text shadow-sm hover:bg-primary-l
+                    dark:hover:bg-primary-d'
                   >
                     <span className='sr-only'>Sign in with Facebook</span>
                     <svg
@@ -239,7 +243,8 @@ const Login = () => {
                     bg-white
                     py-2 px-4 text-sm
                     font-medium
-                    text-secondary-l-text shadow-sm hover:bg-primary-l dark:md:hover:bg-primary-d'
+                    text-secondary-l-text shadow-sm hover:bg-primary-l
+                    dark:hover:bg-primary-d'
                   >
                     <span className='sr-only'>Sign in with Twitter</span>
                     <svg
@@ -261,7 +266,8 @@ const Login = () => {
                     bg-white
                     py-2 px-4 text-sm
                     font-medium
-                    text-secondary-l-text shadow-sm hover:bg-primary-l dark:md:hover:bg-primary-d'
+                    text-secondary-l-text shadow-sm hover:bg-primary-l
+                    dark:hover:bg-primary-d'
                   >
                     <span className='sr-only'>Sign in with GitHub</span>
                     <svg
