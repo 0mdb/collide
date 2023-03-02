@@ -47,7 +47,7 @@ module.exports = {
         'secondary-l-accent': '#312e81',  // indigo-900
         'secondary-d-accent': '#818cf8',  // indigo-400
 
-        'secondary-accent-hov': '#818cf8',  // indigo-400
+        'secondary-accent-hov': '#6366f1',  // indigo-500
         'secondary-l-accent-hov': '#6366f1',  // indigo-500
         'secondary-d-accent-hov': '#312e81',  // indigo-900
 
