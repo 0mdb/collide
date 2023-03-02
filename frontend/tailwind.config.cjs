@@ -39,14 +39,6 @@ module.exports = {
         'primary-l-text': '#000000',  // black
         'primary-d-text': '#ffffff',  // white
 
-//         'primary-text-accent':
-//         'primary-l-text-accent':
-//         'primary-d-text-accent':
-//
-//         'primary-text-accent-hov':
-//         'primary-l-text-accent-hov':
-//         'primary-d-text-accent-hov':
-
         'secondary-text': '#ffffff',  // white
         'secondary-l-text': '#000000',  // black
         'secondary-d-text': '#ffffff',  // white
@@ -56,7 +48,7 @@ module.exports = {
         'secondary-d-accent': '#818cf8',  // indigo-400
 
         'secondary-accent-hov': '#818cf8',  // indigo-400
-        'secondary-l-accent-hov': '#6366f1'  // indigo-500
+        'secondary-l-accent-hov': '#6366f1',  // indigo-500
         'secondary-d-accent-hov': '#312e81',  // indigo-900
 
         'analogous1': '#8d38ca',  // magenta
