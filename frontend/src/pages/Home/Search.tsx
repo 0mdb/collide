@@ -136,7 +136,7 @@ export default function Search(props) {
                         {(query === '' ? searchResults : filteredProjects).map((result) => (
                           <Combobox.Option
                             key={result.label}
-                            value={result.value}
+                            value={[result.value, result.type, result.bill_match]}
                             className={({ active }) =>
                               classNames(
                                 'flex cursor-default select-none items-center rounded-md px-3 py-2',
