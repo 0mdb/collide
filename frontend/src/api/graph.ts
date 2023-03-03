@@ -5,16 +5,22 @@ export interface graphDataType {
     id: string
     name: string
     type: string
-    val: number
+    value: number
+    nodeColor: string
   }
   links: {
-    source: 'string'
-    target: 'string'
-    type: 'string'
+    source: string
+    target: string
+    type: string
+    linkColor: string
+    linkDirectionalArrowLength: 0
+    linkDirectionalArrowRelPos: 0
+    linkWidth: 1
     color: 'string'
     dash: [0]
     amount: 0
   }
+
 }
 
 interface SearchQuery {
@@ -26,6 +32,7 @@ export async function getSampleGraph() {
 }
 
 export async function getGraph(query: string) {
+  query = query.join('&')
   console.log('getGraph', query)
   return await axios.post<graphDataType>('forcegraph/search/' + query).then((res) => res.data)
 }
@@ -34,5 +41,6 @@ export async function getSearchResults(query: string) {
   const SEARCH_URL = 'forcegraph/search_options?query='
   const match_name = query.toLowerCase().split(' ').join('')
   console.log('getSearchResults', query)
+  console.log(await axios.post<SearchQuery>(SEARCH_URL + match_name).then((res) => res.data))
   return await axios.post<SearchQuery>(SEARCH_URL + match_name).then((res) => res.data)
 }

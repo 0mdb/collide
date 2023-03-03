@@ -51,7 +51,10 @@ function ForceGraph(props) {
       })
 
       // Highlight the selected node
-      const selectedNode = graphData.nodes.find((node) => node.id === props.selected)
+      //console.log('here')
+      const selectedNode = graphData.nodes.find((node) => node.id === props.selected[0])
+      //console.log('selected node', selectedNode)
+      //console.log('props selected', props.selected)
       if (selectedNode) {
         highlightNodes.add(selectedNode)
         selectedNode.neighbors.forEach((neighbor) => highlightNodes.add(neighbor))
@@ -69,16 +72,16 @@ function ForceGraph(props) {
     (node, ctx, globalScale) => {
       const { x, y, id, name } = node
       const nodeRadius = 16
-      const fontSize = id === props.selected ? 20 : 16
+      const fontSize = id === props.selected[0] ? 20 : 16
       // Draw outer ring
       ctx.beginPath()
       ctx.arc(x, y, nodeRadius, 0, 2 * Math.PI, false)
       ctx.lineWidth = 8 / globalScale
-      ctx.strokeStyle = id === props.selected ? '#4338ca' : '#ffa31a'
+      ctx.strokeStyle = id === props.selected[0] ? '#4338ca' : '#ffa31a'
       ctx.stroke()
 
       // Draw inner ring and label
-      if (highlightNodes.has(node) || id === props.selected) {
+      if (highlightNodes.has(node) || id === props.selected[0]) {
         ctx.beginPath()
         ctx.arc(x, y, nodeRadius * 0.5, 0, 2 * Math.PI, false)
 
@@ -131,16 +134,24 @@ function ForceGraph(props) {
           height={height * 0.75}
           width={width * 0.75}
           cooldownTicks={100}
-          nodeAutoColorBy='id'
-          linkDirectionalParticles='value'
+          nodeId='id'
+          nodeLabel='name'
+          nodeColor='nodeColor'
+          nodeVal='value'
+          linkColor='linkColor'
+          linkDirectionalArrowLength='linkDirectionalArrowLength'
+          linkDirectionalArrowRelPos='linkDirectionalArrowRelPos'
+          linkWidth='linkWidth'
           linkCurvature='curvature'
+          linkLineDash='dash'
           //onEngineStop={() => fgRef.current.zoomToFit(200)}
           onEngineStop={handleOnEngineStop}
           onNodeClick={(node) => {
             console.log('node', node)
             props.setSelected(node.id)
           }}
-          nodeCanvasObjectMode={(node) => (highlightNodes.has(node) ? 'before' : undefined)}
+          nodeCanvasObjectMode={
+          (node) => (highlightNodes.has(node) ? 'before' : undefined)}
           nodeCanvasObject={nodeCanvasObject}
           // onLinkHover={handleLinkHover}
           /* style={{ height: '100%' }} */

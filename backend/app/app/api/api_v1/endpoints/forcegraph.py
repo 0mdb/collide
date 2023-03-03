@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from app import schemas
 from app.crud.memgraph_make_graph import (
     graph_search_options,
+    memgraph_get_graph,
     memgraph_query_and_aggregate,
 )
 
@@ -45,18 +46,16 @@ def bills() -> Any:
     return sample_json
 
 
-@router.post("/search/{id}", response_model=schemas.GraphData)
-async def search_id(id: str) -> Any:
+@router.post("/search/{id}&{graph_type}&{bill_match}", response_model=schemas.GraphData)
+async def search_id(id: str, graph_type: str, bill_match: str) -> Any:
     """
     Retrieve search terms.
     """
 
-    return memgraph_query_and_aggregate(
-        poi_mn=id,
-        fund_depth=2,
-        membership_depth=2,
-        communication_depth=2,
-        aggregation_threshold_step=20,
+    return memgraph_get_graph(
+        ooi_mn=id,
+        graph_type=graph_type,
+        bill_match=bill_match
     )
 
 
