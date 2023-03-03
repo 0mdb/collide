@@ -67,7 +67,7 @@ function Register() {
     <>
       <div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-            <div className='mx-auto w-14 h-14'>
+            <div className='relative z-0 mx-auto w-14 h-14'>
                 <IconSvg />
             </div>
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-secondary-l-text dark:text-secondary-d-text'>
@@ -193,7 +193,7 @@ function Register() {
                   <div className='w-full border-t border-secondary dark:border-secondary-d' />
                 </div>
                 <div className='relative flex justify-center text-sm'>
-                  <span className='bg-secondary-l dark:bg-secondary px-2 text-secondary-l-text dark:text-secondary-text'>Or continue with</span>
+                  <span className='relative z-0 bg-secondary-l dark:bg-secondary px-2 text-secondary-l-text dark:text-secondary-text'>Or continue with</span>
                 </div>
               </div>
 
