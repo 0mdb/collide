@@ -123,6 +123,15 @@ function ForceGraph(props) {
     [highlightNodes, highlightLinks],
   )
 
+  const handleNodeClick = useCallback(
+    (node) => {
+      if (node) {
+        props.setSelected([node.id, 'force', false])
+      }
+    },
+    [props],
+  )
+
   return (
     <div className='m-0 flex h-full w-full flex-row items-center justify-center overflow-clip'>
       {isFetching ? (
@@ -144,14 +153,9 @@ function ForceGraph(props) {
           linkWidth='linkWidth'
           linkCurvature='curvature'
           linkLineDash='dash'
-          //onEngineStop={() => fgRef.current.zoomToFit(200)}
           onEngineStop={handleOnEngineStop}
-          onNodeClick={(node) => {
-            console.log('node', node)
-            props.setSelected(node.id)
-          }}
-          nodeCanvasObjectMode={
-          (node) => (highlightNodes.has(node) ? 'before' : undefined)}
+          onNodeClick={handleNodeClick}
+          nodeCanvasObjectMode={(node) => (highlightNodes.has(node) ? 'before' : undefined)}
           nodeCanvasObject={nodeCanvasObject}
           // onLinkHover={handleLinkHover}
           /* style={{ height: '100%' }} */
