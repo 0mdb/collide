@@ -41,8 +41,8 @@ const Navbar = () => {
       <ul
         className={
           nav
-            ? 'fixed left-0 top-0 h-full w-[60%] border-r border-secondary dark:border-secondary duration-500 ease-in-out bg-white dark:bg-secondary-d'
-            : 'fixed left-[-100%] duration-500 ease-in-out'
+            ? 'fixed z-50 left-0 top-0 h-full w-[60%] border-r border-secondary dark:border-secondary duration-500 ease-in-out bg-white dark:bg-secondary-d'
+            : 'fixed z-50 left-[-100%] duration-500 ease-in-out'
         }
       >
         <h1 className='m-4 w-full text-3xl font-bold'>
