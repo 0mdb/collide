@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export const PrivacyLicense = () => {
   return (
   <div>
@@ -39,7 +41,7 @@ export const PrivacyLicense = () => {
     Website.</p><p>
 
     If you have any questions about this Policy, please contact us by sending an email with
-    your questions to EMAIL_PLACEHOLDER before accessing or entering any information on the Website.</p><p>
+    your questions via the <Link to='/contact'><b><u>contact page</u></b></Link> before accessing or entering any information on the Website.</p><p>
 
     <h3>2. UPLOADING PERSONAL INFORMATION</h3></p><p>
 
@@ -63,8 +65,7 @@ export const PrivacyLicense = () => {
     recognized for advertising purposes and to show you targeted advertisements after you
     visit the Website.</p><p>
 
-    For more information on the cookies we use or to opt-out, please contact us at
-    EMAIL_PLACEHOLDER.</p><p>
+    For more information on the cookies we use or to opt-out, please contact us via the <Link to='/contact'><b><u>contact page</u></b></Link>.</p><p>
 
     <h3>4. REMARKETING</h3></p><p>
 
@@ -107,8 +108,8 @@ export const PrivacyLicense = () => {
     <h3>7. ACCESSING, CORRECTING & DELETING YOUR PERSONAL INFORMATION</h3><p>
 
     If you wish to access or amend your personal information or to request that we
-    permanently delete your personal information from our servers, please send an email to
-    EMAIL_PLACEHOLDER. We will ensure your personal information is accessible,
+    permanently delete your personal information from our servers, please send an email via the{' '}
+    <Link to='/contact'><b><u>contact page</u></b></Link>. We will ensure your personal information is accessible,
     amended and/or deleted in a reasonable time after receiving that request. Deleting such
     information may require us to terminate any account you may have created in its entirety
     and prevent you from using the Website.</p><p>
@@ -216,7 +217,7 @@ export const PrivacyLicense = () => {
     <h3>14. CONTACT US</h3></p><p>
 
     We encourage you to send us questions and inquiries on this Policy and the steps we take
-    to keep your personal information secure. Please send us an email: EMAIL_PLACEHOLDER.</p><p>
+    to keep your personal information secure. Please send us an email via the <Link to='/contact'><b><u>contact page</u></b></Link>.</p><p>
 
     We will respond to all inquiries on the Policy within 14 days.</p>
   </div>
