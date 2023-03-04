@@ -12,6 +12,9 @@ const Navbar = () => {
     setNav(!nav)
   }
 
+  const menuOpen = () => {menuOpen}
+  const setMenuOpen = () => {setMenuOpen}
+
   return (
     <div className='mx-auto flex h-24 max-w-[1240px] items-center justify-between px-4 text-secondary-l-text dark:text-secondary-d-text'>
       <div className='flex flex-row'>
@@ -55,12 +58,12 @@ const Navbar = () => {
           <WebsiteName />
         </h1>
 
-        <Link to='login'>
+        <Link onClick={()=>{props.setMenuOpen(!props.menuOpen)}} to='login'>
           <li className='p-4 text-xl'>
             <LoginStr />
           </li>
         </Link>
-        <Link to='register'>
+        <Link onClick={()=>{props.setMenuOpen(!props.menuOpen)}} to='register'>
           <li className='p-4 text-xl'>
             <SignUpStr />
           </li>
