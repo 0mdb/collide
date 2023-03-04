@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 // HEADER
 export const FaqHeader = () => {
   return 'Frequently asked questions'
@@ -45,5 +47,5 @@ export const FaqQ5 = () => {
 }
 
 export const FaqA5 = () => {
-  return 'Please reach out to us at EMAIL_PLACEHOLDER'
+  return (<div>Please reach out to us via the <Link to='/contact'><b><u>contact page</u></b></Link>.</div>)
 }

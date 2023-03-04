@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export const TermsLicense = () => {
   return (
   <div>
@@ -193,8 +195,7 @@ export const TermsLicense = () => {
     <h3>13. QUESTIONS ON THESE TERMS OF USE</h3><p>
 
     We welcome you to contact us with any questions on these Terms of Use. You can send
-    your questions regarding these Terms of Use to the following email address:
-    EMAIL_PLACEHOLDER.</p>
+    your questions regarding these Terms of Use via the <Link to='/contact'><b><u>contact page</u></b></Link>.</p>
 
     <h3>14. CONFIRMATION OF AGREEMENT TO TERMS OF USE</h3><p>
 
