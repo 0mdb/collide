@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { getMe, updateCurrentUser } from '../../api/authApi'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import useAuth from '../../hooks/useAuth'
+/* import useCurrentUser from '../../hooks/useCurrentUser' */
 import DarkModeSwitch from '../../components/DarkModeSwitch'
-import { useState } from 'react'
 import { Switch } from '@headlessui/react'
 import { ChevronLeftIcon } from '@heroicons/react/20/solid'
 import useDarkMode from '../../hooks/useDarkMode'
+import useCurrentUser from '../../hooks/useCurrentUser'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -14,15 +14,8 @@ function classNames(...classes) {
 
 export default function UserSettings() {
   const [darkMode] = useDarkMode()
-
-  const {
-    data: me,
-    isLoading: meLoading,
-    error: meError,
-  } = useQuery({
-    queryKey: 'me',
-    queryFn: getMe,
-  })
+  const { user, auth } = useAuth()
+  const { currentUser } = useCurrentUser()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -33,7 +26,6 @@ export default function UserSettings() {
     const language = e.target.elements.language.value
 
     const data = {
-      id: me.id,
       org: org,
       darkmode: darkMode,
       country: country,
@@ -41,16 +33,20 @@ export default function UserSettings() {
       language: language,
     }
 
+    // TODO replace with update user
     const darkModeData = {
-      id: me.id,
-      email: me.email,
-      is_superuser: me.is_superuser,
+      id: user.id,
+      email: user.email,
+      is_superuser: user.is_superuser,
 
       darkmode: darkMode,
     }
     console.log(darkModeData)
+    console.log('user', user)
+    console.log('auth', auth)
+    console.log('currentuser', currentUser)
 
-    updateCurrentUser(darkModeData)
+    /* updateCurrentUser(darkModeData) */
   }
 
   return (
@@ -103,7 +99,7 @@ export default function UserSettings() {
                           type='text'
                           name='organization'
                           id='organization'
-                          value={me ? me?.org : 'You need to login to see your email address'}
+                          value={user ? user?.org : 'You need to login to see your email address'}
                           autoComplete='organization'
                           className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                         />
@@ -141,7 +137,7 @@ export default function UserSettings() {
                           type='text'
                           name='email-address'
                           value={
-                            me?.email ? me.email : 'You need to login to see your email address'
+                            user?.email ? user.email : 'You need to login to see your email address'
                           }
                           id='email-address'
                           autoComplete='email'
@@ -159,7 +155,7 @@ export default function UserSettings() {
                         <input
                           type='text'
                           name='user-id'
-                          value={me ? me.id : 'You need to login to see your email address'}
+                          value={user ? user.id : 'You need to login to see your email address'}
                           id='user-'
                           className='mt-1 block w-full rounded-md border-blue-gray-300 text-blue-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
                         />
@@ -253,16 +249,16 @@ export default function UserSettings() {
                             </Switch.Description>
                           </div>
                           <Switch
-                            checked={me?.is_active}
+                            checked={user?.is_active}
                             className={classNames(
-                              me?.is_active ? 'bg-teal-500' : 'bg-gray-200',
+                              user?.is_active ? 'bg-teal-500' : 'bg-gray-200',
                               'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
                             )}
                           >
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                me?.is_active ? 'translate-x-5' : 'translate-x-0',
+                                user?.is_active ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
@@ -283,16 +279,16 @@ export default function UserSettings() {
                             </Switch.Description>
                           </div>
                           <Switch
-                            checked={me?.is_superuser}
+                            checked={user?.is_superuser}
                             className={classNames(
-                              me?.is_superuser ? 'bg-teal-500' : 'bg-gray-200',
+                              user?.is_superuser ? 'bg-teal-500' : 'bg-gray-200',
                               'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
                             )}
                           >
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                me?.is_superuser ? 'translate-x-5' : 'translate-x-0',
+                                user?.is_superuser ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
@@ -312,16 +308,16 @@ export default function UserSettings() {
                             </Switch.Description>
                           </div>
                           <Switch
-                            checked={me?.is_verified}
+                            checked={user?.is_verified}
                             className={classNames(
-                              me?.is_verified ? 'bg-teal-500' : 'bg-gray-200',
+                              user?.is_verified ? 'bg-teal-500' : 'bg-gray-200',
                               'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
                             )}
                           >
                             <span
                               aria-hidden='true'
                               className={classNames(
-                                me?.is_verified ? 'translate-x-5' : 'translate-x-0',
+                                user?.is_verified ? 'translate-x-5' : 'translate-x-0',
                                 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
                               )}
                             />
