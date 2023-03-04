@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Icon } from '@blueprintjs/core'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
+import { IconSvg } from '../../components/IconSvg'
 
 const ExclamIcon = () => (
   <Icon icon='high-priority' size={20} className='fill-morp pr-2 dark:fill-muted' />
@@ -61,11 +62,9 @@ function ForgotPassword() {
     <>
       <div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-          <img
-            className='mx-auto h-12 w-auto'
-            src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-            alt='Your Company'
-          />
+          <div className='relative z-0 mx-auto w-14 h-14'>
+            <IconSvg />
+          </div>
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-gray-900'>
             Reset your password
           </h2>

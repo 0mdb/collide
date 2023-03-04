@@ -3,6 +3,7 @@ import { Icon } from '@blueprintjs/core'
 import { Link } from 'react-router-dom'
 import DarkModeSwitch from '../../components/DarkModeSwitch'
 import { ProjectName, WebsiteName, LoginStr, SignUpStr } from '../../assets/landing_strings.tsx'
+import { IconSvgNav } from '../../components/IconSvgNav'
 
 const Navbar = () => {
   const [nav, setNav] = useState(false)
@@ -13,9 +14,14 @@ const Navbar = () => {
 
   return (
     <div className='mx-auto flex h-24 max-w-[1240px] items-center justify-between px-4 text-secondary-l-text dark:text-secondary-d-text'>
-      <h1 className='w-full text-3xl font-bold'>
+      <div className='flex flex-row'>
+      <div className='z-0 w-12 h-12'>
+            <IconSvgNav />
+      </div>
+      <h1 className='w-full text-3xl font-bold ml-2'>
         <ProjectName />
       </h1>
+      </div>
       <ul className='hidden md:flex'>
         <li className='p-4'>
           <DarkModeSwitch />

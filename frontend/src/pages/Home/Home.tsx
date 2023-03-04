@@ -6,6 +6,7 @@ import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/ou
 import Search from '../Home/Search'
 import useDarkMode from '../../hooks/useDarkMode'
 import useLogout from '../../hooks/useLogout'
+import { IconSvg } from '../../components/IconSvg'
 
 const ForceIcon = () => (
   <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
@@ -84,11 +85,9 @@ export default function Home() {
                   </div>
                 </Transition.Child>
                 <div className='flex flex-shrink-0 items-center px-4'>
-                  <img
-                    className='h-8 w-auto'
-                    src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300'
-                    alt='Your Company'
-                  />
+                  <div className='relative z-0 mx-auto w-14 h-14'>
+                        <IconSvg />
+                    </div>
                 </div>
                 <div className='mt-5 h-0 flex-1 overflow-y-auto'>
                   <nav className='space-y-1 px-2'>
@@ -126,11 +125,9 @@ export default function Home() {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
           <div className='flex flex-shrink-0 items-center px-4'>
-            <img
-              className='h-8 w-auto'
-              src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300'
-              alt='LobbyRadar'
-            />
+            <div className='relative z-0 mx-auto w-14 h-14'>
+                <IconSvg />
+          </div>
           </div>
           <div className='mt-5 flex flex-1 flex-col'>
             <nav className='flex-1 space-y-1 px-2 pb-4'>
