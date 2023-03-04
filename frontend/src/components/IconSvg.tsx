@@ -3,7 +3,7 @@ export const IconSvg = () => {
   return (
       <svg
       // w, h set in outer div in page
-        className='stroke-0 stroke-secondary-l-text dark:stroke-secondary-d-text'
+        className='stroke-[5px] dark:stroke-[5px] stroke-secondary-l-text dark:stroke-secondary-l-text'
         viewBox='0 0 500 500'
         xmlns='http://www.w3.org/2000/svg'
         transform='scale(2)'
@@ -44,7 +44,7 @@ export const IconSvg = () => {
              51.00,0.00 24.00,0.00 24.00,0.00 Z'
             />
         <path
-            fill='#cbd5e1'
+            fill='#94a3b8'
             d='M 92.00,0.00
            C 92.00,0.00 102.00,7.04 102.00,7.04
              109.17,12.08 116.96,19.39 122.71,26.00
