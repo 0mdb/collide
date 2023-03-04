@@ -1,3 +1,5 @@
+import { IconSvg } from './IconSvg'
+
 export default function PageNotFound() {
   return (
     <>
@@ -14,11 +16,9 @@ export default function PageNotFound() {
           <div className='flex flex-shrink-0 justify-center'>
             <a href='/' className='inline-flex'>
               <span className='sr-only'>Your Company</span>
-              <img
-                className='h-12 w-auto'
-                src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-                alt=''
-              />
+              <div className='relative z-0 mx-auto w-14 h-14'>
+                    <IconSvg />
+                </div>
             </a>
           </div>
           <div className='py-16'>
