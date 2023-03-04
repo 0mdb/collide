@@ -13,7 +13,7 @@ import {
   FaqA4,
   FaqQ5,
   FaqA5,
-} from '../../assets/landing_faq.tsx'
+} from '../../assets/faq.tsx'
 
 const faqs = [
   {
