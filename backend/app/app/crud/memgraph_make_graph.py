@@ -1,13 +1,16 @@
+import cProfile
+import io
+import pstats
 from datetime import date
-from app import schemas
-import networkx as nx
-import cProfile, pstats, io
 from pstats import SortKey
-import mgclient
 
+import mgclient
+import networkx as nx
+
+from app import schemas
 from app.core.config import settings
 
-conn = mgclient.connect(host="memgraph-platform", port=7687)
+conn = mgclient.connect(host=settings.MEMGRAPH_HOST, port=settings.MEMGRAPH_PORT)
 
 
 def fetch_and_map(inputs):
