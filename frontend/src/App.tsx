@@ -12,6 +12,7 @@ import FAQLanding from './pages/Landing/FAQ'
 import About from './pages/Landing/About'
 import Contact from './pages/Landing/Contact'
 import PrivacyPolicy from './pages/Landing/PrivacyPolicy'
+import ComingSoon from './pages/ComingSoon/ComingSoon'
 import TermsOfUse from './pages/Landing/TermsOfUse'
 import OpenSource from './pages/Landing/OpenSource'
 import Layout from './pages/Layout'
@@ -38,6 +39,18 @@ const ROLES = {
   User: 'user',
   Admin: 'superuser',
   Verified: 'verified',
+}
+
+function App2() {
+  return (
+    <ScrollToTop>
+      <Routes>
+        {/* <Suspense fallback={<H1>Loading...</H1>}> */}
+        <Route path='/' element={<ComingSoon />}></Route>
+        {/* </Suspense> */}
+      </Routes>
+    </ScrollToTop>
+  )
 }
 
 function App() {
