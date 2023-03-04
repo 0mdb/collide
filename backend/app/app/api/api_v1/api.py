@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-from app.api.api_v1.endpoints import forcegraph, items, resfresh
+# from app.api.api_v1.endpoints import forcegraph, items, resfresh
+from app.api.api_v1.endpoints import forcegraph, resfresh
 from app.core.users import auth_backend, fastapi_users
 from app.schemas.user import UserCreate, UserRead, UserUpdate
 
@@ -31,6 +32,9 @@ api_router.include_router(
     tags=["users"],
 )
 
+# api_router.include_router(fastapi_users.get_oauth_router(google_oauth_client, auth_backend, "secret"),
+#                           prefix="/auth/", tags=["auth"])
+
 api_router.include_router(forcegraph.router, prefix="/forcegraph", tags=["forcegraph"])
 
-api_router.include_router(items.router, prefix="/items", tags=["items"])
+# api_router.include_router(items.router, prefix="/items", tags=["items"])
