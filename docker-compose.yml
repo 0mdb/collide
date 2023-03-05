@@ -79,65 +79,6 @@ services:
       placement:
         constraints:
           - node.labels.${STACK_NAME?Variable not set}.app-db-data == true
-  backend:
-    image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
-    depends_on:
-      - db
-      - memgraph
-    restart: on-failure
-    env_file:
-      - .env
-    environment:
-      - SERVER_NAME=${DOMAIN?Variable not set}
-      - SERVER_HOST=https://${DOMAIN?Variable not set}
-      # Allow explicit env var override for tests
-      - SMTP_HOST=${SMTP_HOST}
-    build:
-      context: ./backend
-      dockerfile: pypybackend.dockerfile
-      args:
-        INSTALL_DEV: ${INSTALL_DEV-false}
-    deploy:
-      labels:
-        - traefik.enable=true
-        - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
-        - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.rule=PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`)
-        - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
-  frontend:
-    image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
-    depends_on:
-      - backend
-    build:
-      context: ./frontend
-      args:
-        FRONTEND_ENV: ${FRONTEND_ENV-production}
-    deploy:
-      labels:
-        - traefik.enable=true
-        - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
-        - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
-        - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=80
-
-  # memgraph-platform:
-  #   image: "memgraph/memgraph-platform"
-  #   ports:
-  #     - "7687:7687"
-  #     - "3000:3000"
-  #     - "7444:7444"
-  #   tty: true
-  #   deploy:
-  #     labels:
-  #       - traefik.enable=true
-  #       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
-  #       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
-  #       - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=80
-  #   volumes:
-  #     - mg_lib:/var/lib/memgraph
-  #     - mg_log:/var/log/memgraph
-  #     - mg_etc:/etc/memgraph
-  #   environment:
-  #     - MEMGRAPH="--log-level=TRACE"
-  #   entrypoint: ["/usr/bin/supervisord"]
 
   memgraph:
       image: memgraph/memgraph
@@ -170,6 +111,49 @@ services:
           - traefik.http.routers.${STACK_NAME?Variable not set}-memgraph.tls.certresolver=le
           # Define the port inside of the Docker service to use
           - traefik.http.services.${STACK_NAME?Variable not set}-memgraph.loadbalancer.server.port=7687
+
+  backend:
+    image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
+    depends_on:
+      - db
+      - memgraph
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      - SERVER_NAME=${DOMAIN?Variable not set}
+      - SERVER_HOST=https://${DOMAIN?Variable not set}
+      # Allow explicit env var override for tests
+      - SMTP_HOST=${SMTP_HOST}
+    build:
+      context: ./backend
+      dockerfile: pypybackend.dockerfile
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-false}
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
+        - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.rule=PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`)
+        - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
+
+  frontend:
+    image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
+    depends_on:
+      - backend
+      - memgraph
+      - db
+    build:
+      context: ./frontend
+      args:
+        FRONTEND_ENV: ${FRONTEND_ENV-production}
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
+        - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
+        - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=80
+
 volumes:
   mg_lib:
   mg_log:
