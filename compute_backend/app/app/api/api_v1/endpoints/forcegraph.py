@@ -1,7 +1,7 @@
 import json
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter
 
 from app import schemas
 from app.crud.memgraph_make_graph import (
@@ -12,6 +12,7 @@ from app.crud.memgraph_make_graph import (
 
 
 router = APIRouter()
+
 
 @router.get("/sample", response_model=schemas.GraphData)
 def sample_graph() -> Any:
