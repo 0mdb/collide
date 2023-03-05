@@ -61,7 +61,7 @@ function FAQ() {
                 {faq.question}
               </dt>
               <dd className='mt-4 lg:col-span-7 lg:mt-0'>
-                <p className='text-base leading-7 text-gray-600 dark:text-secondary-text'>
+                <p className='text-base leading-7 text-gray-600 dark:text-gray-200'>
                   {faq.answer}
                 </p>
               </dd>
