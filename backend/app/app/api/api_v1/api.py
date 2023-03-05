@@ -31,3 +31,5 @@ api_router.include_router(
     prefix="/users",
     tags=["users"],
 )
+
+# api_router.include_router(items.router, prefix="/items", tags=["items"])

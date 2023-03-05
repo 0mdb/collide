@@ -925,7 +925,6 @@ def memgraph_bill_query(
 
 def memgraph_get_graph(ooi_mn: str, graph_type: str, bill_match: str):
     # print(f"{ooi_mn} {graph_type} {bill_match}")
-
     if graph_type == "bill":
         return memgraph_bill_query(bill_match)
     elif graph_type == "force":
