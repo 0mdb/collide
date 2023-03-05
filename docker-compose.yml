@@ -116,7 +116,6 @@ services:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     depends_on:
       - db
-      - memgraph
     restart: on-failure
     env_file:
       - .env
@@ -139,10 +138,6 @@ services:
 
   frontend:
     image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
-    depends_on:
-      - backend
-      - memgraph
-      - db
     build:
       context: ./frontend
       args:
