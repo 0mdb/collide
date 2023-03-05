@@ -11,8 +11,6 @@ RUN apt-get -y update && \
     libssl-dev \
     python3.10 \
     python3-distutils \
-#    python3.10-dev \
-#    python-is-python3 \
     wget \
     libpq-dev \
     nano
