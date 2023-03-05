@@ -873,7 +873,7 @@ def memgraph_bill_query(
         this will need to look like for the integration with the frontend)
 
     """
-    print(boi_mn)
+    # print(boi_mn)
     bill_stage_progression_query = (
         f"MATCH p=(n: MGBillStage {{bill_match_name: $boi_mn}}) - [l:LEGPROGRESSION] - (m:MGBillStage) with project(p) as f return f;"
     )
@@ -896,7 +896,7 @@ def memgraph_bill_query(
 
     vote_graphs = {}
     for legstage in leg_prog_g.nodes:
-        print(leg_prog_g.nodes[legstage])
+        # print(leg_prog_g.nodes[legstage])
         gql = """MATCH p=(n:MGPerson) - [l:INDIVIDUALVOTE]- (m:MGBillStage {match_name: $mn}) 
         OPTIONAL MATCH x=(n) - [r:COMMUNICATION] -(o) - [q:MEMBERSHIP] - (s) 
         where r.com_date <= m.stage_date and r.com_date > m.stage_date - duration({day:30}) 
@@ -924,7 +924,7 @@ def memgraph_bill_query(
 
 
 def memgraph_get_graph(ooi_mn: str, graph_type: str, bill_match: str):
-    print(f"{ooi_mn} {graph_type} {bill_match}")
+    # print(f"{ooi_mn} {graph_type} {bill_match}")
 
     if graph_type == "bill":
         return memgraph_bill_query(bill_match)

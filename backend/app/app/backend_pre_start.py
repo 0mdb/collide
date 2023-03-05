@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
 from app.core.config import settings
-from app.crud.memgraph_make_graph import conn
 
 # use sync engine for checking db is awake
 # TODO move to settings
@@ -26,13 +25,6 @@ def check_postgres() -> None:
         con.close()
 
 
-def check_memgraph() -> None:
-        cursor = conn.cursor()
-        logger.info("Checking Memgraph is awake")
-        cursor.execute('MATCH (n: MGPerson {match_name: "waynewouters"}) RETURN n')
-        val = cursor.fetchone()
-        cursor.close()
-        logger.info("Memgraph is awake")
 
 @retry(
     stop=stop_after_attempt(max_tries),
@@ -43,7 +35,6 @@ def check_memgraph() -> None:
 def init() -> None:
     try:
         check_postgres()
-        check_memgraph()
     except Exception as e:
         logger.error(e)
         raise e
