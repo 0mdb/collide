@@ -41,7 +41,7 @@ const ROLES = {
   Verified: 'verified',
 }
 
-function App2() {
+function App() {
   return (
     <ScrollToTop>
       <Routes>
@@ -53,7 +53,7 @@ function App2() {
   )
 }
 
-function App() {
+function App2() {
   return (
     <ScrollToTop>
       <Routes>
