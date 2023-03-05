@@ -1,0 +1,16 @@
+python-multipart
+requests
+celery
+tenacity
+raven
+gunicorn
+boto3
+unidecode
+uvicorn
+Jinja2
+greenlet
+sqlmodel
+networkx
+pymgclient
+makefun
+fastapi
