@@ -74,11 +74,11 @@ export default function UserSettings() {
               {/* Main content */}
               <div className='flex-1 xl:overflow-y-auto'>
                 <div className='mx-auto max-w-3xl py-10 px-4 sm:px-6 lg:py-12 lg:px-8'>
-                  <h1 className='text-3xl font-bold tracking-tight text-blue-gray-900'>Settings</h1>
+                  <h1 className='divide-y divide-secondary-l-text dark:divide-secondary-text text-3xl font-bold tracking-tight'>Settings</h1>
 
                   <form
                     onSubmit={handleSubmit}
-                    className='divide-y-blue-gray-200 mt-6 space-y-8 divide-y'
+                    className='mt-6 space-y-8 '
                   >
                     <div className='grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6'>
                       <div className='sm:col-span-6'>
@@ -232,14 +232,12 @@ export default function UserSettings() {
                         </select>
                       </div>
                     </div>
-                    <div className='px-4 sm:px-6'>
                       <div>
                         <h2 className='text-lg font-medium leading-6'>Preferences</h2>
                         <p className='mt-1 text-sm text-gray-600 dark:text-gray-200'>
                           Select your preferences from the options below.
                         </p>
-                      </div>
-                      <ul role='list' className='mt-2 divide-y divide-gray-200'>
+                      <ul role='list' className='mt-2 divide-y divide-secondary-l-text dark:divide-secondary-text'>
                         <Switch.Group as='li' className='flex items-center justify-between py-4'>
                           <div className='flex flex-col'>
                             <Switch.Label
@@ -281,8 +279,8 @@ export default function UserSettings() {
                           <Switch
                             checked={user?.is_active}
                             className={classNames(
-                              user?.is_active ? 'bg-teal-500' : 'bg-gray-200',
-                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
+                              user?.is_active ? 'bg-indigo-600' : 'bg-gray-200',
+                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
                             )}
                           >
                             <span
@@ -311,8 +309,8 @@ export default function UserSettings() {
                           <Switch
                             checked={user?.is_superuser}
                             className={classNames(
-                              user?.is_superuser ? 'bg-teal-500' : 'bg-gray-200',
-                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
+                              user?.is_superuser ? 'bg-indigo-600' : 'bg-gray-200',
+                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
                             )}
                           >
                             <span
@@ -340,8 +338,8 @@ export default function UserSettings() {
                           <Switch
                             checked={user?.is_verified}
                             className={classNames(
-                              user?.is_verified ? 'bg-teal-500' : 'bg-gray-200',
-                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
+                              user?.is_verified ? 'bg-indigo-600' : 'bg-gray-200',
+                              'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
                             )}
                           >
                             <span
