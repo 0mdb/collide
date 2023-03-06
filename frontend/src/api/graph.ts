@@ -33,14 +33,14 @@ export async function getSampleGraph() {
 
 export async function getGraph(query: string) {
   query = query.join('&')
-  console.log('getGraph', query)
+  //console.log('getGraph', query)
   return await axios.post<graphDataType>('c/forcegraph/search/' + query).then((res) => res.data)
 }
 
 export async function getSearchResults(query: string) {
   const SEARCH_URL = 'c/forcegraph/search_options?query='
   const match_name = query.toLowerCase().split(' ').join('')
-  console.log('getSearchResults', query)
-  console.log(await axios.post<SearchQuery>(SEARCH_URL + match_name).then((res) => res.data))
+  //console.log('getSearchResults', query)
+  //console.log(await axios.post<SearchQuery>(SEARCH_URL + match_name).then((res) => res.data))
   return await axios.post<SearchQuery>(SEARCH_URL + match_name).then((res) => res.data)
 }
