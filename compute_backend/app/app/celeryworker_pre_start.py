@@ -1,29 +1,14 @@
 import logging
 
-from sqlalchemy import create_engine
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
-from app.core.config import settings
-
-# use sync engine for checking db is awake
-# TODO move to settings
-uri = "postgresql://postgres:changethis@db:5432/app"
-engine = create_engine(uri, pool_pre_ping=True)
+from app.db.session import SessionLocal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 max_tries = 60 * 5  # 5 minutes
 wait_seconds = 1
-
-
-def check_postgres() -> None:
-        logger.info("Checking DB is awake")
-        con = engine.connect()
-        con.execute("SELECT 1")
-        logger.info("DB is awake")
-        con.close()
-
 
 
 @retry(
@@ -34,13 +19,16 @@ def check_postgres() -> None:
 )
 def init() -> None:
     try:
-        check_postgres()
+        # Try to create session to check if DB is awake
+        db = SessionLocal()
+        db.execute("SELECT 1")
     except Exception as e:
         logger.error(e)
         raise e
 
 
 def main() -> None:
+    logger.info("Initializing service")
     init()
     logger.info("Service finished initializing")
 

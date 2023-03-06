@@ -7,7 +7,7 @@ import mgclient
 
 from app.core.config import settings
 
-conn = mgclient.connect(host="memgraph-platform", port=7687)
+conn = mgclient.connect(host="192.168.0.10", port=7687)
 
 
 def fetch_and_map(inputs):
@@ -39,7 +39,6 @@ def mapped_memgraph_to_nx(res_dict):
 
         if "MGPerson" in n.labels:
             n_val = 3
-            n_sec = None
         else:
             n_val = 8
         lbl = list(n.labels)[0]
@@ -746,7 +745,6 @@ def mapped_memgraph_bill_to_nx(res_dict, tag):
 
         if "MGBillStage" in n.labels:
             n_val = 8
-            n_sec = None
         else:
             n_val = 2
 
@@ -875,7 +873,7 @@ def memgraph_bill_query(
         this will need to look like for the integration with the frontend)
 
     """
-    print(boi_mn)
+    # print(boi_mn)
     bill_stage_progression_query = (
         f"MATCH p=(n: MGBillStage {{bill_match_name: $boi_mn}}) - [l:LEGPROGRESSION] - (m:MGBillStage) with project(p) as f return f;"
     )
@@ -898,7 +896,7 @@ def memgraph_bill_query(
 
     vote_graphs = {}
     for legstage in leg_prog_g.nodes:
-        print(leg_prog_g.nodes[legstage])
+        # print(leg_prog_g.nodes[legstage])
         gql = """MATCH p=(n:MGPerson) - [l:INDIVIDUALVOTE]- (m:MGBillStage {match_name: $mn}) 
         OPTIONAL MATCH x=(n) - [r:COMMUNICATION] -(o) - [q:MEMBERSHIP] - (s) 
         where r.com_date <= m.stage_date and r.com_date > m.stage_date - duration({day:30}) 
@@ -926,12 +924,11 @@ def memgraph_bill_query(
 
 
 def memgraph_get_graph(ooi_mn: str, graph_type: str, bill_match: str):
-    print(f"{ooi_mn} {graph_type} {bill_match}")
-
+    # print(f"{ooi_mn} {graph_type} {bill_match}")
     if graph_type == "bill":
         return memgraph_bill_query(bill_match)
     elif graph_type == "force":
         return memgraph_query_and_aggregate(ooi_mn, fund_depth=2,
                                             membership_depth=2,
                                             communication_depth=2,
-                                            aggregation_threshold_step=20, )
+                                            aggregation_threshold_step=20)
