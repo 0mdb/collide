@@ -147,7 +147,7 @@ export default function Search(props) {
                             {({ active }) => (
                               <>
                                 <Icon
-                                  icon='layout-auto'
+                                  icon={result.type === 'force' ? 'layout_auto' : 'take_action'}
                                   className={classNames(
                                     'h-6 w-6 flex-none text-gray-900 text-opacity-40',
                                     active && 'text-opacity-100',
