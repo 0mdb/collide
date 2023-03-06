@@ -1,8 +1,7 @@
 import json
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from fastapi import APIRouter
 
 from app import schemas
 from app.crud.memgraph_make_graph import (
