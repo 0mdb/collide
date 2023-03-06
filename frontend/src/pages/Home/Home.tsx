@@ -9,7 +9,7 @@ import useLogout from '../../hooks/useLogout'
 import { IconSvg } from '../../components/IconSvg'
 
 const ForceIcon = () => (
-  <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
+  <Icon icon='layout-auto' size={20} className='fill-white pr-2 dark:fill-white' />
 )
 
 const UserIcon = () => <Icon icon='user' size={20} className='fill-muted pr-2 dark:fill-muted' />
