@@ -752,7 +752,7 @@ def mapped_memgraph_bill_to_nx(res_dict, tag):
             lbl = 'BillStage'
             g.add_node(
                 n.properties["match_name"],
-                name=n.properties["match_name"],
+                name=n.properties["legislative_stage_name"],
                 type=lbl,
                 stage_date=str(n.properties['stage_date']),
                 value=n_val,
