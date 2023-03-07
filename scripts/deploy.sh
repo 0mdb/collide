@@ -12,7 +12,7 @@ docker-compose \
 config > docker-stack.yml
 
 
-#docker-auto-labels docker-stack.yml
+docker-auto-labels docker-stack.yml
 
 docker stack deploy -c docker-stack.yml --with-registry-auth "${STACK_NAME?Variable not set}"
 
