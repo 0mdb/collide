@@ -9,7 +9,7 @@ import useLogout from '../../hooks/useLogout'
 import { IconSvg } from '../../components/IconSvg'
 
 const ForceIcon = () => (
-  <Icon icon='layout-auto' size={20} className='fill-morp pr-2 dark:fill-muted' />
+  <Icon icon='layout-auto' size={20} className='fill-white pr-2 dark:fill-white' />
 )
 
 const UserIcon = () => <Icon icon='user' size={20} className='fill-muted pr-2 dark:fill-muted' />
@@ -50,7 +50,7 @@ export default function Home() {
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <div className='fixed inset-0 bg-gray-300 bg-opacity-75 duration-500 ease-in-out dark:bg-gray-800' />
+            <div className='fixed inset-0 bg-secondary bg-opacity-75 duration-500 ease-in-out dark:bg-secondary-d' />
           </Transition.Child>
 
           <div className='fixed inset-0 z-40 flex'>
@@ -97,7 +97,7 @@ export default function Home() {
                         to={item.href}
                         className={classNames(
                           item.current
-                            ? 'bg-indigo-800 text-white'
+                            ? 'bg-primary text-secondary-d-text hover:bg-primary-l dark:bg-primary-l dark:text-secondary-d-text dark:hover:bg-primary-d'
                             : 'text-indigo-100 hover:bg-primary',
                           'group flex items-center rounded-md px-2 py-2 text-base font-medium',
                         )}
@@ -121,7 +121,7 @@ export default function Home() {
       </Transition.Root>
 
       {/* Static sidebar for desktop */}
-      <div className='hidden bg-gray-300 dark:bg-gray-800 md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col'>
+      <div className='hidden bg-secondary dark:bg-secondary-d md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col'>
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
           <div className='flex flex-shrink-0 items-center px-4'>
@@ -137,7 +137,7 @@ export default function Home() {
                   to={item.href}
                   className={classNames(
                     item.current
-                      ? 'bg-indigo-800 text-white'
+                      ? 'bg-primary text-secondary-d-text hover:bg-primary-l dark:bg-primary-l dark:text-secondary-d-text dark:hover:bg-primary-d'
                       : 'text-indigo-100 hover:bg-indigo-600',
                     'group flex items-center rounded-md px-2 py-2 text-sm font-medium',
                   )}
@@ -215,7 +215,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <main className='dark:bg-gray-700'>
+        <main className='bg-secondary-l dark:bg-secondary'>
           <div className='flex flex-grow flex-col pt-5'>
             <div className='py-4'>
               <div className='mx-auto my-auto max-w-7xl px-4 sm:px-6 md:px-8'>

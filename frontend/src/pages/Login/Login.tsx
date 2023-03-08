@@ -124,8 +124,9 @@ const Login = () => {
                     ref={userRef}
                     autoComplete='email'
                     required={true}
-                    className='block w-full appearance-none rounded-md
+                    className='block w-full rounded-md
                     border border-secondary dark:border-secondary-d
+                    text-secondary-l-text dark:text-secondary-l-text
                     px-3 py-2 placeholder-secondary shadow-sm
                     focus:border-primary focus:outline-none focus:ring-primary
                     sm:text-sm'
@@ -144,8 +145,9 @@ const Login = () => {
                     type='password'
                     autoComplete='current-password'
                     required={true}
-                    className='block w-full appearance-none rounded-md
+                    className='block w-full rounded-md
                     border border-secondary dark:border-secondary-d
+                    text-secondary-l-text dark:text-secondary-l-text
                     px-3 py-2 placeholder-secondary shadow-sm
                     focus:border-primary focus:outline-none focus:ring-primary
                     sm:text-sm'
