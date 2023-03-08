@@ -114,8 +114,6 @@ services:
 
   backend:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
-    depends_on:
-      - db
     restart: on-failure
     env_file:
       - .env
