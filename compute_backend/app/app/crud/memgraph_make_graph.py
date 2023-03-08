@@ -7,7 +7,7 @@ import mgclient
 
 from app.core.config import settings
 
-conn = mgclient.connect(host="192.168.0.10", port=7687)
+conn = mgclient.connect(host="memgraph-platform", port=7687)
 
 
 def fetch_and_map(inputs):
@@ -39,6 +39,7 @@ def mapped_memgraph_to_nx(res_dict):
 
         if "MGPerson" in n.labels:
             n_val = 3
+            n_sec = None
         else:
             n_val = 8
         lbl = list(n.labels)[0]
@@ -101,7 +102,12 @@ def nx_to_json(g):
         )
 
     for e, d in g.edges.items():
-        comn = {"source": e[0], "target": e[1], "type": d["type"], "linkColor": d["color"]}
+        comn = {
+            "source": e[0],
+            "target": e[1],
+            "type": d["type"],
+            "linkColor": d["color"],
+        }
 
         if "dash" in d:
             comn["dash"] = d["dash"]
@@ -233,7 +239,7 @@ def aggregate_leaves(g, label, threshold, edge_type, object_of_interest=None):
     funding_totals = {}
     leaf_agg_count = {}
     for (
-            leaf
+        leaf
     ) in funding_leaves:  # these are leaves, so they will only ever have one target
         if len(list(g.adj[leaf].keys())) == 0:
             continue
@@ -407,16 +413,16 @@ def create_tot_graph(m_g, f_g, c_g):
 
 
 def memgraph_query_and_aggregate(
-        poi_mn: str,
-        fund_depth: int,
-        membership_depth: int,
-        communication_depth: int,
-        target_max_nodes: int = 300,
-        start_agg_threshold: int = 80,
-        aggregation_threshold_step: int = 5,
-        verbose=False,
-        profile=False,
-        # log_file=None,
+    poi_mn: str,
+    fund_depth: int,
+    membership_depth: int,
+    communication_depth: int,
+    target_max_nodes: int = 300,
+    start_agg_threshold: int = 80,
+    aggregation_threshold_step: int = 5,
+    verbose=False,
+    profile=False,
+    # log_file=None,
 ) -> dict:
     """
 
@@ -610,8 +616,8 @@ def memgraph_query_and_aggregate(
                 continue
 
             if (
-                    "aggregate_same_edges_organizations",
-                    agg_threshold,
+                "aggregate_same_edges_organizations",
+                agg_threshold,
             ) not in reductions:
                 temp_tot_graph = aggregate_same_edges(
                     temp_tot_graph,
@@ -675,7 +681,7 @@ def graph_search_options(search: str) -> list[schemas.GraphSearchOptions]:
 
     for person_or_org in res:
         if person_or_org[3] is None:
-            bm = 'na'
+            bm = "na"
         else:
             bm = person_or_org[3]
 
@@ -684,7 +690,7 @@ def graph_search_options(search: str) -> list[schemas.GraphSearchOptions]:
             "value": person_or_org[1],
             "label": person_or_org[0],
             "type": person_or_org[2],
-            "bill_match": bm
+            "bill_match": bm,
         }
 
         peeps_and_orgs.append(options)
@@ -718,20 +724,18 @@ def fetch_and_map_votes(inputs):
     res = cursor.fetchall()
     cursor.close()
     resf, resy = list(res)[0]
-    if len(resy['nodes']) > 0:
-        resf['nodes'].extend(resy['nodes'])
-    if len(resy['edges']) > 0:
-        resf['edges'].extend(resy['edges'])
+    if len(resy["nodes"]) > 0:
+        resf["nodes"].extend(resy["nodes"])
+    if len(resy["edges"]) > 0:
+        resf["edges"].extend(resy["edges"])
     graph_out = mapped_memgraph_bill_to_nx(resf, tag)
     return tag, graph_out
 
 
-node_color_bill_line = 'black'
-node_color_vote = {"yea": 'green',
-                   "nay": 'red',
-                   "paired": 'grey'}
-node_color_outsider = 'purple'
-node_color_membership = 'orange'
+node_color_bill_line = "black"
+node_color_vote = {"yea": "green", "nay": "red", "paired": "grey"}
+node_color_outsider = "purple"
+node_color_membership = "orange"
 
 
 def mapped_memgraph_bill_to_nx(res_dict, tag):
@@ -745,32 +749,37 @@ def mapped_memgraph_bill_to_nx(res_dict, tag):
 
         if "MGBillStage" in n.labels:
             n_val = 8
+            n_sec = None
         else:
             n_val = 2
 
         if "MGBillStage" in n.labels:
-            lbl = 'BillStage'
+            lbl = "BillStage"
             g.add_node(
                 n.properties["match_name"],
-                name=n.properties["legislative_stage_name"],
+                name=n.properties["match_name"],
                 type=lbl,
-                stage_date=str(n.properties['stage_date']),
+                stage_date=str(n.properties["stage_date"]),
                 value=n_val,
-                nodeColor=node_color_bill_line
+                nodeColor=node_color_bill_line,
             )
         elif "MGPerson" in n.labels:
             lbl = "Person"
-            g.add_node('_'.join([n.properties['match_name'], tag]),
-                       name=n.properties['display_name'],
-                       type=lbl,
-                       value=n_val)
+            g.add_node(
+                "_".join([n.properties["match_name"], tag]),
+                name=n.properties["display_name"],
+                type=lbl,
+                value=n_val,
+            )
         elif "MGOrganization" in n.labels:
             lbl = "Organization"
-            g.add_node('_'.join([n.properties['match_name'], tag]),
-                       name=n.properties['display_name'],
-                       type=lbl,
-                       nodeColor=node_color_membership,
-                       value=n_val)
+            g.add_node(
+                "_".join([n.properties["match_name"], tag]),
+                name=n.properties["display_name"],
+                type=lbl,
+                nodeColor=node_color_membership,
+                value=n_val,
+            )
 
     for e in edges:
         if e.type == "LEGPROGRESSION":
@@ -781,52 +790,54 @@ def mapped_memgraph_bill_to_nx(res_dict, tag):
                 linkColor=node_color_bill_line,
                 linkDirectionalArrowLength=6,
                 linkDirectionalArrowRelPos=0.5,
-                linkWidth=4
+                linkWidth=4,
             )
         elif e.type == "INDIVIDUALVOTE":
             g.add_edge(
-                '_'.join([node_dict[e.start_id].properties["match_name"], tag]),
+                "_".join([node_dict[e.start_id].properties["match_name"], tag]),
                 node_dict[e.end_id].properties["match_name"],
                 type=e.type,
-                person_vote=e.properties['person_vote'],
-                linkColor=node_color_vote[e.properties['person_vote']],
+                person_vote=e.properties["person_vote"],
+                linkColor=node_color_vote[e.properties["person_vote"]],
                 linkDirectionalArrowLength=0,
                 linkDirectionalArrowRelPos=0,
-                linkWidth=1
+                linkWidth=1,
             )
 
             if "MGPerson" in node_dict[e.start_id].labels:
-                g.nodes['_'.join([node_dict[e.start_id].properties['match_name'], tag])]['nodeColor'] = node_color_vote[
-                    e.properties['person_vote']]
+                g.nodes[
+                    "_".join([node_dict[e.start_id].properties["match_name"], tag])
+                ]["nodeColor"] = node_color_vote[e.properties["person_vote"]]
 
         elif e.type == "COMMUNICATION":
 
             g.add_edge(
-                '_'.join([node_dict[e.start_id].properties["match_name"], tag]),
-                '_'.join([node_dict[e.end_id].properties["match_name"], tag]),
+                "_".join([node_dict[e.start_id].properties["match_name"], tag]),
+                "_".join([node_dict[e.end_id].properties["match_name"], tag]),
                 type=e.type,
                 linkColor=node_color_outsider,
                 linkDirectionalArrowLength=0,
                 linkDirectionalArrowRelPos=0,
-                linkWidth=1
+                linkWidth=1,
             )
             if "MGPerson" in node_dict[e.start_id].labels:
-                g.nodes['_'.join([node_dict[e.end_id].properties['match_name'], tag])][
-                    'nodeColor'] = node_color_outsider
+                g.nodes["_".join([node_dict[e.end_id].properties["match_name"], tag])][
+                    "nodeColor"
+                ] = node_color_outsider
 
-        elif e.type == 'MEMBERSHIP':
+        elif e.type == "MEMBERSHIP":
             g.add_edge(
-                '_'.join([node_dict[e.start_id].properties["match_name"], tag]),
-                '_'.join([node_dict[e.end_id].properties["match_name"], tag]),
+                "_".join([node_dict[e.start_id].properties["match_name"], tag]),
+                "_".join([node_dict[e.end_id].properties["match_name"], tag]),
                 type=e.type,
                 linkColor=node_color_membership,
                 linkDirectionalArrowLength=0,
                 linkDirectionalArrowRelPos=0,
-                linkWidth=1
+                linkWidth=1,
             )
 
         else:
-            raise RuntimeError('Problem')
+            raise RuntimeError("Problem")
 
     return g
 
@@ -853,8 +864,8 @@ def nx_bill_to_json(g):
 
 
 def memgraph_bill_query(
-        boi_mn: str,
-        verbose=False,
+    boi_mn: str,
+    verbose=False,
 ) -> dict:
     """
 
@@ -873,14 +884,12 @@ def memgraph_bill_query(
         this will need to look like for the integration with the frontend)
 
     """
-    # print(boi_mn)
-    bill_stage_progression_query = (
-        f"MATCH p=(n: MGBillStage {{bill_match_name: $boi_mn}}) - [l:LEGPROGRESSION] - (m:MGBillStage) with project(p) as f return f;"
-    )
+    print(boi_mn)
+    bill_stage_progression_query = f"MATCH p=(n: MGBillStage {{bill_match_name: $boi_mn}}) - [l:LEGPROGRESSION] - (m:MGBillStage) with project(p) as f return f;"
 
     concurrent_inputs = []
 
-    concurrent_inputs.append(('leg_prog', boi_mn, bill_stage_progression_query, conn))
+    concurrent_inputs.append(("leg_prog", boi_mn, bill_stage_progression_query, conn))
 
     all_graphs = {}
 
@@ -896,7 +905,7 @@ def memgraph_bill_query(
 
     vote_graphs = {}
     for legstage in leg_prog_g.nodes:
-        # print(leg_prog_g.nodes[legstage])
+        print(leg_prog_g.nodes[legstage])
         gql = """MATCH p=(n:MGPerson) - [l:INDIVIDUALVOTE]- (m:MGBillStage {match_name: $mn}) 
         OPTIONAL MATCH x=(n) - [r:COMMUNICATION] -(o) - [q:MEMBERSHIP] - (s) 
         where r.com_date <= m.stage_date and r.com_date > m.stage_date - duration({day:30}) 
@@ -917,18 +926,23 @@ def memgraph_bill_query(
         print("done")
 
     import json
-    with open("test.json", 'w') as h:
+
+    with open("test.json", "w") as h:
         json.dump(graph_json, h)
 
     return graph_json
 
 
 def memgraph_get_graph(ooi_mn: str, graph_type: str, bill_match: str):
-    # print(f"{ooi_mn} {graph_type} {bill_match}")
+    print(f"{ooi_mn} {graph_type} {bill_match}")
+
     if graph_type == "bill":
         return memgraph_bill_query(bill_match)
     elif graph_type == "force":
-        return memgraph_query_and_aggregate(ooi_mn, fund_depth=2,
-                                            membership_depth=2,
-                                            communication_depth=2,
-                                            aggregation_threshold_step=20)
+        return memgraph_query_and_aggregate(
+            ooi_mn,
+            fund_depth=2,
+            membership_depth=2,
+            communication_depth=2,
+            aggregation_threshold_step=20,
+        )
