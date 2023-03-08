@@ -36,6 +36,17 @@ services:
     ports:
       - "5432:5432"
 
+  memgraph:
+    ports:
+      - "7687:7687"
+      - "3000:3000"
+      - "7444:7444"
+
+  # memgraph-platform:
+  #   ports:
+  #     - "7687:7687"
+  #     - "3000:3000"
+  #     - "7444:7444"
   # flower:
   #   ports:
   #     - "5555:5555"
@@ -84,6 +95,7 @@ services:
   #     args:
   #       INSTALL_DEV: ${INSTALL_DEV-true}
   #       INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
+
 
   frontend:
     build:
