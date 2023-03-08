@@ -36,11 +36,11 @@ services:
     ports:
       - "5432:5432"
 
-  memgraph:
-    ports:
-      - "7687:7687"
-      - "3000:3000"
-      - "7444:7444"
+  # memgraph:
+  #   ports:
+  #     - "7687:7687"
+  #     - "3000:3000"
+  #     - "7444:7444"
 
   # memgraph-platform:
   #   ports:
