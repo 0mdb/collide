@@ -38,38 +38,38 @@ export interface LoginAuth {
 }
 
 export const loginUser = async (formData) => {
-  const response = await axios.post<LoginAuth>('auth/jwt/login/', formData, {
+  const response = await axios.post<LoginAuth>('v1/auth/jwt/login/', formData, {
     withCredentials: true,
   })
   return response.data
 }
 
 export const logoutUser = async (formData) => {
-  const response = await axios.post<LoginAuth>('auth/jwt/logout/', formData, {
+  const response = await axios.post<LoginAuth>('v1/auth/jwt/logout/', formData, {
     withCredentials: true,
   })
   return response.data
 }
 
 export const registerUser = async (email: string, password: string) => {
-  const response = await axios.post('auth/register/', email, password)
+  const response = await axios.post('v1/auth/register/', email, password)
   return response.data
 }
 
 export const forgotPassword = async (email: string) => {
-  const response = await axios.post('auth/forgot-password/', email)
+  const response = await axios.post('v1/auth/forgot-password/', email)
   return response.data
 }
 
 export const resetPassword = async (token: string, password: string) => {
-  const response = await axios.post('auth/reset-password/', { token, password })
+  const response = await axios.post('v1/auth/reset-password/', { token, password })
   return response.data
 }
 
 export const getMe = async (token: string) => {
   const bearer_token = 'Bearer ' + token
 
-  const response = await axios.get('users/me', {
+  const response = await axios.get('v1/users/me', {
     withCredentials: true,
     headers: {
       accept: 'application/json',
@@ -80,6 +80,6 @@ export const getMe = async (token: string) => {
 }
 
 export const updateCurrentUser = async (data: ApiUser) => {
-  const response = await axios.patch('users/me/', data, { withCredentials: true })
+  const response = await axios.patch('v1/users/me/', data, { withCredentials: true })
   return response.data
 }
