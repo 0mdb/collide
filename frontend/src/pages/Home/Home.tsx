@@ -86,8 +86,8 @@ export default function Home() {
                 </Transition.Child>
                 <div className='flex flex-shrink-0 items-center px-4'>
                   <div className='relative z-0 mx-auto w-14 h-14'>
-                        <IconSvg />
-                    </div>
+                    <IconSvg />
+                  </div>
                 </div>
                 <div className='mt-5 h-0 flex-1 overflow-y-auto'>
                   <nav className='space-y-1 px-2'>
@@ -126,8 +126,8 @@ export default function Home() {
         <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
           <div className='flex flex-shrink-0 items-center px-4'>
             <div className='relative z-0 mx-auto w-14 h-14'>
-                <IconSvg />
-          </div>
+              <IconSvg />
+            </div>
           </div>
           <div className='mt-5 flex flex-1 flex-col'>
             <nav className='flex-1 space-y-1 px-2 pb-4'>
@@ -168,14 +168,14 @@ export default function Home() {
               <Search open={open} setOpen={setOpen} selected={selected} setSelected={setSelected} />
             </div>
             <div className='ml-4 flex items-center md:ml-6'>
-              <button
+              {/* <button
                 type='button'
                 className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
               >
                 <span className='sr-only'>View notifications</span>
                 <BellIcon className='h-6 w-6' aria-hidden='true' />
               </button>
-
+ */}
               {/* Profile dropdown */}
               <Menu as='div' className='relative ml-3'>
                 <div>
