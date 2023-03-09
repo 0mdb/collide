@@ -57,7 +57,7 @@ export default function UserSettings() {
             {/* Breadcrumb */}
             <nav
               aria-label='Breadcrumb'
-              className='border-b border-blue-gray-200 bg-secondary-l dark:bg-secondary xl:hidden'
+              className='border-b border-blue-gray-200 bg-secondary-l dark:bg-secondary'
             >
               <div className='mx-auto flex max-w-3xl items-start py-3 px-4 sm:px-6 lg:px-8'>
                 <a
@@ -74,12 +74,11 @@ export default function UserSettings() {
               {/* Main content */}
               <div className='flex-1 xl:overflow-y-auto'>
                 <div className='mx-auto max-w-3xl py-10 px-4 sm:px-6 lg:py-12 lg:px-8'>
-                  <h1 className='divide-y divide-secondary-l-text dark:divide-secondary-text text-3xl font-bold tracking-tight'>Settings</h1>
+                  <h1 className='divide-y divide-secondary-l-text dark:divide-secondary-text text-3xl font-bold tracking-tight'>
+                    Settings
+                  </h1>
 
-                  <form
-                    onSubmit={handleSubmit}
-                    className='mt-6 space-y-8 '
-                  >
+                  <form onSubmit={handleSubmit} className='mt-6 space-y-8 '>
                     <div className='grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6'>
                       <div className='sm:col-span-6'>
                         <h2 className='text-xl font-medium'>Profile</h2>
@@ -89,10 +88,7 @@ export default function UserSettings() {
                       </div>
 
                       <div className='sm:col-span-3'>
-                        <label
-                          htmlFor='organization'
-                          className='block text-sm font-medium'
-                        >
+                        <label htmlFor='organization' className='block text-sm font-medium'>
                           Company
                         </label>
                         <input
@@ -113,10 +109,7 @@ export default function UserSettings() {
                       <div className='sm:col-span-3'></div>
 
                       <div className='sm:col-span-3'>
-                        <label
-                          htmlFor='province'
-                          className='block text-sm font-medium'
-                        >
+                        <label htmlFor='province' className='block text-sm font-medium'>
                           Province
                         </label>
                         <select
@@ -137,10 +130,7 @@ export default function UserSettings() {
                         </select>
                       </div>
                       <div className='sm:col-span-3'>
-                        <label
-                          htmlFor='email-address'
-                          className='block text-sm font-medium'
-                        >
+                        <label htmlFor='email-address' className='block text-sm font-medium'>
                           Email address
                         </label>
                         <input
@@ -161,10 +151,7 @@ export default function UserSettings() {
                       </div>
 
                       <div className='sm:col-span-3'>
-                        <label
-                          htmlFor='email-address'
-                          className='block text-sm font-medium'
-                        >
+                        <label htmlFor='email-address' className='block text-sm font-medium'>
                           id
                         </label>
                         <input
@@ -184,10 +171,7 @@ export default function UserSettings() {
                       <div className='sm:col-span-3'></div>
 
                       <div className='sm:col-span-3'>
-                        <label
-                          htmlFor='country'
-                          className='block text-sm font-medium'
-                        >
+                        <label htmlFor='country' className='block text-sm font-medium'>
                           Country
                         </label>
                         <select
@@ -209,10 +193,7 @@ export default function UserSettings() {
                       </div>
 
                       <div className='sm:col-span-3'>
-                        <label
-                          htmlFor='language'
-                          className='block text-sm font-medium'
-                        >
+                        <label htmlFor='language' className='block text-sm font-medium'>
                           Language
                         </label>
                         <select
@@ -232,19 +213,18 @@ export default function UserSettings() {
                         </select>
                       </div>
                     </div>
-                      <div>
-                        <h2 className='text-lg font-medium leading-6'>Preferences</h2>
-                        <p className='mt-1 text-sm text-gray-600 dark:text-gray-200'>
-                          Select your preferences from the options below.
-                        </p>
-                      <ul role='list' className='mt-2 divide-y divide-secondary-l-text dark:divide-secondary-text'>
+                    <div>
+                      <h2 className='text-lg font-medium leading-6'>Preferences</h2>
+                      <p className='mt-1 text-sm text-gray-600 dark:text-gray-200'>
+                        Select your preferences from the options below.
+                      </p>
+                      <ul
+                        role='list'
+                        className='mt-2 divide-y divide-secondary-l-text dark:divide-secondary-text'
+                      >
                         <Switch.Group as='li' className='flex items-center justify-between py-4'>
                           <div className='flex flex-col'>
-                            <Switch.Label
-                              as='p'
-                              className='text-sm font-medium'
-                              passive
-                            >
+                            <Switch.Label as='p' className='text-sm font-medium' passive>
                               Dark mode
                             </Switch.Label>
                             <Switch.Description className='text-sm text-gray-600 dark:text-gray-200'>
@@ -265,11 +245,7 @@ export default function UserSettings() {
 
                         <Switch.Group as='li' className='flex items-center justify-between py-4'>
                           <div className='flex flex-col'>
-                            <Switch.Label
-                              as='p'
-                              className='text-sm font-medium'
-                              passive
-                            >
+                            <Switch.Label as='p' className='text-sm font-medium' passive>
                               Is active
                             </Switch.Label>
                             <Switch.Description className='text-sm text-gray-600 dark:text-gray-200'>
@@ -295,11 +271,7 @@ export default function UserSettings() {
 
                         <Switch.Group as='li' className='flex items-center justify-between py-4'>
                           <div className='flex flex-col'>
-                            <Switch.Label
-                              as='p'
-                              className='text-sm font-medium'
-                              passive
-                            >
+                            <Switch.Label as='p' className='text-sm font-medium' passive>
                               Is Super User
                             </Switch.Label>
                             <Switch.Description className='text-sm text-gray-600 dark:text-gray-200'>
@@ -324,11 +296,7 @@ export default function UserSettings() {
                         </Switch.Group>
                         <Switch.Group as='li' className='flex items-center justify-between py-4'>
                           <div className='flex flex-col'>
-                            <Switch.Label
-                              as='p'
-                              className='text-sm font-medium'
-                              passive
-                            >
+                            <Switch.Label as='p' className='text-sm font-medium' passive>
                               Is verified
                             </Switch.Label>
                             <Switch.Description className='text-sm text-gray-600 dark:text-gray-200'>
