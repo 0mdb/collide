@@ -67,14 +67,17 @@ function Register() {
     <>
       <div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-            <div className='relative z-0 mx-auto w-14 h-14'>
-                <IconSvg />
-            </div>
+          <div className='relative z-0 mx-auto w-14 h-14'>
+            <IconSvg />
+          </div>
           <h2 className='mt-6 text-center text-3xl font-bold tracking-tight text-secondary-l-text dark:text-secondary-d-text'>
             Create a new account
           </h2>
           <p className='mt-2 text-center text-sm text-secondary-text dark:text-secondary-d-text'>
-            <a href='/home' className='font-medium text-secondary-accent dark:text-secondary-d-accent hover:text-secondary-accent-hov dark:hover:text-secondary-d-accent-hov'>
+            <a
+              href='/home'
+              className='font-medium text-secondary-accent dark:text-secondary-d-accent hover:text-secondary-accent-hov dark:hover:text-secondary-d-accent-hov'
+            >
               Or try it out for free
             </a>
           </p>
@@ -84,7 +87,10 @@ function Register() {
           <div className='bg-secondary-l dark:bg-secondary py-8 px-4 shadow sm:rounded-lg sm:px-10'>
             <form className='space-y-6' action='#' method='POST'>
               <div>
-                <label htmlFor='email' className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'>
+                <label
+                  htmlFor='email'
+                  className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'
+                >
                   Email address
                 </label>
                 <div className='mt-1'>
@@ -105,7 +111,10 @@ function Register() {
               </div>
 
               <div>
-                <label htmlFor='password' className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'>
+                <label
+                  htmlFor='password'
+                  className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'
+                >
                   Password
                 </label>
                 <div className='mt-1'>
@@ -125,7 +134,10 @@ function Register() {
               </div>
 
               <div>
-                <label htmlFor='password-again' className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'>
+                <label
+                  htmlFor='password-again'
+                  className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'
+                >
                   Confirm password
                 </label>
                 <div className='mt-1'>
@@ -146,7 +158,7 @@ function Register() {
 
               <div className='flex items-center justify-between'>
                 <div className='flex items-center'>
-                  <input
+                  {/* <input
                     id='remember-me'
                     name='remember-me'
                     type='checkbox'
@@ -154,7 +166,7 @@ function Register() {
                   />
                   <label htmlFor='remember-me' className='ml-2 block text-sm text-secondary-l-text dark:text-secondary-text'>
                     Remember me
-                  </label>
+                  </label> */}
                 </div>
 
                 <div className='text-sm'>
@@ -193,7 +205,9 @@ function Register() {
                   <div className='w-full border-t border-secondary dark:border-secondary-d' />
                 </div>
                 <div className='relative flex justify-center text-sm'>
-                  <span className='relative z-0 bg-secondary-l dark:bg-secondary px-2 text-secondary-l-text dark:text-secondary-text'>Or continue with</span>
+                  <span className='relative z-0 bg-secondary-l dark:bg-secondary px-2 text-secondary-l-text dark:text-secondary-text'>
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
