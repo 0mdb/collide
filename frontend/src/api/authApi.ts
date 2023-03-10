@@ -66,9 +66,7 @@ export const resetPassword = async (token: string, password: string) => {
   return response.data
 }
 
-export const getMe = async (token: string) => {
-  const bearer_token = 'Bearer ' + token
-
+export const getMe = async (bearer_token: string) => {
   const response = await axios.get('v1/users/me', {
     withCredentials: true,
     headers: {
@@ -81,5 +79,6 @@ export const getMe = async (token: string) => {
 
 export const updateCurrentUser = async (data: ApiUser) => {
   const response = await axios.patch('v1/users/me/', data, { withCredentials: true })
+
   return response.data
 }
