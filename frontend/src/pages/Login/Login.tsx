@@ -1,19 +1,20 @@
-import useAuth from '../../hooks/useAuth'
-import { loginUser, getMe } from '../../api/authApi'
+import { loginUser } from '../../api/authApi'
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { IconSvg } from '../../components/IconSvg'
+import { useSignIn } from 'react-auth-kit'
 
 const Login = () => {
+  const signIn = useSignIn()
   const navigate = useNavigate()
   const location = useLocation()
   const [err, setErr] = useState(null)
   const errRef = useRef()
   const userRef = useRef<HTMLHeadingElement>()
-  const { auth, setAuth, setUser, persist, setPersist } = useAuth()
-  const from = location.state?.from?.pathname || '/home'
+  const from = location.state?.from?.pathname || 'home'
+
   useEffect(() => {
     userRef.current.focus()
   }, [])
@@ -25,26 +26,13 @@ const Login = () => {
     },
     onSuccess: (data) => {
       console.log('login data', data?.access_token)
-      const token = data?.access_token
-      setAuth(token)
-      currentUser(token)
+      signIn({
+        token: data?.access_token,
+        expiresIn: 3600,
+        tokenType: 'Bearer',
+      })
 
-      if (persist) {
-        localStorage.setItem('token', token)
-      } else {
-        sessionStorage.setItem('token', token)
-      }
-    },
-  })
-
-  const { mutate: currentUser, isLoading: isGettingUser } = useMutation(getMe, {
-    onError: (err) => {
-      setErr(err.response.data.message || 'Something went wrong. Please try again.')
-      console.log('err', err.response.status)
-    },
-    onSuccess: (data) => {
-      console.log('current user data', data)
-      setUser(data)
+      navigate(from, { replace: true })
     },
   })
 
@@ -75,17 +63,7 @@ const Login = () => {
     formData.append('password', password)
     login(formData)
     // check auth is not null before setting current user
-    currentUser(auth)
-    navigate(from, { replace: true })
   }
-
-  const togglePersist = () => {
-    setPersist(!persist)
-  }
-  useEffect(() => {
-    localStorage.setItem('persist', persist)
-  }, [persist])
-
   return (
     <>
       <div className='flex min-h-full w-full flex-col justify-center items-center py-12 sm:px-6 lg:px-8'>
@@ -113,7 +91,10 @@ const Login = () => {
                 {err && <p className='text-red-500 text-xs italic'>{err}</p>}
               </div>
               <div>
-                <label htmlFor='email' className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'>
+                <label
+                  htmlFor='email'
+                  className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'
+                >
                   Email address
                 </label>
                 <div className='mt-1'>
@@ -135,7 +116,10 @@ const Login = () => {
               </div>
 
               <div>
-                <label htmlFor='password' className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'>
+                <label
+                  htmlFor='password'
+                  className='block text-sm font-medium text-secondary-l-text dark:text-secondary-text'
+                >
                   Password
                 </label>
                 <div className='mt-1'>
@@ -156,20 +140,6 @@ const Login = () => {
               </div>
 
               <div className='flex items-center justify-between'>
-                <div className='flex items-center'>
-                  <input
-                    id='remember-me'
-                    name='remember-me'
-                    onChange={togglePersist}
-                    checked={persist}
-                    type='checkbox'
-                    className='h-4 w-4 rounded border-secondary text-primary focus:ring-primary'
-                  />
-                  <label htmlFor='remember-me' className='ml-2 block text-sm text-secondary-l-text dark:text-secondary-text'>
-                    Remember me
-                  </label>
-                </div>
-
                 <div className='text-sm'>
                   <Link to='/forgotpass'>
                     <a className='font-medium text-secondary-l-accent dark:secondary-accent hover:text-secondary-l-accent-hov hover:dark:secondary-accent-hov'>
@@ -205,7 +175,9 @@ const Login = () => {
                   <div className='w-full border-t border-secondary dark:border-secondary-d' />
                 </div>
                 <div className='relative flex justify-center text-sm'>
-                  <span className='relative z-0 bg-secondary-l dark:bg-secondary px-2 text-secondary-l-text dark:text-secondary-text'>Or continue with</span>
+                  <span className='relative z-0 bg-secondary-l dark:bg-secondary px-2 text-secondary-l-text dark:text-secondary-text'>
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
