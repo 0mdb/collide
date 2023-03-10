@@ -1,12 +1,11 @@
-import React from 'react'
-
-import useAuth from '../../hooks/useAuth'
-/* import useCurrentUser from '../../hooks/useCurrentUser' */
+import axios from '../../api/axios'
+import { useAuthHeader } from 'react-auth-kit'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import DarkModeSwitch from '../../components/DarkModeSwitch'
 import { Switch } from '@headlessui/react'
 import { ChevronLeftIcon } from '@heroicons/react/20/solid'
 import useDarkMode from '../../hooks/useDarkMode'
-import useCurrentUser from '../../hooks/useCurrentUser'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -14,8 +13,27 @@ function classNames(...classes) {
 
 export default function UserSettings() {
   const [darkMode] = useDarkMode()
-  const { user, auth } = useAuth()
-  const { currentUser } = useCurrentUser()
+  const authHeader = useAuthHeader()
+  const bearer_token = authHeader()
+  const [user, setUser] = useState({})
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('v1/users/me', {
+          withCredentials: true,
+          headers: {
+            accept: 'application/json',
+            Authorization: bearer_token,
+          },
+        })
+        setUser(response.data) // update user state with response data
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchData()
+  }, [bearer_token]) // run effect whenever bearer_token changes
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -32,21 +50,6 @@ export default function UserSettings() {
       province: province,
       language: language,
     }
-
-    // TODO replace with update user
-    const darkModeData = {
-      id: user.id,
-      email: user.email,
-      is_superuser: user.is_superuser,
-
-      darkmode: darkMode,
-    }
-    console.log(darkModeData)
-    console.log('user', user)
-    console.log('auth', auth)
-    console.log('currentuser', currentUser)
-
-    /* updateCurrentUser(darkModeData) */
   }
 
   return (
@@ -60,13 +63,13 @@ export default function UserSettings() {
               className='border-b border-blue-gray-200 bg-secondary-l dark:bg-secondary'
             >
               <div className='mx-auto flex max-w-3xl items-start py-3 px-4 sm:px-6 lg:px-8'>
-                <a
-                  href='/home'
+                <Link
+                  to='/home'
                   className='-ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900'
                 >
                   <ChevronLeftIcon className='h-5 w-5 text-blue-gray-400' aria-hidden='true' />
                   <span>Back</span>
-                </a>
+                </Link>
               </div>
             </nav>
 
@@ -137,7 +140,7 @@ export default function UserSettings() {
                           type='text'
                           name='email-address'
                           value={
-                            user?.email ? user.email : 'You need to login to see your email address'
+                            user.email ? user.email : 'You need to login to see your email address'
                           }
                           id='email-address'
                           autoComplete='email'

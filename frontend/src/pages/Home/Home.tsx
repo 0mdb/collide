@@ -5,9 +5,9 @@ import { Icon } from '@blueprintjs/core'
 import { Bars3BottomLeftIcon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Search from '../Home/Search'
 import useDarkMode from '../../hooks/useDarkMode'
-import useLogout from '../../hooks/useLogout'
 import { IconSvg } from '../../components/IconSvg'
-
+import { useIsAuthenticated } from 'react-auth-kit'
+import { useSignOut } from 'react-auth-kit'
 const ForceIcon = () => (
   <Icon icon='layout-auto' size={20} className='fill-white pr-2 dark:fill-white' />
 )
@@ -17,10 +17,6 @@ const UserIcon = () => <Icon icon='user' size={20} className='fill-muted pr-2 da
 const navigation = [
   { name: 'Networks', href: '/home', icon: ForceIcon, current: true },
   /* { name: 'Bills Bills Bills', href: '/home2/law', icon: SankeyIcon, current: false }, */
-]
-const userNavigation = [
-  { name: 'Settings', href: '/home/settings' },
-  { name: 'Sign out', href: '#' },
 ]
 
 function classNames(...classes) {
@@ -32,6 +28,14 @@ export default function Home() {
   const [selected, setSelected] = useState('')
   const [open, setOpen] = useState(false)
   const darkMode = useDarkMode()
+  const isAuthenticated = useIsAuthenticated()
+  const auth = isAuthenticated()
+  const signOut = useSignOut()
+
+  const handleLogOut = () => {
+    signOut()
+    window.location.reload()
+  }
 
   return (
     <div>
@@ -168,50 +172,26 @@ export default function Home() {
               <Search open={open} setOpen={setOpen} selected={selected} setSelected={setSelected} />
             </div>
             <div className='ml-4 flex items-center md:ml-6'>
-              {/* <button
+              <Link to='settings'>
+                <button
+                  type='button'
+                  className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                >
+                  <span className='sr-only'>View notifications</span>
+
+                  <Icon icon='cog' size={20} className='h-6 w-6 fill-muted dark:fill-muted' />
+                </button>
+              </Link>
+
+              <button
                 type='button'
+                onClick={handleLogOut}
                 className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
               >
                 <span className='sr-only'>View notifications</span>
-                <BellIcon className='h-6 w-6' aria-hidden='true' />
+
+                <Icon icon='log-out' size={20} className='h-6 w-6 fill-muted dark:fill-muted' />
               </button>
- */}
-              {/* Profile dropdown */}
-              <Menu as='div' className='relative ml-3'>
-                <div>
-                  <Menu.Button className='flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>
-                    <span className='sr-only'>Open user menu</span>
-                    <UserIcon />
-                  </Menu.Button>
-                </div>
-                <Transition
-                  as={Fragment}
-                  enter='transition ease-out duration-100'
-                  enterFrom='transform opacity-0 scale-95'
-                  enterTo='transform opacity-100 scale-100'
-                  leave='transition ease-in duration-75'
-                  leaveFrom='transform opacity-100 scale-100'
-                  leaveTo='transform opacity-0 scale-95'
-                >
-                  <Menu.Items className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                    {userNavigation.map((item) => (
-                      <Menu.Item key={item.name}>
-                        {({ active }) => (
-                          <a
-                            href={item.href}
-                            className={classNames(
-                              active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700',
-                            )}
-                          >
-                            {item.name}
-                          </a>
-                        )}
-                      </Menu.Item>
-                    ))}
-                  </Menu.Items>
-                </Transition>
-              </Menu>
             </div>
           </div>
         </div>
