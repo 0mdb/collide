@@ -66,8 +66,8 @@ const Login = () => {
   }
   return (
     <>
-      <div className='flex min-h-full w-full flex-col justify-center items-center py-12 sm:px-6 lg:px-8'>
-        <div className='mx-auto w-full'>
+      <div className='flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8'>
+        <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <div className='relative z-0 mx-auto w-14 h-14'>
             <IconSvg />
           </div>
