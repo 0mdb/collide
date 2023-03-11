@@ -9,6 +9,7 @@ from pydantic import BaseModel, EmailStr
 from starlette.responses import JSONResponse
 
 from app.core.config import settings
+from app.schemas import EmailContent, EmailValidation
 
 
 class EmailSchema(BaseModel):
@@ -99,4 +100,29 @@ async def send_new_account_email(email_to: str) -> None:
             "email": email_to,
             "link": link,
         },
+    )
+
+
+def send_web_contact_email(data: EmailContent) -> None:
+    subject = f"{settings.PROJECT_NAME} - {data.subject}"
+    with open(Path(settings.EMAIL_TEMPLATES_DIR) / "web_contact_email.html") as f:
+        template_str = f.read()
+    send_email(
+        email_to=settings.EMAILS_TO_EMAIL,
+        subject_template=subject,
+        html_template=template_str,
+        environment={"content": data.content, "email": data.email},
+    )
+
+
+async def send_email_validation_email(email_to: str, token: str) -> None:
+    subject = f"{settings.PROJECT_NAME} - Email validation for user {email_to}"
+    server_host = settings.SERVER_HOST
+    link = f"{server_host}?token={token}"
+    template_str = "verify_email.html"
+    await send_email(
+        email_to=email_to,
+        subject_template=subject,
+        html_template=template_str,
+        environment={"link": link},
     )

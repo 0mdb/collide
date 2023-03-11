@@ -15,11 +15,17 @@ from fastapi_users.authentication.strategy.db import (
     DatabaseStrategy,
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
+from pydantic import BaseModel, EmailStr
 
 from app.db.session import get_access_token_db, get_user_db
 from app.models import User
 from app.models.token import AccessToken
-from app.utils import send_new_account_email, send_reset_password_email
+from app.schemas.emails import EmailValidation
+from app.utils import (
+    send_email_validation_email,
+    send_new_account_email,
+    send_reset_password_email,
+)
 
 from .config import settings
 
@@ -31,14 +37,25 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = settings.SECRET_KEY
     verification_token_secret = settings.SECRET_KEY
 
-    async def on_after_register(self, user: User, request: Optional[Request] = None):
+    async def on_after_register(
+        self, user: User, token: str, request: Optional[Request] = None
+    ):
         logger.info("User %s has registered with email %s.", user.id, user.email)
         # check not superuser to avoid crash on first super user creation in init_db
         # will still crash if any non aws verfied email is used
         # TODO wrap in try block?
         if not user.is_superuser:
-            await send_new_account_email(email_to=user.email)
-        logger.info("New user email sent to %s", user.email)
+
+            await send_email_validation_email(
+                email_to=user.email,
+                token=token,
+            )
+            # await send_new_account_email(email_to=user.email)
+
+            logger.info(
+                f"Verification requested for user {user.id}. Verification token: {token}"
+            )
+        # logger.info("New user email sent to %s", user.email, )
 
     async def on_after_forgot_password(
         self, user: User, token: str, request: Optional[Request] = None
@@ -46,7 +63,6 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         logger.info(f"User {user.id} has forgot their password. Reset token: {token}")
         await send_reset_password_email(
             email_to=user.email,
-            # emai=user.email,
             token=token,
         )
         logger.info("Reset token email sent to user: %s", user.email)
@@ -54,6 +70,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     async def on_after_request_verify(
         self, user: User, token: str, request: Optional[Request] = None
     ):
+
         logger.info(
             f"Verification requested for user {user.id}. Verification token: {token}"
         )
