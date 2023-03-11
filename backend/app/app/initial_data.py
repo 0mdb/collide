@@ -1,15 +1,17 @@
+import asyncio
 import logging
 
 from app.db.init_db import init_db
-from app.db.session import SessionLocal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 def init() -> None:
-    db = SessionLocal()
-    init_db(db)
+
+    logger.info("Creating database and tables")
+    asyncio.run(init_db())
+    logger.info("Database and tables created")
 
 
 def main() -> None:

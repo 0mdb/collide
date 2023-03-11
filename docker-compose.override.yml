@@ -28,13 +28,28 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-traefik-public-http.rule=Host(`${DOMAIN?Variable not set}`)
       - traefik.http.services.${STACK_NAME?Variable not set}-traefik-public.loadbalancer.server.port=80
 
-  pgadmin:
-    ports:
-      - "5050:5050"
+  # pgadmin:
+  #   ports:
+  #     - "5050:5050"
 
-  flower:
+  db:
     ports:
-      - "5555:5555"
+      - "5432:5432"
+
+  # memgraph:
+  #   ports:
+  #     - "7687:7687"
+  #     - "3000:3000"
+  #     - "7444:7444"
+
+  # memgraph-platform:
+  #   ports:
+  #     - "7687:7687"
+  #     - "3000:3000"
+  #     - "7444:7444"
+  # flower:
+  #   ports:
+  #     - "5555:5555"
 
   backend:
     ports:
@@ -49,28 +64,38 @@ services:
       dockerfile: backend.dockerfile
       args:
         INSTALL_DEV: ${INSTALL_DEV-true}
-        INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
+        # INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
     # command: bash -c "while true; do sleep 1; done"  # Infinite loop to keep container live doing nothing
     command: /start-reload.sh
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
-      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.rule=PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`)
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.rule=PathPrefix(`/api/v1`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`)
       - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
 
-  celeryworker:
-    volumes:
-      - ./backend/app:/app
-    environment:
-      - RUN=celery worker -A app.worker -l info -Q main-queue -c 1
-      - JUPYTER=jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888
-      - SERVER_HOST=http://${DOMAIN?Variable not set}
-    build:
-      context: ./backend
-      dockerfile: celeryworker.dockerfile
-      args:
-        INSTALL_DEV: ${INSTALL_DEV-true}
-        INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
+  compute_backend:
+    command: /start-reload.sh
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
+      - traefik.http.routers.${STACK_NAME?Variable not set}-computebackend-http.rule=PathPrefix(`/api/c`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`)
+      - traefik.http.services.${STACK_NAME?Variable not set}-computebackend.loadbalancer.server.port=80
+
+
+  # celeryworker:
+  #   volumes:
+  #     - ./backend/app:/app
+  #   environment:
+  #     - RUN=celery worker -A app.worker -l info -Q main-queue -c 1
+  #     - JUPYTER=jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888
+  #     - SERVER_HOST=http://${DOMAIN?Variable not set}
+  #   build:
+  #     context: ./backend
+  #     dockerfile: celeryworker.dockerfile
+  #     args:
+  #       INSTALL_DEV: ${INSTALL_DEV-true}
+  #       INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
+
 
   frontend:
     build:

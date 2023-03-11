@@ -1,5 +1,6 @@
 from typing import Any
 
+from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
 
 

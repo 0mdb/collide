@@ -1,4 +1,4 @@
-image: tiangolo/docker-with-compose
+image: tiangolo/docker-with-compose:2021-09-18
 
 before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
@@ -26,7 +26,7 @@ build-stag:
   tags:
     - build
     - test
-    
+
 build-prod:
   stage: build
   script:
@@ -41,14 +41,14 @@ deploy-stag:
   stage: deploy
   script: 
     - >
-      DOMAIN=stag.collide.com
-      TRAEFIK_TAG=stag.collide.com
-      STACK_NAME=stag-collide-com
+      DOMAIN=stag.lobbyradar.io
+      TRAEFIK_TAG=stag.lobbyradar.io
+      STACK_NAME=stag-lobbyradar-io
       TAG=stag
       sh ./scripts/deploy.sh
   environment:
     name: staging
-    url: https://stag.collide.com
+    url: https://stag.lobbyradar.io
   only:
     - master
   tags:
@@ -59,14 +59,14 @@ deploy-prod:
   stage: deploy
   script:
     - >
-      DOMAIN=collide.com
-      TRAEFIK_TAG=collide.com
-      STACK_NAME=collide-com
+      DOMAIN=lobbyradar.io
+      TRAEFIK_TAG=lobbyradar.io
+      STACK_NAME=lobbyradar-io
       TAG=prod
       sh ./scripts/deploy.sh
   environment:
     name: production
-    url: https://collide.com
+    url: https://lobbyradar.io
   only:
     - production
   tags:

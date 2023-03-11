@@ -1,0 +1,84 @@
+import axios from './axios'
+
+export interface graphDataType {
+  nodes: {
+    id: string
+    name: string
+    type: string
+    val: number
+  }
+  links: {
+    source: 'string'
+    target: 'string'
+    type: 'string'
+    color: 'string'
+    dash: [0]
+    amount: 0
+  }
+}
+
+export interface ApiUser {
+  id: string
+  email: string
+  is_active: string
+  is_superuser: string
+  is_verified: string
+  org: string
+  darkmkode: false
+  country: string
+  province: string
+  language: string
+  timezone: string
+  search: [string]
+}
+
+export interface LoginAuth {
+  access_token: string
+  token_type: string
+}
+
+export const loginUser = async (formData) => {
+  const response = await axios.post<LoginAuth>('v1/auth/jwt/login/', formData, {
+    withCredentials: true,
+  })
+  return response.data
+}
+
+export const logoutUser = async (formData) => {
+  const response = await axios.post<LoginAuth>('v1/auth/jwt/logout/', formData, {
+    withCredentials: true,
+  })
+  return response.data
+}
+
+export const registerUser = async (email: string, password: string) => {
+  const response = await axios.post('v1/auth/register/', email, password)
+  return response.data
+}
+
+export const forgotPassword = async (email: string) => {
+  const response = await axios.post('v1/auth/forgot-password/', email)
+  return response.data
+}
+
+export const resetPassword = async (token: string, password: string) => {
+  const response = await axios.post('v1/auth/reset-password/', { token, password })
+  return response.data
+}
+
+export const getMe = async (bearer_token: string) => {
+  const response = await axios.get('v1/users/me', {
+    withCredentials: true,
+    headers: {
+      accept: 'application/json',
+      Authorization: bearer_token,
+    },
+  })
+  return response.data
+}
+
+export const updateCurrentUser = async (data: ApiUser) => {
+  const response = await axios.patch('v1/users/me/', data, { withCredentials: true })
+
+  return response.data
+}
