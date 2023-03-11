@@ -11,9 +11,8 @@ const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [err, setErr] = useState(null)
-  const errRef = useRef()
   const userRef = useRef<HTMLHeadingElement>()
-  const from = location.state?.from?.pathname || 'home'
+  const from = location.state?.from?.pathname || '/home'
 
   useEffect(() => {
     userRef.current.focus()
