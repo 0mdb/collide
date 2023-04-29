@@ -33,12 +33,12 @@ const Navbar = () => {
         {/* <Link to='/'>
           <li className='p-4'>Home</li>
         </Link> */}
-        <Link to='/login'>
+        {/*<Link to='/login'>
           <li className='p-4'>Login</li>
         </Link>
         <Link to='/register'>
           <li className='p-4'>Signup</li>
-        </Link>
+        </Link>*/}
       </ul>
       <div onClick={handleNav} className='block md:hidden'>
         {nav ? (
@@ -58,7 +58,7 @@ const Navbar = () => {
           <WebsiteName />
         </h1>
 
-        <Link onClick={()=>{props.setMenuOpen(!props.menuOpen)}} to='login'>
+        {/*<Link onClick={()=>{props.setMenuOpen(!props.menuOpen)}} to='login'>
           <li className='p-4 text-xl'>
             <LoginStr />
           </li>
@@ -67,7 +67,7 @@ const Navbar = () => {
           <li className='p-4 text-xl'>
             <SignUpStr />
           </li>
-        </Link>
+        </Link>*/}
         <li className='text-xl mr-4 p-4'>
           <DarkModeSwitch />
         </li>

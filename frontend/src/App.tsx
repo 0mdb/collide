@@ -14,25 +14,25 @@ import TermsOfUse from './pages/Landing/TermsOfUse'
 import OpenSource from './pages/Landing/OpenSource'
 import Layout from './pages/Layout'
 import GraphDisplay from './pages/Home/ForceGraph'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import PasswordReset from './pages/Password'
+// import Login from './pages/Login'
+// import Register from './pages/Register'
+// import PasswordReset from './pages/Password'
 import PageNotFound from './components/PageNotFound'
 import { UserSettings } from './pages/Home'
 import APINotify from './pages/Landing/APINotify'
-import { useIsAuthenticated } from 'react-auth-kit'
+// import { useIsAuthenticated } from 'react-auth-kit'
 
 // const Home = lazy(() => import('./pages/Home'))
 // const Login = lazy(() => import('./pages/Login'))
 
-function RequireAuth() {
-  const isAuthenticated = useIsAuthenticated()
-  const auth = isAuthenticated()
-  console.log('auth', auth)
-  const location = useLocation()
-
-  return auth ? <Outlet /> : <Navigate to='/login' state={{ from: location }} replace />
-}
+// function RequireAuth() {
+//   const isAuthenticated = useIsAuthenticated()
+//   const auth = isAuthenticated()
+//   console.log('auth', auth)
+//   const location = useLocation()
+//
+//   return auth ? <Outlet /> : <Navigate to='/login' state={{ from: location }} replace />
+// }
 
 function App() {
   return (
@@ -47,20 +47,20 @@ function App() {
           <Route path='opensource' element={<OpenSource />} />
           <Route path='contact' element={<Contact />} />
           <Route path='faq' element={<FAQLanding />} />
-          <Route path='forgotpass' element={<PasswordReset />} />
+{/*           <Route path='forgotpass' element={<PasswordReset />} /> */}
           <Route path='about' element={<About />} />
-          <Route path='login' element={<Login />} />
-          <Route path='register' element={<Register />} />
+{/*           <Route path='login' element={<Login />} /> */}
+{/*           <Route path='register' element={<Register />} /> */}
           <Route path='apinotify' element={<APINotify />} />
         </Route>
 
-        <Route element={<RequireAuth />}>
-          <Route path='home' element={<Home />}>
-            <Route index element={<GraphDisplay />} />
-            <Route path='force' element={<GraphDisplay />} />
-            <Route path='settings' element={<UserSettings />} />
-          </Route>
-        </Route>
+{/*         <Route element={<RequireAuth />}> */}
+{/*           <Route path='home' element={<Home />}> */}
+{/*             <Route index element={<GraphDisplay />} /> */}
+{/*             <Route path='force' element={<GraphDisplay />} /> */}
+{/*             <Route path='settings' element={<UserSettings />} /> */}
+{/*           </Route> */}
+{/*         </Route> */}
 
         {/* catch all */}
         <Route path='*' element={<PageNotFound />} />
