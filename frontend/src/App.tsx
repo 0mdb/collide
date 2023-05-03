@@ -47,13 +47,18 @@ function App() {
           <Route path='opensource' element={<OpenSource />} />
           <Route path='contact' element={<Contact />} />
           <Route path='faq' element={<FAQLanding />} />
-{/*           <Route path='forgotpass' element={<PasswordReset />} /> */}
+           <Route path='home' element={<Home />}>
+             <Route index element={<GraphDisplay />} />
+             <Route path='force' element={<GraphDisplay />} />
+             <Route path='settings' element={<UserSettings />} />
+           </Route>
           <Route path='about' element={<About />} />
-{/*           <Route path='login' element={<Login />} /> */}
-{/*           <Route path='register' element={<Register />} /> */}
+
           <Route path='apinotify' element={<APINotify />} />
         </Route>
-
+{/*           <Route path='login' element={<Login />} /> */}
+{/*           <Route path='register' element={<Register />} /> */}
+{/*           <Route path='forgotpass' element={<PasswordReset />} /> */}
 {/*         <Route element={<RequireAuth />}> */}
 {/*           <Route path='home' element={<Home />}> */}
 {/*             <Route index element={<GraphDisplay />} /> */}
