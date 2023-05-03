@@ -171,28 +171,28 @@ export default function Home() {
             <div className='flex flex-1'>
               <Search open={open} setOpen={setOpen} selected={selected} setSelected={setSelected} />
             </div>
-            <div className='ml-4 flex items-center md:ml-6'>
-              <Link to='settings'>
-                <button
-                  type='button'
-                  className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                >
-                  <span className='sr-only'>View notifications</span>
+{/*             <div className='ml-4 flex items-center md:ml-6'> */}
+{/*               <Link to='settings'> */}
+{/*                 <button */}
+{/*                   type='button' */}
+{/*                   className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2' */}
+{/*                 > */}
+{/*                   <span className='sr-only'>View notifications</span> */}
 
-                  <Icon icon='cog' size={20} className='h-6 w-6 fill-muted dark:fill-muted' />
-                </button>
-              </Link>
+{/*                   <Icon icon='cog' size={20} className='h-6 w-6 fill-muted dark:fill-muted' /> */}
+{/*                 </button> */}
+{/*               </Link> */}
 
-              <button
-                type='button'
-                onClick={handleLogOut}
-                className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-              >
-                <span className='sr-only'>View notifications</span>
+{/*               <button */}
+{/*                 type='button' */}
+{/*                 onClick={handleLogOut} */}
+{/*                 className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2' */}
+{/*               > */}
+{/*                 <span className='sr-only'>View notifications</span> */}
 
-                <Icon icon='log-out' size={20} className='h-6 w-6 fill-muted dark:fill-muted' />
-              </button>
-            </div>
+{/*                 <Icon icon='log-out' size={20} className='h-6 w-6 fill-muted dark:fill-muted' /> */}
+{/*               </button> */}
+{/*             </div> */}
           </div>
         </div>
         <main className='bg-secondary-l dark:bg-secondary'>
