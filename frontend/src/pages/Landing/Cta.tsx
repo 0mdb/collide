@@ -14,9 +14,9 @@ export default function CallToAction() {
         <div className='mt-10 flex items-center gap-x-6'>
           <>
             <Link to='/faq'>
-              <a href='#' className='text-base font-semibold leading-7 text-secondary-d'>
+              <div className='text-base font-semibold leading-7 text-secondary-d'>
                 <CtaLearnMore /> <span aria-hidden='true'>→</span>
-              </a>
+              </div>
             </Link>
           </>
         </div>
