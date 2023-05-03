@@ -21,7 +21,7 @@ const Footer = () => {
         <div>
           <h6 className='font-medium'>Solutions</h6>
           <ul>
-            <Link to='/'>
+            <Link to='/home'>
               <li className='py-2'>Search</li>
             </Link>
 {/*             <Link to='/apinotify'> */}
