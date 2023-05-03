@@ -11,22 +11,23 @@ const Footer = () => {
           Easily navigate through vast amounts of lobbying data with LobbyRadar's powerful analytics
           dashboard, powered by force graphs and AI.
         </p>
-        <div className='my-6 flex justify-between md:w-[75%]'>
-          <FaFacebookSquare size={30} />
-          <FaTwitterSquare size={30} />
-          <FaGithubSquare size={30} />
-        </div>
+{/*         <div className='my-6 flex justify-between md:w-[75%]'> */}
+{/*           <FaFacebookSquare size={30} /> */}
+{/*           <FaTwitterSquare size={30} /> */}
+{/*           <FaGithubSquare size={30} /> */}
+{/*         </div> */}
       </div>
       <div className='mt-6 flex justify-between lg:col-span-2'>
         <div>
           <h6 className='font-medium'>Solutions</h6>
           <ul>
             <Link to='/'>
-              <li className='py-2'>Home</li>
+              <li className='py-2'>Search</li>
             </Link>
-            <Link to='/apinotify'>
-              <li className='py-2 text-sm'>API</li>
-            </Link>
+{/*             <Link to='/apinotify'> */}
+{/*               <li className='py-2 text-sm'>API</li> */}
+{/*             </Link> */}
+            <li className='py-2 text-sm text-gray-400'>API</li>
           </ul>
         </div>
         <div>
@@ -41,7 +42,7 @@ const Footer = () => {
           </ul>
         </div>
         <div>
-          <h6 className='font-medium'>Company</h6>
+          <h6 className='font-medium'>Purpose</h6>
           <ul>
             <Link to='/about'>
               <li className='py-2 text-sm'>About</li>
@@ -59,7 +60,7 @@ const Footer = () => {
               <li className='py-2 text-sm'>Terms of Use</li>
             </Link>
             <Link to='/opensource'>
-              <li className='py-2 text-sm'>Open Source</li>
+              <li className='py-2 text-sm'>Sources</li>
             </Link>
           </ul>
         </div>
