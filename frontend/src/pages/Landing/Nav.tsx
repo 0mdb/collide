@@ -22,7 +22,7 @@ const Navbar = () => {
             <IconSvgNav />
       </div>
       <h1 className='w-full text-3xl font-bold ml-2'>
-        <ProjectName />
+        <Link to='/'><ProjectName /></Link>
       </h1>
       </div>
       <ul className='hidden md:flex'>
