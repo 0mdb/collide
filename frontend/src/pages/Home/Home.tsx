@@ -123,76 +123,12 @@ export default function Home() {
           </div>
         </Dialog>
       </Transition.Root>
-
-      {/* Static sidebar for desktop */}
-      <div className='hidden bg-secondary dark:bg-secondary-d md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col'>
-        {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className='flex flex-grow flex-col overflow-y-auto pt-5'>
-          <div className='flex flex-shrink-0 items-center px-4'>
-            <div className='relative z-0 mx-auto w-14 h-14'>
-              <IconSvg />
-            </div>
-          </div>
-          <div className='mt-5 flex flex-1 flex-col'>
-            <nav className='flex-1 space-y-1 px-2 pb-4'>
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={classNames(
-                    item.current
-                      ? 'bg-primary text-secondary-d-text hover:bg-primary-l dark:bg-primary-l dark:text-secondary-d-text dark:hover:bg-primary-d'
-                      : 'text-indigo-100 hover:bg-indigo-600',
-                    'group flex items-center rounded-md px-2 py-2 text-sm font-medium',
-                  )}
-                >
-                  <item.icon
-                    className='mr-3 h-6 w-6 flex-shrink-0 text-indigo-300'
-                    aria-hidden='true'
-                  />
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </div>
-      </div>
-      <div className='flex flex-1 flex-col md:pl-64'>
+      <div className='flex flex-1 flex-col'>
         <div className='sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow'>
-          <button
-            type='button'
-            className='border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden'
-            onClick={() => setSidebarOpen(true)}
-          >
-            <span className='sr-only'>Open sidebar</span>
-            <Bars3BottomLeftIcon className='h-6 w-6' aria-hidden='true' />
-          </button>
+        <Search open={open} setOpen={setOpen} selected={selected} setSelected={setSelected} />
           <div className='flex flex-1 justify-between px-4'>
             <div className='flex flex-1'>
-              <Search open={open} setOpen={setOpen} selected={selected} setSelected={setSelected} />
             </div>
-{/*             <div className='ml-4 flex items-center md:ml-6'> */}
-{/*               <Link to='settings'> */}
-{/*                 <button */}
-{/*                   type='button' */}
-{/*                   className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2' */}
-{/*                 > */}
-{/*                   <span className='sr-only'>View notifications</span> */}
-
-{/*                   <Icon icon='cog' size={20} className='h-6 w-6 fill-muted dark:fill-muted' /> */}
-{/*                 </button> */}
-{/*               </Link> */}
-
-{/*               <button */}
-{/*                 type='button' */}
-{/*                 onClick={handleLogOut} */}
-{/*                 className='rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2' */}
-{/*               > */}
-{/*                 <span className='sr-only'>View notifications</span> */}
-
-{/*                 <Icon icon='log-out' size={20} className='h-6 w-6 fill-muted dark:fill-muted' /> */}
-{/*               </button> */}
-{/*             </div> */}
           </div>
         </div>
         <main className='bg-secondary-l dark:bg-secondary'>
